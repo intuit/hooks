@@ -1,5 +1,5 @@
 site:
-  baseUrl:  'https://github.intuit.com/pages/player/hooks'
+  baseUrl:  'https://intuit.github.io/hooks/'
   theme: 'HooksTheme'
   about:
     siteName: Hooks
@@ -27,16 +27,6 @@ theme:
       icon: 'graduation-cap'
       asSubmenu: true
       submenuTitle: 'User Guide'
-#    - type: 'separator'
-#      title: 'Plugin Usage'
-#    - type: 'sourcedocModules'
-#      moduleType: 'kotlindoc'
-#      moduleGroup: 'plugins'
-#    - type: 'separator'
-#      title: 'API Docs'
-#    - type: 'sourcedocPages'
-#      moduleType: 'kotlindoc'
-#      moduleName: 'hooks'
 
     - type: 'submenu'
       title: 'API'
@@ -110,9 +100,9 @@ services:
   publications:
     stages:
       - type: 'githubPages'
-        githubUrl: 'github.intuit.com'
-        username: 'jzucker'
-        repo: 'player/hooks'
+        githubUrl: 'github.com'
+        username: 'sugarmanz'
+        repo: 'intuit/hooks'
 
 allPages:
   metaComponents:

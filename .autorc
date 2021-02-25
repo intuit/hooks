@@ -8,13 +8,10 @@
     ],
     "released", 
     "first-time-contributor",
-    "all-contributors",
-    ["slack", "https://intuit-teams.slack.com/services/hooks/jenkins-ci"]
+    "all-contributors"
   ],
-  "owner": "player",
+  "owner": "intuit",
   "repo": "hooks",
   "name": "Jeremiah Zucker",
-  "email": "Jeremiah_Zucker@intuit.com",
-  "githubApi": "https://github.intuit.com/api/v3",
-  "githubGraphqlApi": "https://github.intuit.com/api"
+  "email": "zucker.jeremiah@gmail.com"
 }

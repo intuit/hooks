@@ -14,13 +14,12 @@
 
 <div align="center">
 
-<a href="https://github.intuit.com/player/hooks/search?l=kotlin"><img src="https://img.shields.io/github/languages/top/intuit/hooks.svg?logo=Kotlin&logoColor=orange" alt="GitHub top language" /></a>
+<a href="https://github.com/intuit/hooks/search?l=kotlin"><img src="https://img.shields.io/github/languages/top/intuit/hooks.svg?logo=Kotlin&logoColor=orange" alt="GitHub top language" /></a>
 <a href="https://github.com/intuit/auto"><img src="https://img.shields.io/badge/release-auto.svg?colorA=888888&colorB=9B065A&label=auto&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAACzElEQVR4AYXBW2iVBQAA4O+/nLlLO9NM7JSXasko2ASZMaKyhRKEDH2ohxHVWy6EiIiiLOgiZG9CtdgG0VNQoJEXRogVgZYylI1skiKVITPTTtnv3M7+v8UvnG3M+r7APLIRxStn69qzqeBBrMYyBDiL4SD0VeFmRwtrkrI5IjP0F7rjzrSjvbTqwubiLZffySrhRrSghBJa8EBYY0NyLJt8bDBOtzbEY72TldQ1kRm6otana8JK3/kzN/3V/NBPU6HsNnNlZAz/ukOalb0RBJKeQnykd7LiX5Fp/YXuQlfUuhXbg8Di5GL9jbXFq/tLa86PpxPhAPrwCYaiorS8L/uuPJh1hZFbcR8mewrx0d7JShr3F7pNW4vX0GRakKWVk7taDq7uPvFWw8YkMcPVb+vfvfRZ1i7zqFwjtmFouL72y6C/0L0Ie3GvaQXRyYVB3YZNE32/+A/D9bVLcRB3yw3hkRCdaDUtFl6Ykr20aaLvKoqIXUdbMj6GFzAmdxfWx9iIRrkDr1f27cFONGMUo/gRI/jNbIMYxJOoR1cY0OGaVPb5z9mlKbyJP/EsdmIXvsFmM7Ql42nEblX3xI1BbYbTkXCqRnxUbgzPo4T7sQBNeBG7zbAiDI8nWfZDhQWYCG4PFr+HMBQ6l5VPJybeRyJXwsdYJ/cRnlJV0yB4ZlUYtFQIkMZnst8fRrPcKezHCblz2IInMIkPzbbyb9mW42nWInc2xmE0y61AJ06oGsXL5rcOK1UdCbEXiVwNXsEy/6+EbaiVG8eeEAfxvaoSBnCH61uOD7BS1Ul8ESHBKWxCrdyd6EYNKihgEVrwOAbQruoytuBYIFfAc3gVN6iawhjKyNCEpYhVJXgbOzARyaU4hCtYizq5EI1YgiUoIlT1B7ZjByqmRWYbwtdYjoWoN7+LOIQefIqKawLzK6ID69GGpQgwhhEcwGGUzfEPAiPqsCXadFsAAAAASUVORK5CYII=" alt="Auto Release" /></a>
 <a href="https://build.intuit.com/fuego-player/job/player/job/hooks/job/master/"><img src="https://build.intuit.com/fuego-player/buildStatus/buildIcon?job=player/hooks/master" alt="Build Status" /></a>
 <a href="https://build.intuit.com/fuego-player/job/player/job/hooks/job/master/"><img src="https://build.intuit.com/fuego-player/buildStatus/buildDescriptionIcon?job=player/hooks/master" alt="Description" /></a>
 <a href="https://build.intuit.com/fuego-player/job/player/job/hooks/job/master/"><img src="https://build.intuit.com/fuego-player/buildStatus/coverageIcon?job=player/hooks/master" alt="Code Coverage" /></a>
 <a href="https://build.intuit.com/fuego-player/job/player/job/hooks/job/master/"><img src="https://build.intuit.com/fuego-player/buildStatus/testIcon?job=player/hooks/master" alt="Test Status" /></a>
-<a href="https://intuit-teams.slack.com/archives/C01DA2M0Z0B"><img src="https://img.shields.io/badge/slack-join%20the%20conversation-ff69b4.svg" alt="Slack" /></a>
 <a href="https://ktlint.gihub.io"><img src="https://img.shields.io/badge/code%20style-%E2%9D%A4-FF4081.svg" alt="KtLint" /></a><!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 <a href="#contributors-"><img src="https://img.shields.io/badge/all_contributors-2-orange.svg" alt="All Contributors" /></a>
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
@@ -35,7 +34,7 @@ Hooks represent "pluggable" points in a software model. They provide a mechanism
 
 Along with the base library, we created a Kotlin compiler plugin to enable hooks to be created with a simple typed-based DSL, limiting the redundancy and overhead required to subclass a hook.
 
-Visit our [site](https://github.intuit.com/pages/player/hooks) for information about how to use hooks.
+Visit our [site](https://intuit.github.io/hooks/) for information about how to use hooks.
 
 ## Inspiration
 
@@ -46,12 +45,12 @@ library for the JVM plus an [Arrow Meta](https://meta.arrow-kt.io/) Compiler Plu
 
 ## Structure
 
-- [hooks](https://github.intuit.com/player/hooks/tree/master/hooks) - The actual implementation of the hooks
-- [compiler-plugin](https://github.intuit.com/player/hooks/tree/master/compiler-plugin) - An Arrow Meta compiler plugin that generates hook subclasses for you
-- [gradle-plugin](https://github.intuit.com/player/hooks/tree/master/gradle-plugin) - A gradle plugin to make using the compiler plugin easier
-- [maven-plugin](https://github.intuit.com/player/hooks/tree/master/maven-plugin) - A maven Kotlin plugin extension to make using the compiler plugin easier
-- [example-library](https://github.intuit.com/player/hooks/tree/master/example-library) - A library that exposes extension points for consumers using the hooks' `call` function
-- [example-application](https://github.intuit.com/player/hooks/tree/master/example-application) - The Application that demonstrates extending a library by calling the hooks' `tap` function
+- [hooks](https://github.com/intuit/hooks/tree/master/hooks) - The actual implementation of the hooks
+- [compiler-plugin](https://github.com/intuit/hooks/tree/master/compiler-plugin) - An Arrow Meta compiler plugin that generates hook subclasses for you
+- [gradle-plugin](https://github.com/intuit/hooks/tree/master/gradle-plugin) - A gradle plugin to make using the compiler plugin easier
+- [maven-plugin](https://github.com/intuit/hooks/tree/master/maven-plugin) - A maven Kotlin plugin extension to make using the compiler plugin easier
+- [example-library](https://github.com/intuit/hooks/tree/master/example-library) - A library that exposes extension points for consumers using the hooks' `call` function
+- [example-application](https://github.com/intuit/hooks/tree/master/example-application) - The Application that demonstrates extending a library by calling the hooks' `tap` function
 
 ## :beers: Contributing :beers:
 
