@@ -1,0 +1,70 @@
+---
+title: 'Hooks'
+extraCss:
+- 'assets/css/homepage.scss'
+layout: 'homepage'
+---
+
+<section class="columns is-centered">
+  <div class="column is-half">
+    <figure class="image">
+      <img src="{{ 'assets/media/logo.svg' | asset }}" alt="Hooks logo">
+    </figure>
+  </div>
+</section>
+
+<section class="columns is-centered">
+  <div class="column is-half">
+    <a class="is-block has-text-centered" href="{{ link('Changelog') }}">Version {{ site.version }}</a>
+  </div>
+</section>
+
+<section class="columns is-centered">
+  <div class="column is-8">
+    <div class="content is-medium">
+      <p>
+        Hooks represent "pluggable" points in a software model. They provide a mechanism for tapping into such points to get updates, or apply additional functionality to some typed object. Included in this project are:
+      </p>
+    </div>
+  </div>
+</section>
+
+{% for section in data.homepageSections %}
+<section class="columns is-multiline is-gapless box">
+  <header class="column is-4 has-text-right-tablet">
+    <div class="notification content is-medium">
+      <h2 class="title is-4">{{ section.title }}</h2>
+    </div>
+  </header>
+
+  {% if section.snippets is not empty %}
+    <div class="column is-8">
+      <pre class="notification content is-medium is-dark"><code class="language-{{ section.lang }}">
+        {%- for name in section.snippets -%}
+          {%- snippet snippetName=name -%}
+        {%- endfor -%}
+      </code></pre>
+    </div>
+  {% else %}
+    <div class="column is-8 is-hidden-mobile">
+      <div class="notification is-dark"></div>
+    </div>
+  {% endif %}
+
+  {% for snippet in section.tabs %}
+    <div class="column is-4 has-text-right-tablet">
+      <div class="notification content is-medium">
+      {{ snippet.title }}
+      </div>
+    </div>
+    <div class="column is-8">
+      <pre class="notification content is-medium is-dark"><code class="language-{{ snippet.lang }}">
+        {%- for name in snippet.snippets -%}
+          {%- snippet snippetName=name -%}
+        {%- endfor -%}
+      </code></pre>
+    </div>
+  {% endfor %}
+
+</section>
+{% endfor %}

@@ -1,0 +1,20 @@
+{
+  "plugins": [
+    [
+      "gradle",
+      {
+        "gradleCommand": "./gradlew",
+      }
+    ],
+    "released", 
+    "first-time-contributor",
+    "all-contributors",
+    ["slack", "https://intuit-teams.slack.com/services/hooks/jenkins-ci"]
+  ],
+  "owner": "player",
+  "repo": "hooks",
+  "name": "Jeremiah Zucker",
+  "email": "Jeremiah_Zucker@intuit.com",
+  "githubApi": "https://github.intuit.com/api/v3",
+  "githubGraphqlApi": "https://github.intuit.com/api"
+}

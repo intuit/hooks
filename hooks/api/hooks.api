@@ -1,0 +1,136 @@
+public abstract class com/intuit/hooks/AsyncBaseHook : com/intuit/hooks/BaseHook {
+	public fun <init> (Ljava/lang/String;)V
+	protected final fun setup (Lkotlin/jvm/functions/Function3;ZLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static synthetic fun setup$default (Lcom/intuit/hooks/AsyncBaseHook;Lkotlin/jvm/functions/Function3;ZLkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+}
+
+public abstract class com/intuit/hooks/AsyncParallelBailHook : com/intuit/hooks/AsyncBaseHook {
+	public fun <init> ()V
+	protected final fun call (Lkotlinx/coroutines/CoroutineScope;ILkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public abstract class com/intuit/hooks/AsyncParallelHook : com/intuit/hooks/AsyncBaseHook {
+	public fun <init> ()V
+	protected final fun call (Lkotlinx/coroutines/CoroutineScope;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public abstract class com/intuit/hooks/AsyncSeriesBailHook : com/intuit/hooks/AsyncBaseHook {
+	public fun <init> ()V
+	protected final fun call (Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public abstract class com/intuit/hooks/AsyncSeriesHook : com/intuit/hooks/AsyncBaseHook {
+	public fun <init> ()V
+	protected final fun call (Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public abstract class com/intuit/hooks/AsyncSeriesLoopHook : com/intuit/hooks/AsyncBaseHook {
+	public fun <init> ()V
+	protected final fun call (Lkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public synthetic fun getInterceptors ()Lcom/intuit/hooks/Interceptors;
+	protected fun getInterceptors ()Lcom/intuit/hooks/LoopInterceptors;
+	public final fun interceptLoop (Lkotlin/Function;)V
+}
+
+public abstract class com/intuit/hooks/AsyncSeriesWaterfallHook : com/intuit/hooks/AsyncBaseHook {
+	public fun <init> ()V
+	protected final fun call (Ljava/lang/Object;Lkotlin/jvm/functions/Function4;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public abstract class com/intuit/hooks/BailResult {
+}
+
+public final class com/intuit/hooks/BailResult$Bail : com/intuit/hooks/BailResult {
+	public fun <init> (Ljava/lang/Object;)V
+	public final fun getValue ()Ljava/lang/Object;
+}
+
+public final class com/intuit/hooks/BailResult$Continue : com/intuit/hooks/BailResult {
+	public fun <init> ()V
+}
+
+public abstract class com/intuit/hooks/BaseHook {
+	public fun <init> (Ljava/lang/String;)V
+	protected fun getInterceptors ()Lcom/intuit/hooks/Interceptors;
+	protected final fun getTaps ()Ljava/util/List;
+	public final fun interceptCall (Lkotlin/Function;)V
+	public final fun interceptRegister (Lkotlin/jvm/functions/Function1;)V
+	public final fun interceptTap (Lkotlin/jvm/functions/Function2;)V
+	public final fun tap (Ljava/lang/String;Lkotlin/Function;)V
+}
+
+public class com/intuit/hooks/Interceptors {
+	public fun <init> ()V
+	public final fun getCall ()Ljava/util/List;
+	public final fun getRegister ()Ljava/util/List;
+	public final fun getTap ()Ljava/util/List;
+	public final fun invokeRegisterInterceptors (Lcom/intuit/hooks/TapInfo;)Lcom/intuit/hooks/TapInfo;
+	public final fun invokeTapInterceptors (Ljava/util/List;Ljava/util/HashMap;)V
+}
+
+public final class com/intuit/hooks/LoopInterceptors : com/intuit/hooks/Interceptors {
+	public fun <init> ()V
+	public final fun getLoop ()Ljava/util/List;
+}
+
+public final class com/intuit/hooks/LoopResult : java/lang/Enum {
+	public static final field Companion Lcom/intuit/hooks/LoopResult$Companion;
+	public static final field Continue Lcom/intuit/hooks/LoopResult;
+	public static final field Restart Lcom/intuit/hooks/LoopResult;
+	public static fun valueOf (Ljava/lang/String;)Lcom/intuit/hooks/LoopResult;
+	public static fun values ()[Lcom/intuit/hooks/LoopResult;
+}
+
+public final class com/intuit/hooks/LoopResult$Companion {
+	public final fun fromNullable (Ljava/lang/Object;)Lcom/intuit/hooks/LoopResult;
+}
+
+public abstract class com/intuit/hooks/SyncBailHook : com/intuit/hooks/SyncBaseHook {
+	public fun <init> ()V
+	protected final fun call (Lkotlin/jvm/functions/Function2;)Ljava/lang/Object;
+}
+
+public abstract class com/intuit/hooks/SyncBaseHook : com/intuit/hooks/BaseHook {
+	public fun <init> (Ljava/lang/String;)V
+	protected final fun setup (Lkotlin/jvm/functions/Function2;Z)Ljava/util/HashMap;
+	public static synthetic fun setup$default (Lcom/intuit/hooks/SyncBaseHook;Lkotlin/jvm/functions/Function2;ZILjava/lang/Object;)Ljava/util/HashMap;
+}
+
+public abstract class com/intuit/hooks/SyncHook : com/intuit/hooks/SyncBaseHook {
+	public fun <init> ()V
+	protected final fun call (Lkotlin/jvm/functions/Function2;)V
+}
+
+public abstract class com/intuit/hooks/SyncLoopHook : com/intuit/hooks/SyncBaseHook {
+	public fun <init> ()V
+	protected final fun call (Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;)V
+	public synthetic fun getInterceptors ()Lcom/intuit/hooks/Interceptors;
+	protected fun getInterceptors ()Lcom/intuit/hooks/LoopInterceptors;
+	public final fun interceptLoop (Lkotlin/Function;)V
+}
+
+public abstract class com/intuit/hooks/SyncWaterfallHook : com/intuit/hooks/SyncBaseHook {
+	public fun <init> ()V
+	protected final fun call (Ljava/lang/Object;Lkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function2;)Ljava/lang/Object;
+}
+
+public final class com/intuit/hooks/TapInfo {
+	public final fun getF ()Lkotlin/Function;
+	public final fun getName ()Ljava/lang/String;
+	public final fun getType ()Ljava/lang/String;
+}
+
+public abstract class com/intuit/hooks/dsl/Hooks {
+	public fun <init> ()V
+	protected final fun asyncParallelBailHook ()Lcom/intuit/hooks/AsyncParallelBailHook;
+	protected final fun asyncParallelHook ()Lcom/intuit/hooks/AsyncParallelHook;
+	protected final fun asyncSeriesBailHook ()Lcom/intuit/hooks/AsyncSeriesBailHook;
+	protected final fun asyncSeriesHook ()Lcom/intuit/hooks/AsyncSeriesHook;
+	protected final fun asyncSeriesLoopHook ()Lcom/intuit/hooks/AsyncSeriesLoopHook;
+	protected final fun asyncSeriesWaterfallHook ()Lcom/intuit/hooks/AsyncSeriesWaterfallHook;
+	protected final fun syncBailHook ()Lcom/intuit/hooks/SyncBailHook;
+	protected final fun syncHook ()Lcom/intuit/hooks/SyncHook;
+	protected final fun syncLoopHook ()Lcom/intuit/hooks/SyncLoopHook;
+	protected final fun syncWaterfallHook ()Lcom/intuit/hooks/SyncWaterfallHook;
+}
+

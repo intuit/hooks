@@ -1,0 +1,145 @@
+site:
+  baseUrl:  'https://github.intuit.com/pages/player/hooks'
+  theme: 'HooksTheme'
+  about:
+    siteName: Hooks
+    siteDescription: Hooks is a little module for plugins, in Kotlin.
+
+assets:
+  sourceDirs:
+    - './../../../../assets/media'
+    - './../../../../assets'
+
+theme:
+  primaryColor: '#0077c5'
+  social:
+    other:
+      - label: 'GitHub'
+        icon: 'fa-github'
+        link: 'https://github.com/intuit/hooks/'
+        buttonColor: 'dark'
+  menu:
+    - type: 'page'
+      title: 'Home'
+      itemId: 'home'
+      icon: 'home'
+    - type: 'wiki'
+      icon: 'graduation-cap'
+      asSubmenu: true
+      submenuTitle: 'User Guide'
+#    - type: 'separator'
+#      title: 'Plugin Usage'
+#    - type: 'sourcedocModules'
+#      moduleType: 'kotlindoc'
+#      moduleGroup: 'plugins'
+#    - type: 'separator'
+#      title: 'API Docs'
+#    - type: 'sourcedocPages'
+#      moduleType: 'kotlindoc'
+#      moduleName: 'hooks'
+
+    - type: 'submenu'
+      title: 'API'
+      icon: 'book'
+      menu:
+        - type: 'sourcedocModules'
+          moduleType: 'kotlindoc'
+          moduleGroup: 'library'
+        - type: 'separator'
+        - type: 'sourcedocModules'
+          moduleType: 'kotlindoc'
+          moduleGroup: 'plugins'
+
+    - type: 'submenu'
+      title: 'Information'
+      icon: 'info-circle'
+      menu:
+#        - type: 'page'
+#          title: 'About Hooks'
+#          itemId: 'About Hooks'
+        - type: 'page'
+          itemId: 'Changelog'
+        - type: 'page'
+          itemId: 'License'
+
+  metaComponents:
+    - type: 'orchidSearch'
+      extraCss: [ 'assets/css/orchidSearch.scss' ]
+
+changelog:
+  adapter:
+    type: 'file'
+    baseDir: './../../../..'
+    versionRegex: '^[\u0023]{1,2}[\s|v]*(\S*?)\s*?(?:\((.*?)\))?$'
+  includeMinorVersions: true
+  includeReleaseNotes: true
+
+kotlindoc:
+  homePagePermalink: 'modules/:module'
+  sourcePagePermalink: ':moduleType/:module/:sourceDocPath'
+  modules:
+    - name: 'Hooks Library'
+      slug: 'hooks'
+      moduleGroup: 'library'
+      sourceDirs:
+        - './../../../../hooks/src/main/kotlin'
+      showRunnerLogs: true
+      relatedModules: [ 'compiler-plugin' ]
+
+    - name: 'Kotlin Compiler Plugin'
+      moduleGroup: 'plugins'
+      sourceDirs:
+        - './../../../../compiler-plugin/src/main/kotlin'
+      homePageOnly: true
+
+    - name: 'Gradle Plugin'
+      slug: 'gradle-plugin'
+      moduleGroup: 'plugins'
+      sourceDirs:
+        - './../../../../gradle-plugin/src/main/kotlin'
+      homePageOnly: true
+
+    - name: 'Maven Kotlin Extension'
+      slug: 'maven-plugin'
+      moduleGroup: 'plugins'
+      sourceDirs:
+        - './../../../../maven-plugin/src/main/kotlin'
+      homePageOnly: true
+
+services:
+  publications:
+    stages:
+      - type: 'githubPages'
+        githubUrl: 'github.intuit.com'
+        username: 'jzucker'
+        repo: 'player/hooks'
+
+allPages:
+  metaComponents:
+    - type: 'prism'
+      theme: 'tomorrow'
+      languages:
+        - 'java'
+        - 'kotlin'
+        - 'groovy'
+        - 'yaml'
+        - 'markup'
+      extraCss: [ 'assets/css/prismFixes.scss' ]
+
+snippets:
+  sections:
+    - tags: ['code_snippets']
+      adapter:
+        type: 'embedded'
+        baseDirs:
+          - './../../../../hooks/src/'
+          - './../../../../compiler-plugin/src'
+          - './../../../../gradle-plugin/src'
+          - './../../../../maven-plugin/src'
+          - './../../../../example-library/src'
+          - './../../../../example-application/src'
+          - './../../../../docs/src'
+        recursive: true
+        startPattern: '^.*?//.*?START(.+?)$'
+        endPattern: '^.*?//.*?END(.+?)$'
+        patternNameGroup: 1

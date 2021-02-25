@@ -1,0 +1,17 @@
+public class com/intuit/hooks/plugin/gradle/HooksGradleExtension {
+	public fun <init> ()V
+	public final fun getGeneratedSrcOutputDir ()Ljava/lang/String;
+	public final fun setGeneratedSrcOutputDir (Ljava/lang/String;)V
+}
+
+public final class com/intuit/hooks/plugin/gradle/HooksGradlePlugin : org/jetbrains/kotlin/gradle/plugin/KotlinCompilerPluginSupportPlugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+	public fun applyToCompilation (Lorg/jetbrains/kotlin/gradle/plugin/KotlinCompilation;)Lorg/gradle/api/provider/Provider;
+	public fun getCompilerPluginId ()Ljava/lang/String;
+	public fun getPluginArtifact ()Lorg/jetbrains/kotlin/gradle/plugin/SubpluginArtifact;
+	public fun getPluginArtifactForNative ()Lorg/jetbrains/kotlin/gradle/plugin/SubpluginArtifact;
+	public fun isApplicable (Lorg/jetbrains/kotlin/gradle/plugin/KotlinCompilation;)Z
+}
+

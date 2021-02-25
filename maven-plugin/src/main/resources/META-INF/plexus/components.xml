@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component-set>
+    <components>
+        <component>
+            <role>org.jetbrains.kotlin.maven.KotlinMavenPluginExtension</role>
+            <role-hint>hooks</role-hint>
+            <implementation>com.intuit.hooks.plugin.maven.HooksMavenPlugin</implementation>
+            <description />
+            <isolated-realm>false</isolated-realm>
+            <requirements>
+                <requirement>
+                    <role>org.codehaus.plexus.logging.Logger</role>
+                    <field-name>logger</field-name>
+                </requirement>
+            </requirements>
+        </component>
+    </components>
+</component-set>

@@ -1,0 +1,28 @@
+homepageSections:
+  - title: 'A variety of hooks'
+    snippets: ['hook_types']
+    lang: 'text'
+    tabs:
+      - title: 'With extendable APIs'
+        snippets: [ 'extendable_api' ]
+        lang: 'kotlin'
+      - title: 'And strongly typed methods'
+        snippets: [ 'typed' ]
+        lang: 'kotlin'
+      - title: 'Asynchronous support built on coroutines'
+        snippets: ['asynchronous']
+        lang: 'kotlin'
+
+  - title: 'Kotlin compiler plugin'
+    snippets: ['compiler_plugin']
+    lang: 'text'
+    tabs:
+      - title: 'Paired with a concise DSL that generates type-safe APIs'
+        snippets: ['concise_dsl']
+        lang: 'kotlin'
+      - title: 'Wrapped with a Gradle plugin...'
+        snippets: [ 'gradle_plugin' ]
+        lang: 'kotlin'
+      - title: 'And a Maven Kotlin plugin extension'
+        snippets: [ 'maven_plugin' ]
+        lang: 'markup'

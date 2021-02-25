@@ -1,0 +1,20 @@
+<h1>Changelog</h1>
+<section class="accordions" id="changelog">
+  {% for version in component.model.versions %}
+    <div class="card accordion">
+      <header class="is-light accordion-header toggle">
+        <h2 class="title is-4">{{ version.version }}
+        <p class="subtitle is-6">
+          <time datetime="{{ version.releaseDate }}">{{ version.releaseDate }}</time>
+        </p></h2>
+          <span class="icon is-medium is-light">
+            <i class="fas fa-angle-down" aria-hidden="true"></i>
+          </span>
+      </header>
+      <div class="accordion-body">
+        <div class="content accordion-content">{{ version.content | raw }}</div>
+      </div>
+    </div>
+    <br>
+  {% endfor %}
+</section>
