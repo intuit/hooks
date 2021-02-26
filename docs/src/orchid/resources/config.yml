@@ -100,7 +100,6 @@ services:
   publications:
     stages:
       - type: 'githubPages'
-        githubUrl: 'github.com'
         username: 'sugarmanz'
         repo: 'intuit/hooks'
 
