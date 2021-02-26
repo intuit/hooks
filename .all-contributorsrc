@@ -1,8 +1,8 @@
 {
   "projectName": "hooks",
-  "projectOwner": "player",
+  "projectOwner": "intuit",
   "repoType": "github",
-  "repoHost": "https://github.intuit.com",
+  "repoHost": "https://github.com",
   "files": [
     "README.md"
   ],
@@ -12,10 +12,10 @@
   "commitConvention": "none",
   "contributors": [
     {
-      "login": "dstone3",
+      "login": "stabbylambda",
       "name": "David Stone",
-      "avatar_url": "https://github.intuit.com/avatars/u/461?",
-      "profile": "https://github.intuit.com/dstone3",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/124668?v=4",
+      "profile": "https://github.com/stabbylambda",
       "contributions": [
         "doc",
         "test",
@@ -23,10 +23,10 @@
       ]
     },
     {
-      "login": "JZUCKER",
+      "login": "sugarmanz",
       "name": "Jeremiah Zucker",
-      "avatar_url": "https://github.intuit.com/avatars/u/9138?",
-      "profile": "https://github.intuit.com/JZUCKER",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/9255651?v=4",
+      "profile": "http://www.jeremiahzucker.com",
       "contributions": [
         "test",
         "code",
