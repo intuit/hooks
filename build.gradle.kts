@@ -15,6 +15,33 @@ allprojects {
         maven("https://plugins.gradle.org/m2/")
         maven("https://oss.jfrog.org/artifactory/oss-snapshot-local/")
     }
+
+    dependencyLocking {
+        lockAllConfigurations()
+    }
+
+    tasks {
+        val lock by registering {
+            group = "lock"
+            doFirst {
+                // must be run with --write-locks
+                require(gradle.startParameter.isWriteDependencyLocks)
+            }
+            doLast {
+                configurations.filter(Configuration::isCanBeResolved).forEach { it.resolve() }
+            }
+        }
+
+        val lockChecksum by registering {
+            group = "lock"
+            inputs.file("gradle.lockfile")
+            outputs.file("$buildDir/gradle.lockfile.checksum")
+            doLast {
+                val checksum = projectDir.resolve("gradle.lockfile").readText().md5().also(::println)
+                buildDir.resolve("gradle.lockfile.checksum").writeText(checksum)
+            }
+        }
+    }
 }
 
 plugins {
@@ -64,6 +91,18 @@ tasks {
 
     dokkaHtmlMultiModule.configure {
         outputDirectory.set(rootDir.resolve("docs"))
+    }
+
+    val checksum by registering {
+        group = "lock"
+
+        getTasksByName("lockChecksum", true).sorted().apply {
+            map(Task::getOutputs).toTypedArray().let(inputs::files)
+        }.toTypedArray().let(::dependsOn)
+
+        doLast {
+            inputs.files.joinToString("\n") { it.readText() }.md5().also(::println)
+        }
     }
 }
 

@@ -1,5 +1,6 @@
 rootProject.name = "hooks-project"
 include(":hooks", ":compiler-plugin", ":gradle-plugin", ":maven-plugin", ":docs", ":example-library", ":example-application")
+enableFeaturePreview("ONE_LOCKFILE_PER_PROJECT")
 
 pluginManagement {
     val KOTLIN_VERSION: String by settings
