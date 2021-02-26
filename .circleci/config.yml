@@ -20,21 +20,7 @@ jobs:
     steps:
       - checkout
 
-      - run: echo "export CHECKSUM=$(gradle -q checksum)" >> $BASH_ENV
-
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ $CHECKSUM }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
-
       - run: gradle dependencies
-
-      - save_cache:
-          paths:
-            - ~/.gradle
-          key: v1-dependencies-{{ $CHECKSUM }}
 
       - run: gradle test
 
