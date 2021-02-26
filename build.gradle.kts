@@ -37,7 +37,7 @@ allprojects {
             inputs.file("gradle.lockfile")
             outputs.file("$buildDir/gradle.lockfile.checksum")
             doLast {
-                val checksum = projectDir.resolve("gradle.lockfile").readText().md5().also(::println)
+                val checksum = projectDir.resolve("gradle.lockfile").readText().md5()
                 buildDir.resolve("gradle.lockfile.checksum").writeText(checksum)
             }
         }
