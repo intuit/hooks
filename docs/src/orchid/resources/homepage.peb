@@ -23,6 +23,7 @@ layout: 'homepage'
   <div class="column is-8">
     <div class="content is-medium">
       <p>
+        TEST
         Hooks represent "pluggable" points in a software model. They provide a mechanism for tapping into such points to get updates, or apply additional functionality to some typed object. Included in this project are:
       </p>
     </div>

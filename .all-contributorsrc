@@ -12,17 +12,6 @@
   "commitConvention": "none",
   "contributors": [
     {
-      "login": "stabbylambda",
-      "name": "David Stone",
-      "avatar_url": "https://avatars3.githubusercontent.com/u/124668?v=4",
-      "profile": "https://github.com/stabbylambda",
-      "contributions": [
-        "doc",
-        "test",
-        "code"
-      ]
-    },
-    {
       "login": "sugarmanz",
       "name": "Jeremiah Zucker",
       "avatar_url": "https://avatars1.githubusercontent.com/u/9255651?v=4",
@@ -32,6 +21,17 @@
         "code",
         "doc",
         "infra"
+      ]
+    },
+    {
+      "login": "stabbylambda",
+      "name": "David Stone",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/124668?v=4",
+      "profile": "https://github.com/stabbylambda",
+      "contributions": [
+        "doc",
+        "test",
+        "code"
       ]
     }
   ],

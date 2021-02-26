@@ -47,7 +47,7 @@ dependencies {
 
 // 4. Use the 'Editorial' theme, and set the URL it will have on Github Pages
 orchid {
-    githubToken = System.getenv("GITHUB_TOKEN")
+    githubToken = System.getenv("GH_TOKEN")
 }
 
 val compileOrchidKotlin by tasks.getting(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class) {
