@@ -132,7 +132,8 @@ subprojects {
                     maven {
                         val version: String by project
                         name = "sonatype"
-                        url = java.net.URI("https://oss.sonatype.org/" +
+                        url = java.net.URI(
+                            "https://oss.sonatype.org/" +
                                 if (version.contains("-SNAPSHOT")) "content/repositories/snapshots/"
                                 else "service/local/staging/deploy/maven2/"
                         )
