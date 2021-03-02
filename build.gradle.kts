@@ -63,7 +63,7 @@ tasks {
     val publish by creating {
         group = "publishing"
 //        named("closeAndReleaseRepository").get().dependsOn(this)
-        finalizedBy(":docs:orchidDeploy", ":gradle-plugin:publishPlugins")
+//        finalizedBy(":docs:orchidDeploy", ":gradle-plugin:publishPlugins")
     }
 
     val version by creating {
