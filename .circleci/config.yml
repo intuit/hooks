@@ -5,8 +5,12 @@ jobs:
       - image: circleci/openjdk:8-jdk
 
     steps:
+      - run: |
+          curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/fossa-cli/master/install.sh | bash
       - checkout
       - run: gradle dependencies
+      - run: gradle assemble
+      - run: fossa analyze
       - run: gradle build
       - run:
         name: Save test results
@@ -18,15 +22,16 @@ jobs:
         path: ~/test-results
       - store_artifacts:
         path: ~/test-results/junit
+      - run: fossa test
 
   release:
     docker:
       - image: circleci/openjdk:8-jdk
 
     steps:
-      - checkout
       - run: curl -vkL -o - https://github.com/intuit/auto/releases/download/v10.16.8/auto-linux.gz | gunzip > ./auto
       - run: chmod a+x ./auto
+      - checkout
       - run: ./auto shipit
 #      - run: gradle publishReleasePublicationToSonatypeRepository --max-workers 1 closeAndReleaseRepository
 #      - run: gradle orchidDeploy
