@@ -1,3 +1,15 @@
+# v0.8.2 (Tue Mar 02 2021)
+
+#### 🐛 Bug Fix
+
+- Publish to Gradle Plugin Portal [#5](https://github.com/intuit/hooks/pull/5) ([@sugarmanz](https://github.com/sugarmanz))
+
+#### Authors: 1
+
+- Jeremiah Zucker ([@sugarmanz](https://github.com/sugarmanz))
+
+---
+
 # v0.8.1 (Tue Mar 02 2021)
 
 #### ⚠️ Pushed to `master`
