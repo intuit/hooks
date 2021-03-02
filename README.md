@@ -96,7 +96,7 @@ Recompile changes and run all tests:
 
 ### Linting
 
-Linting is done with [ktlint](https://github.com/pinterest/ktlint) and configured using [/JLLeitschuh's ktlint Gradle plugin](https://github.com/JLLeitschuh/ktlint-gradle).
+Linting is done with [ktlint](https://github.com/pinterest/ktlint) and configured using [JLLeitschuh's ktlint Gradle plugin](https://github.com/JLLeitschuh/ktlint-gradle).
 
 Format code according to linting standards:
 
