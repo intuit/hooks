@@ -1,3 +1,35 @@
+# v0.7.4 (Tue Mar 02 2021)
+
+:tada: This release contains work from new contributors! :tada:
+
+Thanks for all your work!
+
+:heart: Jeremiah Zucker ([@sugarmanz](https://github.com/sugarmanz))
+
+:heart: Andrew Lisowski ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+#### 🐛 Bug Fix
+
+- test signing first [#3](https://github.com/intuit/hooks/pull/3) ([@sugarmanz](https://github.com/sugarmanz))
+- Configure CI [#2](https://github.com/intuit/hooks/pull/2) ([@sugarmanz](https://github.com/sugarmanz))
+- migrate links [#1](https://github.com/intuit/hooks/pull/1) ([@sugarmanz](https://github.com/sugarmanz))
+
+#### ⚠️ Pushed to `master`
+
+- don't do other publishing yet ([@sugarmanz](https://github.com/sugarmanz))
+- prepare 0.7.3-SNAPSHOT ([@sugarmanz](https://github.com/sugarmanz))
+- version 0.7.2-SNAPSHOT ([@sugarmanz](https://github.com/sugarmanz))
+- specify subproj ([@sugarmanz](https://github.com/sugarmanz))
+- move auto download ([@sugarmanz](https://github.com/sugarmanz))
+- initialize public repo ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+#### Authors: 2
+
+- Andrew Lisowski ([@hipstersmoothie](https://github.com/hipstersmoothie))
+- Jeremiah Zucker ([@sugarmanz](https://github.com/sugarmanz))
+
+---
+
 # v0.7.0 (Sat Jan 23 2021)
 
 ### Release Notes
