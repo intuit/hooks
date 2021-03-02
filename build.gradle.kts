@@ -62,7 +62,7 @@ tasks {
 
     val publish by creating {
         group = "publishing"
-        dependsOn("orchidDeploy", "publishPlugins")
+        dependsOn(":docs:orchidDeploy", ":gradle-plugin:publishPlugins")
 //        named("closeAndReleaseRepository").get().dependsOn(this)
     }
 
