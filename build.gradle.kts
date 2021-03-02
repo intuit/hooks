@@ -26,8 +26,11 @@ plugins {
     id("org.jetbrains.dokka")
 }
 
+val shouldntPublish = listOf("docs", "example-library", "example-application")
+val publishModules = subprojects.map { it.name }.subtract(shouldntPublish)
+
 apiValidation {
-    ignoredProjects.addAll(listOf("docs", "example-library", "example-application"))
+    ignoredProjects.addAll(shouldntPublish)
 }
 
 release {
@@ -62,8 +65,16 @@ tasks {
 
     val publish by creating {
         group = "publishing"
-//        named("closeAndReleaseRepository").get().dependsOn(this)
-//        finalizedBy(":docs:orchidDeploy", ":gradle-plugin:publishPlugins")
+        finalizedBy("finishPublish")
+    }
+
+    val finishPublish by creating {
+        group = "publishing"
+        mustRunAfter(publishModules.map { ":$it:publishJarPublicationToSonatypeRepository" })
+        finalizedBy(":docs:orchidBuild"/**", :gradle-plugin:publishPlugins"*/, "closeAndReleaseRepository")
+        doLast {
+            println("finishPublish")
+        }
     }
 
     val version by creating {
@@ -85,7 +96,7 @@ subprojects {
         plugin("org.jlleitschuh.gradle.ktlint")
     }
 
-    if (!name.contains("example") && !name.contains("docs")) {
+    if (publishModules.contains(name)) {
         apply {
             plugin("maven-publish")
             plugin("signing")
@@ -160,6 +171,12 @@ subprojects {
                 dependsOn("dokkaJavadoc")
                 archiveClassifier.set("javadoc")
                 from("$buildDir/dokka/javadoc")
+            }
+
+            withType<PublishToMavenRepository>().configureEach {
+                onlyIf {
+                    publication.name == "jar"
+                }
             }
         }
     }
