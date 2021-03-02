@@ -15,7 +15,9 @@ jobs:
 
     steps:
       - checkout
-      - run: auto shipit
+      - run: curl -vkL -o - https://github.com/intuit/auto/releases/download/v10.16.8/auto-linux.gz | gunzip > ./auto
+      - run: chmod a+x ./auto
+      - run: ./auto shipit
 #      - run: gradle publishReleasePublicationToSonatypeRepository --max-workers 1 closeAndReleaseRepository
 #      - run: gradle orchidDeploy
 
