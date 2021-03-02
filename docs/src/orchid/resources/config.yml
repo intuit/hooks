@@ -5,11 +5,6 @@ site:
     siteName: Hooks
     siteDescription: Hooks is a little module for plugins, in Kotlin.
 
-assets:
-  sourceDirs:
-    - './../../../../assets/media'
-    - './../../../../assets'
-
 theme:
   primaryColor: '#0077c5'
   social:

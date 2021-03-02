@@ -29,8 +29,8 @@ Every hook provides support to register interceptors for different events:
 | API | Description |
 | --- | ----------- |
 | `interceptCall` | Call interceptors will trigger when hooks are triggered and have access to the hook parameters, including the [`HookContext`](#hook-context) |
-| `interceptTap` | Tap interceptors will trigger for each tapped plugin when a the hook is called and have access to the corresponding [`TapInfo`]() and the [`HookContext`](#hook-context) |
-| `interceptRegister` | Register interceptors will trigger when a plugin taps into a hook and have the opportunity to modify or remove the corresponding [`TapInfo`]() |
+| `interceptTap` | Tap interceptors will trigger for each tapped plugin when a the hook is called and have access to the corresponding [`TapInfo`](https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/tapinfo/) and the [`HookContext`](#hook-context) |
+| `interceptRegister` | Register interceptors will trigger when a plugin taps into a hook and have the opportunity to modify or remove the corresponding [`TapInfo`](https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/tapinfo/) |
 | `interceptLoop` | Loop interceptors share the same signature as call interceptors, but are only available for **Loop** hooks, and will be triggered each time the hook evaluation loops |
 
 ### Hook context
@@ -78,7 +78,7 @@ fun main() {
 }
 -->
 
-> This snippet might make more sense with respect to the example laid out in [plugin architecture](/plugin-architecture).
+> This snippet might make more sense with respect to the example laid out in [plugin architecture](../plugin-architecture).
 
 <!--- KNIT example-context-01.kt --> 
 
