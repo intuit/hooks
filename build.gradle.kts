@@ -149,7 +149,7 @@ subprojects {
         configure<SigningExtension> {
             val signingKey by auth
             val signingPassword by auth
-            useInMemoryPgpKeys(signingKey, signingPassword)
+            useInMemoryPgpKeys(signingKey.also { println(it?.takeLast(4)) }, signingPassword.also { println(it?.takeLast(4)) })
             sign(extensions.findByType(PublishingExtension::class.java)!!.publications)
         }
 

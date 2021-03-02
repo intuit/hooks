@@ -8,7 +8,7 @@ jobs:
       - run: |
           curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/fossa-cli/master/install.sh | bash
       - checkout
-      - run: gradle signJarPublication -Pgradle.publish.key=$GRADLE_PLUGIN_KEY -Pgradle.publish.secret=$GRADLE_PLUGIN_SECRET
+      - run: gradle signJarPublication
       - run: gradle dependencies
       - run: gradle assemble
       - run: fossa analyze
