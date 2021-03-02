@@ -170,8 +170,8 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/stabbylambda"><img src="https://avatars3.githubusercontent.com/u/124668?v=4?s=100" width="100px;" alt=""/><br /><sub><b>David Stone</b></sub></a><br /><a href="https://github.com/intuit/hooks/commits?author=stabbylambda" title="Documentation">📖</a> <a href="https://github.com/intuit/hooks/commits?author=stabbylambda" title="Tests">⚠️</a> <a href="https://github.com/intuit/hooks/commits?author=stabbylambda" title="Code">💻</a></td>
     <td align="center"><a href="http://www.jeremiahzucker.com"><img src="https://avatars1.githubusercontent.com/u/9255651?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Jeremiah Zucker</b></sub></a><br /><a href="https://github.com/intuit/hooks/commits?author=sugarmanz" title="Tests">⚠️</a> <a href="https://github.com/intuit/hooks/commits?author=sugarmanz" title="Code">💻</a> <a href="https://github.com/intuit/hooks/commits?author=sugarmanz" title="Documentation">📖</a> <a href="#infra-sugarmanz" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
+    <td align="center"><a href="https://github.com/stabbylambda"><img src="https://avatars3.githubusercontent.com/u/124668?v=4?s=100" width="100px;" alt=""/><br /><sub><b>David Stone</b></sub></a><br /><a href="https://github.com/intuit/hooks/commits?author=stabbylambda" title="Documentation">📖</a> <a href="https://github.com/intuit/hooks/commits?author=stabbylambda" title="Tests">⚠️</a> <a href="https://github.com/intuit/hooks/commits?author=stabbylambda" title="Code">💻</a></td>
   </tr>
 </table>
 

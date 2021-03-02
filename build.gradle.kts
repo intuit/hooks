@@ -1,13 +1,9 @@
-import groovy.lang.GroovyObject
+import AuthDelegate.Companion.auth
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.jfrog.gradle.plugin.artifactory.dsl.PublisherConfig
-import org.jfrog.gradle.plugin.artifactory.task.ArtifactoryTask
 
 allprojects {
-    group = "com.intuit.hooks"
-
     repositories {
         jcenter()
         mavenLocal()
@@ -21,8 +17,8 @@ plugins {
     kotlin("jvm") apply false
     id("jacoco")
 
-    id("com.jfrog.artifactory")
     id("net.researchgate.release")
+    id("io.codearte.nexus-staging")
 
     id("org.jlleitschuh.gradle.ktlint")
     id("org.jetbrains.kotlinx.binary-compatibility-validator")
@@ -44,6 +40,18 @@ release {
     newVersionCommitMessage = "[skip ci] new version commit: "
 }
 
+val sonatypeUsername by auth
+val sonatypePassword by auth
+val sonatypeStagingId by auth
+
+nexusStaging {
+    val group: String by project
+    packageGroup = group
+    stagingProfileId = sonatypeStagingId
+    username = sonatypeUsername
+    password = sonatypePassword
+}
+
 tasks {
     val build by creating {
         group = "build"
@@ -54,6 +62,8 @@ tasks {
 
     val publish by creating {
         group = "publishing"
+        dependsOn("orchidDeploy", "publishPlugins")
+//        named("closeAndReleaseRepository").get().dependsOn(this)
     }
 
     val version by creating {
@@ -75,10 +85,10 @@ subprojects {
         plugin("org.jlleitschuh.gradle.ktlint")
     }
 
-    if (!name.contains("example")) {
+    if (!name.contains("example") && !name.contains("docs")) {
         apply {
             plugin("maven-publish")
-            plugin("com.jfrog.artifactory")
+            plugin("signing")
             plugin("org.jetbrains.dokka")
         }
 
@@ -86,45 +96,68 @@ subprojects {
             explicitApi()
         }
 
-        artifactory {
-            setContextUrl("https://artifact.intuit.com/artifactory")
-
-            publish(
-                delegateClosureOf<PublisherConfig> {
-                    repository(
-                        delegateClosureOf<GroovyObject> {
-                            setProperty(
-                                "repoKey",
-                                if (version.toString().contains("SNAPSHOT")) "CG.PD.Intuit-Snapshots" else "CG.PD.Intuit-Releases"
-                            )
-                            setProperty("username", System.getenv("ARTIFACTORY_USERNAME"))
-                            setProperty("password", System.getenv("ARTIFACTORY_PASSWORD"))
-                            setProperty("maven", true)
-                        }
-                    )
-
-                    defaults(
-                        delegateClosureOf<ArtifactoryTask> {
-                            publications("jar")
-                        }
-                    )
-                }
-            )
-        }
-
         afterEvaluate {
             configure<PublishingExtension> {
                 publications {
                     register<MavenPublication>("jar") {
                         from(components.getByName("java"))
+                        artifact(tasks["javadocJar"])
+
+                        pom {
+                            name.set(this@afterEvaluate.name)
+                            description.set("Hooks is a little module for plugins, in Kotlin")
+                            url.set("https://github.com/intuit/hooks")
+                            licenses {
+                                license {
+                                    name.set("MIT")
+                                    url.set("https://github.com/intuit/hooks/blob/master/LICENSE")
+                                }
+                            }
+                            developers {
+                                developer {
+                                    id.set("sugarmanz")
+                                    name.set("Jeremiah Zucker")
+                                    email.set("zucker.jeremiah@gmail.com")
+                                }
+                            }
+                            scm {
+                                connection.set("scm:git:github.com/intuit/hooks.git")
+                                developerConnection.set("scm:git:ssh://github.com/intuit/hooks.git")
+                                url.set("https://github.com/intuit/hooks/tree/main")
+                            }
+                        }
+                    }
+                }
+                repositories {
+                    maven {
+                        val version: String by project
+                        name = "sonatype"
+                        url = java.net.URI(
+                            "https://oss.sonatype.org/" +
+                                if (version.contains("-SNAPSHOT")) "content/repositories/snapshots/"
+                                else "service/local/staging/deploy/maven2/"
+                        )
+                        credentials {
+                            username = sonatypeUsername
+                            password = sonatypePassword
+                        }
                     }
                 }
             }
         }
 
+        configure<SigningExtension> {
+            val signingKey by auth
+            val signingPassword by auth
+            useInMemoryPgpKeys(signingKey, signingPassword)
+            sign(extensions.findByType(PublishingExtension::class.java)!!.publications)
+        }
+
         tasks {
-            named("publish") {
-                dependsOn(artifactoryPublish)
+            register<Jar>("javadocJar") {
+                dependsOn("dokkaJavadoc")
+                archiveClassifier.set("javadoc")
+                from("$buildDir/dokka/javadoc")
             }
         }
     }

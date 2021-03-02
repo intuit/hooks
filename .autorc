@@ -4,6 +4,10 @@
       "gradle",
       {
         "gradleCommand": "./gradlew",
+        "gradleOptions": [
+          "-Pgradle.publish.key=$GRADLE_PLUGIN_KEY",
+          "-Pgradle.publish.secret=$GRADLE_PLUGIN_SECRET"
+        ]
       }
     ],
     "released", 
