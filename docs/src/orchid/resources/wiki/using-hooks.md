@@ -4,7 +4,7 @@ At its core, this project exposes a base hooks library, which can be used by its
 
 ##### Modules
 
-* [Hooks](/modules/hooks)
-* [Kotlin Compiler Plugin](/modules/compiler-plugin)
-* [Gradle Plugin](/modules/gradle-plugin)
-* [Maven Kotlin Plugin Extension](/modules/maven-plugin)
+* [Hooks](/hooks/modules/hooks)
+* [Kotlin Compiler Plugin](/hooks/modules/compiler-plugin)
+* [Gradle Plugin](/hooks/modules/gradle-plugin)
+* [Maven Kotlin Plugin Extension](/hooks/modules/maven-plugin)

@@ -18,7 +18,7 @@ plugins {
     id("jacoco")
 
     id("net.researchgate.release")
-    id("io.codearte.nexus-staging")
+    id("io.github.gradle-nexus.publish-plugin")
 
     id("org.jlleitschuh.gradle.ktlint")
     id("org.jetbrains.kotlinx.binary-compatibility-validator")
@@ -26,8 +26,12 @@ plugins {
     id("org.jetbrains.dokka")
 }
 
+val shouldntPublish = listOf("docs", "example-library", "example-application")
+val publishModules = subprojects.map { it.name }.subtract(shouldntPublish)
+val isSnapshot = (version as? String)?.contains("-SNAPSHOT") ?: true
+
 apiValidation {
-    ignoredProjects.addAll(listOf("docs", "example-library", "example-application"))
+    ignoredProjects.addAll(shouldntPublish)
 }
 
 release {
@@ -40,16 +44,10 @@ release {
     newVersionCommitMessage = "[skip ci] new version commit: "
 }
 
-val sonatypeUsername by auth
-val sonatypePassword by auth
-val sonatypeStagingId by auth
-
-nexusStaging {
-    val group: String by project
-    packageGroup = group
-    stagingProfileId = sonatypeStagingId
-    username = sonatypeUsername
-    password = sonatypePassword
+nexusPublishing {
+    repositories {
+        sonatype()
+    }
 }
 
 tasks {
@@ -62,8 +60,8 @@ tasks {
 
     val publish by creating {
         group = "publishing"
-//        named("closeAndReleaseRepository").get().dependsOn(this)
-//        finalizedBy(":docs:orchidDeploy", ":gradle-plugin:publishPlugins")
+        if (!isSnapshot)
+            finalizedBy("closeAndReleaseSonatypeStagingRepository", ":docs:orchidBuild"/**", :gradle-plugin:publishPlugins"*/)
     }
 
     val version by creating {
@@ -85,7 +83,7 @@ subprojects {
         plugin("org.jlleitschuh.gradle.ktlint")
     }
 
-    if (!name.contains("example") && !name.contains("docs")) {
+    if (publishModules.contains(name)) {
         apply {
             plugin("maven-publish")
             plugin("signing")
@@ -128,21 +126,6 @@ subprojects {
                         }
                     }
                 }
-                repositories {
-                    maven {
-                        val version: String by project
-                        name = "sonatype"
-                        url = java.net.URI(
-                            "https://oss.sonatype.org/" +
-                                if (version.contains("-SNAPSHOT")) "content/repositories/snapshots/"
-                                else "service/local/staging/deploy/maven2/"
-                        )
-                        credentials {
-                            username = sonatypeUsername
-                            password = sonatypePassword
-                        }
-                    }
-                }
             }
         }
 
@@ -160,6 +143,12 @@ subprojects {
                 dependsOn("dokkaJavadoc")
                 archiveClassifier.set("javadoc")
                 from("$buildDir/dokka/javadoc")
+            }
+
+            withType<PublishToMavenRepository>().configureEach {
+                onlyIf {
+                    publication.name == "jar"
+                }
             }
         }
     }
