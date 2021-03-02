@@ -1,3 +1,15 @@
+# v0.8.0 (Tue Mar 02 2021)
+
+#### 🚀 Enhancement
+
+- Finalize publishing and fix links [#4](https://github.com/intuit/hooks/pull/4) ([@sugarmanz](https://github.com/sugarmanz))
+
+#### Authors: 1
+
+- Jeremiah Zucker ([@sugarmanz](https://github.com/sugarmanz))
+
+---
+
 # v0.7.4 (Tue Mar 02 2021)
 
 :tada: This release contains work from new contributors! :tada:
