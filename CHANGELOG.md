@@ -1,3 +1,15 @@
+# v0.8.1 (Tue Mar 02 2021)
+
+#### ⚠️ Pushed to `master`
+
+- Fix orchid deploy ([@sugarmanz](https://github.com/sugarmanz))
+
+#### Authors: 1
+
+- Jeremiah Zucker ([@sugarmanz](https://github.com/sugarmanz))
+
+---
+
 # v0.8.0 (Tue Mar 02 2021)
 
 #### 🚀 Enhancement
