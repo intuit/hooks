@@ -22,22 +22,3 @@ hooks {
     generatedSrcOutputDir = "$buildDir/custom/generated/code"
 }
 ```
-
-Until this plugin is officially published, you will need to instruct Gradle where to find the plugin:
-```kotlin
-// settings.gradle.kts
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        maven("https://artifact.intuit.com/artifactory/CG.PD.Intuit-Releases")
-    }
-    
-    resolutionStrategy {
-        eachPlugin {
-            when (val id = requested.id.id) {
-                "com.intuit.hooks" -> useModule("$id:gradle-plugin:${requested.version}")
-            }
-        }
-    }
-}
-```
