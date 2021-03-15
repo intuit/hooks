@@ -29,7 +29,7 @@ internal val Meta.hooks: CliPlugin
                            |$imports
                            |
                            |$kind ${name}Impl : $name() {
-                           |   ${properties.map { it.property.syntheticScope }.joinToString("\n")}
+                           |   ${properties.map { it.property(null).syntheticElement }.joinToString("\n")}
                            |   ${classes.map { it.`class`.syntheticScope }.joinToString("\n")} 
                            |}""".trimMargin().file("${name}Impl")
 
