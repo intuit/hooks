@@ -32,7 +32,7 @@ internal enum class HookType(vararg val properties: HookProperty) {
     SyncHook {
         override fun generateClass(codeGen: HookCodeGen): String {
             // todo: potentially protected
-            return """|class ${codeGen.className} : ${codeGen.superType}<${codeGen.typeParameter}>() {
+            return """|inner class ${codeGen.className} : ${codeGen.superType}<${codeGen.typeParameter}>() {
                       |    fun call(${codeGen.paramsWithTypes}) = super.call { f, context -> f(context, ${codeGen.paramsWithoutTypes}) }
                       |    ${codeGen.tapMethod}
                       |}"""
@@ -41,7 +41,7 @@ internal enum class HookType(vararg val properties: HookProperty) {
     SyncBailHook(HookProperty.Bail) {
         override fun generateClass(codeGen: HookCodeGen): String {
             // todo: Potentially protected
-            return """|class ${codeGen.className} : ${codeGen.superType}<${codeGen.typeParameter}, ${codeGen.hookSignature.returnTypeType}>() {
+            return """|inner class ${codeGen.className} : ${codeGen.superType}<${codeGen.typeParameter}, ${codeGen.hookSignature.returnTypeType}>() {
                       |    fun call(${codeGen.paramsWithTypes}) = super.call { f, context -> f(context, ${codeGen.paramsWithoutTypes}) }
                       |    ${codeGen.tapMethod}
                       |}"""
@@ -50,7 +50,7 @@ internal enum class HookType(vararg val properties: HookProperty) {
     SyncWaterfallHook(HookProperty.Waterfall) {
         override fun generateClass(codeGen: HookCodeGen): String {
             val accumulatorName = codeGen.params.first().withoutType
-            return """|class ${codeGen.className} : ${codeGen.superType}<${codeGen.typeParameter}, ${codeGen.params.first().type}>() {
+            return """|inner class ${codeGen.className} : ${codeGen.superType}<${codeGen.typeParameter}, ${codeGen.params.first().type}>() {
                       |    fun call(${codeGen.paramsWithTypes}) = super.call($accumulatorName,
                       |        invokeTap = { f, $accumulatorName, context -> f(context, ${codeGen.paramsWithoutTypes}) },
                       |        invokeInterceptor = { f, context -> f(context, ${codeGen.paramsWithoutTypes})}
@@ -62,7 +62,7 @@ internal enum class HookType(vararg val properties: HookProperty) {
 
     SyncLoopHook(HookProperty.Loop) {
         override fun generateClass(codeGen: HookCodeGen): String {
-            return """|class ${codeGen.className}: ${codeGen.superType}<${codeGen.typeParameter}, ${codeGen.interceptParameter}>() {
+            return """|inner class ${codeGen.className}: ${codeGen.superType}<${codeGen.typeParameter}, ${codeGen.interceptParameter}>() {
                       |    fun call(${codeGen.paramsWithTypes}) = super.call(
                       |         invokeTap = { f, context -> f(context, ${codeGen.paramsWithoutTypes}) },
                       |         invokeInterceptor = { f, context -> f(context, ${codeGen.paramsWithoutTypes}) }
@@ -74,7 +74,7 @@ internal enum class HookType(vararg val properties: HookProperty) {
 
     AsyncParallelHook(HookProperty.Async) {
         override fun generateClass(codeGen: HookCodeGen): String {
-            return """|class ${codeGen.className}: ${codeGen.superType}<${codeGen.typeParameter}>() {
+            return """|inner class ${codeGen.className}: ${codeGen.superType}<${codeGen.typeParameter}>() {
                       |    suspend fun call(scope: CoroutineScope, ${codeGen.paramsWithTypes}) = super.call(scope) { f, context -> f(context, ${codeGen.paramsWithoutTypes}) }
                       |    ${codeGen.tapMethod}
                       |}"""
@@ -84,7 +84,7 @@ internal enum class HookType(vararg val properties: HookProperty) {
     AsyncParallelBailHook(HookProperty.Async, HookProperty.Bail) {
         override fun generateClass(codeGen: HookCodeGen): String {
             return """|@kotlinx.coroutines.ExperimentalCoroutinesApi
-                      |class ${codeGen.className}: ${codeGen.superType}<${codeGen.typeParameter}, ${codeGen.hookSignature.returnTypeType}>() {
+                      |inner class ${codeGen.className}: ${codeGen.superType}<${codeGen.typeParameter}, ${codeGen.hookSignature.returnTypeType}>() {
                       |    suspend fun call(scope: CoroutineScope, concurrency: Int,  ${codeGen.paramsWithTypes}) = super.call(scope, concurrency) { f, context -> f(context, ${codeGen.paramsWithoutTypes}) }
                       |    ${codeGen.tapMethod}
                       |}"""
@@ -93,7 +93,7 @@ internal enum class HookType(vararg val properties: HookProperty) {
 
     AsyncSeriesHook(HookProperty.Async) {
         override fun generateClass(codeGen: HookCodeGen): String {
-            return """|class ${codeGen.className}: ${codeGen.superType}<${codeGen.typeParameter}>() {
+            return """|inner class ${codeGen.className}: ${codeGen.superType}<${codeGen.typeParameter}>() {
                       |    suspend fun call(${codeGen.paramsWithTypes}) = super.call { f, context -> f(context, ${codeGen.paramsWithoutTypes}) }
                       |    ${codeGen.tapMethod}
                       |}"""
@@ -102,7 +102,7 @@ internal enum class HookType(vararg val properties: HookProperty) {
 
     AsyncSeriesBailHook(HookProperty.Async, HookProperty.Bail) {
         override fun generateClass(codeGen: HookCodeGen): String {
-            return """|class ${codeGen.className}: ${codeGen.superType}<${codeGen.typeParameter}, ${codeGen.hookSignature.returnTypeType}>() {
+            return """|inner class ${codeGen.className}: ${codeGen.superType}<${codeGen.typeParameter}, ${codeGen.hookSignature.returnTypeType}>() {
                       |    suspend fun call(${codeGen.paramsWithTypes}) = super.call { f, context -> f(context, ${codeGen.paramsWithoutTypes}) }
                       |    ${codeGen.tapMethod}
                       |}"""
@@ -112,7 +112,7 @@ internal enum class HookType(vararg val properties: HookProperty) {
     AsyncSeriesWaterfallHook(HookProperty.Async, HookProperty.Waterfall) {
         override fun generateClass(codeGen: HookCodeGen): String {
             val accumulatorName = codeGen.params.first().withoutType
-            return """|class ${codeGen.className} : ${codeGen.superType}<${codeGen.typeParameter}, ${codeGen.params.first().type}>() {
+            return """|inner class ${codeGen.className} : ${codeGen.superType}<${codeGen.typeParameter}, ${codeGen.params.first().type}>() {
                       |    suspend fun call(${codeGen.paramsWithTypes}) = super.call($accumulatorName,
                       |        invokeTap = { f, $accumulatorName, context -> f(context, ${codeGen.paramsWithoutTypes}) },
                       |        invokeInterceptor = { f, context -> f(context, ${codeGen.paramsWithoutTypes})}
@@ -124,7 +124,7 @@ internal enum class HookType(vararg val properties: HookProperty) {
 
     AsyncSeriesLoopHook(HookProperty.Async, HookProperty.Loop) {
         override fun generateClass(codeGen: HookCodeGen): String {
-            return """|class ${codeGen.className}: ${codeGen.superType}<${codeGen.typeParameter}, ${codeGen.interceptParameter}>() {
+            return """|inner class ${codeGen.className}: ${codeGen.superType}<${codeGen.typeParameter}, ${codeGen.interceptParameter}>() {
                       |    suspend fun call(${codeGen.paramsWithTypes}) = super.call(
                       |         invokeTap = { f, context -> f(context, ${codeGen.paramsWithoutTypes}) },
                       |         invokeInterceptor = { f, context -> f(context, ${codeGen.paramsWithoutTypes}) }
