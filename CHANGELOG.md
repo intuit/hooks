@@ -1,3 +1,56 @@
+# v0.9.0 (Wed Mar 17 2021)
+
+:tada: This release contains work from a new contributor! :tada:
+
+Thank you, David Stone ([@stabbylambda](https://github.com/stabbylambda)), for all your work!
+
+### Release Notes
+
+#### Hooks with type parameters ([#8](https://github.com/intuit/hooks/pull/8))
+
+Enhance DSL to adds the ability to generate Hooks with type parameters. The use case for this is when some piece of data is known only to the consumer of a library and the consumers of the taps, but not necessarily the library itself. As an example:
+
+```kotlin
+class FooHooks<T> : Hooks() {
+    open val beforeCalc = syncHook<(T) -> Unit>()
+}
+
+data class Foo<T>(val t: T)  {
+    public val hooks = FooHooksImpl<T>()
+
+    fun calc() {
+        hooks.beforeCalc.call(t)
+        // ...
+    }
+}
+
+fun runCalcsWithLog() {
+    val f = Foo<String>("hi")
+    f.hooks.beforeCalc.tap("hi") { x -> println(x) }
+}
+```
+
+---
+
+#### 🚀 Enhancement
+
+- Hooks with type parameters [#8](https://github.com/intuit/hooks/pull/8) ([@stabbylambda](https://github.com/stabbylambda))
+
+#### 🐛 Bug Fix
+
+- Update to use Typed Quotes [#7](https://github.com/intuit/hooks/pull/7) ([@stabbylambda](https://github.com/stabbylambda))
+
+#### 📝 Documentation
+
+- update docs for gradle plugin portal [#6](https://github.com/intuit/hooks/pull/6) ([@sugarmanz](https://github.com/sugarmanz))
+
+#### Authors: 2
+
+- David Stone ([@stabbylambda](https://github.com/stabbylambda))
+- Jeremiah Zucker ([@sugarmanz](https://github.com/sugarmanz))
+
+---
+
 # v0.8.2 (Tue Mar 02 2021)
 
 #### 🐛 Bug Fix
