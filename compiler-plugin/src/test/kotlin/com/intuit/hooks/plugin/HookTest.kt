@@ -112,4 +112,38 @@ class HookTest {
             )
         )
     }
+
+    @Test
+    fun testHookWithTypeParameter() {
+        val testHookClass =
+            """
+|package com.intuit.hooks.plugin.test
+|import com.intuit.hooks.dsl.Hooks
+|
+|abstract class TestHooks<T> : Hooks() {
+|    open val testSyncHook = syncHook<(T) -> Unit>()
+|}
+"""
+        val testHookCall =
+            """
+|fun testHook() : Boolean { 
+|   var tapCalled = false
+|   val hooks = TestHooksImpl<String>()
+|   hooks.testSyncHook.tap("test") { _, x -> tapCalled = true }
+|   hooks.testSyncHook.call("hello")
+|   return tapCalled
+|}"""
+        assertThis(
+            CompilerTest(
+                config = { hookDependencies() },
+                code = {
+                    (testHookClass + testHookCall).source
+                },
+
+                assert = {
+                    "testHook()".source.evalsTo(true)
+                }
+            )
+        )
+    }
 }
