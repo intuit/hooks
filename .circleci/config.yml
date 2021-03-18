@@ -34,7 +34,7 @@ jobs:
       - run: curl -vkL -o - https://github.com/intuit/auto/releases/download/v10.20.6/auto-linux.gz | gunzip > ~/auto
       - run: chmod a+x ~/auto
       - checkout
-      - run: ~/auto shipit -vvv
+      - run: ~/auto shipit
 workflows:
   version: 2
   build:
