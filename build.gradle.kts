@@ -1,5 +1,7 @@
 import AuthDelegate.Companion.auth
+import net.researchgate.release.GitAdapter.GitConfig
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.jetbrains.dokka.utilities.cast
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -42,6 +44,10 @@ release {
     preTagCommitMessage = "[skip ci] pre tag commit: "
     tagCommitMessage = "[skip ci] creating tag: "
     newVersionCommitMessage = "[skip ci] new version commit: "
+
+    getProperty("git").cast<GitConfig>().apply {
+        requireBranch = ""
+    }
 }
 
 nexusPublishing {
