@@ -82,6 +82,9 @@ subprojects {
         plugin("jacoco")
         plugin("org.jlleitschuh.gradle.ktlint")
     }
+    jacoco {
+        toolVersion = "0.8.7"
+    }
 
     if (publishModules.contains(name)) {
         apply {
