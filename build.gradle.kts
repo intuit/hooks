@@ -9,7 +9,6 @@ allprojects {
         mavenLocal()
         mavenCentral()
         maven("https://plugins.gradle.org/m2/")
-        maven("https://oss.jfrog.org/artifactory/oss-snapshot-local/")
         maven("https://oss.sonatype.org/content/repositories/snapshots/")
     }
 }
