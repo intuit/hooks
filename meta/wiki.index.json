@@ -1,0 +1,133 @@
+{
+  "ownKey": "wiki",
+  "childrenPages": {"wiki": {
+    "ownKey": "wiki",
+    "childrenPages": {
+      "key-concepts": {
+        "ownKey": "key-concepts",
+        "ownPages": [{
+          "reference": {
+            "path": "wiki",
+            "baseUrl": "https://intuit.github.io/hooks",
+            "fileName": "key-concepts",
+            "extension": "html",
+            "usePrettyUrl": true,
+            "link": "https://intuit.github.io/hooks/wiki/key-concepts"
+          },
+          "next": {
+            "path": "wiki",
+            "baseUrl": "https://intuit.github.io/hooks",
+            "fileName": "plugin-architecture",
+            "extension": "html",
+            "usePrettyUrl": true,
+            "link": "https://intuit.github.io/hooks/wiki/plugin-architecture"
+          },
+          "previous": {
+            "path": "wiki",
+            "baseUrl": "https://intuit.github.io/hooks",
+            "fileName": "using-hooks",
+            "extension": "html",
+            "usePrettyUrl": true,
+            "link": "https://intuit.github.io/hooks/wiki/using-hooks"
+          },
+          "description": "",
+          "title": "Key Concepts",
+          "content": "<h1 id=\"key-concepts\"><a href=\"#key-concepts\" id=\"key-concepts\" class=\"anchor\"><\/a>Key Concepts<\/h1>\n<h3 id=\"nomenclature\"><a href=\"#nomenclature\" id=\"nomenclature\" class=\"anchor\"><\/a>Nomenclature<\/h3>\n<p>To those new to this project, it might help to go over some keywords:<\/p>\n<ul>\n<li>Hook - some functionality in a construct that can be extended<\/li>\n<li>Tap - action taken by plugin to extend functionality<\/li>\n<li>Call - action taken by hook owner to invoke plugins<\/li>\n<li>Plugin - something that taps a hook<\/li>\n<\/ul>\n<p>A <strong>plugin<\/strong> can <strong>tap<\/strong> into a <strong>hook<\/strong> to provide additional functionality<\/p>\n<h3 id=\"hooks\"><a href=\"#hooks\" id=\"hooks\" class=\"anchor\"><\/a>Hooks<\/h3>\n<p>The hooks library exposes a collection of different types of hooks that support different behavior. Each type of hook has some support for asynchronous evaluation through Kotlin coroutines.<\/p>\n<table>\n<thead>\n<tr><th>Type<\/th><th>Behavior<\/th><th>Async Support<\/th><\/tr>\n<\/thead>\n<tbody>\n<tr><td><strong>Basic<\/strong><\/td><td>Basic hooks simply calls every function it tapped in a row<\/td><td><code>SERIES<\/code>, <code>PARALLEL<\/code><\/td><\/tr>\n<tr><td><strong>Waterfall<\/strong><\/td><td>Waterfall hooks also call each tapped function in a row, however, it supports propagating return value from each function to the next function<\/td><td><code>SERIES<\/code>, <code>PARALLEL<\/code><\/td><\/tr>\n<tr><td><strong>Bail<\/strong><\/td><td>Bail hooks allow exiting early with a return value. When any of the tapped function bails, the bail hook will stop executing the remaining ones<\/td><td><code>PARALLEL<\/code><\/td><\/tr>\n<tr><td><strong>Loop<\/strong><\/td><td>When a plugin in a loop hook returns a non-undefined value the hook will restart from the first plugin. It will loop until all plugins return undefined.<\/td><td><code>PARALLEL<\/code><\/td><\/tr>\n<\/tbody>\n<\/table>\n<h3 id=\"interceptors\"><a href=\"#interceptors\" id=\"interceptors\" class=\"anchor\"><\/a>Interceptors<\/h3>\n<p>Every hook provides support to register interceptors for different events:<\/p>\n<table>\n<thead>\n<tr><th>API<\/th><th>Description<\/th><\/tr>\n<\/thead>\n<tbody>\n<tr><td><code>interceptCall<\/code><\/td><td>Call interceptors will trigger when hooks are triggered and have access to the hook parameters, including the <a href=\"#hook-context\"><code>HookContext<\/code><\/a><\/td><\/tr>\n<tr><td><code>interceptTap<\/code><\/td><td>Tap interceptors will trigger for each tapped plugin when a the hook is called and have access to the corresponding <a href=\"https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/tapinfo/\"><code>TapInfo<\/code><\/a> and the <a href=\"#hook-context\"><code>HookContext<\/code><\/a><\/td><\/tr>\n<tr><td><code>interceptRegister<\/code><\/td><td>Register interceptors will trigger when a plugin taps into a hook and have the opportunity to modify or remove the corresponding <a href=\"https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/tapinfo/\"><code>TapInfo<\/code><\/a><\/td><\/tr>\n<tr><td><code>interceptLoop<\/code><\/td><td>Loop interceptors share the same signature as call interceptors, but are only available for <strong>Loop<\/strong> hooks, and will be triggered each time the hook evaluation loops<\/td><\/tr>\n<\/tbody>\n<\/table>\n<h3 id=\"hook-context\"><a href=\"#hook-context\" id=\"hook-context\" class=\"anchor\"><\/a>Hook context<\/h3>\n<p>Every plugin and some interceptors have access to a <code>HookContext<\/code>, which can be used to read or write arbitrary values for subsequent plugins and interceptors.<\/p>\n<!--- TEST_NAME HookContextTest -->\n<!--- INCLUDE\nimport com.intuit.hooks.dsl.Hooks\n\nabstract class CarHooks : Hooks() {\n    open val accelerate = syncHook<(newSpeed: Int) -> Unit>()\n}\n\nclass Car {\n    val hooks = CarHooksImpl()\n\n    var speed: Int = 0\n        set(value) {\n            hooks.accelerate.call(value)\n        }\n}\n\nfun main() {\n    val car = Car()\n-->\n<pre><code class=\"language-kotlin\">    car.hooks.accelerate.interceptTap { context, tapInfo -&gt;\n        println(&quot;${tapInfo.name} is doing it's job&quot;)\n        context[&quot;hasMuffler&quot;] = true\n    }\n    \n    car.hooks.accelerate.tap(&quot;NoisePlugin&quot;) { context, newSpeed -&gt; \n        println(if (context[&quot;hasMuffler&quot;] == true) &quot;Silence...&quot; else &quot;Vroom!&quot;)\n    }\n    \n    car.speed = 20\n    // NoisePlugin is doing it's job\n    // Silence...\n<\/code><\/pre>\n<!--- INCLUDE\n}\n-->\n<blockquote>\n<p>This snippet might make more sense with respect to the example laid out in <a href=\"../plugin-architecture\">plugin architecture<\/a>.<\/p>\n<\/blockquote>\n<!--- KNIT example-context-01.kt --> \n<!--- TEST\nNoisePlugin is doing it's job\nSilence...\n-->\n"
+        }]
+      },
+      "getting-started": {
+        "ownKey": "getting-started",
+        "ownPages": [{
+          "reference": {
+            "path": "wiki",
+            "baseUrl": "https://intuit.github.io/hooks",
+            "fileName": "getting-started",
+            "extension": "html",
+            "usePrettyUrl": true,
+            "link": "https://intuit.github.io/hooks/wiki/getting-started"
+          },
+          "next": {
+            "path": "wiki",
+            "baseUrl": "https://intuit.github.io/hooks",
+            "fileName": "using-hooks",
+            "extension": "html",
+            "usePrettyUrl": true,
+            "link": "https://intuit.github.io/hooks/wiki/using-hooks"
+          },
+          "description": "",
+          "title": "Getting Started",
+          "content": "<table>\n<thead>\n<tr><th>What would you like to accomplish<\/th><th>What to read<\/th><\/tr>\n<\/thead>\n<tbody>\n<tr><td><em>Learn more about hooks<\/em><\/td><td><a href=\"../key-concepts\">Key Concepts<\/a>, <a href=\"../plugin-architecture\">Plugin Architecture<\/a><\/td><\/tr>\n<tr><td><em>Use hooks in my project<\/em><\/td><td><a href=\"../using-hooks\">Using Hooks<\/a><\/td><\/tr>\n<tr><td><em>Contribute to the project<\/em><\/td><td><a href=\"https://github.com/intuit/hooks\">Github<\/a><\/td><\/tr>\n<\/tbody>\n<\/table>\n"
+        }]
+      },
+      "plugin-architecture": {
+        "ownKey": "plugin-architecture",
+        "ownPages": [{
+          "reference": {
+            "path": "wiki",
+            "baseUrl": "https://intuit.github.io/hooks",
+            "fileName": "plugin-architecture",
+            "extension": "html",
+            "usePrettyUrl": true,
+            "link": "https://intuit.github.io/hooks/wiki/plugin-architecture"
+          },
+          "previous": {
+            "path": "wiki",
+            "baseUrl": "https://intuit.github.io/hooks",
+            "fileName": "key-concepts",
+            "extension": "html",
+            "usePrettyUrl": true,
+            "link": "https://intuit.github.io/hooks/wiki/key-concepts"
+          },
+          "description": "",
+          "title": "Plugin Architecture",
+          "content": "<h1 id=\"plugin-architecture\"><a href=\"#plugin-architecture\" id=\"plugin-architecture\" class=\"anchor\"><\/a>Plugin Architecture<\/h1>\n<p>Hooks can be used adhoc, but the advantage become clearer when paired with a plugin architecture. Plugins are a really simple concept to understand. Essentially, some construct has some basic functionality that can be extended. Plugins are accepted by the construct to extend said functionality. Let's take a look at a simple example.<\/p>\n<h2 id=\"simple-example\"><a href=\"#simple-example\" id=\"simple-example\" class=\"anchor\"><\/a>Simple example<\/h2>\n<p>Cars come with many features that can vary heavily depending on the make, model, trim, etc. Imagine a <em>very<\/em> simple car that has two features, braking and accelerating, however this car can come with different hardware peripherals, so it is hard to contain this logic within the base Car construct. This could be represented with hooks:<\/p>\n<!--- INCLUDE\nimport com.intuit.hooks.dsl.Hooks\n-->\n<pre><code class=\"language-kotlin\">abstract class CarHooks : Hooks() {\n    open val brake = syncHook&lt;() -&gt; Unit&gt;()\n    open val accelerate = syncHook&lt;(newSpeed: Int) -&gt; Unit&gt;()\n}\n<\/code><\/pre>\n<p>For simplicity's sake, say the car API exposes a <code>speed<\/code> API to change the speed:<\/p>\n<pre><code class=\"language-kotlin\">class Car {\n    \n    val hooks = CarHooksImpl()\n\n    var speed: Int = 0\n        set(value) {\n            if (value &lt; field) hooks.brake.call()\n\n            field = value\n            hooks.accelerate.call(value)\n        }\n    \n}\n<\/code><\/pre>\n<p>This essentially encapsulates the <em>core<\/em> logic within the <code>Car<\/code> class, but delegates to the hook tappers to provide the actual implementation for braking and accelerating, with respect to the actual hardware or anything else that needs to respond to braking or accelerating.<\/p>\n<pre><code class=\"language-kotlin\">fun main() {\n    val car = Car()\n    car.hooks.brake.tap(&quot;logging-brake-hook&quot;) {\n        println(&quot;Turning on brake lights&quot;)\n    }\n\n    car.hooks.accelerate.tap(&quot;logging-accelerate-hook&quot;) { newSpeed -&gt;\n        println(&quot;Accelerating to $newSpeed&quot;)\n    }\n    car.speed = 30\n    // accelerating to 30\n    car.speed = 22\n    // turning on brake lights\n    // accelerating to 22\n}\n<\/code><\/pre>\n<!--- KNIT example-car-01.kt --> \n<p>In the snippet above, loggers were tapped to each hook from the <code>car<\/code> reference. However, this does not ensure a good pattern for separation of logic because all tapped logic is contained where the <code>Car<\/code> was instantiated. Instead, we should organize this logic into various plugins that can be registered to the <code>Car<\/code> when its created. First, we modify the <code>Car<\/code> class to accept and handle plugins during instantiation.<\/p>\n<!--- INCLUDE\nimport com.intuit.hooks.dsl.Hooks\n\nabstract class CarHooks : Hooks() {\n    open val brake = syncHook<() -> Unit>()\n    open val accelerate = syncHook<(newSpeed: Int) -> Unit>()\n}\n-->\n<pre><code class=\"language-kotlin\">class Car(vararg plugins: Plugin) {\n    \n    val hooks = CarHooksImpl()\n\n    var speed: Int = 0\n        set(value) {\n            if (value &lt; field) hooks.brake.call()\n\n            field = value\n            hooks.accelerate.call(value)\n        }\n    \n    init {\n        plugins.forEach { it.apply(this) }\n    }\n \n    interface Plugin {\n        fun apply(car: Car)\n    }   \n}\n<\/code><\/pre>\n<p>Now that we have an interface for a <code>Car.Plugin<\/code>, we can move the logger taps to its own class (<code>object<\/code> in this case because plugins <em>can<\/em> be idempotent):<\/p>\n<pre><code class=\"language-kotlin\">object CarLoggerPlugin : Car.Plugin {\n    override fun apply(car: Car) {\n        car.hooks.brake.tap(&quot;logging-brake-hook&quot;) {\n            println(&quot;Turning on brake lights&quot;)\n        }\n\n        car.hooks.accelerate.tap(&quot;logging-accelerate-hook&quot;) { newSpeed -&gt;\n            println(&quot;Accelerating to $newSpeed&quot;)\n        }\n    }\n}\n<\/code><\/pre>\n<p>Then, just instantiate the <code>Car<\/code> with whatever plugins are desired:<\/p>\n<pre><code class=\"language-kotlin\">fun main() {\n    val car = Car(CarLoggerPlugin)\n    car.speed = 30\n    // accelerating to 30\n    car.speed = 22\n    // turning on brake lights\n    // accelerating to 22\n}\n<\/code><\/pre>\n<!--- KNIT example-car-02.kt --> \n<blockquote>\n<p>You can get the full code <a href=\"https://github.com/intuit/hooks/tree/master/docs/src/test/kotlin/example/example-car-02.kt\">here<\/a>.<\/p>\n<\/blockquote>\n"
+        }]
+      },
+      "using-hooks": {
+        "ownKey": "using-hooks",
+        "ownPages": [{
+          "reference": {
+            "path": "wiki",
+            "baseUrl": "https://intuit.github.io/hooks",
+            "fileName": "using-hooks",
+            "extension": "html",
+            "usePrettyUrl": true,
+            "link": "https://intuit.github.io/hooks/wiki/using-hooks"
+          },
+          "next": {
+            "path": "wiki",
+            "baseUrl": "https://intuit.github.io/hooks",
+            "fileName": "key-concepts",
+            "extension": "html",
+            "usePrettyUrl": true,
+            "link": "https://intuit.github.io/hooks/wiki/key-concepts"
+          },
+          "previous": {
+            "path": "wiki",
+            "baseUrl": "https://intuit.github.io/hooks",
+            "fileName": "getting-started",
+            "extension": "html",
+            "usePrettyUrl": true,
+            "link": "https://intuit.github.io/hooks/wiki/getting-started"
+          },
+          "description": "",
+          "title": "Using Hooks",
+          "content": "<h1 id=\"usage\"><a href=\"#usage\" id=\"usage\" class=\"anchor\"><\/a>Usage<\/h1>\n<p>At its core, this project exposes a base hooks library, which can be used by itself, but requires a somewhat verbose, redundant API to use. To limit the overhead of using hooks, we also expose a Kotlin compiler plugin built with <a href=\"https://meta.arrow-kt.io/\">Arrow Meta<\/a>, which provides a simple, type-driven DSL to enable consumers to create hooks. Since Kotlin compiler plugins aren't necessarily easy to configure, we've built a Gradle plugin and a Maven Kotlin plugin extension to configure a project to use hooks. See the module documentation for more information on how to use hooks in your project:<\/p>\n<h5 id=\"modules\"><a href=\"#modules\" id=\"modules\" class=\"anchor\"><\/a>Modules<\/h5>\n<ul>\n<li><a href=\"/hooks/modules/hooks\">Hooks<\/a><\/li>\n<li><a href=\"/hooks/modules/kotlin-compiler-plugin\">Kotlin Compiler Plugin<\/a><\/li>\n<li><a href=\"/hooks/modules/gradle-plugin\">Gradle Plugin<\/a><\/li>\n<li><a href=\"/hooks/modules/maven-plugin\">Maven Kotlin Plugin Extension<\/a><\/li>\n<\/ul>\n"
+        }]
+      }
+    },
+    "ownPages": [{
+      "reference": {
+        "path": "",
+        "baseUrl": "https://intuit.github.io/hooks",
+        "fileName": "wiki",
+        "extension": "html",
+        "usePrettyUrl": true,
+        "link": "https://intuit.github.io/hooks/wiki"
+      },
+      "description": "",
+      "title": "Wiki",
+      "content": "<html>\n <head><\/head>\n <body>\n  <ul> \n   <li><a href=\"https://intuit.github.io/hooks/wiki/getting-started\">Getting Started<\/a><\/li> \n   <li><a href=\"https://intuit.github.io/hooks/wiki/using-hooks\">Using Hooks<\/a><\/li> \n   <li><a href=\"https://intuit.github.io/hooks/wiki/key-concepts\">Key Concepts<\/a><\/li> \n   <li><a href=\"https://intuit.github.io/hooks/wiki/plugin-architecture\">Plugin Architecture<\/a><\/li> \n  <\/ul> \n <\/body>\n<\/html>\n"
+    }]
+  }}
+}

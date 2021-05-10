@@ -1,0 +1,37 @@
+{
+  "ownKey": "pages",
+  "childrenPages": {
+    "license": {
+      "ownKey": "license",
+      "ownPages": [{
+        "reference": {
+          "path": "",
+          "baseUrl": "https://intuit.github.io/hooks",
+          "fileName": "license",
+          "extension": "html",
+          "usePrettyUrl": true,
+          "link": "https://intuit.github.io/hooks/license"
+        },
+        "description": "",
+        "title": "License",
+        "content": ""
+      }]
+    },
+    "changelog": {
+      "ownKey": "changelog",
+      "ownPages": [{
+        "reference": {
+          "path": "",
+          "baseUrl": "https://intuit.github.io/hooks",
+          "fileName": "changelog",
+          "extension": "html",
+          "usePrettyUrl": true,
+          "link": "https://intuit.github.io/hooks/changelog"
+        },
+        "description": "",
+        "title": "Changelog",
+        "content": ""
+      }]
+    }
+  }
+}
