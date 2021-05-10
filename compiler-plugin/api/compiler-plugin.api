@@ -10,7 +10,6 @@ public class com/intuit/hooks/plugin/HooksMetaPlugin : arrow/meta/Meta {
 	public fun declarationChecker (Lkotlin/jvm/functions/Function4;)Larrow/meta/phases/config/StorageComponentContainer;
 	public fun enableIr ()Larrow/meta/phases/ExtensionPhase;
 	public fun extraImports (Lkotlin/jvm/functions/Function2;)Larrow/meta/phases/analysis/ExtraImports;
-	public fun installArrowPlugin ()V
 	public fun intercept (Larrow/meta/phases/CompilerContext;)Ljava/util/List;
 	public fun irAnonymousInitializer (Larrow/meta/Meta;Lkotlin/jvm/functions/Function2;)Larrow/meta/phases/codegen/ir/IRGeneration;
 	public fun irBlock (Larrow/meta/Meta;Lkotlin/jvm/functions/Function2;)Larrow/meta/phases/codegen/ir/IRGeneration;
@@ -35,6 +34,7 @@ public class com/intuit/hooks/plugin/HooksMetaPlugin : arrow/meta/Meta {
 	public fun irDelegatingConstructorCall (Larrow/meta/Meta;Lkotlin/jvm/functions/Function2;)Larrow/meta/phases/codegen/ir/IRGeneration;
 	public fun irDoWhileLoop (Larrow/meta/Meta;Lkotlin/jvm/functions/Function2;)Larrow/meta/phases/codegen/ir/IRGeneration;
 	public fun irDump (Larrow/meta/Meta;)Larrow/meta/phases/codegen/ir/IRGeneration;
+	public fun irDumpKotlinLike (Larrow/meta/Meta;Lorg/jetbrains/kotlin/ir/util/KotlinLikeDumpOptions;)Larrow/meta/phases/codegen/ir/IRGeneration;
 	public fun irDynamicExpression (Larrow/meta/Meta;Lkotlin/jvm/functions/Function2;)Larrow/meta/phases/codegen/ir/IRGeneration;
 	public fun irDynamicMemberExpression (Larrow/meta/Meta;Lkotlin/jvm/functions/Function2;)Larrow/meta/phases/codegen/ir/IRGeneration;
 	public fun irDynamicOperatorExpression (Larrow/meta/Meta;Lkotlin/jvm/functions/Function2;)Larrow/meta/phases/codegen/ir/IRGeneration;
@@ -67,7 +67,7 @@ public class com/intuit/hooks/plugin/HooksMetaPlugin : arrow/meta/Meta {
 	public fun irPropertyReference (Larrow/meta/Meta;Lkotlin/jvm/functions/Function2;)Larrow/meta/phases/codegen/ir/IRGeneration;
 	public fun irReturn (Larrow/meta/Meta;Lkotlin/jvm/functions/Function2;)Larrow/meta/phases/codegen/ir/IRGeneration;
 	public fun irSetField (Larrow/meta/Meta;Lkotlin/jvm/functions/Function2;)Larrow/meta/phases/codegen/ir/IRGeneration;
-	public fun irSetVariable (Larrow/meta/Meta;Lkotlin/jvm/functions/Function2;)Larrow/meta/phases/codegen/ir/IRGeneration;
+	public fun irSetValue (Larrow/meta/Meta;Lkotlin/jvm/functions/Function2;)Larrow/meta/phases/codegen/ir/IRGeneration;
 	public fun irSimpleFunction (Larrow/meta/Meta;Lkotlin/jvm/functions/Function2;)Larrow/meta/phases/codegen/ir/IRGeneration;
 	public fun irSingletonReference (Larrow/meta/Meta;Lkotlin/jvm/functions/Function2;)Larrow/meta/phases/codegen/ir/IRGeneration;
 	public fun irSpreadElement (Larrow/meta/Meta;Lkotlin/jvm/functions/Function2;)Larrow/meta/phases/codegen/ir/IRGeneration;
@@ -111,7 +111,6 @@ public class com/intuit/hooks/plugin/HooksMetaPlugin : arrow/meta/Meta {
 	public fun suppressDiagnosticWithTrace (Lkotlin/jvm/functions/Function2;)Larrow/meta/phases/ExtensionPhase;
 	public fun syntheticResolver (Lkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function6;Lkotlin/jvm/functions/Function6;Lkotlin/jvm/functions/Function6;Lkotlin/jvm/functions/Function6;Lkotlin/jvm/functions/Function4;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;)Larrow/meta/phases/resolve/synthetics/SyntheticResolver;
 	public fun syntheticScopes (Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function4;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function4;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function3;)Larrow/meta/phases/ExtensionPhase;
-	public fun typeChecker (Larrow/meta/Meta;Lkotlin/jvm/functions/Function1;)Larrow/meta/phases/ExtensionPhase;
 	public fun updateConfig (Lkotlin/jvm/functions/Function2;)Larrow/meta/phases/config/Config;
 }
 

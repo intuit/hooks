@@ -17,11 +17,11 @@ internal val Meta.hooks: CliPlugin
     get() =
         "Hooks" {
             meta(
-                classDeclaration(this, KtClass::isHooksDslClass) { c ->
+                classDeclaration(this, { this.element.isHooksDslClass }) { c ->
                     findHooks().map<Transform<KtClass>> { codeGen ->
-                        val `package` = c.containingKtFile.packageDirective?.text ?: ""
+                        val `package` = c.element.containingKtFile.packageDirective?.text ?: ""
                         val (classes, properties) = codeGen.map(::generateHookClass).unzip()
-                        val imports = createImportDirectives(c, codeGen)
+                        val imports = createImportDirectives(c.element, codeGen)
 
                         val newSource =
                             """|${`package`}

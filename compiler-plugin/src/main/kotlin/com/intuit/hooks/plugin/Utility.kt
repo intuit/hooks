@@ -18,7 +18,7 @@ private val KtClass.containsHooksDslImport get() = containingKtFile.importList?.
     it.text.contains("com.intuit.hooks.dsl.")
 } ?: false
 
-internal fun String.capitalizeFirstLetter(): String = this.mapIndexed { i, c -> if (i == 0) c.toUpperCase() else c }.joinToString(separator = "")
+internal fun String.capitalizeFirstLetter(): String = this.mapIndexed { i, c -> if (i == 0) c.uppercaseChar() else c }.joinToString(separator = "")
 
 internal fun CompilerContext.reportHookErrors(invalid: NonEmptyList<HookValidationError>) =
     invalid.forEach { messageCollector?.report(it) }
