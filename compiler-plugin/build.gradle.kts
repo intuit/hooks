@@ -11,7 +11,7 @@ dependencies {
     pluginDependency("io.arrow-kt", "arrow-annotations", ARROW_VERSION)
     pluginDependency("io.arrow-kt", "arrow-syntax", ARROW_VERSION)
     pluginDependency("io.arrow-kt", "arrow-core-data", ARROW_VERSION)
-    pluginDependency("io.arrow-kt", "compiler-plugin-core", ARROW_META_VERSION)
+    pluginDependency("io.arrow-kt", "arrow-meta", ARROW_META_VERSION)
 
     compileOnly(kotlin("stdlib"))
     compileOnly(kotlin("compiler-embeddable"))
@@ -28,7 +28,7 @@ dependencies {
     testImplementation(project(":hooks"))
     testImplementation("io.arrow-kt:arrow-meta-prelude:$ARROW_META_VERSION")
     testImplementation("io.arrow-kt:arrow-core:$ARROW_VERSION")
-    testImplementation("io.arrow-kt:compiler-plugin:$ARROW_META_VERSION")
+    testImplementation("io.arrow-kt:arrow-meta:$ARROW_META_VERSION")
     testImplementation("io.arrow-kt:meta-test:$ARROW_META_VERSION")
 }
 

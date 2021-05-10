@@ -34,6 +34,7 @@ public class com/intuit/hooks/plugin/HooksMetaPlugin : arrow/meta/Meta {
 	public fun irDelegatingConstructorCall (Larrow/meta/Meta;Lkotlin/jvm/functions/Function2;)Larrow/meta/phases/codegen/ir/IRGeneration;
 	public fun irDoWhileLoop (Larrow/meta/Meta;Lkotlin/jvm/functions/Function2;)Larrow/meta/phases/codegen/ir/IRGeneration;
 	public fun irDump (Larrow/meta/Meta;)Larrow/meta/phases/codegen/ir/IRGeneration;
+	public fun irDumpKotlinLike (Larrow/meta/Meta;Lorg/jetbrains/kotlin/ir/util/KotlinLikeDumpOptions;)Larrow/meta/phases/codegen/ir/IRGeneration;
 	public fun irDynamicExpression (Larrow/meta/Meta;Lkotlin/jvm/functions/Function2;)Larrow/meta/phases/codegen/ir/IRGeneration;
 	public fun irDynamicMemberExpression (Larrow/meta/Meta;Lkotlin/jvm/functions/Function2;)Larrow/meta/phases/codegen/ir/IRGeneration;
 	public fun irDynamicOperatorExpression (Larrow/meta/Meta;Lkotlin/jvm/functions/Function2;)Larrow/meta/phases/codegen/ir/IRGeneration;
