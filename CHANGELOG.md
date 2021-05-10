@@ -1,3 +1,25 @@
+# v0.9.1 (Mon May 10 2021)
+
+#### 🐛 Bug Fix
+
+- Upgrade to Kotlin 1.5 [#13](https://github.com/intuit/hooks/pull/13) ([@stabbylambda](https://github.com/stabbylambda))
+
+#### ⚠️ Pushed to `main`
+
+- rename master to main (jeremiah_zucker@intuit.com)
+
+#### 🏠 Internal
+
+- Upgrade binary compatibility tool to 0.5.0 [#14](https://github.com/intuit/hooks/pull/14) (jeremiah_zucker@intuit.com)
+- Setup Auto for Canary and Next [#12](https://github.com/intuit/hooks/pull/12) (jeremiah_zucker@intuit.com)
+
+#### Authors: 2
+
+- David Stone ([@stabbylambda](https://github.com/stabbylambda))
+- Jeremiah Zucker ([@sugarmanz](https://github.com/sugarmanz))
+
+---
+
 # v0.9.0 (Wed Mar 17 2021)
 
 :tada: This release contains work from a new contributor! :tada:
