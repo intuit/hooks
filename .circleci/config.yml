@@ -8,10 +8,10 @@ jobs:
       - run: |
           curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/fossa-cli/master/install.sh | bash
       - checkout
-      - run: gradle dependencies
-      - run: gradle assemble
+      - run: ./gradlew dependencies
+      - run: ./gradlew assemble
       - run: fossa analyze
-      - run: gradle build
+      - run: ./gradlew build
       - run:
           name: Save test results
           command: |
