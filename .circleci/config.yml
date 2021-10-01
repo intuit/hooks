@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/openjdk:15-jdk
+      - image: cimg/openjdk:15.0.0
 
     steps:
       - run: |
