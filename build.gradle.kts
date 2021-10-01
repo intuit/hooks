@@ -165,7 +165,7 @@ subprojects {
     }
 
     configure<JavaPluginExtension> {
-        sourceCompatibility = JavaVersion.VERSION_15
+        sourceCompatibility = JavaVersion.VERSION_1_8
         withSourcesJar()
     }
 
