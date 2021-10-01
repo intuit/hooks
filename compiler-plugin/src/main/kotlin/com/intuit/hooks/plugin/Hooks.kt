@@ -1,9 +1,6 @@
 package com.intuit.hooks.plugin
 
 import arrow.core.*
-import arrow.core.extensions.applicativeNel
-import arrow.core.extensions.list.traverse.sequence
-import arrow.core.extensions.validated.functor.map
 import arrow.meta.CliPlugin
 import arrow.meta.Meta
 import arrow.meta.invoke
@@ -29,8 +26,8 @@ internal val Meta.hooks: CliPlugin
                            |$imports
                            |
                            |$kind ${name}Impl${this.`(typeParameters)`} : $name${this.`(typeParameters)`}() {
-                           |   ${properties.map { it.property(null).syntheticElement }.joinToString("\n")}
-                           |   ${classes.map { it.`class`.syntheticScope }.joinToString("\n")} 
+                           |   ${properties.map { it.property(null) }.joinToString("\n")}
+                           |   ${classes.map { it.`class` }.joinToString("\n")} 
                            |}""".trimMargin().file("${name}Impl")
 
                         Transform.newSources(newSource)
@@ -70,6 +67,4 @@ private fun KtImportList.removeHooksDslImport() =
 private fun ClassDeclaration.findHooks() =
     body.properties.value
         .map(::validateHook)
-        .sequence(ValidatedNel.applicativeNel())
-        .map { it.fix() }
-        .fix()
+        .sequenceValidated()

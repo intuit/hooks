@@ -1,9 +1,6 @@
 package com.intuit.hooks.plugin
 
 import arrow.core.*
-import arrow.core.extensions.applicativeNel
-import arrow.core.extensions.list.traverse.sequence
-import arrow.core.extensions.validated.functor.map
 import org.jetbrains.kotlin.com.intellij.psi.PsiElement
 import org.jetbrains.kotlin.psi.KtCallExpression
 import org.jetbrains.kotlin.psi.KtFunctionType
@@ -26,19 +23,18 @@ internal fun validateHook(property: KtProperty): Validated<NonEmptyList<HookVali
 
 private fun validateHookProperties(hook: HookClassInfo) =
     hook.hookType.properties.map { it.validate(hook) }
-        .sequence(ValidatedNel.applicativeNel())
+        .sequenceValidated()
         .map { hook.toCodeGen() }
 
 private fun validateHookType(property: KtProperty): ValidatedNel<HookValidationError, HookClassInfo> {
     val ktCallExpression = property.initializer as? KtCallExpression
-    return Validated.applicativeNel<HookValidationError>().mapN(
-        mustBeInitializedWithDSLMethod(property, ktCallExpression),
+    return mustBeInitializedWithDSLMethod(property, ktCallExpression).zip(
         mustBeHookType(property, ktCallExpression),
         hasCodeGenerator(property, ktCallExpression),
-        validateParameters(property, ktCallExpression)
-    ) { (_, signature, hookType, parameters) ->
+        validateParameters(property, ktCallExpression),
+    ) { _, signature, hookType, parameters ->
         HookClassInfo(property, signature, hookType, parameters)
-    }.fix()
+    }
 }
 
 private fun validateParameters(property: KtProperty, ktCallExpression: KtCallExpression?): ValidatedNel<HookValidationError, List<HookParameter>> {
@@ -67,5 +63,5 @@ private fun mustBeHookType(property: KtProperty, ktCallExpression: KtCallExpress
     return hookSignature?.valid() ?: HookValidationError.MustBeHookTypeSignature(property).invalidNel()
 }
 
-private fun mustBeInitializedWithDSLMethod(property: KtProperty, ktCallExpression: KtCallExpression?) =
+private fun mustBeInitializedWithDSLMethod(property: KtProperty, ktCallExpression: KtCallExpression?): ValidatedNel<HookValidationError, KtCallExpression> =
     ktCallExpression?.valid() ?: HookValidationError.MustBeInitializedWithDSLMethod(property).invalidNel()

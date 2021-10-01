@@ -1,7 +1,6 @@
 package com.intuit.hooks.plugin
 
 import arrow.core.*
-import arrow.core.extensions.applicativeNel
 import org.jetbrains.kotlin.psi.psiUtil.hasSuspendModifier
 
 internal enum class HookProperty {
@@ -15,10 +14,9 @@ internal enum class HookProperty {
     },
     Waterfall {
         override fun validate(hookClassInfo: HookClassInfo): ValidatedNel<HookValidationError, HookProperty> {
-            return Validated.applicativeNel<HookValidationError>().mapN(
-                arity(hookClassInfo),
-                parameters(hookClassInfo)
-            ) { this }.fix()
+            return arity(hookClassInfo).zip(
+                parameters(hookClassInfo),
+            ) { _, _ -> this }
         }
 
         private fun arity(hookClassInfo: HookClassInfo): ValidatedNel<HookValidationError, HookProperty> {
