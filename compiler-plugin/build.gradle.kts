@@ -1,42 +1,32 @@
-val pluginDependency: Configuration by configurations.creating {
-    configurations.compileClasspath.get().extendsFrom(this)
-}
+import java.nio.file.Paths
 
 dependencies {
     val ARROW_VERSION: String by project
     val ARROW_META_VERSION: String by project
 
-    // these are the dependencies we're specifically including
-    pluginDependency("io.arrow-kt", "arrow-core", ARROW_VERSION)
-    pluginDependency("io.arrow-kt", "arrow-annotations", ARROW_VERSION)
-    pluginDependency("io.arrow-kt", "arrow-syntax", ARROW_VERSION)
-    pluginDependency("io.arrow-kt", "arrow-core-data", ARROW_VERSION)
-    pluginDependency("io.arrow-kt", "arrow-meta", ARROW_META_VERSION)
-
-    compileOnly(kotlin("stdlib"))
-    compileOnly(kotlin("compiler-embeddable"))
-    compileOnly(kotlin("scripting-compiler-embeddable"))
-    compileOnly(kotlin("script-util") as String) {
-        exclude(kotlin("stdlib") as String)
-        exclude(kotlin("compiler") as String)
-        exclude(kotlin("compiler-embeddable") as String)
-    }
+    compileOnly("org.jetbrains.kotlin:kotlin-compiler-embeddable")
+    compileOnly("io.arrow-kt:arrow-meta:$ARROW_META_VERSION")
+    compileOnly("io.arrow-kt:arrow-core:$ARROW_VERSION")
+    compileOnly("io.arrow-kt:arrow-annotations:$ARROW_VERSION")
 
     testImplementation(platform("org.junit:junit-bom:5.7.0"))
     testImplementation("org.junit.jupiter", "junit-jupiter")
+    testImplementation("io.arrow-kt:meta-test:$ARROW_META_VERSION")
 
     testImplementation(project(":hooks"))
-    testImplementation("io.arrow-kt:arrow-meta-prelude:$ARROW_META_VERSION")
-    testImplementation("io.arrow-kt:arrow-core:$ARROW_VERSION")
     testImplementation("io.arrow-kt:arrow-meta:$ARROW_META_VERSION")
-    testImplementation("io.arrow-kt:meta-test:$ARROW_META_VERSION")
+    testRuntimeOnly("io.arrow-kt:arrow-meta-prelude:$ARROW_META_VERSION")
+    testRuntimeOnly("io.arrow-kt:arrow-core:$ARROW_VERSION") {
+        exclude("org.jetbrains.kotlin")
+    }
 }
 
-// Add new content to the default jar artifact: Arrow Meta Compiler Plugin except META-INF file to use the new one
 tasks {
     jar {
-        fromConfiguration(pluginDependency) {
-            exclude("META-INF/services/org.jetbrains.kotlin.compiler.plugin.ComponentRegistrar")
-        }
+        from(
+            sourceSets.main.get().compileClasspath.filter {
+                it.absolutePath.contains(Paths.get("arrow-kt").toString())
+            }.map(::zipTree)
+        )
     }
 }

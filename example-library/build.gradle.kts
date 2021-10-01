@@ -6,7 +6,6 @@ val compilerPlugin by configurations.creating
 dependencies {
     implementation(kotlin("stdlib"))
     implementation("org.jetbrains.kotlinx", "kotlinx-coroutines-core", COROUTINES_VERSION)
-    compileOnly("io.arrow-kt", "arrow-annotations", ARROW_VERSION)
 
     api(project(":hooks"))
     compilerPlugin(project(":compiler-plugin"))
@@ -40,7 +39,7 @@ tasks {
             freeCompilerArgs = listOf(
                 "-Xplugin=${compilerPlugin.resolve().first()}",
                 "-P",
-                "plugin:arrow.meta.plugin.compiler:generatedSrcOutputDir=$generatedSourcesRoot"
+                "plugin:arrow.meta.plugin.compiler:generatedSrcOutputDir=$buildDir"
             )
         }
     }

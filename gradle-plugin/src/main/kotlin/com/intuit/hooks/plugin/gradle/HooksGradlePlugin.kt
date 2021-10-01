@@ -26,10 +26,6 @@ public class HooksGradlePlugin : KotlinCompilerPluginSupportPlugin {
         properties["version"] as String
     }
 
-    private val arrowVersion by lazy {
-        properties["arrowVersion"] as String
-    }
-
     private fun Project.addDependency(configuration: String, dependencyNotation: String) = configurations
         .getByName(configuration).dependencies.add(
             dependencies.create(dependencyNotation)
@@ -56,7 +52,6 @@ public class HooksGradlePlugin : KotlinCompilerPluginSupportPlugin {
             object : DependencyResolutionListener {
                 override fun beforeResolve(dependencies: ResolvableDependencies) {
                     target.addDependency("api", "com.intuit.hooks:hooks:$version")
-                    target.addDependency("compileOnly", "io.arrow-kt:arrow-annotations:$arrowVersion")
                     target.gradle.removeListener(this)
                 }
 

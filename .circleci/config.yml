@@ -2,16 +2,16 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/openjdk:8-jdk
+      - image: cimg/openjdk:15.0.0
 
     steps:
       - run: |
           curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/fossa-cli/master/install.sh | bash
       - checkout
-      - run: gradle dependencies
-      - run: gradle assemble
+      - run: ./gradlew dependencies
+      - run: ./gradlew assemble
       - run: fossa analyze
-      - run: gradle build
+      - run: ./gradlew build
       - run:
           name: Save test results
           command: |
@@ -34,7 +34,7 @@ jobs:
       - run: curl -vkL -o - https://github.com/intuit/auto/releases/download/v10.20.6/auto-linux.gz | gunzip > ~/auto
       - run: chmod a+x ~/auto
       - checkout
-      - run: ~/auto shipit
+      - run: ~/auto shipit -vvv
 workflows:
   version: 2
   build:
