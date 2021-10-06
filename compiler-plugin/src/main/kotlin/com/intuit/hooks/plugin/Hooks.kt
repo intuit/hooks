@@ -25,7 +25,7 @@ internal val Meta.hooks: CliPlugin
                            |
                            |$imports
                            |
-                           |$kind ${name}Impl${this.`(typeParameters)`} : $name${this.`(typeParameters)`}() {
+                           |$kind ${name}Impl${this.`(typeParameters)`} : ${value.fqName}${this.`(typeParameters)`}() {
                            |   ${properties.map { it.property(null) }.joinToString("\n")}
                            |   ${classes.map { it.`class` }.joinToString("\n")} 
                            |}""".trimMargin().file("${name}Impl")
