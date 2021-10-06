@@ -7,12 +7,13 @@ import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSeverity
 import org.jetbrains.kotlin.cli.common.messages.MessageCollector
 import org.jetbrains.kotlin.com.intellij.psi.PsiElement
 import org.jetbrains.kotlin.psi.*
+import org.jetbrains.kotlin.psi.psiUtil.getSuperNames
 
 internal val KtClass.isHooksDslClass get() = hasHooksDslSupertype && containsHooksDslImport
 
-private val KtClass.hasHooksDslSupertype get() = getSuperTypeList()?.entries?.any {
-    it.text == "Hooks()"
-} ?: false
+private val KtClass.hasHooksDslSupertype get() = getSuperNames().any {
+    it == "Hooks" || it == "HooksDsl"
+}
 
 private val KtClass.containsHooksDslImport get() = containingKtFile.importList?.imports?.any {
     it.text.contains("com.intuit.hooks.dsl.")
