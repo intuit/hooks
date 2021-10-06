@@ -1,3 +1,24 @@
+# v0.10.0 (Wed Oct 06 2021)
+
+### Release Notes
+
+#### upgrade to arrow 1.0.0 and fix generated sources root ([#15](https://github.com/intuit/hooks/pull/15))
+
+* Upgrade to Arrow 1.0.0
+* Fixed issue where JAR bundling was somehow causing the plugin options to be dropped
+
+---
+
+#### 🚀 Enhancement
+
+- upgrade to arrow 1.0.0 and fix generated sources root [#15](https://github.com/intuit/hooks/pull/15) ([@sugarmanz](https://github.com/sugarmanz))
+
+#### Authors: 1
+
+- Jeremiah Zucker ([@sugarmanz](https://github.com/sugarmanz))
+
+---
+
 # v0.9.1 (Mon May 10 2021)
 
 #### 🐛 Bug Fix
