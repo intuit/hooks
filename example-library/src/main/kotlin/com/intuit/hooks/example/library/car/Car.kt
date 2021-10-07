@@ -1,19 +1,20 @@
 package com.intuit.hooks.example.library.car
 
-import com.intuit.hooks.dsl.Hooks
+import com.intuit.hooks.dsl.HooksDsl
 
-abstract class CarHooks : Hooks() {
-    open val accelerate = syncHook<(newSpeed: Int) -> Unit>()
-    open val brake = syncHook<() -> Unit>()
-    open val calculateRoutes =
-        asyncSeriesWaterfallHook<suspend (routesList: List<Route>, source: Location, target: Location) -> List<Route>>()
-}
 
 abstract class Location
 
 class Route
 
 class Car {
+
+    abstract class Hooks : HooksDsl() {
+        open val accelerate = syncHook<(newSpeed: Int) -> Unit>()
+        open val brake = syncHook<() -> Unit>()
+        open val calculateRoutes =
+            asyncSeriesWaterfallHook<suspend (routesList: List<Route>, source: Location, target: Location) -> List<Route>>()
+    }
 
     val hooks = CarHooksImpl()
 

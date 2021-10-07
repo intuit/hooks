@@ -16,3 +16,5 @@ public abstract class Hooks {
     protected fun <F : Function<*>> asyncSeriesWaterfallHook(): AsyncSeriesWaterfallHook<*, *> = object : AsyncSeriesWaterfallHook<F, Any?>() {}
     protected fun <F : Function<LoopResult>> asyncSeriesLoopHook(): AsyncSeriesLoopHook<*, *> = object : AsyncSeriesLoopHook<F, F>() {}
 }
+
+public typealias HooksDsl = Hooks

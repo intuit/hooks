@@ -146,4 +146,44 @@ class HookTest {
             )
         )
     }
+
+    @Test
+    fun `test nested hook class`() {
+        val controllerClass =
+            """
+|package com.intuit.hooks.plugin.test
+|import com.intuit.hooks.dsl.Hooks
+|
+|class Controller {
+|   abstract class TestHooks : Hooks() {
+|       open val testSyncHook = syncHook<() -> Unit>()
+|   }
+|   
+|   val hooks = ControllerTestHooksImpl()
+|}
+"""
+
+        val testScript =
+            """
+|fun testHook() : Boolean { 
+|   var tapCalled = false
+|   val controller = Controller()
+|   controller.hooks.testSyncHook.tap("test") { _ -> tapCalled = true }
+|   controller.hooks.testSyncHook.call()
+|   return tapCalled
+|}"""
+
+        assertThis(
+            CompilerTest(
+                config = { hookDependencies() },
+                code = {
+                    (controllerClass + testScript).source
+                },
+
+                assert = {
+                    "testHook()".source.evalsTo(true)
+                }
+            )
+        )
+    }
 }
