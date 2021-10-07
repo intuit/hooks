@@ -1,3 +1,26 @@
+# v0.10.1 (Thu Oct 07 2021)
+
+### Release Notes
+
+#### manually bump version snapshot ([#17](https://github.com/intuit/hooks/pull/17))
+
+
+
+---
+
+#### 🐛 Bug Fix
+
+- manually bump version snapshot [#17](https://github.com/intuit/hooks/pull/17) ([@sugarmanz](https://github.com/sugarmanz))
+- enhance class name and path generation strategy [#17](https://github.com/intuit/hooks/pull/17) ([@sugarmanz](https://github.com/sugarmanz))
+- enhance hooks dsl detection and change example to use nested class [#17](https://github.com/intuit/hooks/pull/17) ([@sugarmanz](https://github.com/sugarmanz))
+- use fully qualified path for superclass [#17](https://github.com/intuit/hooks/pull/17) ([@sugarmanz](https://github.com/sugarmanz))
+
+#### Authors: 1
+
+- Jeremiah Zucker ([@sugarmanz](https://github.com/sugarmanz))
+
+---
+
 # v0.10.0 (Wed Oct 06 2021)
 
 ### Release Notes
