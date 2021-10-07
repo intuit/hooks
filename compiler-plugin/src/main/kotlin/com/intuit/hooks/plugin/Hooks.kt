@@ -8,6 +8,9 @@ import arrow.meta.phases.analysis.DefaultElementScope.Companion.DEFAULT_GENERATE
 import arrow.meta.quotes.Transform
 import arrow.meta.quotes.classDeclaration
 import arrow.meta.quotes.classorobject.ClassDeclaration
+import com.pinterest.ktlint.core.KtLint.Params
+import com.pinterest.ktlint.core.KtLint.format
+import com.pinterest.ktlint.ruleset.standard.StandardRuleSetProvider
 import org.jetbrains.kotlin.psi.KtClass
 import org.jetbrains.kotlin.psi.KtImportList
 import org.jetbrains.kotlin.psi.psiUtil.containingClassOrObject
@@ -41,9 +44,17 @@ internal val Meta.hooks: CliPlugin
                            |$kind $name$`(typeParameters)` : ${value.fqName}$`(typeParameters)`() {
                            |   ${properties.map { it.property(null) }.joinToString("\n")}
                            |   ${classes.map { it.`class` }.joinToString("\n")} 
-                           |}""".trimMargin().file(name, filePath.toString())
+                           |}""".trimMargin()
 
-                        Transform.newSources(newSource)
+                        val formatted = Params(
+                            text = newSource,
+                            ruleSets = listOf(StandardRuleSetProvider().get()),
+                            cb = { _, _ -> }
+                        )
+                            .let(::format)
+                            .file(name, filePath.toString())
+
+                        Transform.newSources(formatted)
                     }.valueOr {
                         reportHookErrors(it)
                         Transform.empty
