@@ -16,7 +16,7 @@ class Car {
             asyncSeriesWaterfallHook<suspend (routesList: List<Route>, source: Location, target: Location) -> List<Route>>()
     }
 
-    val hooks = HooksImpl()
+    val hooks = CarHooksImpl()
 
     var speed: Int = 0
         set(value) {

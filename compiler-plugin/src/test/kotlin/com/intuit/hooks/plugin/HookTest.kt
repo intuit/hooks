@@ -159,7 +159,7 @@ class HookTest {
 |       open val testSyncHook = syncHook<() -> Unit>()
 |   }
 |   
-|   val hooks = TestHooksImpl()
+|   val hooks = ControllerTestHooksImpl()
 |}
 """
 
