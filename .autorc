@@ -12,7 +12,8 @@
     ],
     "released", 
     "first-time-contributor",
-    "all-contributors"
+    "all-contributors",
+    ["slack", "https://intuit-teams.slack.com/services/hooks/jenkins-ci"]
   ],
   "owner": "intuit",
   "repo": "hooks",
