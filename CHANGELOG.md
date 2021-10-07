@@ -1,3 +1,29 @@
+# v0.10.2 (Thu Oct 07 2021)
+
+### Release Notes
+
+#### Format generated source with KtLint ([#18](https://github.com/intuit/hooks/pull/18))
+
+## What Changed
+
+Format generated source with KtLint
+
+## Why
+
+To make generated source more readable for consumers
+
+---
+
+#### 🐛 Bug Fix
+
+- Format generated source with KtLint [#18](https://github.com/intuit/hooks/pull/18) ([@sugarmanz](https://github.com/sugarmanz))
+
+#### Authors: 1
+
+- Jeremiah Zucker ([@sugarmanz](https://github.com/sugarmanz))
+
+---
+
 # v0.10.1 (Thu Oct 07 2021)
 
 ### Release Notes
