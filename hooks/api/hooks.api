@@ -6,12 +6,12 @@ public abstract class com/intuit/hooks/AsyncBaseHook : com/intuit/hooks/BaseHook
 
 public abstract class com/intuit/hooks/AsyncParallelBailHook : com/intuit/hooks/AsyncBaseHook {
 	public fun <init> ()V
-	protected final fun call (Lkotlinx/coroutines/CoroutineScope;ILkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	protected final fun call (ILkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
 public abstract class com/intuit/hooks/AsyncParallelHook : com/intuit/hooks/AsyncBaseHook {
 	public fun <init> ()V
-	protected final fun call (Lkotlinx/coroutines/CoroutineScope;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	protected final fun call (Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
 public abstract class com/intuit/hooks/AsyncSeriesBailHook : com/intuit/hooks/AsyncBaseHook {
@@ -56,7 +56,13 @@ public abstract class com/intuit/hooks/BaseHook {
 	public final fun interceptCall (Lkotlin/Function;)V
 	public final fun interceptRegister (Lkotlin/jvm/functions/Function1;)V
 	public final fun interceptTap (Lkotlin/jvm/functions/Function2;)V
-	public final fun tap (Ljava/lang/String;Lkotlin/Function;)V
+	public final fun tap (Ljava/lang/String;Ljava/lang/String;Lkotlin/Function;)Ljava/lang/String;
+	public final fun tap (Ljava/lang/String;Lkotlin/Function;)Ljava/lang/String;
+	public final fun untap (Ljava/lang/String;)V
+}
+
+public final class com/intuit/hooks/BaseHookKt {
+	public static final fun randomId ()Ljava/lang/String;
 }
 
 public class com/intuit/hooks/Interceptors {
@@ -116,6 +122,7 @@ public abstract class com/intuit/hooks/SyncWaterfallHook : com/intuit/hooks/Sync
 
 public final class com/intuit/hooks/TapInfo {
 	public final fun getF ()Lkotlin/Function;
+	public final fun getId ()Ljava/lang/String;
 	public final fun getName ()Ljava/lang/String;
 	public final fun getType ()Ljava/lang/String;
 }
