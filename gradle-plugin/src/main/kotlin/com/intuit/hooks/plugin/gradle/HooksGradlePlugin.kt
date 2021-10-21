@@ -11,6 +11,7 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinCompilation
 import org.jetbrains.kotlin.gradle.plugin.KotlinCompilerPluginSupportPlugin
 import org.jetbrains.kotlin.gradle.plugin.SubpluginArtifact
 import org.jetbrains.kotlin.gradle.plugin.SubpluginOption
+import java.nio.file.Paths
 import java.util.*
 
 /** Bridge between compiler-plugin and gradle plugin */
@@ -66,7 +67,7 @@ public class HooksGradlePlugin : KotlinCompilerPluginSupportPlugin {
 
         // do validations here
         val generatedSrcOutputDir = extension.generatedSrcOutputDir
-            ?: "${buildDir.absolutePath}/generated/source/kapt/main"
+            ?: buildDir.absolutePath
 
         // aggregate subplugin options
         val generated = SubpluginOption("generatedSrcOutputDir", generatedSrcOutputDir)
@@ -75,11 +76,11 @@ public class HooksGradlePlugin : KotlinCompilerPluginSupportPlugin {
         plugins.withType(JavaPlugin::class.java) { javaPlugin ->
             val sourceSets = extensions.getByType(SourceSetContainer::class.java)
             val main = sourceSets.getByName(SourceSet.MAIN_SOURCE_SET_NAME)
-            main.java.srcDir(generatedSrcOutputDir)
+            main.java.srcDir(Paths.get(generatedSrcOutputDir, "generated", "source", "kapt", "main"))
         }
 
         val cleanGenerated = tasks.findByPath("cleanGenerated") ?: tasks.register("cleanGenerated") {
-            group = "build"
+            it.group = "build"
             delete(generatedSrcOutputDir)
         }
 
