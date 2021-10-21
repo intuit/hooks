@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.firstOrNull
 
 @ExperimentalCoroutinesApi
 public abstract class AsyncParallelBailHook<F : Function<BailResult<R>>, R> : AsyncBaseHook<F>("AsyncParallelBailHook") {
-    protected suspend fun call(scope: CoroutineScope, concurrency: Int, invokeWithContext: suspend (F, HookContext) -> BailResult<R>): R? {
+    protected suspend fun call(concurrency: Int, invokeWithContext: suspend (F, HookContext) -> BailResult<R>): R? {
         val context = setup(invokeWithContext)
         return taps.asFlow()
             .parallelMap(concurrency) { invokeWithContext(it.f, context) }
