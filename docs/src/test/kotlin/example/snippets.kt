@@ -19,8 +19,8 @@ fun typed() {
         fun call(value: Int) =
             super.call { f, context -> f(context, value) }
 
-        fun tap(name: String, f: ((Int) -> Unit)) =
-            super.tap(name) { _, newValue -> f(newValue) }
+        fun tap(name: String, id: String, f: ((Int) -> Unit)) =
+            super.tap(name, id) { _, newValue -> f(newValue) }
     }
 
     val myHook = MyHook()

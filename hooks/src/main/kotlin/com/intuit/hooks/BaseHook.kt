@@ -1,5 +1,8 @@
 package com.intuit.hooks
 
+import java.util.*
+import kotlin.collections.HashMap
+
 public typealias HookContext = HashMap<String, Any>
 
 public open class Interceptors<F : Function<*>> {
@@ -12,7 +15,7 @@ public open class Interceptors<F : Function<*>> {
             acc?.let(interceptor)
         }
 
-    public fun invokeTapInterceptors(taps: MutableList<TapInfo<F>>, context: HookContext): Unit =
+    public fun invokeTapInterceptors(taps: Collection<TapInfo<F>>, context: HookContext): Unit =
         tap.forEach { interceptor ->
             taps.forEach { tap ->
                 interceptor.invoke(context, tap)
@@ -22,6 +25,7 @@ public open class Interceptors<F : Function<*>> {
 
 public class TapInfo<FWithContext : Function<*>> internal constructor(
     public val name: String,
+    public val id: String,
     public val type: String,
     public val f: FWithContext,
     // val stage: Int, // todo: maybe this should be forEachIndexed?
@@ -36,7 +40,7 @@ public abstract class AsyncBaseHook<F : Function<*>>(type: String) : BaseHook<F>
         }
 
         if (runTapInterceptors) {
-            interceptors.invokeTapInterceptors(taps, context)
+            interceptors.invokeTapInterceptors(taps.values, context)
         }
         return context
     }
@@ -50,18 +54,28 @@ public abstract class SyncBaseHook<F : Function<*>>(type: String) : BaseHook<F>(
         }
 
         if (runTapInterceptors) {
-            interceptors.invokeTapInterceptors(taps, context)
+            interceptors.invokeTapInterceptors(taps.values, context)
         }
         return context
     }
 }
 
 public abstract class BaseHook<F : Function<*>>(private val type: String) {
-    protected val taps: MutableList<TapInfo<F>> = mutableListOf()
+    protected val taps: MutableMap<String, TapInfo<F>> = mutableMapOf()
     protected open val interceptors: Interceptors<F> = Interceptors()
 
-    public fun tap(name: String, f: F) {
-        TapInfo(name, type, f).let(interceptors::invokeRegisterInterceptors)?.let(taps::add)
+    public fun tap(name: String, f: F): String = tap(name, randomId(), f)
+
+    public fun tap(name: String, id: String, f: F): String {
+        TapInfo(name, id, type, f).let(interceptors::invokeRegisterInterceptors)?.let {
+            taps[id] = it
+        } ?: taps.remove(id)
+
+        return id
+    }
+
+    public fun untap(id: String) {
+        taps.remove(id)
     }
 
     public fun interceptTap(f: (context: HookContext, tapInfo: TapInfo<F>) -> Unit) {
@@ -76,3 +90,5 @@ public abstract class BaseHook<F : Function<*>>(private val type: String) {
         interceptors.register.add(f)
     }
 }
+
+public fun randomId(): String = UUID.randomUUID().toString()

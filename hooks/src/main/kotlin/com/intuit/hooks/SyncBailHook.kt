@@ -10,7 +10,7 @@ public abstract class SyncBailHook<F : Function<BailResult<R>>, R> : SyncBaseHoo
     protected fun call(invokeWithContext: (F, HookContext) -> BailResult<R>): R? {
         val context = setup(invokeWithContext)
 
-        taps.forEach { tapInfo ->
+        taps.values.forEach { tapInfo ->
             when (val result = invokeWithContext(tapInfo.f, context)) {
                 is BailResult.Bail<R> -> return@call result.value
             }
