@@ -22,12 +22,12 @@ public abstract class SyncLoopHook<F : Function<LoopResult>, FInterceptor : Func
         val context = setup(invokeTap, runTapInterceptors = false)
 
         do {
-            interceptors.invokeTapInterceptors(taps.values, context)
+            interceptors.invokeTapInterceptors(taps, context)
             interceptors.loop.forEach { interceptor ->
                 invokeInterceptor(interceptor, context)
             }
 
-            val restartFound = taps.values.find { tapInfo ->
+            val restartFound = taps.find { tapInfo ->
                 val result = invokeTap(tapInfo.f, context)
                 result == LoopResult.Restart
             }

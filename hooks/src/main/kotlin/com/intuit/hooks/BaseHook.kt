@@ -15,7 +15,7 @@ public open class Interceptors<F : Function<*>> {
             acc?.let(interceptor)
         }
 
-    public fun invokeTapInterceptors(taps: Collection<TapInfo<F>>, context: HookContext): Unit =
+    public fun invokeTapInterceptors(taps: MutableList<TapInfo<F>>, context: HookContext): Unit =
         tap.forEach { interceptor ->
             taps.forEach { tap ->
                 interceptor.invoke(context, tap)
@@ -40,7 +40,7 @@ public abstract class AsyncBaseHook<F : Function<*>>(type: String) : BaseHook<F>
         }
 
         if (runTapInterceptors) {
-            interceptors.invokeTapInterceptors(taps.values, context)
+            interceptors.invokeTapInterceptors(taps, context)
         }
         return context
     }
@@ -54,28 +54,31 @@ public abstract class SyncBaseHook<F : Function<*>>(type: String) : BaseHook<F>(
         }
 
         if (runTapInterceptors) {
-            interceptors.invokeTapInterceptors(taps.values, context)
+            interceptors.invokeTapInterceptors(taps, context)
         }
         return context
     }
 }
 
 public abstract class BaseHook<F : Function<*>>(private val type: String) {
-    protected val taps: MutableMap<String, TapInfo<F>> = mutableMapOf()
+    // TODO: This should probably be a var; private set to avoid concurrent modification exceptions
+    protected val taps: MutableList<TapInfo<F>> = mutableListOf()
     protected open val interceptors: Interceptors<F> = Interceptors()
 
     public fun tap(name: String, f: F): String = tap(name, randomId(), f)
 
     public fun tap(name: String, id: String, f: F): String {
-        TapInfo(name, id, type, f).let(interceptors::invokeRegisterInterceptors)?.let {
-            taps[id] = it
-        } ?: taps.remove(id)
-
+        taps.removeIf {
+            it.id == id
+        }
+        TapInfo(name, id, type, f).let(interceptors::invokeRegisterInterceptors)?.let(taps::add)
         return id
     }
 
     public fun untap(id: String) {
-        taps.remove(id)
+        taps.removeIf {
+            it.id == id
+        }
     }
 
     public fun interceptTap(f: (context: HookContext, tapInfo: TapInfo<F>) -> Unit) {

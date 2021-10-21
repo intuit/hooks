@@ -4,7 +4,7 @@ public abstract class AsyncSeriesBailHook<F : Function<BailResult<R>>, R> : Asyn
     protected suspend fun call(invokeWithContext: suspend (F, HookContext) -> BailResult<R>): R? {
         val context = setup(invokeWithContext)
 
-        taps.values.forEach { tapInfo ->
+        taps.forEach { tapInfo ->
             when (val result = invokeWithContext(tapInfo.f, context)) {
                 is BailResult.Bail<R> -> return@call result.value
             }

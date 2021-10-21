@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.firstOrNull
 public abstract class AsyncParallelBailHook<F : Function<BailResult<R>>, R> : AsyncBaseHook<F>("AsyncParallelBailHook") {
     protected suspend fun call(concurrency: Int, invokeWithContext: suspend (F, HookContext) -> BailResult<R>): R? {
         val context = setup(invokeWithContext)
-        return taps.values.asFlow()
+        return taps.asFlow()
             .parallelMap(concurrency) { invokeWithContext(it.f, context) }
             .filterIsInstance<BailResult.Bail<R>>()
             .firstOrNull()?.value
