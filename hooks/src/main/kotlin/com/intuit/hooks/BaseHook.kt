@@ -62,7 +62,6 @@ public abstract class SyncBaseHook<F : Function<*>>(type: String) : BaseHook<F>(
 }
 
 public abstract class BaseHook<F : Function<*>>(private val type: String) {
-    // TODO: This should probably be a var; private set to avoid concurrent modification exceptions
     protected var taps: List<TapInfo<F>> = emptyList(); private set
     protected open val interceptors: Interceptors<F> = Interceptors()
 
