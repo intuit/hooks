@@ -7,14 +7,12 @@ public abstract class AsyncParallelHook<F : Function<*>> : AsyncBaseHook<F>("Asy
     protected suspend fun call(invokeWithContext: suspend (F, HookContext) -> Unit) {
         val context = setup(invokeWithContext)
 
-        return taps.map { tapInfo ->
-            coroutineScope {
+        coroutineScope {
+            taps.forEach { tapInfo ->
                 launch {
                     invokeWithContext(tapInfo.f, context)
                 }
             }
-        }.forEach {
-            it.join()
         }
     }
 }
