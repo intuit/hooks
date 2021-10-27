@@ -1,6 +1,5 @@
 package com.intuit.hooks
 
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
@@ -10,7 +9,7 @@ import org.junit.jupiter.api.Test
 @ExperimentalCoroutinesApi
 class AsyncParallelBailTests {
     class AsyncParallelBailHook1<T1, R> : AsyncParallelBailHook<suspend (HookContext, T1) -> BailResult<R>, R>() {
-        suspend fun call(scope: CoroutineScope, concurrency: Int, p1: T1) = super.call(scope, concurrency) { f, context -> f(context, p1) }
+        suspend fun call(concurrency: Int, p1: T1) = super.call(concurrency) { f, context -> f(context, p1) }
     }
 
     @Test
@@ -32,7 +31,7 @@ class AsyncParallelBailTests {
             BailResult.Bail("foo")
         }
 
-        val result = h.call(this, 10, "Kian")
+        val result = h.call(10, "Kian")
         Assertions.assertEquals("foo", result)
     }
 }

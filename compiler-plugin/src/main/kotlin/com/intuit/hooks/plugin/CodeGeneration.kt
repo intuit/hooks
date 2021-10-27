@@ -5,8 +5,6 @@ internal class HookParameter(private val name: String?, val type: String, privat
     val withoutType get() = name ?: "p$position"
 }
 
-private const val coroutineScopeImport = "import kotlinx.coroutines.CoroutineScope"
-
 internal data class HookCodeGen(
     private val hookType: HookType,
     private val propertyName: String,
@@ -14,12 +12,15 @@ internal data class HookCodeGen(
     val hookSignature: HookSignature,
     private val zeroArity: Boolean
 ) {
-    val tapMethod get() = if (!zeroArity) "fun tap(name: String, f: ($hookSignature)) = super.tap(name) { _: HookContext, $paramsWithTypes -> f($paramsWithoutTypes) }" else ""
+    val tapMethod get() = if (!zeroArity) """
+        fun tap(name: String, f: ($hookSignature)): String? = tap(name, generateRandomId(), f)
+        fun tap(name: String, id: String, f: ($hookSignature)): String? = super.tap(name, id) { _: HookContext, $paramsWithTypes -> f($paramsWithoutTypes) }
+    """.trimIndent() else ""
     val paramsWithTypes get() = params.joinToString(", ") { it.withType }
     val paramsWithoutTypes get() = params.joinToString(", ") { it.withoutType }
     fun generateClass() = this.hookType.generateClass(this)
     fun generateProperty() = "override val $propertyName: $className = $className()"
-    fun generateImports(): List<String> = if (isAsync) listOf(coroutineScopeImport) else emptyList()
+    fun generateImports(): List<String> = emptyList()
     private val isAsync get() = this.hookType.properties.contains(HookProperty.Async)
     val superType get() = this.hookType.toString()
 
@@ -75,7 +76,7 @@ internal enum class HookType(vararg val properties: HookProperty) {
     AsyncParallelHook(HookProperty.Async) {
         override fun generateClass(codeGen: HookCodeGen): String {
             return """|inner class ${codeGen.className}: ${codeGen.superType}<${codeGen.typeParameter}>() {
-                      |    suspend fun call(scope: CoroutineScope, ${codeGen.paramsWithTypes}) = super.call(scope) { f, context -> f(context, ${codeGen.paramsWithoutTypes}) }
+                      |    suspend fun call(${codeGen.paramsWithTypes}) = super.call { f, context -> f(context, ${codeGen.paramsWithoutTypes}) }
                       |    ${codeGen.tapMethod}
                       |}"""
         }
@@ -85,7 +86,7 @@ internal enum class HookType(vararg val properties: HookProperty) {
         override fun generateClass(codeGen: HookCodeGen): String {
             return """|@kotlinx.coroutines.ExperimentalCoroutinesApi
                       |inner class ${codeGen.className}: ${codeGen.superType}<${codeGen.typeParameter}, ${codeGen.hookSignature.returnTypeType}>() {
-                      |    suspend fun call(scope: CoroutineScope, concurrency: Int,  ${codeGen.paramsWithTypes}) = super.call(scope, concurrency) { f, context -> f(context, ${codeGen.paramsWithoutTypes}) }
+                      |    suspend fun call(concurrency: Int,  ${codeGen.paramsWithTypes}) = super.call(concurrency) { f, context -> f(context, ${codeGen.paramsWithoutTypes}) }
                       |    ${codeGen.tapMethod}
                       |}"""
         }

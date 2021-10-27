@@ -9,7 +9,7 @@ To those new to this project, it might help to go over some keywords:
 * Call - action taken by hook owner to invoke plugins
 * Plugin - something that taps a hook
 
-A **plugin** can **tap** into a **hook** to provide additional functionality
+> A **plugin** can **tap** into a **hook** to provide additional functionality
 
 ### Hooks
 
@@ -21,6 +21,47 @@ The hooks library exposes a collection of different types of hooks that support 
 | **Waterfall** | Waterfall hooks also call each tapped function in a row, however, it supports propagating return value from each function to the next function | `SERIES`, `PARALLEL` |
 | **Bail** | Bail hooks allow exiting early with a return value. When any of the tapped function bails, the bail hook will stop executing the remaining ones | `PARALLEL` |
 | **Loop** | When a plugin in a loop hook returns a non-undefined value the hook will restart from the first plugin. It will loop until all plugins return undefined. | `PARALLEL` |
+
+### Untapping
+
+Hooks that are tapped return a unique ID that can be used to `untap` from a hook, effectively removing that `tap` from the hook. For convenience, this ID can be specified when tapping the hook to easily override if the callback needs to be updated.
+
+<!--- INCLUDE
+import com.intuit.hooks.*
+-->
+
+```kotlin
+class SimpleHook : SyncHook<(HookContext) -> Unit>() {
+    fun call() = super.call { f, context -> f(context) }
+}
+```
+
+<!--- INCLUDE
+
+fun main() {
+-->
+
+```kotlin
+val simpleHook = SimpleHook()
+val tap1 = simpleHook.tap("tap1") {
+    println("doing something")
+}!!
+
+// to remove previously tapped function
+simpleHook.untap(tap1)
+// or to override previously tapped function
+simpleHook.tap("tap1", tap1) {
+    println("doing something else")
+}
+```
+
+<!--- INCLUDE
+}
+-->
+
+<!--- KNIT example-untap-01.kt --> 
+
+> With the register interceptors described below, calling `tap` is not guaranteed to actually tap the hook if the interceptor rejects it. In this case, the ID returned from `tap` will be `null`.
 
 ### Interceptors
 

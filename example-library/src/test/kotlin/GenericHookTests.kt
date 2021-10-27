@@ -96,7 +96,7 @@ class GenericHookTests {
             Bail("foo")
         }
 
-        val result = h.call(this, 10, "Kian")
+        val result = h.call(10, "Kian")
         Assertions.assertEquals("foo", result)
     }
 
@@ -112,7 +112,7 @@ class GenericHookTests {
             0
         }
 
-        h.call(this, "Kian")
+        h.call("Kian")
     }
 
     @Test
