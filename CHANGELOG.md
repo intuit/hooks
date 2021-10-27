@@ -1,3 +1,29 @@
+# v0.11.0 (Wed Oct 27 2021)
+
+### Release Notes
+
+#### Untap support & various fixes ([#19](https://github.com/intuit/hooks/pull/19))
+
+### Small fixes
+- Fix Gradle generation params
+- Modify async hook strategy to not take a scope, as this is already required to call the `suspend` method
+- Fix `AsyncParallelHook` to actually suspend properly until all callbacks complete
+- Replace mutable list containing `TapInfo` with a mutable `var` containing an immutable list (this fixes an issue when tapping a hook that is currently being called: `ConcurrentModificationException`)
+
+### Untapping
+In order to allow calling sites to unregister stale callbacks and prevent memory leaks, the `tap` API now returns a `String` representing the ID of the specific "tap". The ID can then be passed into the new `untap` API to remove the callback from the hook. This ID can be randomly generated or manually passed when tapping a hook. Manually passing an ID is useful for when the tapper wants to replace a stale callback without calling needing to `untap` explicitly.
+
+---
+
+#### 🚀 Enhancement
+
+
+#### Authors: 1
+
+- Jeremiah Zucker ([@sugarmanz](https://github.com/sugarmanz))
+
+---
+
 # v0.10.2 (Thu Oct 07 2021)
 
 ### Release Notes
