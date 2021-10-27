@@ -13,8 +13,8 @@ internal data class HookCodeGen(
     private val zeroArity: Boolean
 ) {
     val tapMethod get() = if (!zeroArity) """
-        fun tap(name: String, f: ($hookSignature)): String = tap(name, randomId(), f)
-        fun tap(name: String, id: String, f: ($hookSignature)): String = super.tap(name, id) { _: HookContext, $paramsWithTypes -> f($paramsWithoutTypes) }
+        fun tap(name: String, f: ($hookSignature)): String? = tap(name, generateRandomId(), f)
+        fun tap(name: String, id: String, f: ($hookSignature)): String? = super.tap(name, id) { _: HookContext, $paramsWithTypes -> f($paramsWithoutTypes) }
     """.trimIndent() else ""
     val paramsWithTypes get() = params.joinToString(", ") { it.withType }
     val paramsWithoutTypes get() = params.joinToString(", ") { it.withoutType }

@@ -23,6 +23,6 @@ public abstract class AsyncSeriesLoopHook<F : Function<LoopResult>, FInterceptor
     }
 
     public fun interceptLoop(f: FInterceptor) {
-        interceptors.loop.add(f)
+        interceptors.addLoopInterceptor(f)
     }
 }

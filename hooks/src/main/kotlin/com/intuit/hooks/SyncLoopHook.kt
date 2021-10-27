@@ -9,7 +9,11 @@ public enum class LoopResult {
 }
 
 public class LoopInterceptors<F : Function<*>, FInterceptor : Function<*>> : Interceptors<F>() {
-    public val loop: MutableList<FInterceptor> = mutableListOf()
+    public var loop: List<FInterceptor> = emptyList(); private set
+
+    public fun addLoopInterceptor(f: FInterceptor) {
+        loop = loop + f
+    }
 }
 
 public abstract class SyncLoopHook<F : Function<LoopResult>, FInterceptor : Function<*>> : SyncBaseHook<F>("SyncLoopHook") {
@@ -35,6 +39,6 @@ public abstract class SyncLoopHook<F : Function<LoopResult>, FInterceptor : Func
     }
 
     public fun interceptLoop(f: FInterceptor) {
-        interceptors.loop.add(f)
+        interceptors.addLoopInterceptor(f)
     }
 }

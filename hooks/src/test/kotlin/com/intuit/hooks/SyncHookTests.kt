@@ -77,7 +77,7 @@ class SyncHookTests {
         }
         val tap2 = hook.tap("second") {
             output.add(2)
-        }
+        }!!
         hook.tap("third") {
             output.add(3)
         }
@@ -99,7 +99,7 @@ class SyncHookTests {
         }
         val tap2 = hook.tap("second") {
             output.add(2)
-        }
+        }!!
         hook.tap("third") {
             output.add(3)
         }
