@@ -121,6 +121,6 @@ public abstract class BaseHook<F : Function<*>>(private val type: String) {
         interceptors.addRegisterInterceptor(f)
     }
 
-    /** Method to generate a random identifier for managing `TapInfo`s */
+    /** Method to generate a random identifier for managing [TapInfo]s */
     protected open fun generateRandomId(): String = UUID.randomUUID().toString()
 }
