@@ -10,7 +10,7 @@ abstract class GenericHooks : Hooks() {
     open val syncLoop = syncLoopHook<(foo: Boolean) -> LoopResult>()
     open val syncWaterfall = syncWaterfallHook<(name: String) -> String>()
     @ExperimentalCoroutinesApi
-    open val asyncParallelBail = asyncParallelBailHook<suspend (String) -> BailResult<String>>()
+    open val asyncParallelBail = asyncParallelBailHook<suspend (String) -> BailResult<String?>>()
     open val asyncParallel = asyncParallelHook<suspend (String) -> Int>()
     open val asyncSeries = asyncSeriesHook<suspend (String) -> Int>()
     open val asyncSeriesBail = asyncSeriesBailHook<suspend (String) -> BailResult<String>>()

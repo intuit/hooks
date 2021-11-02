@@ -7,6 +7,7 @@ internal data class HookSignature(val typeReference: KtTypeReference) {
     // todo: we should potentially validate anything with a !! in it
     val returnType get() = functionType.returnTypeReference?.text!!
     val returnTypeType = functionType.returnTypeReference?.typeElement?.typeArgumentsAsTypes?.firstOrNull()?.text
+    val nullableReturnTypeType = "${returnTypeType}${if (returnTypeType?.last() == '?') "" else "?"}"
 
     override fun toString(): String = typeReference.text
 }
