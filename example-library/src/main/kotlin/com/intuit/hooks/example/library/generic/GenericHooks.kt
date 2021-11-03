@@ -4,7 +4,7 @@ import com.intuit.hooks.*
 import com.intuit.hooks.dsl.Hooks
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-abstract class GenericHooks : Hooks() {
+internal abstract class GenericHooks : Hooks() {
     open val sync = syncHook<(newSpeed: Int) -> Unit>()
     open val syncBail = syncBailHook<(Boolean) -> BailResult<Int>>()
     open val syncLoop = syncLoopHook<(foo: Boolean) -> LoopResult>()
