@@ -41,7 +41,7 @@ internal val Meta.hooks: CliPlugin
                            |
                            |$imports
                            |
-                           |$kind $name$`(typeParameters)` : ${value.fqName}$`(typeParameters)`() {
+                           |${visibility ?: ""} $kind $name$`(typeParameters)` : ${value.fqName}$`(typeParameters)`() {
                            |   ${properties.map { it.property(null) }.joinToString("\n")}
                            |   ${classes.map { it.`class` }.joinToString("\n")} 
                            |}""".trimMargin()

@@ -40,7 +40,7 @@ tasks {
         dependsOn(cleanGenerated)
         kotlinOptions {
             verbose = true
-            freeCompilerArgs = listOf(
+            freeCompilerArgs += listOf(
                 "-Xplugin=${compilerPlugin.resolve().first()}",
                 "-P",
                 "plugin:arrow.meta.plugin.compiler:generatedSrcOutputDir=$buildDir"
