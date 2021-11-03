@@ -1,3 +1,23 @@
+# v0.11.1 (Wed Nov 03 2021)
+
+### Release Notes
+
+#### Add explicit visibility to satisfy Kotlin explicit API check ([#20](https://github.com/intuit/hooks/pull/20))
+
+Generated source code will adhere to Kotlin explicit API check if hooks are `public`.
+
+---
+
+#### 🐛 Bug Fix
+
+- Add explicit visibility to satisfy Kotlin explicit API check [#20](https://github.com/intuit/hooks/pull/20) ([@sugarmanz](https://github.com/sugarmanz))
+
+#### Authors: 1
+
+- Jeremiah Zucker ([@sugarmanz](https://github.com/sugarmanz))
+
+---
+
 # v0.11.0 (Wed Oct 27 2021)
 
 ### Release Notes
