@@ -1,6 +1,7 @@
 dependencies {
     val ARROW_VERSION: String by project
     val ARROW_META_VERSION: String by project
+    val ASSERTJ_VERSION: String by project
     val KTLINT_VERSION: String by project
 
     compileOnly("org.jetbrains.kotlin:kotlin-compiler-embeddable")
@@ -12,7 +13,12 @@ dependencies {
 
     testImplementation(platform("org.junit:junit-bom:5.7.0"))
     testImplementation("org.junit.jupiter", "junit-jupiter")
-    testImplementation("io.arrow-kt:meta-test:$ARROW_META_VERSION")
+    testImplementation("org.jetbrains.kotlin:kotlin-compiler-embeddable")
+    testImplementation("com.github.tschuchortdev:kotlin-compile-testing:1.4.6")
+    testImplementation("com.github.tschuchortdev:kotlin-compile-testing-ksp:1.4.6")
+    testImplementation("com.google.testing.compile:compile-testing:0.19")
+    testImplementation("io.github.classgraph:classgraph:4.8.137")
+    testImplementation("org.assertj:assertj-core:$ASSERTJ_VERSION")
 
     testImplementation(project(":hooks"))
     testImplementation("io.arrow-kt:arrow-meta:$ARROW_META_VERSION")

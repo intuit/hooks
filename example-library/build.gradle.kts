@@ -15,12 +15,11 @@ dependencies {
     testImplementation("io.mockk", "mockk", "1.10.2")
 }
 
-val generatedSourcesRoot: String = buildDir.absolutePath
-
+val generatedSourcesRoot: String = "${buildDir.absolutePath}/generated/source/kapt/main"
 sourceSets {
     main {
         java {
-            srcDir("$generatedSourcesRoot/generated/source/kapt/main")
+            srcDir(generatedSourcesRoot)
         }
     }
 }
@@ -43,7 +42,7 @@ tasks {
             freeCompilerArgs += listOf(
                 "-Xplugin=${compilerPlugin.resolve().first()}",
                 "-P",
-                "plugin:arrow.meta.plugin.compiler:generatedSrcOutputDir=$buildDir"
+                "plugin:arrow.meta.plugin.compiler.hooks:generatedSrcOutputDir=$generatedSourcesRoot"
             )
         }
     }
