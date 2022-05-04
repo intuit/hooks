@@ -137,9 +137,11 @@ subprojects {
             val signingKey by auth {
                 it?.replace("\\n", "\n")
             }
-            val signingPassword by auth
-            useInMemoryPgpKeys(signingKey, signingPassword)
-            sign(extensions.findByType(PublishingExtension::class.java)!!.publications)
+            signingKey?.let {
+                val signingPassword by auth
+                useInMemoryPgpKeys(signingKey, signingPassword)
+                sign(extensions.findByType(PublishingExtension::class.java)!!.publications)
+            }
         }
 
         tasks {
