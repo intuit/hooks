@@ -16,19 +16,19 @@ allprojects {
 }
 
 plugins {
-    kotlin("jvm") apply false
-    id("jacoco")
+    alias(libs.plugins.kotlin.jvm) apply false
+    jacoco
 
-    id("net.researchgate.release")
-    id("io.github.gradle-nexus.publish-plugin")
+    alias(libs.plugins.release)
+    alias(libs.plugins.nexus)
 
-    id("org.jlleitschuh.gradle.ktlint")
-    id("org.jetbrains.kotlinx.binary-compatibility-validator")
+    alias(libs.plugins.ktlint)
+    alias(libs.plugins.api)
 
-    id("org.jetbrains.dokka")
+    alias(libs.plugins.dokka)
 }
 
-val shouldntPublish = listOf("docs", "example-library", "example-application")
+val shouldntPublish = listOf("hooks") //listOf("docs", "example-library", "example-application")
 val publishModules = subprojects.map { it.name }.subtract(shouldntPublish)
 val isSnapshot = (version as? String)?.contains("-SNAPSHOT") ?: true
 
@@ -174,8 +174,6 @@ subprojects {
     tasks {
         val configure: KotlinCompile.() -> Unit = {
             kotlinOptions {
-                val JVM_TARGET_VERSION: String by project
-                jvmTarget = JVM_TARGET_VERSION
                 freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
             }
         }

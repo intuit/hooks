@@ -1,14 +1,13 @@
 plugins {
-    id("kotlinx-knit")
+    alias(libs.plugins.knit)
 }
 
 val COROUTINES_VERSION: String by project
 
 dependencies {
-    implementation(kotlin("stdlib"))
-    implementation("org.jetbrains.kotlinx", "kotlinx-coroutines-core", COROUTINES_VERSION)
+    implementation(libs.kotlin.stdlib)
+    implementation(libs.coroutines.core)
 
-    testImplementation(platform("org.junit:junit-bom:5.7.0"))
-    testImplementation("org.junit.jupiter", "junit-jupiter")
-    testImplementation("io.mockk", "mockk", "1.10.2")
+    testImplementation(platform(libs.junit.bom))
+    testImplementation(libs.bundles.testing)
 }

@@ -31,7 +31,7 @@ jobs:
       - image: circleci/openjdk:8-jdk
 
     steps:
-      - run: curl -vkL -o - https://github.com/intuit/auto/releases/download/v10.32.1/auto-linux.gz | gunzip > ~/auto
+      - run: curl -vkL -o - https://github.com/intuit/auto/releases/download/v10.36.5/auto-linux.gz | gunzip > ~/auto
       - run: chmod a+x ~/auto
       - checkout
       - run: ~/auto shipit -vvv
