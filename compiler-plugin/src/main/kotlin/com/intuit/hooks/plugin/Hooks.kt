@@ -1,10 +1,12 @@
 package com.intuit.hooks.plugin
 
-import arrow.core.*
+import arrow.core.sequenceValidated
+import arrow.core.unzip
+import arrow.core.valueOr
 import arrow.meta.CliPlugin
 import arrow.meta.Meta
 import arrow.meta.invoke
-import arrow.meta.phases.analysis.DefaultElementScope.Companion.DEFAULT_GENERATED_SRC_PATH
+import arrow.meta.phases.analysis.getOrCreateBaseDirectory
 import arrow.meta.quotes.Transform
 import arrow.meta.quotes.classDeclaration
 import arrow.meta.quotes.classorobject.ClassDeclaration
@@ -27,12 +29,13 @@ internal val Meta.hooks: CliPlugin
                         val `package` = file.packageDirective?.text ?: ""
                         val (classes, properties) = codeGen.map(::generateHookClass).unzip()
                         val imports = createImportDirectives(`class`, codeGen)
-                        val filePath = DEFAULT_GENERATED_SRC_PATH.resolve(
+                        val filePath = getOrCreateBaseDirectory(configuration).toPath().resolve(
                             Paths.get(
                                 "",
                                 *file.packageFqName.asString().split(".").toTypedArray()
                             )
                         )
+
                         val name = "${if (`class`.isTopLevel()) "" else
                             `class`.containingClassOrObject?.name ?: ""}${name}Impl"
 

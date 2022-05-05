@@ -12,10 +12,10 @@ dependencies {
 
     testImplementation(platform("org.junit:junit-bom:5.7.0"))
     testImplementation("org.junit.jupiter", "junit-jupiter")
-    testImplementation("io.arrow-kt:meta-test:$ARROW_META_VERSION")
 
     testImplementation(project(":hooks"))
     testImplementation("io.arrow-kt:arrow-meta:$ARROW_META_VERSION")
+    testImplementation("io.arrow-kt:arrow-meta-test:$ARROW_META_VERSION")
     testImplementation("com.pinterest.ktlint:ktlint-core:$KTLINT_VERSION")
     testImplementation("com.pinterest.ktlint:ktlint-ruleset-standard:$KTLINT_VERSION")
     testRuntimeOnly("io.arrow-kt:arrow-meta-prelude:$ARROW_META_VERSION")
