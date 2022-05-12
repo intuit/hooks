@@ -7,6 +7,7 @@ private const val DEPRECATION_MESSAGE = "The migration to KSP requires DSL marke
 private inline fun stub(): Nothing = throw NotImplementedError("Compiler stub called!")
 
 public abstract class Hooks {
+    // TODO: Make protected?
     public annotation class Sync<F : Function<*>>
 
     @Deprecated(

@@ -1,4 +1,4 @@
-package com.intuit.hooks.plugin.validation
+package com.intuit.hooks.plugin.ksp.validation
 
 import arrow.core.ValidatedNel
 import arrow.core.invalidNel

@@ -1,4 +1,4 @@
-package com.intuit.hooks.plugin.validation
+package com.intuit.hooks.plugin.ksp.validation
 
 import arrow.core.*
 import com.google.devtools.ksp.getVisibility
@@ -26,24 +26,24 @@ import com.intuit.hooks.plugin.ksp.text
 }
 
 /** Build [HookInfo] from the validated [HookAnnotation] found on the [property] */
-internal fun validateHookAnnotation(
-    property: KSPropertyDeclaration,
-): ValidatedNel<HookValidationError, HookInfo> = onlyHasASingleDslAnnotation(property).withEither {
-    it.flatMap { annotation ->
-        hasCodeGenerator(annotation).zip(
-            mustBeHookType(annotation),
-            validateParameters(annotation),
-            HookMember(
-                property.simpleName.asString(),
-                property.getVisibility().name.lowercase(),
-            ).let(::HookInfo::partially1),
-        ).toEither()
+internal fun KSPropertyDeclaration.validateHookAnnotation(): ValidatedNel<HookValidationError, HookInfo> =
+    onlyHasASingleDslAnnotation().withEither {
+        it.flatMap { annotation ->
+            hasCodeGenerator(annotation).zip(
+                mustBeHookType(annotation),
+                validateParameters(annotation),
+                HookMember(
+                    simpleName.asString(),
+                    getVisibility().name.lowercase(),
+                ).let(::HookInfo::partially1),
+            ).toEither()
+        }
     }
-}
 
-private fun onlyHasASingleDslAnnotation(property: KSPropertyDeclaration): ValidatedNel<HookValidationError, HookAnnotation> {
-    val annotations = property.annotations.filter { it.shortName.asString() in annotationDslMarkers }.toList()
-    if (annotations.size != 1) return HookValidationError.MustOnlyHaveSingleDslAnnotation(annotations, property).invalidNel()
+private fun KSPropertyDeclaration.onlyHasASingleDslAnnotation(): ValidatedNel<HookValidationError, HookAnnotation> {
+    val annotations = annotations.filter { it.shortName.asString() in annotationDslMarkers }.toList()
+    if (annotations.isEmpty()) return HookValidationError.NoHookDslAnnotations(this).invalidNel()
+    else if (annotations.size > 1) return HookValidationError.TooManyHookDslAnnotations(annotations, this).invalidNel()
     return annotations.single().let(::HookAnnotation).valid()
 }
 

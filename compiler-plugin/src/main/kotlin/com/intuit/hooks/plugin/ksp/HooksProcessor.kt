@@ -8,11 +8,10 @@ import com.google.devtools.ksp.processing.*
 import com.google.devtools.ksp.symbol.*
 import com.google.devtools.ksp.validate
 import com.intuit.hooks.plugin.codegen.HookInfo
-import com.intuit.hooks.plugin.codegen.HookType.Companion.annotationDslMarkers
 import com.intuit.hooks.plugin.codegen.generateClass
 import com.intuit.hooks.plugin.codegen.generateImports
 import com.intuit.hooks.plugin.codegen.generateProperty
-import com.intuit.hooks.plugin.validation.validateHook
+import com.intuit.hooks.plugin.ksp.validation.validateProperty
 import com.pinterest.ktlint.core.KtLint
 import com.pinterest.ktlint.core.KtLint.format
 import com.pinterest.ktlint.core.api.FeatureInAlphaState
@@ -121,14 +120,11 @@ public class HooksProcessor(
 
     private fun KSClassDeclaration.findHooks() = getAllProperties()
         .filter {
-            // Only generate hooks for properties that use our annotation
-            it.annotations.map(KSAnnotation::shortName)
-                .map(KSName::asString)
-                .filter(annotationDslMarkers::contains)
-                .toList()
-                .isNotEmpty()
+            // Only process properties that are abstract b/c that's what we need for a concrete class
+
+            it.modifiers.contains(Modifier.ABSTRACT)
         }
-        .map(::validateHook)
+        .map(::validateProperty)
         .sequenceValidated(Semigroup.nonEmptyList())
 
     private fun generateHookClass(hookInfo: HookInfo): Pair<String, String> {
