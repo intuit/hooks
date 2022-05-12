@@ -1,14 +1,17 @@
-package com.intuit.hooks.plugin
+package com.intuit.hooks.plugin.validation
 
-import arrow.core.*
-import org.jetbrains.kotlin.psi.psiUtil.hasSuspendModifier
+import arrow.core.ValidatedNel
+import arrow.core.invalidNel
+import arrow.core.valid
+import arrow.core.zip
+import com.intuit.hooks.plugin.ksp.HookClassInfo
 
 internal enum class HookProperty {
     Bail,
     Loop,
     Async {
         override fun validate(hookClassInfo: HookClassInfo): ValidatedNel<HookValidationError, HookProperty> {
-            return if (hookClassInfo.hookSignature.typeReference.modifierList?.hasSuspendModifier() == true) this.valid()
+            return if (hookClassInfo.hookSignature.isSuspend) this.valid()
             else HookValidationError.AsyncHookWithoutSuspend(hookClassInfo).invalidNel()
         }
     },

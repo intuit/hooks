@@ -17,9 +17,9 @@ class CompilerPluginTest {
         }.map {
             Paths.get(
                 generatedDirPath.toString(),
-                "source",
-                "kapt",
+                "ksp",
                 "main",
+                "kotlin",
             ).resolve("${it}Impl.kt")
         }.forEach {
             assertTrue(it.exists()) { "$it does not exist" }

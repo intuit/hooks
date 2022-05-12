@@ -1,4 +1,19 @@
-package com.intuit.hooks.plugin
+package com.intuit.hooks.plugin.codegen
+
+import com.intuit.hooks.plugin.validation.HookProperty
+
+
+internal data class HookSignature(
+    val text: String,
+    val isSuspend: Boolean,
+    val returnType: String,
+    /** For hooks that return a wrapped result, like [BailResult], this is the inner type */
+    val returnTypeType: String?,
+) {
+    val nullableReturnTypeType = "${returnTypeType}${if (returnTypeType?.last() == '?') "" else "?"}"
+
+    override fun toString() = text
+}
 
 internal class HookParameter(private val name: String?, val type: String, private val position: Int) {
     val withType get() = "$withoutType: $type"
@@ -14,8 +29,8 @@ internal data class HookCodeGen(
     val visibility: String,
 ) {
     val tapMethod get() = if (!zeroArity) """
-        public fun tap(name: String, f: ($hookSignature)): String? = tap(name, generateRandomId(), f)
-        public fun tap(name: String, id: String, f: ($hookSignature)): String? = super.tap(name, id) { _: HookContext, $paramsWithTypes -> f($paramsWithoutTypes) }
+        public fun tap(name: String, f: $hookSignature): String? = tap(name, generateRandomId(), f)
+        public fun tap(name: String, id: String, f: $hookSignature): String? = super.tap(name, id) { _: HookContext, $paramsWithTypes -> f($paramsWithoutTypes) }
     """.trimIndent() else ""
     val paramsWithTypes get() = params.joinToString(", ") { it.withType }
     val paramsWithoutTypes get() = params.joinToString(", ") { it.withoutType }
@@ -26,7 +41,7 @@ internal data class HookCodeGen(
     private val isAsync get() = this.hookType.properties.contains(HookProperty.Async)
     val superType get() = this.hookType.toString()
 
-    val className get() = "${this.propertyName.capitalizeFirstLetter()}$superType"
+    val className get() = "${this.propertyName.replaceFirstChar(Char::titlecase)}$superType"
     val typeParameter get() = "(${if (isAsync) "suspend " else ""}(HookContext, $paramsWithTypes) -> ${hookSignature.returnType})"
     val interceptParameter get() = "${if (isAsync) "suspend " else ""}(HookContext, $paramsWithTypes) -> Unit"
 }
@@ -137,5 +152,5 @@ internal enum class HookType(vararg val properties: HookProperty) {
         }
     };
 
-    open fun generateClass(codeGen: HookCodeGen): String = TODO()
+    abstract fun generateClass(codeGen: HookCodeGen): String
 }

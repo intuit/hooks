@@ -2,8 +2,8 @@ val ORCHID_VERSION: String by project
 
 // 1. Apply Orchid plugin
 plugins {
-    id("com.eden.orchidPlugin")
-    id("kotlinx-knit")
+    alias(libs.plugins.orchid)
+    alias(libs.plugins.knit)
 }
 
 fun DependencyHandlerScope.orchidImplementation(name: String, version: String = ORCHID_VERSION) =

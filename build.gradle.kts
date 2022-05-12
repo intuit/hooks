@@ -83,6 +83,7 @@ subprojects {
         plugin("jacoco")
         plugin("org.jlleitschuh.gradle.ktlint")
     }
+
     jacoco {
         toolVersion = "0.8.7"
     }
@@ -156,13 +157,6 @@ subprojects {
                     publication.name == "jar"
                 }
             }
-        }
-    }
-
-    ktlint {
-        filter {
-            exclude("**/*Impl.kt")
-            exclude("**/example/**/*.kt")
         }
     }
 
