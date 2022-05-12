@@ -9,20 +9,24 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
-
 class HooksProcessorTest {
 
-    fun compile(vararg sources: SourceFile, block: KotlinCompilation.() -> Unit = {
-        symbolProcessorProviders = listOf(HooksProcessor.Provider())
-        inheritClassPath = true
-    }): KotlinCompilation.Result = KotlinCompilation().apply {
+    fun compile(
+        vararg sources: SourceFile,
+        block: KotlinCompilation.() -> Unit = {
+            symbolProcessorProviders = listOf(HooksProcessor.Provider())
+            inheritClassPath = true
+        }
+    ): KotlinCompilation.Result = KotlinCompilation().apply {
         this.sources = sources.toList()
         block()
     }.compile()
 
     @Test
     fun testSyncHookCalled() {
-        val testHookClass = SourceFile.kotlin("TestHooks.kt", """
+        val testHookClass = SourceFile.kotlin(
+            "TestHooks.kt",
+            """
             import com.intuit.hooks.SyncHook
             import com.intuit.hooks.dsl.Hooks
             
@@ -30,7 +34,8 @@ class HooksProcessorTest {
                 @Sync<(String) -> Unit>()
                 abstract val testSyncHook: SyncHook<*>
             }
-        """.trimIndent())
+            """.trimIndent()
+        )
 
         val result = KotlinCompilation().apply {
             symbolProcessorProviders = listOf(HooksProcessor.Provider())
@@ -41,7 +46,9 @@ class HooksProcessorTest {
         assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
 //        assertTrue(result.generatedFiles.map { it.name }.contains("TestHooksImpl.kt"))
 
-        val testHookCall = SourceFile.kotlin("Assertions.kt", """
+        val testHookCall = SourceFile.kotlin(
+            "Assertions.kt",
+            """
             import com.intuit.hooks.*
 
             internal class TestHooksImpl : TestHooks() {
@@ -62,7 +69,8 @@ class HooksProcessorTest {
                hooks.testSyncHook.call("hello")
                return tapCalled
             }
-        """)
+        """
+        )
 
         val assertionResult = KotlinCompilation().apply {
             sources = listOf(testHookClass, testHookCall)
@@ -79,7 +87,9 @@ class HooksProcessorTest {
     }
 
     @Test fun `hook params are generic`() {
-        val testHookClass = SourceFile.kotlin("TestHooks.kt", """
+        val testHookClass = SourceFile.kotlin(
+            "TestHooks.kt",
+            """
             import com.intuit.hooks.SyncHook
             import com.intuit.hooks.dsl.Hooks
             
@@ -87,7 +97,8 @@ class HooksProcessorTest {
                 @Sync<(Map<List<Int>, List<String>>) -> Unit>()
                 abstract val testSyncHook: SyncHook<*>
             }
-        """)
+        """
+        )
 
         val processorResult = compile(testHookClass)
         assertEquals(KotlinCompilation.ExitCode.OK, processorResult.exitCode)
@@ -99,25 +110,25 @@ class HooksProcessorTest {
 //    fun testAsyncSeriesWaterfallHookCalled() {
 //        val testHookClass =
 //            """
-//|package com.intuit.hooks.plugin.test
-//|import com.intuit.hooks.dsl.Hooks
-//|import kotlinx.coroutines.runBlocking
-//|
-//|abstract class TestHooks : Hooks() {
-//|    open val testAsyncSeriesWaterfallHook = asyncSeriesWaterfallHook<suspend (String) -> String>()
-//|}
-//"""
+// |package com.intuit.hooks.plugin.test
+// |import com.intuit.hooks.dsl.Hooks
+// |import kotlinx.coroutines.runBlocking
+// |
+// |abstract class TestHooks : Hooks() {
+// |    open val testAsyncSeriesWaterfallHook = asyncSeriesWaterfallHook<suspend (String) -> String>()
+// |}
+// """
 //        val testHookCall =
 //            """
-//|fun testHook() : Boolean {
-//|   var tapCalled = false
-//|   val hooks = TestHooksImpl()
-//|   hooks.testAsyncSeriesWaterfallHook.tap("test") { x -> tapCalled = true; "asdf" }
-//|   runBlocking {
-//|       hooks.testAsyncSeriesWaterfallHook.call("someVal")
-//|   }
-//|   return tapCalled
-//|}"""
+// |fun testHook() : Boolean {
+// |   var tapCalled = false
+// |   val hooks = TestHooksImpl()
+// |   hooks.testAsyncSeriesWaterfallHook.tap("test") { x -> tapCalled = true; "asdf" }
+// |   runBlocking {
+// |       hooks.testAsyncSeriesWaterfallHook.call("someVal")
+// |   }
+// |   return tapCalled
+// |}"""
 //
 //        assertThis(
 //            CompilerTest(
@@ -173,22 +184,22 @@ class HooksProcessorTest {
 //    fun testHookWithTypeParameter() {
 //        val testHookClass =
 //            """
-//|package com.intuit.hooks.plugin.test
-//|import com.intuit.hooks.dsl.Hooks
-//|
-//|abstract class TestHooks<T> : Hooks() {
-//|    open val testSyncHook = syncHook<(T) -> Unit>()
-//|}
-//"""
+// |package com.intuit.hooks.plugin.test
+// |import com.intuit.hooks.dsl.Hooks
+// |
+// |abstract class TestHooks<T> : Hooks() {
+// |    open val testSyncHook = syncHook<(T) -> Unit>()
+// |}
+// """
 //        val testHookCall =
 //            """
-//|fun testHook() : Boolean {
-//|   var tapCalled = false
-//|   val hooks = TestHooksImpl<String>()
-//|   hooks.testSyncHook.tap("test") { _, x -> tapCalled = true }
-//|   hooks.testSyncHook.call("hello")
-//|   return tapCalled
-//|}"""
+// |fun testHook() : Boolean {
+// |   var tapCalled = false
+// |   val hooks = TestHooksImpl<String>()
+// |   hooks.testSyncHook.tap("test") { _, x -> tapCalled = true }
+// |   hooks.testSyncHook.call("hello")
+// |   return tapCalled
+// |}"""
 //        assertThis(
 //            CompilerTest(
 //                config = { hookDependencies() },
@@ -207,27 +218,27 @@ class HooksProcessorTest {
 //    fun `test nested hook class`() {
 //        val controllerClass =
 //            """
-//|package com.intuit.hooks.plugin.test
-//|import com.intuit.hooks.dsl.Hooks
-//|
-//|class Controller {
-//|   abstract class TestHooks : Hooks() {
-//|       open val testSyncHook = syncHook<() -> Unit>()
-//|   }
-//|
-//|   val hooks = ControllerTestHooksImpl()
-//|}
-//"""
+// |package com.intuit.hooks.plugin.test
+// |import com.intuit.hooks.dsl.Hooks
+// |
+// |class Controller {
+// |   abstract class TestHooks : Hooks() {
+// |       open val testSyncHook = syncHook<() -> Unit>()
+// |   }
+// |
+// |   val hooks = ControllerTestHooksImpl()
+// |}
+// """
 //
 //        val testScript =
 //            """
-//|fun testHook() : Boolean {
-//|   var tapCalled = false
-//|   val controller = Controller()
-//|   controller.hooks.testSyncHook.tap("test") { _ -> tapCalled = true }
-//|   controller.hooks.testSyncHook.call()
-//|   return tapCalled
-//|}"""
+// |fun testHook() : Boolean {
+// |   var tapCalled = false
+// |   val controller = Controller()
+// |   controller.hooks.testSyncHook.tap("test") { _ -> tapCalled = true }
+// |   controller.hooks.testSyncHook.call()
+// |   return tapCalled
+// |}"""
 //
 //        assertThis(
 //            CompilerTest(

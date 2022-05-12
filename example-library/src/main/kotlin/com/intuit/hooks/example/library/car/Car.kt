@@ -1,17 +1,14 @@
 package com.intuit.hooks.example.library.car
 
 import com.intuit.hooks.AsyncSeriesWaterfallHook
-import com.intuit.hooks.HookContext
 import com.intuit.hooks.SyncHook
 import com.intuit.hooks.dsl.Hooks.AsyncSeriesWaterfall
 import com.intuit.hooks.dsl.Hooks.Sync
 import com.intuit.hooks.dsl.HooksDsl
 
-
 public abstract class Location
 
 public class Route
-
 
 public class Car {
 

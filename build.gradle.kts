@@ -28,7 +28,7 @@ plugins {
     alias(libs.plugins.dokka)
 }
 
-val shouldntPublish = listOf("hooks") //listOf("docs", "example-library", "example-application")
+val shouldntPublish = listOf("hooks") // listOf("docs", "example-library", "example-application")
 val publishModules = subprojects.map { it.name }.subtract(shouldntPublish)
 val isSnapshot = (version as? String)?.contains("-SNAPSHOT") ?: true
 

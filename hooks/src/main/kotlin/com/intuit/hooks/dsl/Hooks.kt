@@ -96,7 +96,6 @@ public abstract class Hooks {
         DeprecationLevel.ERROR,
     )
     protected fun <F : Function<LoopResult>> asyncSeriesLoopHook(): AsyncSeriesLoopHook<*, *> = stub()
-
 }
 
 public typealias HooksDsl = Hooks

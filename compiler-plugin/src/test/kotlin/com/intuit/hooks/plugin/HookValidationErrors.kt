@@ -1,10 +1,10 @@
-//package com.intuit.hooks.plugin
+// package com.intuit.hooks.plugin
 //
-//import arrow.meta.plugin.testing.CompilerTest
-//import arrow.meta.plugin.testing.assertThis
-//import org.junit.jupiter.api.Test
+// import arrow.meta.plugin.testing.CompilerTest
+// import arrow.meta.plugin.testing.assertThis
+// import org.junit.jupiter.api.Test
 //
-//class HookValidationErrors {
+// class HookValidationErrors {
 //    @Test
 //    fun testNonInitializedHook() {
 //        assertThis(
@@ -168,4 +168,4 @@
 //            )
 //        )
 //    }
-//}
+// }

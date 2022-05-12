@@ -1,0 +1,52 @@
+public final class com/intuit/hooks/example/library/car/Car {
+	public fun <init> ()V
+	public final fun getHooks ()Lcom/intuit/hooks/example/library/car/CarHooksImpl;
+	public final fun getSpeed ()I
+	public final fun setSpeed (I)V
+	public final fun useNavigationSystem (Lcom/intuit/hooks/example/library/car/Location;Lcom/intuit/hooks/example/library/car/Location;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public abstract class com/intuit/hooks/example/library/car/Car$Hooks : com/intuit/hooks/dsl/Hooks {
+	public fun <init> ()V
+	public abstract fun getAccelerate ()Lcom/intuit/hooks/SyncHook;
+	public abstract fun getBrake ()Lcom/intuit/hooks/SyncHook;
+	public abstract fun getCalculateRoutes ()Lcom/intuit/hooks/AsyncSeriesWaterfallHook;
+}
+
+public final class com/intuit/hooks/example/library/car/CarHooksImpl : com/intuit/hooks/example/library/car/Car$Hooks {
+	public fun <init> ()V
+	public synthetic fun getAccelerate ()Lcom/intuit/hooks/SyncHook;
+	public fun getAccelerate ()Lcom/intuit/hooks/example/library/car/CarHooksImpl$AccelerateSyncHook;
+	public synthetic fun getBrake ()Lcom/intuit/hooks/SyncHook;
+	public fun getBrake ()Lcom/intuit/hooks/example/library/car/CarHooksImpl$BrakeSyncHook;
+	public synthetic fun getCalculateRoutes ()Lcom/intuit/hooks/AsyncSeriesWaterfallHook;
+	public fun getCalculateRoutes ()Lcom/intuit/hooks/example/library/car/CarHooksImpl$CalculateRoutesAsyncSeriesWaterfallHook;
+}
+
+public final class com/intuit/hooks/example/library/car/CarHooksImpl$AccelerateSyncHook : com/intuit/hooks/SyncHook {
+	public fun <init> (Lcom/intuit/hooks/example/library/car/CarHooksImpl;)V
+	public final fun call (I)V
+	public final fun tap (Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Ljava/lang/String;
+	public final fun tap (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Ljava/lang/String;
+}
+
+public final class com/intuit/hooks/example/library/car/CarHooksImpl$BrakeSyncHook : com/intuit/hooks/SyncHook {
+	public fun <init> (Lcom/intuit/hooks/example/library/car/CarHooksImpl;)V
+	public final fun call ()V
+}
+
+public final class com/intuit/hooks/example/library/car/CarHooksImpl$CalculateRoutesAsyncSeriesWaterfallHook : com/intuit/hooks/AsyncSeriesWaterfallHook {
+	public fun <init> (Lcom/intuit/hooks/example/library/car/CarHooksImpl;)V
+	public final fun call (Ljava/util/List;Lcom/intuit/hooks/example/library/car/Location;Lcom/intuit/hooks/example/library/car/Location;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public final fun tap (Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function4;)Ljava/lang/String;
+	public final fun tap (Ljava/lang/String;Lkotlin/jvm/functions/Function4;)Ljava/lang/String;
+}
+
+public abstract class com/intuit/hooks/example/library/car/Location {
+	public fun <init> ()V
+}
+
+public final class com/intuit/hooks/example/library/car/Route {
+	public fun <init> ()V
+}
+

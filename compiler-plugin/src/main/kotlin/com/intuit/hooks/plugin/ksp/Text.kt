@@ -16,7 +16,7 @@ internal val KSTypeReference.text: String get() = element?.let {
     when (it) {
         // Use lambda type shorthand
         is KSCallableReference -> "${if (this.modifiers.contains(Modifier.SUSPEND)) "suspend " else ""}(${
-            it.functionParameters.map(KSValueParameter::type).joinToString(transform = KSTypeReference::text)
+        it.functionParameters.map(KSValueParameter::type).joinToString(transform = KSTypeReference::text)
         }) -> ${it.returnType.text}"
         else -> "$it${it.typeArguments.text}"
     }

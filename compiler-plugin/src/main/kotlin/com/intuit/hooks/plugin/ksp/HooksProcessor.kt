@@ -7,8 +7,11 @@ import com.google.devtools.ksp.getVisibility
 import com.google.devtools.ksp.processing.*
 import com.google.devtools.ksp.symbol.*
 import com.google.devtools.ksp.validate
-import com.intuit.hooks.plugin.validation.annotationDslMarkers
-import com.intuit.hooks.plugin.codegen.HookCodeGen
+import com.intuit.hooks.plugin.codegen.HookInfo
+import com.intuit.hooks.plugin.codegen.HookType.Companion.annotationDslMarkers
+import com.intuit.hooks.plugin.codegen.generateClass
+import com.intuit.hooks.plugin.codegen.generateImports
+import com.intuit.hooks.plugin.codegen.generateProperty
 import com.intuit.hooks.plugin.validation.validateHook
 import com.pinterest.ktlint.core.KtLint
 import com.pinterest.ktlint.core.KtLint.format
@@ -65,7 +68,7 @@ public class HooksProcessor(
                 val name =
                     "${classDeclaration.parentDeclaration?.simpleName?.asString() ?: ""}${classDeclaration.simpleName.asString()}Impl"
                 val typeParameters = if (classDeclaration.typeParameters.isEmpty()) "" else "<${
-                    classDeclaration.typeParameters.joinToString(separator = ", ") { it.simpleName.asString() }
+                classDeclaration.typeParameters.joinToString(separator = ", ") { it.simpleName.asString() }
                 }>"
                 val fqName = classDeclaration.qualifiedName!!.asString()
 
@@ -74,7 +77,7 @@ public class HooksProcessor(
                        |
                        |$imports
                        |
-                       |${visibility} $kind $name$typeParameters : ${fqName}$typeParameters() {
+                       |$visibility $kind $name$typeParameters : ${fqName}$typeParameters() {
                        |   ${properties.joinToString("\n", "\n", "\n") { it }}
                        |   ${classes.joinToString("\n", "\n", "\n") { it }} 
                        |}""".trimMargin()
@@ -85,9 +88,12 @@ public class HooksProcessor(
                     name,
                 )
 
-                logger.logging("""raw generated source:
+                logger.logging(
+                    """raw generated source:
                     |$newSource
-                """.trimMargin(), classDeclaration)
+                """.trimMargin(),
+                    classDeclaration
+                )
 
                 KtLint.ExperimentalParams(
                     text = newSource,
@@ -96,9 +102,12 @@ public class HooksProcessor(
                 )
                     .let(::format)
                     .also {
-                        logger.logging("""formatted generated source:
+                        logger.logging(
+                            """formatted generated source:
                             |$it
-                        """.trimMargin(), classDeclaration)
+                        """.trimMargin(),
+                            classDeclaration
+                        )
                     }
                     .let(String::toByteArray)
                     .let(file::write)
@@ -122,21 +131,21 @@ public class HooksProcessor(
         .map(::validateHook)
         .sequenceValidated(Semigroup.nonEmptyList())
 
-    private fun generateHookClass(hookCodeGen: HookCodeGen): Pair<String, String> {
-        val classDefinition = hookCodeGen.generateClass()
-        val propertyDefinition = hookCodeGen.generateProperty()
+    private fun generateHookClass(hookInfo: HookInfo): Pair<String, String> {
+        val classDefinition = hookInfo.generateClass()
+        val propertyDefinition = hookInfo.generateProperty()
 
         return classDefinition to propertyDefinition
     }
 
-    private fun createImportDirectives(classDeclaration: KSClassDeclaration, codeGens: List<HookCodeGen>): String {
+    private fun createImportDirectives(classDeclaration: KSClassDeclaration, hooks: List<HookInfo>): String {
         val existingImports = emptyList<String>() // TODO: Get imports -- this might be fixed with kotlin poet?
 //        classDeclaration.containingFile?.
 //        ?.removeHooksDslImport()
 //        ?.map { it.text ?: "" }
 //        ?: emptyList()
 
-        val newImports = codeGens.flatMap { it.generateImports() }
+        val newImports = hooks.flatMap(HookInfo::generateImports)
 
         val hookStarImport = listOf("import com.intuit.hooks.*")
 
