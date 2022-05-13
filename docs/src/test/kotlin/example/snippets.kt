@@ -54,7 +54,8 @@ fun typed() {
 
 // START concise_dsl
 abstract class SomeHooks : Hooks() {
-    open val syncHook = syncHook<() -> Unit>()
+    @Sync<() -> Unit>
+    abstract val syncHook: SyncHook<*>
 }
 // END concise_dsl
 

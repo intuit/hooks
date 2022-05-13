@@ -7,7 +7,6 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 allprojects {
     repositories {
-        jcenter()
         mavenLocal()
         mavenCentral()
         maven("https://plugins.gradle.org/m2/")
@@ -28,7 +27,7 @@ plugins {
     alias(libs.plugins.dokka)
 }
 
-val shouldntPublish = listOf("hooks") // listOf("docs", "example-library", "example-application")
+val shouldntPublish = listOf("docs", "example-library", "example-application")
 val publishModules = subprojects.map { it.name }.subtract(shouldntPublish)
 val isSnapshot = (version as? String)?.contains("-SNAPSHOT") ?: true
 

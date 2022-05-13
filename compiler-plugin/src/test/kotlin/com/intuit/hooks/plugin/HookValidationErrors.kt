@@ -51,8 +51,8 @@ class HookValidationErrors {
             import com.intuit.hooks.dsl.Hooks
             
             internal abstract class TestHooks : Hooks() {
-                @Sync<() -> Unit>()
-                @SyncBail<() -> BailResult<Int>>()
+                @Sync<() -> Unit>
+                @SyncBail<() -> BailResult<Int>>
                 abstract val syncHook: SyncHook<*>
             }
             """
@@ -72,7 +72,7 @@ class HookValidationErrors {
             import com.intuit.hooks.dsl.Hooks
             
             internal abstract class TestHooks : Hooks() {
-                @SyncBail<() -> BailResult<Int>>()
+                @SyncBail<() -> BailResult<Int>>
                 abstract val syncHook: SyncHook<*>
             }
             """
@@ -91,7 +91,7 @@ class HookValidationErrors {
             import com.intuit.hooks.dsl.Hooks
             
             internal abstract class TestHooks : Hooks() {
-                @AsyncSeries<() -> Unit>()
+                @AsyncSeries<() -> Unit>
                 abstract val syncHook: AsyncSeriesHook<*>
             }
             """
@@ -110,7 +110,7 @@ class HookValidationErrors {
             import com.intuit.hooks.dsl.Hooks
             
             internal abstract class TestHooks : Hooks() {
-                @SyncWaterfall<() -> String>()
+                @SyncWaterfall<() -> String>
                 abstract val syncHook: SyncWaterfallHook<*, *>
             }
             """
@@ -129,7 +129,7 @@ class HookValidationErrors {
             import com.intuit.hooks.dsl.Hooks
             
             internal abstract class TestHooks : Hooks() {
-                @SyncWaterfall<(Int, Int) -> Unit>()
+                @SyncWaterfall<(Int, Int) -> Unit>
                 abstract val syncHook: SyncWaterfallHook<*, *>
             }
             """
@@ -148,7 +148,7 @@ class HookValidationErrors {
             import com.intuit.hooks.dsl.Hooks
             
             internal abstract class TestHooks : Hooks() {
-                @AsyncSeriesWaterfall<() -> String>()
+                @AsyncSeriesWaterfall<() -> String>
                 abstract val realBad: AsyncSeriesBailHook<*, *>
                 abstract val state: Int
             }

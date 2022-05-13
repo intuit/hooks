@@ -4,17 +4,17 @@ package com.intuit.hooks.example.exampleDsl01
 import com.intuit.hooks.*
 import com.intuit.hooks.dsl.Hooks
 
-abstract class GenericHooks : Hooks() {
-    open val sync = syncHook<(newSpeed: Int) -> Unit>()
-    open val syncBail = syncBailHook<(Boolean) -> BailResult<Int>>()
-    open val syncLoop = syncLoopHook<(foo: Boolean) -> LoopResult>()
-    open val syncWaterfall = syncWaterfallHook<(name: String) -> String>()
-    open val asyncParallelBail = asyncParallelBailHook<suspend (String) -> BailResult<String>>()
-    open val asyncParallel = asyncParallelHook<suspend (String) -> Int>()
-    open val asyncSeries = asyncSeriesHook<suspend (String) -> Int>()
-    open val asyncSeriesBail = asyncSeriesBailHook<suspend (String) -> BailResult<String>>()
-    open val asyncSeriesLoop = asyncSeriesLoopHook<suspend (String) -> LoopResult>()
-    open val asyncSeriesWaterfall = asyncSeriesWaterfallHook<suspend (String) -> String>()
+internal abstract class GenericHooks : Hooks() {
+    @Sync<(newSpeed: Int) -> Unit> abstract val sync: SyncHook<*>
+    @SyncBail<(Boolean) -> BailResult<Int>> abstract val syncBail: SyncBailHook<*, *>
+    @SyncLoop<(foo: Boolean) -> LoopResult> abstract val syncLoop: SyncLoopHook<*, *>
+    @SyncWaterfall<(name: String) -> String> abstract val syncWaterfall: SyncWaterfallHook<*, *>
+    @AsyncParallelBail<suspend (String) -> BailResult<String>> abstract val asyncParallelBail: AsyncParallelBailHook<*, *>
+    @AsyncParallel<suspend (String) -> Int> abstract val asyncParallel: AsyncParallelHook<*>
+    @AsyncSeries<suspend (String) -> Int> abstract val asyncSeries: AsyncSeriesHook<*>
+    @AsyncSeriesBail<suspend (String) -> BailResult<String>> abstract val asyncSeriesBail: AsyncSeriesBailHook<*, *>
+    @AsyncSeriesLoop<suspend (String) -> LoopResult> abstract val asyncSeriesLoop: AsyncSeriesLoopHook<*, *>
+    @AsyncSeriesWaterfall<suspend (String) -> String> abstract val asyncSeriesWaterfall: AsyncSeriesWaterfallHook<*, *>
 }
 
 fun main() {

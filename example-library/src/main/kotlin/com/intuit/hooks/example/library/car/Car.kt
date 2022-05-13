@@ -2,8 +2,6 @@ package com.intuit.hooks.example.library.car
 
 import com.intuit.hooks.AsyncSeriesWaterfallHook
 import com.intuit.hooks.SyncHook
-import com.intuit.hooks.dsl.Hooks.AsyncSeriesWaterfall
-import com.intuit.hooks.dsl.Hooks.Sync
 import com.intuit.hooks.dsl.HooksDsl
 
 public abstract class Location
@@ -14,17 +12,13 @@ public class Car {
 
     public abstract class Hooks : HooksDsl() {
 
-        @Sync<(newSpeed: Int) -> Unit>()
+        @Sync<(newSpeed: Int) -> Unit>
         public abstract val accelerate: SyncHook<*>
 
-        @Sync<() -> Unit>()
+        @Sync<() -> Unit>
         public abstract val brake: SyncHook<*>
 
-        @AsyncSeriesWaterfall<suspend (
-            routesList: List<Route>,
-            source: Location,
-            target: Location
-        ) -> List<Route>>
+        @AsyncSeriesWaterfall<suspend (routesList: List<Route>, source: Location, target: Location) -> List<Route>>
         public abstract val calculateRoutes: AsyncSeriesWaterfallHook<*, *>
     }
 

@@ -8,92 +8,92 @@ private inline fun stub(): Nothing = throw NotImplementedError("Compiler stub ca
 
 public abstract class Hooks {
     // TODO: Make protected?
-    public annotation class Sync<F : Function<*>>
+    protected annotation class Sync<F : Function<*>>
 
     @Deprecated(
         DEPRECATION_MESSAGE,
-        ReplaceWith("@Hooks.Sync<F>()"),
+        ReplaceWith("@Hooks.Sync<F>"),
         DeprecationLevel.ERROR,
     )
     protected fun <F : Function<*>> syncHook(): SyncHook<*> = stub()
 
-    public annotation class SyncBail<F : Function<*>>
+    protected annotation class SyncBail<F : Function<*>>
 
     @Deprecated(
         DEPRECATION_MESSAGE,
-        ReplaceWith("@Hooks.SyncBail<F>()"),
+        ReplaceWith("@Hooks.SyncBail<F>"),
         DeprecationLevel.ERROR,
     )
     protected fun <F : Function<BailResult<*>>> syncBailHook(): SyncBailHook<*, *> = stub()
 
-    public annotation class SyncWaterfall<F : Function<*>>
+    protected annotation class SyncWaterfall<F : Function<*>>
 
     @Deprecated(
         DEPRECATION_MESSAGE,
-        ReplaceWith("@Hooks.SyncWaterfall<F>()"),
+        ReplaceWith("@Hooks.SyncWaterfall<F>"),
         DeprecationLevel.ERROR,
     )
     protected fun <F : Function<*>> syncWaterfallHook(): SyncWaterfallHook<*, *> = stub()
 
-    public annotation class SyncLoop<F : Function<*>>
+    protected annotation class SyncLoop<F : Function<*>>
 
     @Deprecated(
         DEPRECATION_MESSAGE,
-        ReplaceWith("@Hooks.SyncLoop<F>()"),
+        ReplaceWith("@Hooks.SyncLoop<F>"),
         DeprecationLevel.ERROR,
     )
     protected fun <F : Function<LoopResult>> syncLoopHook(): SyncLoopHook<*, *> = stub()
 
-    public annotation class AsyncParallel<F : Function<*>>
+    protected annotation class AsyncParallel<F : Function<*>>
 
     @Deprecated(
         DEPRECATION_MESSAGE,
-        ReplaceWith("@Hooks.AsyncParallel<F>()"),
+        ReplaceWith("@Hooks.AsyncParallel<F>"),
         DeprecationLevel.ERROR,
     )
     protected fun <F : Function<*>> asyncParallelHook(): AsyncParallelHook<*> = stub()
 
-    public annotation class AsyncParallelBail<F : Function<*>>
+    protected annotation class AsyncParallelBail<F : Function<*>>
 
     @Deprecated(
         DEPRECATION_MESSAGE,
-        ReplaceWith("@Hooks.AsyncParallelBail<F>()"),
+        ReplaceWith("@Hooks.AsyncParallelBail<F>"),
         DeprecationLevel.ERROR,
     )
     @ExperimentalCoroutinesApi protected fun <F : Function<BailResult<*>>> asyncParallelBailHook(): AsyncParallelBailHook<*, *> = stub()
 
-    public annotation class AsyncSeries<F : Function<*>>
+    protected annotation class AsyncSeries<F : Function<*>>
 
     @Deprecated(
         DEPRECATION_MESSAGE,
-        ReplaceWith("@Hooks.AsyncSeries<F>()"),
+        ReplaceWith("@Hooks.AsyncSeries<F>"),
         DeprecationLevel.ERROR,
     )
     protected fun <F : Function<*>> asyncSeriesHook(): AsyncSeriesHook<*> = stub()
 
-    public annotation class AsyncSeriesBail<F : Function<*>>
+    protected annotation class AsyncSeriesBail<F : Function<*>>
 
     @Deprecated(
         DEPRECATION_MESSAGE,
-        ReplaceWith("@Hooks.AsyncSeriesBail<F>()"),
+        ReplaceWith("@Hooks.AsyncSeriesBail<F>"),
         DeprecationLevel.ERROR,
     )
     protected fun <F : Function<BailResult<*>>> asyncSeriesBailHook(): AsyncSeriesBailHook<*, *> = stub()
 
-    public annotation class AsyncSeriesWaterfall<F : Function<*>>
+    protected annotation class AsyncSeriesWaterfall<F : Function<*>>
 
     @Deprecated(
         DEPRECATION_MESSAGE,
-        ReplaceWith("@Hooks.AsyncSeriesWaterfall<F>()"),
+        ReplaceWith("@Hooks.AsyncSeriesWaterfall<F>"),
         DeprecationLevel.ERROR,
     )
     protected fun <F : Function<*>> asyncSeriesWaterfallHook(): AsyncSeriesWaterfallHook<*, *> = stub()
 
-    public annotation class AsyncSeriesLoop<F : Function<*>>
+    protected annotation class AsyncSeriesLoop<F : Function<*>>
 
     @Deprecated(
         DEPRECATION_MESSAGE,
-        ReplaceWith("@Hooks.AsyncSeriesLoop<F>()"),
+        ReplaceWith("@Hooks.AsyncSeriesLoop<F>"),
         DeprecationLevel.ERROR,
     )
     protected fun <F : Function<LoopResult>> asyncSeriesLoopHook(): AsyncSeriesLoopHook<*, *> = stub()
