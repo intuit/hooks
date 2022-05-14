@@ -141,6 +141,8 @@ subprojects {
                 val signingPassword by auth
                 useInMemoryPgpKeys(signingKey, signingPassword)
                 sign(extensions.findByType(PublishingExtension::class.java)!!.publications)
+            } ?: run {
+                isRequired = false
             }
         }
 
@@ -156,6 +158,12 @@ subprojects {
                     publication.name == "jar"
                 }
             }
+        }
+    }
+
+    ktlint {
+        filter {
+            exclude("**/example/**/*.kt")
         }
     }
 

@@ -2,7 +2,7 @@ rootProject.name = "hooks-project"
 include(
     ":hooks",
     ":compiler-plugin",
-//    ":gradle-plugin",
+    ":gradle-plugin",
 //    ":maven-plugin",
     ":docs",
     ":example-library",
@@ -42,6 +42,7 @@ dependencyResolutionManagement {
             // KSP
             library("ksp.spa", "com.google.devtools.ksp", "symbol-processing-api").versionRef("ksp")
             library("ksp.poet", "com.squareup", "kotlinpoet-ksp").versionRef("poet")
+            library("ksp.gradle", "com.google.devtools.ksp", "com.google.devtools.ksp.gradle.plugin").versionRef("ksp")
             library("ktlint.core", "com.pinterest.ktlint", "ktlint-core").versionRef("ktlint")
             library("ktlint.ruleset.standard", "com.pinterest.ktlint", "ktlint-ruleset-standard").versionRef("ktlint")
 
@@ -62,17 +63,20 @@ dependencyResolutionManagement {
             library("orchid.plugins.copper", "io.github.javaeden.orchid", "OrchidCopper").versionRef("orchid")
             library("orchid.plugins.wiki", "io.github.javaeden.orchid", "OrchidWiki").versionRef("orchid")
 
-            bundle("orchid.plugins", listOf(
-                "orchid.plugins.docs",
-                "orchid.plugins.kotlindoc",
-                "orchid.plugins.plugindocs",
-                "orchid.plugins.github",
-                "orchid.plugins.changelog",
-                "orchid.plugins.syntaxHighlighter",
-                "orchid.plugins.snippets",
-                "orchid.plugins.copper",
-                "orchid.plugins.wiki",
-            ))
+            bundle(
+                "orchid.plugins",
+                listOf(
+                    "orchid.plugins.docs",
+                    "orchid.plugins.kotlindoc",
+                    "orchid.plugins.plugindocs",
+                    "orchid.plugins.github",
+                    "orchid.plugins.changelog",
+                    "orchid.plugins.syntaxHighlighter",
+                    "orchid.plugins.snippets",
+                    "orchid.plugins.copper",
+                    "orchid.plugins.wiki",
+                )
+            )
 
             // Testing
             // TODO: Swap to Kotlin testing library
@@ -80,7 +84,7 @@ dependencyResolutionManagement {
             library("junit.jupiter", "org.junit.jupiter", "junit-jupiter").withoutVersion()
             library("mockk", "io.mockk", "mockk").version("1.10.2")
             library("ksp.testing", "com.github.tschuchortdev", "kotlin-compile-testing-ksp").version("1.4.8")
-            library("knit.testing", "org.jetbrains.kotlinx" , "kotlinx-knit-test").versionRef("knit")
+            library("knit.testing", "org.jetbrains.kotlinx", "kotlinx-knit-test").versionRef("knit")
 
             bundle("testing", listOf("junit.jupiter", "mockk"))
         }

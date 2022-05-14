@@ -48,7 +48,7 @@ public class HooksProcessor(
                 .filterIsInstance<KSClassifierReference>()
                 .map(KSClassifierReference::referencedName)
 
-            // TODO: Account for import aliases :P + how to avoid false positives?
+            // TODO: Account for import aliases :P + how to avoid false positives? probably through resolve
             if (!superTypeNames.contains("Hooks") && !superTypeNames.contains("HooksDsl")) {
                 classDeclaration.declarations.filter {
                     it is KSClassDeclaration && it.validate()
@@ -121,7 +121,6 @@ public class HooksProcessor(
     private fun KSClassDeclaration.findHooks() = getAllProperties()
         .filter {
             // Only process properties that are abstract b/c that's what we need for a concrete class
-
             it.modifiers.contains(Modifier.ABSTRACT)
         }
         .map(::validateProperty)
