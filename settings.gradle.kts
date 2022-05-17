@@ -3,7 +3,7 @@ include(
     ":hooks",
     ":compiler-plugin",
     ":gradle-plugin",
-//    ":maven-plugin",
+    ":maven-plugin",
     ":docs",
     ":example-library",
     ":example-application",
@@ -37,6 +37,7 @@ dependencyResolutionManagement {
 
             // Kotlin
             library("kotlin.stdlib", "org.jetbrains.kotlin", "kotlin-stdlib").withoutVersion()
+            library("kotlin.maven", "org.jetbrains.kotlin", "kotlin-maven-plugin").withoutVersion()
             library("kotlin.coroutines.core", "org.jetbrains.kotlinx", "kotlinx-coroutines-core").version("1.6.1")
 
             // KSP

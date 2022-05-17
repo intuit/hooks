@@ -12,10 +12,6 @@ import com.intuit.hooks.plugin.codegen.generateClass
 import com.intuit.hooks.plugin.codegen.generateImports
 import com.intuit.hooks.plugin.codegen.generateProperty
 import com.intuit.hooks.plugin.ksp.validation.validateProperty
-import com.pinterest.ktlint.core.KtLint
-import com.pinterest.ktlint.core.KtLint.format
-import com.pinterest.ktlint.core.api.FeatureInAlphaState
-import com.pinterest.ktlint.ruleset.standard.StandardRuleSetProvider
 
 public class HooksProcessor(
     private val codeGenerator: CodeGenerator,
@@ -40,7 +36,7 @@ public class HooksProcessor(
             }
         }
 
-        @OptIn(FeatureInAlphaState::class)
+//        @OptIn(FeatureInAlphaState::class)
         override fun visitClassDeclaration(classDeclaration: KSClassDeclaration, data: Unit) {
             // TODO: This should really be restructured to follow KSP visitor pattern for members
             val superTypeNames = classDeclaration.superTypes
@@ -94,20 +90,21 @@ public class HooksProcessor(
                     classDeclaration
                 )
 
-                KtLint.ExperimentalParams(
-                    text = newSource,
-                    ruleSets = listOf(StandardRuleSetProvider().get()),
-                    cb = { _, _ -> }
-                )
-                    .let(::format)
-                    .also {
-                        logger.logging(
-                            """formatted generated source:
-                            |$it
-                        """.trimMargin(),
-                            classDeclaration
-                        )
-                    }
+//                KtLint.ExperimentalParams(
+//                    text = newSource,
+//                    ruleSets = listOf(StandardRuleSetProvider().get()),
+//                    cb = { _, _ -> }
+//                )
+//                    .let(::format)
+//                    .also {
+//                        logger.logging(
+//                            """formatted generated source:
+//                            |$it
+//                        """.trimMargin(),
+//                            classDeclaration
+//                        )
+//                    }
+                        newSource
                     .let(String::toByteArray)
                     .let(file::write)
 
