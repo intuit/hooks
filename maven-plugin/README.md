@@ -1,6 +1,10 @@
 # Maven Kotlin Plugin Extension
 
-At the moment, the Maven extension is not complete and only helps to register the Kotlin compiler plugin and partially configure the generated source directory. You will still be required to add the appropriate dependencies and add the generated source directory to your source sets.
+> **Warning**
+>
+> The Maven Kotlin plugin automatically bundles a specific version of the KSP plugin, which is tied to a specific version of Kotlin (can be found [here](./settings.gradle.kts#19)). This means the Gradle plugin is only compatible with projects that use that specific Kotlin version. At some point, this module will be upgraded to publish in accordance to the KSP/Kotlin version it bundles.
+
+At the moment, the Maven extension is not complete and only helps to register the KSP plugin and partially configure the generated source directory. You will still be required to add the appropriate dependencies and add the generated source directory to your source sets.
 
 ### Installation
 
@@ -16,13 +20,6 @@ At the moment, the Maven extension is not complete and only helps to register th
             <groupId>com.intuit.hooks</groupId>
             <artifactId>hooks</artifactId>
             <version>${hooks.version}</version>
-        </dependency>
-        <!-- Arrow annotations used in code gen -->
-        <dependency>
-            <groupId>io.arrow-kt</groupId>
-            <artifactId>arrow-annotations</artifactId>
-            <version>0.11.0</version>
-            <scope>provided</scope>
         </dependency>
     
         <!-- Other dependencies... -->
@@ -48,10 +45,9 @@ At the moment, the Maven extension is not complete and only helps to register th
                         <!-- Apply hooks plugin -->
                         <plugin>hooks</plugin>
                     </compilerPlugins>
-                    <!-- Configure main source and generated source directories -->
+                    <!-- Configure generated source directories -->
                     <sourceDirs>
                         <source>${project.basedir}/src/main/kotlin</source>
-                        <source>${build.directory}/generated/source/kapt/main</source>
                     </sourceDirs>
                 </configuration>
                 <!-- Add hooks maven plugin to compiler classpath -->

@@ -1,4 +1,4 @@
- 
+
 package com.intuit.hooks.plugin
 
 import com.tschuchort.compiletesting.SourceFile

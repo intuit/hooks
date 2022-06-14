@@ -77,38 +77,15 @@ public class HooksProcessor(
                        |   ${classes.joinToString("\n", "\n", "\n") { it }} 
                        |}""".trimMargin()
 
-                val file = codeGenerator.createNewFile(
+                codeGenerator.createNewFile(
                     Dependencies(true, classDeclaration.containingFile!!),
                     packageName.asString(),
                     name,
-                )
-
-                logger.logging(
-                    """raw generated source:
-                    |$newSource
-                """.trimMargin(),
-                    classDeclaration
-                )
-
-//                KtLint.ExperimentalParams(
-//                    text = newSource,
-//                    ruleSets = listOf(StandardRuleSetProvider().get()),
-//                    cb = { _, _ -> }
-//                )
-//                    .let(::format)
-//                    .also {
-//                        logger.logging(
-//                            """formatted generated source:
-//                            |$it
-//                        """.trimMargin(),
-//                            classDeclaration
-//                        )
-//                    }
-                        newSource
-                    .let(String::toByteArray)
-                    .let(file::write)
-
-                file.close()
+                ).use {
+                    newSource
+                        .let(String::toByteArray)
+                        .let(it::write)
+                }
             }.valueOr { errors ->
                 errors.forEach { logger.error(it.message, it.symbol) }
             }

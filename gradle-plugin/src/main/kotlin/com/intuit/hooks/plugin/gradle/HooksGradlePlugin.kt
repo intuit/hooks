@@ -44,7 +44,7 @@ public class HooksGradlePlugin : Plugin<Project> {
         target.addDependency("ksp", "com.intuit.hooks:compiler-plugin:$version")
 
         // TODO: Maybe apply to Kotlin plugin to be compatible with MPP
-        target.plugins.withType(JavaPlugin::class.java) { javaPlugin ->
+        target.plugins.withType(JavaPlugin::class.java) { _ ->
             val sourceSets = target.extensions.getByType(SourceSetContainer::class.java)
             sourceSets.forEach {
                 it.java.srcDir(target.buildDir.resolve(hooksExtension.generatedSrcOutputDir ?: "generated/ksp/${it.name}/kotlin"))
