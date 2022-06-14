@@ -53,7 +53,7 @@ fun main() {
 
 <!--- KNIT example-synchook-01.kt --> 
 
-> You can get the full code [here](https://github.com/intuit/hooks/tree/master/docs/src/test/kotlin/example/example-synchook-01.kt).
+> You can get the full code [here](https://github.com/intuit/hooks/tree/main/docs/src/test/kotlin/example/example-synchook-01.kt).
 
 We should expect the `tapped` function to be executed once the hook is `called`, which would print the following:
 

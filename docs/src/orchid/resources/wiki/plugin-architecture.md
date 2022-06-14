@@ -130,4 +130,4 @@ fun main() {
 
 <!--- KNIT example-car-02.kt --> 
 
-> You can get the full code [here](https://github.com/intuit/hooks/tree/master/docs/src/test/kotlin/example/example-car-02.kt).
+> You can get the full code [here](https://github.com/intuit/hooks/tree/main/docs/src/test/kotlin/example/example-car-02.kt).

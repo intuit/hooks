@@ -44,12 +44,12 @@ library for the JVM plus an [Arrow Meta](https://meta.arrow-kt.io/) Compiler Plu
 
 ## Structure
 
-- [hooks](https://github.com/intuit/hooks/tree/master/hooks) - The actual implementation of the hooks
-- [compiler-plugin](https://github.com/intuit/hooks/tree/master/compiler-plugin) - An Arrow Meta compiler plugin that generates hook subclasses for you
-- [gradle-plugin](https://github.com/intuit/hooks/tree/master/gradle-plugin) - A gradle plugin to make using the compiler plugin easier
-- [maven-plugin](https://github.com/intuit/hooks/tree/master/maven-plugin) - A maven Kotlin plugin extension to make using the compiler plugin easier
-- [example-library](https://github.com/intuit/hooks/tree/master/example-library) - A library that exposes extension points for consumers using the hooks' `call` function
-- [example-application](https://github.com/intuit/hooks/tree/master/example-application) - The Application that demonstrates extending a library by calling the hooks' `tap` function
+- [hooks](https://github.com/intuit/hooks/tree/main/hooks) - The actual implementation of the hooks
+- [compiler-plugin](https://github.com/intuit/hooks/tree/main/compiler-plugin) - An Arrow Meta compiler plugin that generates hook subclasses for you
+- [gradle-plugin](https://github.com/intuit/hooks/tree/main/gradle-plugin) - A gradle plugin to make using the compiler plugin easier
+- [maven-plugin](https://github.com/intuit/hooks/tree/main/maven-plugin) - A maven Kotlin plugin extension to make using the compiler plugin easier
+- [example-library](https://github.com/intuit/hooks/tree/main/example-library) - A library that exposes extension points for consumers using the hooks' `call` function
+- [example-application](https://github.com/intuit/hooks/tree/main/example-application) - The Application that demonstrates extending a library by calling the hooks' `tap` function
 
 ## :beers: Contributing :beers:
 
