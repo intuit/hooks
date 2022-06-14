@@ -87,7 +87,7 @@ subprojects {
         toolVersion = "0.8.7"
     }
 
-    if (publishModules.contains(name)) {
+    if (publishModules.contains(name) && name != "gradle-plugin") {
         apply {
             plugin("maven-publish")
             plugin("signing")
@@ -133,19 +133,6 @@ subprojects {
             }
         }
 
-        configure<SigningExtension> {
-            val signingKey by auth {
-                it?.replace("\\n", "\n")
-            }
-            signingKey?.let {
-                val signingPassword by auth
-                useInMemoryPgpKeys(signingKey, signingPassword)
-                sign(extensions.findByType(PublishingExtension::class.java)!!.publications)
-            } ?: run {
-                isRequired = false
-            }
-        }
-
         tasks {
             register<Jar>("javadocJar") {
                 dependsOn("dokkaJavadoc")
@@ -158,6 +145,19 @@ subprojects {
                     publication.name == "jar"
                 }
             }
+        }
+    }
+
+    extensions.findByType<SigningExtension>()?.apply {
+        val signingKey by auth {
+            it?.replace("\\n", "\n")
+        }
+        signingKey?.let {
+            val signingPassword by auth
+            useInMemoryPgpKeys(signingKey, signingPassword)
+            sign(extensions.findByType(PublishingExtension::class.java)!!.publications)
+        } ?: run {
+            isRequired = false
         }
     }
 

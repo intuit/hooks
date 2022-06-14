@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.konan.properties.Properties
 import org.jetbrains.kotlin.konan.properties.saveToFile
 
 plugins {
-    id("com.gradle.plugin-publish") version "1.0.0-rc-2"
+    id("com.gradle.plugin-publish") version "1.0.0-rc-3"
 }
 
 gradlePlugin {
