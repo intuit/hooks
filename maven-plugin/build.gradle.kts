@@ -8,6 +8,7 @@ dependencies {
 
 tasks {
     jar {
+        dependsOn(project(":compiler-plugin").getTasksByName("jar", false))
         fromConfiguration(compilerPlugin) {
             this.duplicatesStrategy = DuplicatesStrategy.EXCLUDE
         }
