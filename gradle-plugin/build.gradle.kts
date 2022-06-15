@@ -47,4 +47,8 @@ tasks {
     classes {
         dependsOn(createProperties)
     }
+
+    test {
+        dependsOn(":hooks:publishToMavenLocal", ":compiler-plugin:publishToMavenLocal")
+    }
 }
