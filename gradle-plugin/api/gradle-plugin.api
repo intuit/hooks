@@ -1,7 +1,5 @@
-public class com/intuit/hooks/plugin/gradle/HooksGradleExtension {
+public abstract class com/intuit/hooks/plugin/gradle/HooksGradleExtension {
 	public fun <init> ()V
-	public final fun getGeneratedSrcOutputDir ()Ljava/lang/String;
-	public final fun setGeneratedSrcOutputDir (Ljava/lang/String;)V
 }
 
 public final class com/intuit/hooks/plugin/gradle/HooksGradlePlugin : org/gradle/api/Plugin {

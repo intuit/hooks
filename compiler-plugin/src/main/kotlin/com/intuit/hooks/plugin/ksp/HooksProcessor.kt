@@ -36,7 +36,6 @@ public class HooksProcessor(
             }
         }
 
-//        @OptIn(FeatureInAlphaState::class)
         override fun visitClassDeclaration(classDeclaration: KSClassDeclaration, data: Unit) {
             // TODO: This should really be restructured to follow KSP visitor pattern for members
             val superTypeNames = classDeclaration.superTypes

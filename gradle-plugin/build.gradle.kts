@@ -33,6 +33,10 @@ dependencies {
     testImplementation(libs.bundles.testing)
 }
 
+kotlin {
+    explicitApi()
+}
+
 tasks {
     val createProperties by creating {
         dependsOn(processResources)

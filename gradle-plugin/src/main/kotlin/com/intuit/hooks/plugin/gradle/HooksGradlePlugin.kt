@@ -1,22 +1,21 @@
 package com.intuit.hooks.plugin.gradle
 
-import com.google.devtools.ksp.gradle.KspExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPlugin
 import org.gradle.api.tasks.SourceSetContainer
-import java.util.*
+import java.util.Properties
 
 /** Wrap KSP plugin and provide Gradle extension for Hooks processor options */
 public class HooksGradlePlugin : Plugin<Project> {
 
     private val properties by lazy {
-        val properties = Properties()
-        HooksGradlePlugin::class.java.classLoader.getResourceAsStream("version.properties").let(properties::load)
-        properties
+        Properties().apply {
+            HooksGradlePlugin::class.java.classLoader.getResourceAsStream("version.properties").let(::load)
+        }
     }
 
-    private val version by lazy {
+    private val hooksVersion by lazy {
         properties["version"] as String
     }
 
@@ -25,29 +24,23 @@ public class HooksGradlePlugin : Plugin<Project> {
             dependencies.create(dependencyNotation)
         )
 
-    override fun apply(target: Project) {
-        val hooksExtension = target.extensions.create(
+    override fun apply(project: Project): Unit = with(project) {
+        extensions.create(
             "hooks",
             HooksGradleExtension::class.java
         )
 
-        if (!target.pluginManager.hasPlugin("com.google.devtools.ksp"))
-            target.pluginManager.apply("com.google.devtools.ksp")
+        if (!pluginManager.hasPlugin("com.google.devtools.ksp"))
+            pluginManager.apply("com.google.devtools.ksp")
 
-        target.extensions.configure<KspExtension>("ksp") { ksp ->
-            hooksExtension.generatedSrcOutputDir?.let { generatedSrcOutputDir ->
-                ksp.arg("generatedSrcOutputDir", generatedSrcOutputDir)
-            }
-        }
-
-        target.addDependency("api", "com.intuit.hooks:hooks:$version")
-        target.addDependency("ksp", "com.intuit.hooks:compiler-plugin:$version")
+        addDependency("api", "com.intuit.hooks:hooks:$hooksVersion")
+        addDependency("ksp", "com.intuit.hooks:compiler-plugin:$hooksVersion")
 
         // TODO: Maybe apply to Kotlin plugin to be compatible with MPP
-        target.plugins.withType(JavaPlugin::class.java) { _ ->
-            val sourceSets = target.extensions.getByType(SourceSetContainer::class.java)
+        plugins.withType(JavaPlugin::class.java) { _ ->
+            val sourceSets = extensions.getByType(SourceSetContainer::class.java)
             sourceSets.forEach {
-                it.java.srcDir(target.buildDir.resolve(hooksExtension.generatedSrcOutputDir ?: "generated/ksp/${it.name}/kotlin"))
+                it.java.srcDir(buildDir.resolve("generated/ksp/${it.name}/kotlin"))
             }
         }
     }
