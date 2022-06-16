@@ -27,6 +27,7 @@ dependencyResolutionManagement {
 
             plugin("release", "net.researchgate.release").version("2.6.0")
             plugin("nexus", "io.github.gradle-nexus.publish-plugin").version("1.0.0")
+            plugin("gradle.publish", "com.gradle.plugin-publish").version("1.0.0-rc-3")
 
             plugin("ktlint", "org.jlleitschuh.gradle.ktlint").version("10.3.0")
             plugin("api", "org.jetbrains.kotlinx.binary-compatibility-validator").version("0.9.0")
@@ -44,6 +45,7 @@ dependencyResolutionManagement {
             library("ksp.spa", "com.google.devtools.ksp", "symbol-processing-api").versionRef("ksp")
             library("ksp.poet", "com.squareup", "kotlinpoet-ksp").versionRef("poet")
             library("ksp.gradle", "com.google.devtools.ksp", "com.google.devtools.ksp.gradle.plugin").versionRef("ksp")
+            library("ksp.maven", "com.dyescape", "kotlin-maven-symbol-processing").version("1.3")
             library("ktlint.core", "com.pinterest.ktlint", "ktlint-core").versionRef("ktlint")
             library("ktlint.ruleset.standard", "com.pinterest.ktlint", "ktlint-ruleset-standard").versionRef("ktlint")
 

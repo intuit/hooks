@@ -2,7 +2,7 @@ val compilerPlugin: Configuration by configurations.creating
 
 dependencies {
     implementation(libs.kotlin.maven)
-    implementation("com.dyescape", "kotlin-maven-symbol-processing", "1.3")
+    implementation(libs.ksp.maven)
     compilerPlugin(project(":compiler-plugin"))
 }
 
