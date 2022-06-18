@@ -7,11 +7,14 @@ import com.google.devtools.ksp.getVisibility
 import com.google.devtools.ksp.processing.*
 import com.google.devtools.ksp.symbol.*
 import com.google.devtools.ksp.validate
-import com.intuit.hooks.plugin.codegen.HookInfo
+import com.intuit.hooks.plugin.codegen.*
 import com.intuit.hooks.plugin.codegen.generateClass
 import com.intuit.hooks.plugin.codegen.generateImports
 import com.intuit.hooks.plugin.codegen.generateProperty
 import com.intuit.hooks.plugin.ksp.validation.validateProperty
+import com.squareup.kotlinpoet.*
+import com.squareup.kotlinpoet.ksp.*
+import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 
 public class HooksProcessor(
     private val codeGenerator: CodeGenerator,
@@ -66,8 +69,9 @@ public class HooksProcessor(
                 }>"
                 val fqName = classDeclaration.qualifiedName!!.asString()
 
+                val resolvedPackageName = packageName.asString().takeIf(String::isNotEmpty)
                 val newSource =
-                    """|${packageName.asString().takeIf(String::isNotEmpty)?.let { "package $it" } ?: ""}
+                    """|${resolvedPackageName?.let { "package $it" } ?: ""}
                        |
                        |$imports
                        |
@@ -85,6 +89,42 @@ public class HooksProcessor(
                         .let(String::toByteArray)
                         .let(it::write)
                 }
+
+                /**
+                 * Kotlin Poet Stuff
+                 */
+                val visibilityModifier = classDeclaration.getVisibility().toKModifier() ?: KModifier.PUBLIC
+                val className = ClassName.bestGuess("${name}2")
+
+                val builder : (ClassName) -> TypeSpec.Builder = when(classDeclaration.classKind) {
+                    ClassKind.INTERFACE -> TypeSpec.Companion::interfaceBuilder
+                    ClassKind.CLASS -> TypeSpec.Companion::classBuilder
+                    ClassKind.OBJECT -> TypeSpec.Companion::objectBuilder
+                    else -> throw NotImplementedError("Hooks in constructs other than class, interface, and object aren't supported")
+                }
+                val (poetClasses, poetProperties) = codeGen.map(::generatePoetHookClass).unzip()
+
+                val typeArguments = classDeclaration.typeParameters.map { it.toTypeVariableName() }
+                val superclass = if(typeArguments.isNotEmpty()) classDeclaration.toClassName().parameterizedBy(typeArguments) else classDeclaration.toClassName()
+                val hooksImplClass = builder(className)
+                    .addModifiers(visibilityModifier)
+                    .addTypeVariables(typeArguments)
+                    .addProperties(poetProperties)
+                    .addTypes(poetClasses)
+                    .superclass(superclass)
+                    .build()
+
+                val file = FileSpec.builder(resolvedPackageName ?: "", "${name}2")
+                    .addFileComment("hi!")
+                    .addType(hooksImplClass)
+                    .build()
+
+                // TODO: somehow specify the original file as a dependency of this new file
+                file.writeTo(codeGenerator, aggregating = false)
+                println("======================")
+                println(file)
+                println("======================")
+
             }.valueOr { errors ->
                 errors.forEach { logger.error(it.message, it.symbol) }
             }
@@ -98,6 +138,13 @@ public class HooksProcessor(
         }
         .map(::validateProperty)
         .sequenceValidated(Semigroup.nonEmptyList())
+
+    private fun generatePoetHookClass(hookInfo: HookInfo): Pair<TypeSpec, PropertySpec> {
+        val classDefinition = hookInfo.generatePoetClass()
+        val propertyDefinition = hookInfo.generatePoetProperty()
+
+        return classDefinition to propertyDefinition
+    }
 
     private fun generateHookClass(hookInfo: HookInfo): Pair<String, String> {
         val classDefinition = hookInfo.generateClass()

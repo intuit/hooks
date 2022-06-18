@@ -1,7 +1,7 @@
 dependencies {
     implementation(libs.kotlin.stdlib)
     implementation(libs.ksp.spa)
-//    implementation(libs.ksp.poet)
+    implementation(libs.ksp.poet)
     implementation(libs.arrow.core)
 
     testImplementation(project(":hooks"))

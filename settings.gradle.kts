@@ -16,8 +16,8 @@ dependencyResolutionManagement {
             version("kotlin", "1.6.21")
             version("ktlint", "0.45.2")
             version("arrow", "1.0.1") // 1.1.2
-            version("ksp", "1.6.21-1.0.5")
-            version("poet", "1.11.0")
+            version("ksp", "1.6.21-1.0.6")
+            version("poet", "1.12.0")
             version("junit", "5.7.0")
             version("knit", "0.2.3") // TODO: Upgrade
             version("orchid", "0.21.1")
