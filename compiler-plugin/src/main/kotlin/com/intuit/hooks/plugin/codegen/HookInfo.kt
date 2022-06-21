@@ -1,18 +1,25 @@
 package com.intuit.hooks.plugin.codegen
 
+import com.google.devtools.ksp.symbol.KSCallableReference
+import com.google.devtools.ksp.symbol.KSTypeReference
+import com.google.devtools.ksp.symbol.Modifier
+import com.intuit.hooks.plugin.ksp.text
+
 internal data class HookMember(
     val name: String,
     val visibility: String,
 )
 
 internal data class HookSignature(
-    val text: String,
-    val isSuspend: Boolean,
-    val returnType: String,
-    /** For hooks that return a wrapped result, like [BailResult], this is the inner type */
-    val returnTypeType: String?,
+    val hookFunctionSignatureType: KSTypeReference,
+    val hookFunctionSignatureReference: KSCallableReference
 ) {
     val nullableReturnTypeType = "${returnTypeType}${if (returnTypeType?.last() == '?') "" else "?"}"
+
+    val text get() = hookFunctionSignatureType.text
+    val isSuspend get() = hookFunctionSignatureType.modifiers.contains(Modifier.SUSPEND)
+    val returnType get() = hookFunctionSignatureReference.returnType.text
+    val returnTypeType get() = hookFunctionSignatureReference.returnType.element?.typeArguments?.firstOrNull()?.text
 
     override fun toString() = text
 }
@@ -40,6 +47,7 @@ internal val HookInfo.tapMethod get() = if (!zeroArity) """
     public fun tap(name: String, f: $hookSignature): String? = tap(name, generateRandomId(), f)
     public fun tap(name: String, id: String, f: $hookSignature): String? = super.tap(name, id) { _: HookContext, $paramsWithTypes -> f($paramsWithoutTypes) }
 """.trimIndent() else ""
+
 internal val HookInfo.paramsWithTypes get() = params.joinToString(transform = HookParameter::withType)
 internal val HookInfo.paramsWithoutTypes get() = params.joinToString(transform = HookParameter::withoutType)
 internal fun HookInfo.generateClass() = this.hookType.generateClass(this)

@@ -63,10 +63,8 @@ private fun hasCodeGenerator(annotation: HookAnnotation): ValidatedNel<HookValid
 
 private fun mustBeHookType(annotation: HookAnnotation): ValidatedNel<HookValidationError, HookSignature> = try {
     HookSignature(
-        annotation.hookFunctionSignatureType.text,
-        annotation.hookFunctionSignatureType.modifiers.contains(Modifier.SUSPEND),
-        annotation.hookFunctionSignatureReference.returnType.text,
-        annotation.hookFunctionSignatureReference.returnType.element?.typeArguments?.firstOrNull()?.text,
+        annotation.hookFunctionSignatureType,
+        annotation.hookFunctionSignatureReference,
     ).valid()
 } catch (exception: Exception) {
     HookValidationError.MustBeHookTypeSignature(annotation).invalidNel()

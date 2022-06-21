@@ -80,6 +80,10 @@ public class HooksProcessor(
                        |   ${classes.joinToString("\n", "\n", "\n") { it }} 
                        |}""".trimMargin()
 
+                println("========= OLD ==========")
+                println(newSource)
+                println("========================")
+
                 codeGenerator.createNewFile(
                     Dependencies(true, classDeclaration.containingFile!!),
                     packageName.asString(),
@@ -121,9 +125,9 @@ public class HooksProcessor(
 
                 // TODO: somehow specify the original file as a dependency of this new file
                 file.writeTo(codeGenerator, aggregating = false)
-                println("======================")
+                println("========= NEW ==========")
                 println(file)
-                println("======================")
+                println("========================")
 
             }.valueOr { errors ->
                 errors.forEach { logger.error(it.message, it.symbol) }
