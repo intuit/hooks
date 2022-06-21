@@ -15,7 +15,7 @@ internal fun HookInfo.generatePoetClass(): TypeSpec = when(this.hookType) {
                     listOf(
                         ParameterSpec.unnamed(hookContext)
                     ) + paramsWithTypesPoet,
-                    ClassName.bestGuess(hookSignature.returnType),
+                    hookSignature.returnTypePoet,
                 )
             )
 
@@ -32,6 +32,33 @@ internal fun HookInfo.generatePoetClass(): TypeSpec = when(this.hookType) {
             .addFunctions(tapMethodsPoet)
             .build()
     }
+    HookType.SyncBailHook -> {
+        val superclass = ClassName.bestGuess("com.intuit.hooks.${this.superType}")
+            .parameterizedBy(
+                LambdaTypeName.get(
+                    null,
+                    listOf(
+                        ParameterSpec.unnamed(hookContext)
+                    ) + paramsWithTypesPoet,
+                    hookSignature.returnTypePoet,
+                ),
+                hookSignature.returnTypeTypePoet!!
+            )
+
+        val call = FunSpec.builder("call")
+            .addParameters(paramsWithTypesPoet)
+            .returns(hookSignature.returnTypeTypePoet?.copy(nullable = true)!!)
+            .addStatement("return super.call { f, context -> f(context, ${this.paramsWithoutTypes}) }")
+            .build()
+
+        TypeSpec.classBuilder(this.className)
+            .addModifiers(KModifier.INNER)
+            .superclass(superclass)
+            .addFunction(call)
+            .addFunctions(tapMethodsPoet)
+            .build()
+
+    }
     HookType.AsyncSeriesHook -> {
         val superclass = ClassName.bestGuess("com.intuit.hooks.${this.superType}")
             .parameterizedBy(
@@ -40,7 +67,7 @@ internal fun HookInfo.generatePoetClass(): TypeSpec = when(this.hookType) {
                     listOf(
                         ParameterSpec.unnamed(hookContext)
                     ) + paramsWithTypesPoet,
-                    ClassName.bestGuess(hookSignature.returnType),
+                    hookSignature.returnTypePoet,
                 ).copy(suspending = true)
             )
 
@@ -59,26 +86,56 @@ internal fun HookInfo.generatePoetClass(): TypeSpec = when(this.hookType) {
             .build()
 
     }
+    HookType.AsyncSeriesBailHook -> {
+        val superclass = ClassName.bestGuess("com.intuit.hooks.${this.superType}")
+            .parameterizedBy(
+                LambdaTypeName.get(
+                    null,
+                    listOf(
+                        ParameterSpec.unnamed(hookContext)
+                    ) + paramsWithTypesPoet,
+                    hookSignature.returnTypePoet,
+                ).copy(suspending = true),
+                hookSignature.returnTypeTypePoet!!
+            )
+
+        val call = FunSpec.builder("call")
+            .addParameters(paramsWithTypesPoet)
+            .addModifiers(KModifier.SUSPEND)
+            .returns(hookSignature.returnTypeTypePoet?.copy(nullable = true)!!)
+            .addStatement("return super.call { f, context -> f(context, ${this.paramsWithoutTypes}) }")
+            .build()
+
+        TypeSpec.classBuilder(this.className)
+            .addModifiers(KModifier.INNER)
+            .superclass(superclass)
+            .addFunction(call)
+            .addFunctions(tapMethodsPoet)
+            .build()
+
+    }
     else -> TypeSpec.classBuilder(this.className).build()
 }
 
 private val HookInfo.tapMethodsPoet : List<FunSpec>
     get() {
         val returnType = String::class.asTypeName().copy(nullable = true)
-        val functionType = this.hookSignature.hookFunctionSignatureType.toTypeName()
+        val nameParameter = ParameterSpec.builder("name", String::class.asTypeName()).build()
+        val idParameter = ParameterSpec.builder("id", String::class.asTypeName()).build()
+        val functionParameter = ParameterSpec.builder("f", this.hookSignature.hookFunctionSignatureType.toTypeName()).build()
 
         val tap = FunSpec.builder("tap")
             .returns(returnType)
-            .addParameter("name", String::class.asTypeName())
-            .addParameter("f", functionType)
+            .addParameter(nameParameter)
+            .addParameter(functionParameter)
             .addStatement("return tap(name, generateRandomId(), f)")
             .build()
 
         val tapWithId = FunSpec.builder("tap")
             .returns(returnType)
-            .addParameter("name", String::class.asTypeName())
-            .addParameter("id", String::class.asTypeName())
-            .addParameter("f", functionType)
+            .addParameter(nameParameter)
+            .addParameter(idParameter)
+            .addParameter(functionParameter)
             .addStatement("return super.tap(name, id) { _: HookContext, ${this.paramsWithTypes} -> f($paramsWithoutTypes)}")
             .build()
 

@@ -4,6 +4,7 @@ import com.google.devtools.ksp.symbol.KSCallableReference
 import com.google.devtools.ksp.symbol.KSTypeReference
 import com.google.devtools.ksp.symbol.Modifier
 import com.intuit.hooks.plugin.ksp.text
+import com.squareup.kotlinpoet.ksp.toTypeName
 
 internal data class HookMember(
     val name: String,
@@ -19,7 +20,9 @@ internal data class HookSignature(
     val text get() = hookFunctionSignatureType.text
     val isSuspend get() = hookFunctionSignatureType.modifiers.contains(Modifier.SUSPEND)
     val returnType get() = hookFunctionSignatureReference.returnType.text
+    val returnTypePoet get() = hookFunctionSignatureReference.returnType.toTypeName()
     val returnTypeType get() = hookFunctionSignatureReference.returnType.element?.typeArguments?.firstOrNull()?.text
+    val returnTypeTypePoet get() = hookFunctionSignatureReference.returnType.element?.typeArguments?.firstOrNull()?.toTypeName()
 
     override fun toString() = text
 }
