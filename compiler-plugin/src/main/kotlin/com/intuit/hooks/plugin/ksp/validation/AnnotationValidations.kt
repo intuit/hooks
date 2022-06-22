@@ -29,14 +29,17 @@ import com.intuit.hooks.plugin.ksp.text
 internal fun KSPropertyDeclaration.validateHookAnnotation(): ValidatedNel<HookValidationError, HookInfo> =
     onlyHasASingleDslAnnotation().withEither {
         it.flatMap { annotation ->
-            hasCodeGenerator(annotation).zip(
-                mustBeHookType(annotation),
-                validateParameters(annotation),
-                HookMember(
-                    simpleName.asString(),
-                    getVisibility().name.lowercase(),
-                ).let(::HookInfo::partially1),
-            ).toEither()
+            val hasCodeGenerator = hasCodeGenerator(annotation)
+            val mustBeHookType = mustBeHookType(annotation)
+            val validateParameters = validateParameters(annotation)
+            val hookMember = HookMember(simpleName.asString(), getVisibility().name.lowercase())
+
+            hasCodeGenerator.zip(
+                mustBeHookType,
+                validateParameters
+            ) { hookType: HookType, hookSignature: HookSignature, hookParameters: List<HookParameter> ->
+                HookInfo(hookMember, hookType, hookSignature, hookParameters, this, annotation)
+            }.toEither()
         }
     }
 

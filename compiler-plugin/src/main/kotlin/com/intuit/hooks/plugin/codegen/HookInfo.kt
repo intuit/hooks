@@ -1,9 +1,11 @@
 package com.intuit.hooks.plugin.codegen
 
-import com.google.devtools.ksp.symbol.KSCallableReference
-import com.google.devtools.ksp.symbol.KSTypeReference
-import com.google.devtools.ksp.symbol.Modifier
+import com.google.devtools.ksp.getVisibility
+import com.google.devtools.ksp.symbol.*
 import com.intuit.hooks.plugin.ksp.text
+import com.intuit.hooks.plugin.ksp.validation.HookAnnotation
+import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.ksp.toKModifier
 import com.squareup.kotlinpoet.ksp.toTypeName
 
 internal data class HookMember(
@@ -22,7 +24,8 @@ internal data class HookSignature(
     val returnType get() = hookFunctionSignatureReference.returnType.text
     val returnTypePoet get() = hookFunctionSignatureReference.returnType.toTypeName()
     val returnTypeType get() = hookFunctionSignatureReference.returnType.element?.typeArguments?.firstOrNull()?.text
-    val returnTypeTypePoet get() = hookFunctionSignatureReference.returnType.element?.typeArguments?.firstOrNull()?.toTypeName()
+    val returnTypeTypePoet get() = hookFunctionSignatureReference.returnType.element?.typeArguments?.firstOrNull()?.toTypeName()!!
+    val parameters get() = hookFunctionSignatureReference.functionParameters
 
     override fun toString() = text
 }
@@ -41,7 +44,12 @@ internal data class HookInfo(
     val hookType: HookType,
     val hookSignature: HookSignature,
     val params: List<HookParameter>,
+
+    val propertyDeclaration: KSPropertyDeclaration,
+    val annotation: HookAnnotation
 ) {
+    // TODO: Should this actually default to public?
+    val propertyVisibility get() = propertyDeclaration.getVisibility().toKModifier() ?: KModifier.PUBLIC
     val zeroArity = params.isEmpty()
     val isAsync = hookType.properties.contains(HookProperty.Async)
 }
