@@ -1,7 +1,6 @@
 package com.intuit.hooks.plugin.ksp
 
 import arrow.core.sequence
-import arrow.core.sequenceValidated
 import arrow.core.valueOr
 import arrow.typeclasses.Semigroup
 import com.google.devtools.ksp.getVisibility
@@ -11,8 +10,8 @@ import com.google.devtools.ksp.validate
 import com.intuit.hooks.plugin.codegen.*
 import com.intuit.hooks.plugin.ksp.validation.validateProperty
 import com.squareup.kotlinpoet.*
-import com.squareup.kotlinpoet.ksp.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
+import com.squareup.kotlinpoet.ksp.*
 
 public class HooksProcessor(
     private val codeGenerator: CodeGenerator,
@@ -63,7 +62,7 @@ public class HooksProcessor(
                 val typeArguments = classDeclaration.typeParameters.map { it.toTypeVariableName() }
 
                 val superclass = classDeclaration.toClassName().let {
-                    if(typeArguments.isNotEmpty()) {
+                    if (typeArguments.isNotEmpty()) {
                         it.parameterizedBy(typeArguments)
                     } else
                         it
@@ -83,7 +82,6 @@ public class HooksProcessor(
 
                 // TODO: somehow specify the original file as a dependency of this new file
                 file.writeTo(codeGenerator, aggregating = false)
-
             }.valueOr { errors ->
                 errors.forEach { logger.error(it.message, it.symbol) }
             }

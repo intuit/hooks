@@ -10,7 +10,6 @@ import com.intuit.hooks.plugin.codegen.HookSignature
 import com.intuit.hooks.plugin.codegen.HookType
 import com.intuit.hooks.plugin.codegen.HookType.Companion.annotationDslMarkers
 import com.intuit.hooks.plugin.ksp.HooksProcessor
-import com.intuit.hooks.plugin.ksp.text
 
 /** Wrapper for [KSAnnotation] when we're sure that the annotation is a hook annotation */
 @JvmInline internal value class HookAnnotation(val symbol: KSAnnotation) {
