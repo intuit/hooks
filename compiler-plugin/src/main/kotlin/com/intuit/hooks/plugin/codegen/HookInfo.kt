@@ -31,13 +31,15 @@ internal data class HookSignature(
 }
 
 internal class HookParameter(
-    val name: String?,
-    val type: String,
+    val parameter: KSValueParameter,
     val position: Int,
-)
+) {
+    val name: String? get() = parameter.name?.asString()
+    val type: String get() = parameter.type.text
+    val withType get() = "$withoutType: $type"
+    val withoutType get() = name ?: "p$position"
+}
 
-internal val HookParameter.withType get() = "$withoutType: $type"
-internal val HookParameter.withoutType get() = name ?: "p$position"
 
 internal data class HookInfo(
     val property: HookMember,

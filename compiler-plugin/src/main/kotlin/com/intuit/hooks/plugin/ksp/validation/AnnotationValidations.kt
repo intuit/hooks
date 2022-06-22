@@ -52,7 +52,7 @@ private fun KSPropertyDeclaration.onlyHasASingleDslAnnotation(): ValidatedNel<Ho
 
 private fun validateParameters(annotation: HookAnnotation): ValidatedNel<HookValidationError, List<HookParameter>> = try {
     annotation.hookFunctionSignatureReference.functionParameters.mapIndexed { index: Int, parameter: KSValueParameter ->
-        HookParameter(parameter.name?.asString(), parameter.type.text, index)
+        HookParameter(parameter, index)
     }.valid()
 } catch (exception: Exception) {
     HookValidationError.MustBeHookTypeSignature(annotation).invalidNel()

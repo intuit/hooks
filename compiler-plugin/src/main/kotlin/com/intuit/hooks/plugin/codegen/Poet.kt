@@ -173,7 +173,57 @@ internal fun HookInfo.generatePoetClass(): TypeSpec {
                 .addFunction(call)
                 .build()
         }
-        else -> TypeSpec.classBuilder(this.className).build()
+        HookType.AsyncSeriesWaterfallHook -> {
+            val superclass = superclassBuilder
+                .parameterizedBy(
+                    lambdaTypeName.copy(suspending = true),
+                    hookSignature.parameters.first().type.toTypeName()
+                )
+
+            val accumulatorName = params.first().withoutType
+            val call = FunSpec.builder("call")
+                .addParameters(paramsWithTypesPoet)
+                .addModifiers(KModifier.SUSPEND)
+                .returns(hookSignature.returnTypePoet)
+                .addCode("return super.call(%N, invokeTap = %L, invokeInterceptor = %L)",
+                    accumulatorName,
+                    CodeBlock.of("{ f, %N, context -> f(context, ${paramsWithoutTypes}) }", accumulatorName),
+                    CodeBlock.of("{ f, context -> f(context, ${paramsWithoutTypes}) }")
+                )
+                .build()
+
+            typeSpecBuilder
+                .superclass(superclass)
+                .addFunction(call)
+                .build()
+        }
+        HookType.AsyncSeriesLoopHook -> {
+            val interceptParameter = LambdaTypeName.get(
+                parameters = listOf(ParameterSpec.unnamed(hookContext)) + paramsWithTypesPoet,
+                returnType = UNIT
+            ).let { if(isAsync) it.copy(suspending = true) else it }
+
+            val superclass = superclassBuilder
+                .parameterizedBy(
+                    lambdaTypeName.copy(suspending = true),
+                    interceptParameter
+                )
+
+            val call = FunSpec.builder("call")
+                .addParameters(paramsWithTypesPoet)
+                .addModifiers(KModifier.SUSPEND)
+                .returns(UNIT)
+                .addCode("return super.call(invokeTap = %L, invokeInterceptor = %L)",
+                    CodeBlock.of("{ f, context -> f(context, ${paramsWithoutTypes}) }"),
+                    CodeBlock.of("{ f, context -> f(context, ${paramsWithoutTypes}) }")
+                )
+                .build()
+
+            typeSpecBuilder
+                .superclass(superclass)
+                .addFunction(call)
+                .build()
+        }
     }
 }
 
@@ -210,7 +260,9 @@ private val HookInfo.tapMethodsPoet : List<FunSpec>
         return listOf(tap, tapWithId)
     }
 
-internal val HookInfo.paramsWithTypesPoet get() = params.map { ParameterSpec.builder(it.withoutType, ClassName.bestGuess(it.type)).build() }
+internal val HookInfo.paramsWithTypesPoet get() = params.map {
+    ParameterSpec.builder(it.withoutType, it.parameter.type.toTypeName()).build()
+}
 
 
 internal fun HookInfo.generatePoetProperty(): PropertySpec {
