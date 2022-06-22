@@ -16,9 +16,9 @@ internal fun HookInfo.createSuperClass(extraTypeName: TypeName? = null): Paramet
         .parameterizedBy(parameters)
 }
 
-internal fun HookInfo.generatePoetClass(): TypeSpec {
+internal fun HookInfo.generateClass(): TypeSpec {
     val callBuilder = FunSpec.builder("call")
-        .addParameters(paramsWithTypesPoet)
+        .addParameters(parameterSpecs)
         .apply {
             if (isAsync) {
                 addModifiers(KModifier.SUSPEND)
@@ -36,16 +36,16 @@ internal fun HookInfo.generatePoetClass(): TypeSpec {
             Pair(superclass, call)
         }
         HookType.SyncBailHook -> {
-            val superclass = createSuperClass(hookSignature.returnTypeTypePoet)
+            val superclass = createSuperClass(hookSignature.returnTypeType)
 
             val call = callBuilder
-                .returns(hookSignature.nullableReturnTypeTypePoet)
+                .returns(hookSignature.nullableReturnTypeType)
                 .addStatement("return super.call { f, context -> f(context, $paramsWithoutTypes) }")
 
             Pair(superclass, call)
         }
         HookType.SyncLoopHook, HookType.AsyncSeriesLoopHook -> {
-            val superclass = createSuperClass(interceptParameterPoet)
+            val superclass = createSuperClass(interceptParameter)
 
             val call = callBuilder
                 .returns(UNIT)
@@ -62,7 +62,7 @@ internal fun HookInfo.generatePoetClass(): TypeSpec {
 
             val accumulatorName = params.first().withoutType
             val call = callBuilder
-                .returns(hookSignature.returnTypePoet)
+                .returns(hookSignature.returnType)
                 .addCode(
                     "return super.call(%N, invokeTap = %L, invokeInterceptor = %L)",
                     accumulatorName,
@@ -91,22 +91,22 @@ internal fun HookInfo.generatePoetClass(): TypeSpec {
             Pair(superclass, call)
         }
         HookType.AsyncParallelBailHook -> {
-            val superclass = createSuperClass(hookSignature.returnTypeTypePoet)
+            val superclass = createSuperClass(hookSignature.returnTypeType)
 
             // force the concurrency parameter to be first
             callBuilder.parameters.add(0, ParameterSpec("concurrency", INT))
 
             val call = callBuilder
-                .returns(hookSignature.nullableReturnTypeTypePoet)
+                .returns(hookSignature.nullableReturnTypeType)
                 .addStatement("return super.call(concurrency) { f, context -> f(context, $paramsWithoutTypes) }")
 
             Pair(superclass, call)
         }
         HookType.AsyncSeriesBailHook -> {
-            val superclass = createSuperClass(hookSignature.returnTypeTypePoet)
+            val superclass = createSuperClass(hookSignature.returnTypeType)
 
             val call = callBuilder
-                .returns(hookSignature.nullableReturnTypeTypePoet)
+                .returns(hookSignature.nullableReturnTypeType)
                 .addStatement("return super.call { f, context -> f(context, $paramsWithoutTypes) }")
 
             Pair(superclass, call)
@@ -115,7 +115,7 @@ internal fun HookInfo.generatePoetClass(): TypeSpec {
 
     return TypeSpec.classBuilder(className).apply {
         addModifiers(propertyVisibility, KModifier.INNER)
-        addFunctions(tapMethodsPoet)
+        addFunctions(tapMethods)
         if (hookType == HookType.AsyncParallelBailHook) {
             addAnnotation(experimentalCoroutinesAnnotation)
         }
@@ -124,8 +124,8 @@ internal fun HookInfo.generatePoetClass(): TypeSpec {
     }.build()
 }
 
-private val HookInfo.interceptParameterPoet get() = LambdaTypeName.get(
-    parameters = listOf(ParameterSpec.unnamed(hookContext)) + paramsWithTypesPoet,
+private val HookInfo.interceptParameter get() = LambdaTypeName.get(
+    parameters = listOf(ParameterSpec.unnamed(hookContext)) + parameterSpecs,
     returnType = UNIT
 ).suspendIfAsync(this)
 
@@ -136,11 +136,11 @@ private val HookInfo.lambdaTypeName get() = LambdaTypeName.get(
     null,
     listOf(
         ParameterSpec.unnamed(hookContext)
-    ) + paramsWithTypesPoet,
-    hookSignature.returnTypePoet,
+    ) + parameterSpecs,
+    hookSignature.returnType,
 )
 
-private val HookInfo.tapMethodsPoet: List<FunSpec>
+private val HookInfo.tapMethods: List<FunSpec>
     get() {
         // zero arity functions cause the compiler to be unable to resolve ambiguous references
         if (zeroArity) return emptyList()
@@ -168,11 +168,11 @@ private val HookInfo.tapMethodsPoet: List<FunSpec>
         return listOf(tap, tapWithId)
     }
 
-internal val HookInfo.paramsWithTypesPoet get() = params.map {
+internal val HookInfo.parameterSpecs get() = params.map {
     ParameterSpec.builder(it.withoutType, it.parameter.type.toTypeName(parentResolver)).build()
 }
 
-internal fun HookInfo.generatePoetProperty(): PropertySpec =
+internal fun HookInfo.generateProperty(): PropertySpec =
     PropertySpec.builder(property.name, ClassName.bestGuess(className)).apply {
         initializer("$className()")
         // TODO: the visibility here might not be correct

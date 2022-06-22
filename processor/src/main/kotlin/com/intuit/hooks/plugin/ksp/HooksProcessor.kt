@@ -57,7 +57,7 @@ public class HooksProcessor(
                 val resolvedPackageName = classDeclaration.packageName.asString().takeIf(String::isNotEmpty)
                 val visibilityModifier = classDeclaration.getVisibility().toKModifier() ?: KModifier.PUBLIC
 
-                val (poetClasses, poetProperties) = codeGen.map(::generatePoetHookClass).unzip()
+                val (poetClasses, poetProperties) = codeGen.map(::generateHookClass).unzip()
 
                 val typeArguments = classDeclaration.typeParameters.map { it.toTypeVariableName() }
 
@@ -104,9 +104,9 @@ public class HooksProcessor(
         .map(::validateProperty)
         .sequence(Semigroup.nonEmptyList())
 
-    private fun generatePoetHookClass(hookInfo: HookInfo): Pair<TypeSpec, PropertySpec> {
-        val classDefinition = hookInfo.generatePoetClass()
-        val propertyDefinition = hookInfo.generatePoetProperty()
+    private fun generateHookClass(hookInfo: HookInfo): Pair<TypeSpec, PropertySpec> {
+        val classDefinition = hookInfo.generateClass()
+        val propertyDefinition = hookInfo.generateProperty()
 
         return classDefinition to propertyDefinition
     }

@@ -20,11 +20,11 @@ internal data class HookSignature(
     val hookFunctionSignatureReference: KSCallableReference
 ) {
     val isSuspend get() = hookFunctionSignatureType.modifiers.contains(Modifier.SUSPEND)
-    val returnType get() = hookFunctionSignatureReference.returnType.text
-    val returnTypePoet get() = hookFunctionSignatureReference.returnType.toTypeName()
-    val returnTypeTypePoet
+    val returnTypeText get() = hookFunctionSignatureReference.returnType.text
+    val returnType get() = hookFunctionSignatureReference.returnType.toTypeName()
+    val returnTypeType
         get() = hookFunctionSignatureReference.returnType.element?.typeArguments?.firstOrNull()?.toTypeName()!!
-    val nullableReturnTypeTypePoet get() = returnTypeTypePoet.copy(nullable = true)
+    val nullableReturnTypeType get() = returnTypeType.copy(nullable = true)
     val parameters get() = hookFunctionSignatureReference.functionParameters
 
     override fun toString() = hookFunctionSignatureType.text
