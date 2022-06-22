@@ -4,6 +4,7 @@ jobs:
     docker:
       - image: cimg/openjdk:15.0.0
 
+    resource_class: large
     steps:
       - run: |
           curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/fossa-cli/master/install.sh | bash
