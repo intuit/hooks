@@ -140,6 +140,9 @@ private val HookInfo.lambdaTypeName get() = LambdaTypeName.get(
 
 private val HookInfo.tapMethodsPoet : List<FunSpec>
     get() {
+        // zero arity functions cause the compiler to be unable to resolve ambiguous references
+        if(zeroArity) return emptyList()
+
         val returnType = STRING.copy(nullable = true)
         val nameParameter = ParameterSpec.builder("name", STRING).build()
         val idParameter = ParameterSpec.builder("id", STRING).build()

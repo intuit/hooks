@@ -1,5 +1,6 @@
 package com.intuit.hooks.plugin.ksp
 
+import arrow.core.sequence
 import arrow.core.sequenceValidated
 import arrow.core.valueOr
 import arrow.typeclasses.Semigroup
@@ -103,7 +104,7 @@ public class HooksProcessor(
             it.modifiers.contains(Modifier.ABSTRACT)
         }
         .map(::validateProperty)
-        .sequenceValidated(Semigroup.nonEmptyList())
+        .sequence(Semigroup.nonEmptyList())
 
     private fun generatePoetHookClass(hookInfo: HookInfo): Pair<TypeSpec, PropertySpec> {
         val classDefinition = hookInfo.generatePoetClass()

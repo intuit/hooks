@@ -55,5 +55,5 @@ private fun KSPropertyDeclaration.validatePropertyTypeAgainstHookInfo(
 
 private fun KSPropertyDeclaration.validateHookProperties(hookInfo: HookInfo) =
     hookInfo.hookType.properties.map { it.validate(hookInfo, this) }
-        .sequenceValidated()
+        .sequence()
         .map { hookInfo }
