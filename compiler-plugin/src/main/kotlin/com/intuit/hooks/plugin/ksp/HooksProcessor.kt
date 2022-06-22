@@ -75,19 +75,15 @@ public class HooksProcessor(
                        |
                        |$imports
                        |
-                       |$visibility $kind $name$typeParameters : ${fqName}$typeParameters() {
+                       |$visibility $kind ${name}Old$typeParameters : ${fqName}$typeParameters() {
                        |   ${properties.joinToString("\n", "\n", "\n") { it }}
                        |   ${classes.joinToString("\n", "\n", "\n") { it }} 
                        |}""".trimMargin()
 
-                println("========= OLD ==========")
-                println(newSource)
-                println("========================")
-
                 codeGenerator.createNewFile(
                     Dependencies(true, classDeclaration.containingFile!!),
                     packageName.asString(),
-                    name,
+                    name + "Old",
                 ).use {
                     newSource
                         .let(String::toByteArray)
@@ -98,7 +94,7 @@ public class HooksProcessor(
                  * Kotlin Poet Stuff
                  */
                 val visibilityModifier = classDeclaration.getVisibility().toKModifier() ?: KModifier.PUBLIC
-                val className = ClassName.bestGuess("${name}2")
+                val className = ClassName.bestGuess(name)
 
                 val builder : (ClassName) -> TypeSpec.Builder = when(classDeclaration.classKind) {
                     ClassKind.INTERFACE -> TypeSpec.Companion::interfaceBuilder
@@ -118,16 +114,12 @@ public class HooksProcessor(
                     .superclass(superclass)
                     .build()
 
-                val file = FileSpec.builder(resolvedPackageName ?: "", "${name}2")
-                    .addFileComment("hi!")
+                val file = FileSpec.builder(resolvedPackageName ?: "", name)
                     .addType(hooksImplClass)
                     .build()
 
                 // TODO: somehow specify the original file as a dependency of this new file
                 file.writeTo(codeGenerator, aggregating = false)
-                println("========= NEW ==========")
-                println(file)
-                println("========================")
 
             }.valueOr { errors ->
                 errors.forEach { logger.error(it.message, it.symbol) }

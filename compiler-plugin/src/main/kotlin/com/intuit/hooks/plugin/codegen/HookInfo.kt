@@ -25,6 +25,7 @@ internal data class HookSignature(
     val returnTypePoet get() = hookFunctionSignatureReference.returnType.toTypeName()
     val returnTypeType get() = hookFunctionSignatureReference.returnType.element?.typeArguments?.firstOrNull()?.text
     val returnTypeTypePoet get() = hookFunctionSignatureReference.returnType.element?.typeArguments?.firstOrNull()?.toTypeName()!!
+    val nullableReturnTypeTypePoet get() = returnTypeTypePoet.copy(nullable = true)
     val parameters get() = hookFunctionSignatureReference.functionParameters
 
     override fun toString() = text
