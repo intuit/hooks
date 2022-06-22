@@ -8,8 +8,8 @@ internal val hookContext = ClassName.bestGuess("com.intuit.hooks.HookContext")
 internal val experimentalCoroutinesAnnotation = ClassName.bestGuess("kotlinx.coroutines.ExperimentalCoroutinesApi")
 
 internal fun HookInfo.createSuperClass(extraTypeName: TypeName? = null): ParameterizedTypeName {
-    val lambdaParameter = lambdaTypeName.let { if (isAsync) it.copy(suspending = true) else it }
-    val parameters : List<TypeName> = listOfNotNull(lambdaParameter, extraTypeName)
+    val lambdaParameter = lambdaTypeName.suspendIfAsync(this)
+    val parameters = listOfNotNull(lambdaParameter, extraTypeName)
 
     // TODO: is there a way to avoid bestGuess here?
     return ClassName.bestGuess("com.intuit.hooks.${superType}")
@@ -111,23 +111,24 @@ internal fun HookInfo.generatePoetClass(): TypeSpec {
         }
     }
 
-    return TypeSpec.classBuilder(className)
-        .addModifiers(propertyVisibility, KModifier.INNER)
-        .addFunctions(tapMethodsPoet)
-        .apply {
-            if (hookType == HookType.AsyncParallelBailHook) {
-                addAnnotation(experimentalCoroutinesAnnotation)
-            }
+    return TypeSpec.classBuilder(className).apply {
+        addModifiers(propertyVisibility, KModifier.INNER)
+        addFunctions(tapMethodsPoet)
+        if (hookType == HookType.AsyncParallelBailHook) {
+            addAnnotation(experimentalCoroutinesAnnotation)
         }
-        .superclass(superclass)
-        .addFunction(call.build())
-        .build()
+        superclass(superclass)
+        addFunction(call.build())
+    }.build()
 }
 
 private val HookInfo.interceptParameterPoet get() = LambdaTypeName.get(
     parameters = listOf(ParameterSpec.unnamed(hookContext)) + paramsWithTypesPoet,
     returnType = UNIT
-).let { if(isAsync) it.copy(suspending = true) else it }
+).suspendIfAsync(this)
+
+private fun LambdaTypeName.suspendIfAsync(hookInfo: HookInfo) : LambdaTypeName =
+    if(hookInfo.isAsync) this.copy(suspending = true) else this
 
 private val HookInfo.lambdaTypeName get() = LambdaTypeName.get(
     null,
@@ -166,15 +167,13 @@ internal val HookInfo.paramsWithTypesPoet get() = params.map {
     ParameterSpec.builder(it.withoutType, it.parameter.type.toTypeName(parentResolver)).build()
 }
 
-internal fun HookInfo.generatePoetProperty(): PropertySpec {
-    val b = PropertySpec.builder(property.name, ClassName.bestGuess(className))
-        .initializer("${className}()")
-            // TODO: the visibility here might not be correct
-        .addModifiers(KModifier.OVERRIDE, propertyVisibility)
+internal fun HookInfo.generatePoetProperty(): PropertySpec =
+    PropertySpec.builder(property.name, ClassName.bestGuess(className)).apply {
+        initializer("${className}()")
+        // TODO: the visibility here might not be correct
+        addModifiers(KModifier.OVERRIDE, propertyVisibility)
 
-    if(hookType == HookType.AsyncParallelBailHook) {
-        b.addAnnotation(experimentalCoroutinesAnnotation)
-    }
-
-    return b.build()
-}
+        if(hookType == HookType.AsyncParallelBailHook) {
+            addAnnotation(experimentalCoroutinesAnnotation)
+        }
+    }.build()

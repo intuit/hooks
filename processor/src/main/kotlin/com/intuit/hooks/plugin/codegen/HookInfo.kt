@@ -19,18 +19,15 @@ internal data class HookSignature(
     val hookFunctionSignatureType: KSTypeReference,
     val hookFunctionSignatureReference: KSCallableReference
 ) {
-    val nullableReturnTypeType = "${returnTypeType}${if (returnTypeType?.last() == '?') "" else "?"}"
-
-    val text get() = hookFunctionSignatureType.text
     val isSuspend get() = hookFunctionSignatureType.modifiers.contains(Modifier.SUSPEND)
     val returnType get() = hookFunctionSignatureReference.returnType.text
     val returnTypePoet get() = hookFunctionSignatureReference.returnType.toTypeName()
-    val returnTypeType get() = hookFunctionSignatureReference.returnType.element?.typeArguments?.firstOrNull()?.text
-    val returnTypeTypePoet get() = hookFunctionSignatureReference.returnType.element?.typeArguments?.firstOrNull()?.toTypeName()!!
+    val returnTypeTypePoet
+        get() = hookFunctionSignatureReference.returnType.element?.typeArguments?.firstOrNull()?.toTypeName()!!
     val nullableReturnTypeTypePoet get() = returnTypeTypePoet.copy(nullable = true)
     val parameters get() = hookFunctionSignatureReference.functionParameters
 
-    override fun toString() = text
+    override fun toString() = hookFunctionSignatureType.text
 }
 
 internal class HookParameter(
@@ -42,7 +39,6 @@ internal class HookParameter(
     val withType get() = "$withoutType: $type"
     val withoutType get() = name ?: "p$position"
 }
-
 
 internal data class HookInfo(
     val property: HookMember,
@@ -58,23 +54,9 @@ internal data class HookInfo(
     val zeroArity = params.isEmpty()
     val isAsync = hookType.properties.contains(HookProperty.Async)
     val parentResolver get() = (this.propertyDeclaration.parent as? KSClassDeclaration)?.typeParameters?.toTypeParameterResolver() ?: TypeParameterResolver.EMPTY
-
 }
-
-internal val HookInfo.tapMethod get() = if (!zeroArity) """
-    public fun tap(name: String, f: $hookSignature): String? = tap(name, generateRandomId(), f)
-    public fun tap(name: String, id: String, f: $hookSignature): String? = super.tap(name, id) { _: HookContext, $paramsWithTypes -> f($paramsWithoutTypes) }
-""".trimIndent() else ""
 
 internal val HookInfo.paramsWithTypes get() = params.joinToString(transform = HookParameter::withType)
 internal val HookInfo.paramsWithoutTypes get() = params.joinToString(transform = HookParameter::withoutType)
-internal fun HookInfo.generateClass() = this.hookType.generateClass(this)
-internal fun HookInfo.generateProperty() = (if (hookType == HookType.AsyncParallelBailHook) "@kotlinx.coroutines.ExperimentalCoroutinesApi\n" else "") +
-    "override val ${property.name}: $className = $className()"
-internal fun HookInfo.generateImports(): List<String> = emptyList()
-
 internal val HookInfo.superType get() = this.hookType.toString()
-
 internal val HookInfo.className get() = "${property.name.replaceFirstChar(Char::titlecase)}$superType"
-internal val HookInfo.typeParameter get() = "(${if (isAsync) "suspend " else ""}(HookContext, $paramsWithTypes) -> ${hookSignature.returnType})"
-internal val HookInfo.interceptParameter get() = "${if (isAsync) "suspend " else ""}(HookContext, $paramsWithTypes) -> Unit"
