@@ -4,6 +4,10 @@ Built on the [Kotlin Symbol Processing API](https://kotlinlang.org/docs/ksp-over
 
 ### Manual Gradle KSP configuration
 
+<!--- INCLUDE
+/** Throwaway code for knit (would be really nice if I could just specify a start for knit or exclude for knit)
+-->
+
 ```kotlin
 // build.gradle(.kts)
 plugins {
@@ -14,6 +18,12 @@ dependencies {
     ksp("com.intuit.hooks", "processor", HOOKS_VERSION)
 }
 ```
+
+<!--- INCLUDE
+*/
+-->
+
+<!--- KNIT example-throwaway-01.kt -->
 
 ### Processor DSL
 

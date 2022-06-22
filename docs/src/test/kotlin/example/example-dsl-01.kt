@@ -1,14 +1,6 @@
 // This file was automatically generated from README.md by Knit tool. Do not edit.
 package com.intuit.hooks.example.exampleDsl01
 
-// build.gradle(.kts)
-plugins {
-    id("com.google.devtools.ksp") version KSP_VERSION // >= 1.0.5
-}
-
-dependencies {
-    ksp("com.intuit.hooks", "processor", HOOKS_VERSION)
-}
 import com.intuit.hooks.*
 import com.intuit.hooks.dsl.Hooks
 
