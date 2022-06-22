@@ -1,12 +1,12 @@
 package com.intuit.hooks.plugin.codegen
 
-import com.google.devtools.ksp.getVisibility
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
-import com.squareup.kotlinpoet.ksp.toKModifier
 import com.squareup.kotlinpoet.ksp.toTypeName
 
 internal val hookContext = ClassName.bestGuess("com.intuit.hooks.HookContext")
+internal val experimentalCoroutinesAnnotation = ClassName.bestGuess("kotlinx.coroutines.ExperimentalCoroutinesApi")
+
 internal fun HookInfo.generatePoetClass(): TypeSpec {
     // TODO: is there a way to avoid bestGuess here?
     val superclassBuilder = ClassName.bestGuess("com.intuit.hooks.${this.superType}")
@@ -115,6 +115,45 @@ internal fun HookInfo.generatePoetClass(): TypeSpec {
                 .addFunction(call)
                 .build()
         }
+        HookType.AsyncParallelHook -> {
+            val superclass = superclassBuilder
+                .parameterizedBy(
+                    lambdaTypeName.copy(suspending = true)
+                )
+
+            val call = FunSpec.builder("call")
+                .addParameters(paramsWithTypesPoet)
+                .addModifiers(KModifier.SUSPEND)
+                .returns(UNIT)
+                .addStatement("return super.call { f, context -> f(context, ${paramsWithoutTypes}) }")
+                .build()
+
+            typeSpecBuilder
+                .superclass(superclass)
+                .addFunction(call)
+                .build()
+        }
+        HookType.AsyncParallelBailHook -> {
+            val superclass = superclassBuilder
+                .parameterizedBy(
+                    lambdaTypeName.copy(suspending = true),
+                    this.hookSignature.returnTypeTypePoet
+                )
+
+            val call = FunSpec.builder("call")
+                .addParameter("concurrency", INT)
+                .addParameters(paramsWithTypesPoet)
+                .addModifiers(KModifier.SUSPEND)
+                .returns(hookSignature.returnTypeTypePoet.copy(nullable = true))
+                .addStatement("return super.call(concurrency) { f, context -> f(context, ${paramsWithoutTypes}) }")
+                .build()
+
+            typeSpecBuilder
+                .addAnnotation(experimentalCoroutinesAnnotation)
+                .superclass(superclass)
+                .addFunction(call)
+                .build()
+        }
         HookType.AsyncSeriesBailHook -> {
             val superclass = superclassBuilder
                 .parameterizedBy(
@@ -173,6 +212,7 @@ private val HookInfo.tapMethodsPoet : List<FunSpec>
 
 internal val HookInfo.paramsWithTypesPoet get() = params.map { ParameterSpec.builder(it.withoutType, ClassName.bestGuess(it.type)).build() }
 
+
 internal fun HookInfo.generatePoetProperty(): PropertySpec {
     val b = PropertySpec.builder(this.property.name, ClassName.bestGuess(this.className))
         .initializer("${this.className}()")
@@ -180,7 +220,7 @@ internal fun HookInfo.generatePoetProperty(): PropertySpec {
         .addModifiers(KModifier.OVERRIDE, this.propertyVisibility)
 
     if(this.hookType == HookType.AsyncParallelBailHook) {
-        b.addAnnotation(ClassName.bestGuess("kotlinx.coroutines.ExperimentalCoroutinesApi"))
+        b.addAnnotation(experimentalCoroutinesAnnotation)
     }
 
     return b.build()

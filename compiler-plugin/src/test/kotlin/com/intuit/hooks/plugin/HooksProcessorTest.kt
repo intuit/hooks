@@ -149,7 +149,7 @@ class HooksProcessorTest {
             internal abstract class TestHooks : Hooks() {
 //                @Sync<(newSpeed: Int) -> Unit> abstract val sync: SyncHook<*>
 //                @SyncBail<(Boolean) -> BailResult<Int>> abstract val syncBail: SyncBailHook<*, *>
-                @SyncLoop<(foo: Boolean) -> LoopResult> abstract val syncLoop: SyncLoopHook<*, *>
+//                @SyncLoop<(foo: Boolean) -> LoopResult> abstract val syncLoop: SyncLoopHook<*, *>
 //                @SyncWaterfall<(name: String) -> String> abstract val syncWaterfall: SyncWaterfallHook<*, *>
 //                @ExperimentalCoroutinesApi
 //                @AsyncParallelBail<suspend (String) -> BailResult<String>> abstract val asyncParallelBail: AsyncParallelBailHook<*, *>
