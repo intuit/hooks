@@ -15,11 +15,13 @@ dependencyResolutionManagement {
         create("libs") {
             version("kotlin", "1.6.21")
             version("ktlint", "0.45.2")
-            version("arrow", "1.0.1") // 1.1.2
+
+            version("arrow", "1.1.2")
             version("ksp", "1.6.21-1.0.6")
             version("poet", "1.12.0")
+
             version("junit", "5.7.0")
-            version("knit", "0.2.3") // TODO: Upgrade
+            version("knit", "0.4.0")
             version("orchid", "0.21.1")
 
             plugin("kotlin.jvm", "org.jetbrains.kotlin.jvm").versionRef("kotlin")
@@ -98,7 +100,7 @@ pluginManagement {
     resolutionStrategy {
         eachPlugin {
             when (val id = requested.id.id) {
-                "kotlinx-knit" -> useModule("org.jetbrains.kotlinx:$id:${requested.version!!}")
+                "kotlinx-knit" -> useModule("org.jetbrains.kotlinx:$id:${requireNotNull(requested.version)}")
             }
         }
     }
