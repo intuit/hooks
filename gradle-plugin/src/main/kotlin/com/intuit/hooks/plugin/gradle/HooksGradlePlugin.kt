@@ -34,7 +34,7 @@ public class HooksGradlePlugin : Plugin<Project> {
             pluginManager.apply("com.google.devtools.ksp")
 
         addDependency("api", "com.intuit.hooks:hooks:$hooksVersion")
-        addDependency("ksp", "com.intuit.hooks:compiler-plugin:$hooksVersion")
+        addDependency("ksp", "com.intuit.hooks:processor:$hooksVersion")
 
         // TODO: Maybe apply to Kotlin plugin to be compatible with MPP
         plugins.withType(JavaPlugin::class.java) { _ ->

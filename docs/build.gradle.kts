@@ -19,8 +19,8 @@ dependencies {
     testImplementation(libs.kotlin.coroutines.core)
     testImplementation(libs.knit.testing)
     testImplementation(project(":hooks"))
-    testImplementation(project(":compiler-plugin"))
-    ksp(project(":compiler-plugin"))
+    testImplementation(project(":processor"))
+    ksp(project(":processor"))
 }
 
 // 4. Use the 'Editorial' theme, and set the URL it will have on Github Pages

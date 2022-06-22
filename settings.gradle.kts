@@ -1,7 +1,7 @@
 rootProject.name = "hooks-project"
 include(
     ":hooks",
-    ":compiler-plugin",
+    ":processor",
     ":gradle-plugin",
     ":maven-plugin",
     ":docs",

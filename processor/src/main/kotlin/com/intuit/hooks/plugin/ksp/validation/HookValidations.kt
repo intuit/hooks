@@ -6,7 +6,7 @@ import com.intuit.hooks.plugin.codegen.HookInfo
 import com.intuit.hooks.plugin.codegen.HookType
 import com.intuit.hooks.plugin.ksp.text
 
-// TODO: It'd be nice if the validations were compiler plugin framework agnostic
+// TODO: It'd be nice if the validations were codegen framework agnostic
 internal sealed class HookValidationError(val message: String, val symbol: KSNode) {
     class AsyncHookWithoutSuspend(symbol: KSNode) : HookValidationError("Async hooks must be defined with a suspend function signature", symbol)
     class WaterfallMustHaveParameters(symbol: KSNode) : HookValidationError("Waterfall hooks must take at least one parameter", symbol)

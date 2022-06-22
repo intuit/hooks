@@ -13,8 +13,8 @@ homepageSections:
         snippets: ['asynchronous']
         lang: 'kotlin'
 
-  - title: 'Kotlin compiler plugin'
-    snippets: ['compiler_plugin']
+  - title: 'Kotlin symbol processor'
+    snippets: ['processor']
     lang: 'text'
     tabs:
       - title: 'Paired with a concise DSL that generates type-safe APIs'
