@@ -21,7 +21,7 @@ internal fun HookInfo.generatePoetClass(): TypeSpec {
 
             val call = FunSpec.builder("call")
                 .addParameters(paramsWithTypesPoet)
-                .returns(Unit::class.asTypeName())
+                .returns(UNIT)
                 .addStatement("return super.call { f, context -> f(context, ${paramsWithoutTypes}) }")
                 .build()
 
@@ -48,6 +48,32 @@ internal fun HookInfo.generatePoetClass(): TypeSpec {
                 .addFunction(call)
                 .build()
         }
+        HookType.SyncLoopHook -> {
+            val interceptParameter = LambdaTypeName.get(
+                parameters = listOf(ParameterSpec.unnamed(hookContext)) + paramsWithTypesPoet,
+                returnType = UNIT
+            ).let { if(isAsync) it.copy(suspending = true) else it }
+
+            val superclass = superclassBuilder
+                .parameterizedBy(
+                    lambdaTypeName,
+                    interceptParameter
+                )
+
+            val call = FunSpec.builder("call")
+                .addParameters(paramsWithTypesPoet)
+                .returns(UNIT)
+                .addCode("return super.call(invokeTap = %L, invokeInterceptor = %L)",
+                    CodeBlock.of("{ f, context -> f(context, ${paramsWithoutTypes}) }"),
+                    CodeBlock.of("{ f, context -> f(context, ${paramsWithoutTypes}) }")
+                )
+                .build()
+
+            typeSpecBuilder
+                .superclass(superclass)
+                .addFunction(call)
+                .build()
+        }
         HookType.SyncWaterfallHook -> {
             val superclass = superclassBuilder
                 .parameterizedBy(
@@ -62,7 +88,7 @@ internal fun HookInfo.generatePoetClass(): TypeSpec {
                 .addCode("return super.call(%N, invokeTap = %L, invokeInterceptor = %L)",
                     accumulatorName,
                     CodeBlock.of("{ f, %N, context -> f(context, ${paramsWithoutTypes}) }", accumulatorName),
-                    CodeBlock.of("{ f, context -> f(context, ${paramsWithoutTypes})}")
+                    CodeBlock.of("{ f, context -> f(context, ${paramsWithoutTypes}) }")
                 )
                 .build()
 
@@ -80,7 +106,7 @@ internal fun HookInfo.generatePoetClass(): TypeSpec {
             val call = FunSpec.builder("call")
                 .addParameters(paramsWithTypesPoet)
                 .addModifiers(KModifier.SUSPEND)
-                .returns(Unit::class.asTypeName())
+                .returns(UNIT)
                 .addStatement("return super.call { f, context -> f(context, ${paramsWithoutTypes}) }")
                 .build()
 
@@ -122,9 +148,9 @@ private val HookInfo.lambdaTypeName get() = LambdaTypeName.get(
 
 private val HookInfo.tapMethodsPoet : List<FunSpec>
     get() {
-        val returnType = String::class.asTypeName().copy(nullable = true)
-        val nameParameter = ParameterSpec.builder("name", String::class.asTypeName()).build()
-        val idParameter = ParameterSpec.builder("id", String::class.asTypeName()).build()
+        val returnType = STRING.copy(nullable = true)
+        val nameParameter = ParameterSpec.builder("name", STRING).build()
+        val idParameter = ParameterSpec.builder("id", STRING).build()
         val functionParameter = ParameterSpec.builder("f", this.hookSignature.hookFunctionSignatureType.toTypeName()).build()
 
         val tap = FunSpec.builder("tap")
@@ -139,7 +165,7 @@ private val HookInfo.tapMethodsPoet : List<FunSpec>
             .addParameter(nameParameter)
             .addParameter(idParameter)
             .addParameter(functionParameter)
-            .addStatement("return super.tap(name, id) { _: HookContext, ${paramsWithTypes} -> f($paramsWithoutTypes)}")
+            .addStatement("return super.tap(name, id) { _: HookContext, $paramsWithTypes -> f($paramsWithoutTypes)}")
             .build()
 
         return listOf(tap, tapWithId)
