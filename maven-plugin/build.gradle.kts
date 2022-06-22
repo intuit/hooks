@@ -1,14 +1,24 @@
-val pluginDependency: Configuration by configurations.creating {
-    configurations.compileClasspath.get().extendsFrom(this)
-}
+val ksp: Configuration by configurations.creating
 
 dependencies {
-    implementation(kotlin("maven-plugin"))
-    pluginDependency(project(":compiler-plugin"))
+    implementation(libs.kotlin.maven)
+    implementation(libs.ksp.maven)
+    ksp(project(":processor"))
 }
 
 tasks {
     jar {
-        fromConfiguration(pluginDependency)
+        dependsOn(":processor:jar")
+        fromConfiguration(ksp) {
+            this.duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+        }
+
+        from(
+            configurations.compileClasspath.get().filter { dependency ->
+                dependency.absolutePath.contains("kotlin-maven-symbol-processing")
+            }.map(::zipTree)
+        ) {
+            this.duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+        }
     }
 }

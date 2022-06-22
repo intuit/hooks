@@ -54,16 +54,17 @@ fun typed() {
 
 // START concise_dsl
 abstract class SomeHooks : Hooks() {
-    open val syncHook = syncHook<() -> Unit>()
+    @Sync<() -> Unit>
+    abstract val syncHook: SyncHook<*>
 }
 // END concise_dsl
 
-val compiler_plugin =
+val processor =
     """
-// START compiler_plugin
+// START processor
 To make hooks easier to use
-// END compiler_plugin
-    """.trimIndent()
+// END processor
+"""
 
 val gradle_plugin =
     """

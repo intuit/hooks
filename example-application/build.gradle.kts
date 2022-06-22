@@ -2,18 +2,14 @@ plugins {
     application
 }
 
-val COROUTINES_VERSION: String by project
-
 // Resolvable configuration to help configure dependency resolution for the jar task
 val projectImplementation: Configuration by configurations.creating {
     configurations.implementation.get().extendsFrom(this)
 }
 
 dependencies {
-    implementation(kotlin("stdlib"))
-    implementation(kotlin("reflect"))
-    implementation("org.jetbrains.kotlinx", "kotlinx-coroutines-core", COROUTINES_VERSION)
-
+    implementation(libs.kotlin.stdlib)
+    implementation(libs.kotlin.coroutines.core)
     projectImplementation(project(":example-library"))
 }
 

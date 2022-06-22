@@ -3,8 +3,7 @@ import org.jetbrains.kotlin.konan.properties.Properties
 import org.jetbrains.kotlin.konan.properties.saveToFile
 
 plugins {
-    `java-gradle-plugin`
-    id("com.gradle.plugin-publish") version "0.13.0"
+    alias(libs.plugins.gradle.publish)
 }
 
 gradlePlugin {
@@ -12,26 +11,30 @@ gradlePlugin {
         create("HooksGradlePlugin") {
             id = "com.intuit.hooks"
             implementationClass = "com.intuit.hooks.plugin.gradle.HooksGradlePlugin"
+            displayName = "Gradle Hooks plugin"
         }
     }
+
+    testSourceSets(sourceSets.test.get())
 }
 
 pluginBundle {
     website = "https://intuit.github.io/hooks/"
     vcsUrl = "https://github.com/intuit/hooks"
-    description = "Gradle wrapper of the Kotlin compiler companion to the Intuit hooks module"
-    tags = listOf("plugins", "hooks")
-
-    plugins {
-        named("HooksGradlePlugin") {
-            displayName = "Gradle Hooks plugin"
-        }
-    }
+    description = "Gradle wrapper of the Kotlin symbol processor companion to the Intuit hooks module"
+    tags = listOf("plugins", "hooks", "ksp", "codegen")
 }
 
 dependencies {
-    implementation(kotlin("stdlib"))
-    implementation(kotlin("gradle-plugin-api"))
+    implementation(libs.kotlin.stdlib)
+    implementation(libs.ksp.gradle)
+
+    testImplementation(platform(libs.junit.bom))
+    testImplementation(libs.bundles.testing)
+}
+
+kotlin {
+    explicitApi()
 }
 
 tasks {
@@ -39,16 +42,19 @@ tasks {
         dependsOn(processResources)
 
         doLast {
-            val ARROW_VERSION: String by project
-
             Properties().apply {
                 set("version", project.version.toString())
-                set("arrowVersion", ARROW_VERSION)
             }.saveToFile(File("$buildDir/resources/main/version.properties"))
         }
     }
 
     classes {
         dependsOn(createProperties)
+    }
+
+    test {
+        // TODO: Testing migration required the deps to be pulled from somewhere
+        //       Would be nice if they could just use the local built JARs
+        dependsOn(":hooks:publishToMavenLocal", ":processor:publishToMavenLocal")
     }
 }

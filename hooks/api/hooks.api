@@ -142,3 +142,33 @@ public abstract class com/intuit/hooks/dsl/Hooks {
 	protected final fun syncWaterfallHook ()Lcom/intuit/hooks/SyncWaterfallHook;
 }
 
+protected abstract interface annotation class com/intuit/hooks/dsl/Hooks$AsyncParallel : java/lang/annotation/Annotation {
+}
+
+protected abstract interface annotation class com/intuit/hooks/dsl/Hooks$AsyncParallelBail : java/lang/annotation/Annotation {
+}
+
+protected abstract interface annotation class com/intuit/hooks/dsl/Hooks$AsyncSeries : java/lang/annotation/Annotation {
+}
+
+protected abstract interface annotation class com/intuit/hooks/dsl/Hooks$AsyncSeriesBail : java/lang/annotation/Annotation {
+}
+
+protected abstract interface annotation class com/intuit/hooks/dsl/Hooks$AsyncSeriesLoop : java/lang/annotation/Annotation {
+}
+
+protected abstract interface annotation class com/intuit/hooks/dsl/Hooks$AsyncSeriesWaterfall : java/lang/annotation/Annotation {
+}
+
+protected abstract interface annotation class com/intuit/hooks/dsl/Hooks$Sync : java/lang/annotation/Annotation {
+}
+
+protected abstract interface annotation class com/intuit/hooks/dsl/Hooks$SyncBail : java/lang/annotation/Annotation {
+}
+
+protected abstract interface annotation class com/intuit/hooks/dsl/Hooks$SyncLoop : java/lang/annotation/Annotation {
+}
+
+protected abstract interface annotation class com/intuit/hooks/dsl/Hooks$SyncWaterfall : java/lang/annotation/Annotation {
+}
+

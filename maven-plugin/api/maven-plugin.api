@@ -1,10 +1,15 @@
 public final class com/intuit/hooks/plugin/maven/HooksMavenPlugin : org/jetbrains/kotlin/maven/KotlinMavenPluginExtension {
 	public field logger Lorg/codehaus/plexus/logging/Logger;
+	public field system Lorg/apache/maven/repository/RepositorySystem;
 	public fun <init> ()V
+	public fun <init> (Lcom/dyescape/ksp/maven/KotlinSymbolProcessingMavenPluginExtension;)V
+	public synthetic fun <init> (Lcom/dyescape/ksp/maven/KotlinSymbolProcessingMavenPluginExtension;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getCompilerPluginId ()Ljava/lang/String;
 	public final fun getLogger ()Lorg/codehaus/plexus/logging/Logger;
 	public fun getPluginOptions (Lorg/apache/maven/project/MavenProject;Lorg/apache/maven/plugin/MojoExecution;)Ljava/util/List;
+	public final fun getSystem ()Lorg/apache/maven/repository/RepositorySystem;
 	public fun isApplicable (Lorg/apache/maven/project/MavenProject;Lorg/apache/maven/plugin/MojoExecution;)Z
 	public final fun setLogger (Lorg/codehaus/plexus/logging/Logger;)V
+	public final fun setSystem (Lorg/apache/maven/repository/RepositorySystem;)V
 }
 

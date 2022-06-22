@@ -7,7 +7,6 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 allprojects {
     repositories {
-        jcenter()
         mavenLocal()
         mavenCentral()
         maven("https://plugins.gradle.org/m2/")
@@ -16,16 +15,16 @@ allprojects {
 }
 
 plugins {
-    kotlin("jvm") apply false
-    id("jacoco")
+    alias(libs.plugins.kotlin.jvm) apply false
+    jacoco
 
-    id("net.researchgate.release")
-    id("io.github.gradle-nexus.publish-plugin")
+    alias(libs.plugins.release)
+    alias(libs.plugins.nexus)
 
-    id("org.jlleitschuh.gradle.ktlint")
-    id("org.jetbrains.kotlinx.binary-compatibility-validator")
+    alias(libs.plugins.ktlint)
+    alias(libs.plugins.api)
 
-    id("org.jetbrains.dokka")
+    alias(libs.plugins.dokka)
 }
 
 val shouldntPublish = listOf("docs", "example-library", "example-application")
@@ -83,11 +82,12 @@ subprojects {
         plugin("jacoco")
         plugin("org.jlleitschuh.gradle.ktlint")
     }
+
     jacoco {
         toolVersion = "0.8.7"
     }
 
-    if (publishModules.contains(name)) {
+    if (publishModules.contains(name) && name != "gradle-plugin") {
         apply {
             plugin("maven-publish")
             plugin("signing")
@@ -133,15 +133,6 @@ subprojects {
             }
         }
 
-        configure<SigningExtension> {
-            val signingKey by auth {
-                it?.replace("\\n", "\n")
-            }
-            val signingPassword by auth
-            useInMemoryPgpKeys(signingKey, signingPassword)
-            sign(extensions.findByType(PublishingExtension::class.java)!!.publications)
-        }
-
         tasks {
             register<Jar>("javadocJar") {
                 dependsOn("dokkaJavadoc")
@@ -157,9 +148,21 @@ subprojects {
         }
     }
 
+    extensions.findByType<SigningExtension>()?.apply {
+        val signingKey by auth {
+            it?.replace("\\n", "\n")
+        }
+        signingKey?.let {
+            val signingPassword by auth
+            useInMemoryPgpKeys(signingKey, signingPassword)
+            sign(extensions.findByType(PublishingExtension::class.java)!!.publications)
+        } ?: run {
+            isRequired = false
+        }
+    }
+
     ktlint {
         filter {
-            exclude("**/*Impl.kt")
             exclude("**/example/**/*.kt")
         }
     }
@@ -172,8 +175,6 @@ subprojects {
     tasks {
         val configure: KotlinCompile.() -> Unit = {
             kotlinOptions {
-                val JVM_TARGET_VERSION: String by project
-                jvmTarget = JVM_TARGET_VERSION
                 freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
             }
         }

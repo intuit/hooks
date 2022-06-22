@@ -1,6 +1,8 @@
 # Hooks
 
-> These instructions are for using the base hooks library by itself. Under most circumstances, it is advised to use the Kotlin compiler plugin with the DSL to limit the code overhead. However, if your project is Java-only or doesn't easily support Kotlin compiler plugins, it is still possible to utilize the hooks library.
+> **Note**
+> 
+> These instructions are for using the base hooks library by itself. Under most circumstances, it is advised to use the hooks processor with the DSL to limit the code overhead. However, it is still possible to utilize the hooks library directly if necessary.
 
 ### Installation
 
@@ -53,7 +55,7 @@ fun main() {
 
 <!--- KNIT example-synchook-01.kt --> 
 
-> You can get the full code [here](https://github.com/intuit/hooks/tree/master/docs/src/test/kotlin/example/example-synchook-01.kt).
+> You can get the full code [here](https://github.com/intuit/hooks/tree/main/docs/src/test/kotlin/example/example-synchook-01.kt).
 
 We should expect the `tapped` function to be executed once the hook is `called`, which would print the following:
 
