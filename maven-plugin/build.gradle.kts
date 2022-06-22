@@ -1,15 +1,15 @@
-val compilerPlugin: Configuration by configurations.creating
+val ksp: Configuration by configurations.creating
 
 dependencies {
     implementation(libs.kotlin.maven)
     implementation(libs.ksp.maven)
-    compilerPlugin(project(":compiler-plugin"))
+    ksp(project(":processor"))
 }
 
 tasks {
     jar {
-        dependsOn(":compiler-plugin:jar")
-        fromConfiguration(compilerPlugin) {
+        dependsOn(":processor:jar")
+        fromConfiguration(ksp) {
             this.duplicatesStrategy = DuplicatesStrategy.EXCLUDE
         }
 

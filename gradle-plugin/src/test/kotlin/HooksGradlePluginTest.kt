@@ -40,9 +40,7 @@ class HooksGradlePluginTest {
     @Test fun `can apply plugin`() {
         buildFile.appendKotlin(
             """
-            hooks {
-                generatedSrcOutputDir = "asdf"
-            }
+            hooks {}
         """
         )
 

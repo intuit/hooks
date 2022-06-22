@@ -69,12 +69,13 @@ kotlindoc:
       sourceDirs:
         - './../../../../hooks/src/main/kotlin'
       showRunnerLogs: true
-      relatedModules: [ 'compiler-plugin' ]
+      relatedModules: [ 'processor' ]
 
-    - name: 'Kotlin Compiler Plugin'
+    - name: 'Hooks Processor'
+      slug: 'processor'
       moduleGroup: 'plugins'
       sourceDirs:
-        - './../../../../compiler-plugin/src/main/kotlin'
+        - './../../../../processor/src/main/kotlin'
       homePageOnly: true
 
     - name: 'Gradle Plugin'
@@ -117,7 +118,7 @@ snippets:
         type: 'embedded'
         baseDirs:
           - './../../../../hooks/src/'
-          - './../../../../compiler-plugin/src'
+          - './../../../../processor/src'
           - './../../../../gradle-plugin/src'
           - './../../../../maven-plugin/src'
           - './../../../../example-library/src'

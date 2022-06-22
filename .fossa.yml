@@ -8,10 +8,6 @@ cli:
   project: git@github.com:intuit/hooks
 analyze:
   modules:
-  - name: compiler-plugin
-    type: gradle
-    target: 'compiler-plugin:'
-    path: .
   - name: docs
     type: gradle
     target: 'docs:'
@@ -35,4 +31,8 @@ analyze:
   - name: maven-plugin
     type: gradle
     target: 'maven-plugin:'
+    path: .
+  - name: processor
+    type: gradle
+    target: 'processor:'
     path: .

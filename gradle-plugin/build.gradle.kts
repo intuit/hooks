@@ -21,7 +21,7 @@ gradlePlugin {
 pluginBundle {
     website = "https://intuit.github.io/hooks/"
     vcsUrl = "https://github.com/intuit/hooks"
-    description = "Gradle wrapper of the Kotlin compiler companion to the Intuit hooks module"
+    description = "Gradle wrapper of the Kotlin symbol processor companion to the Intuit hooks module"
     tags = listOf("plugins", "hooks", "ksp", "codegen")
 }
 
@@ -53,6 +53,8 @@ tasks {
     }
 
     test {
-        dependsOn(":hooks:publishToMavenLocal", ":compiler-plugin:publishToMavenLocal")
+        // TODO: Testing migration required the deps to be pulled from somewhere
+        //       Would be nice if they could just use the local built JARs
+        dependsOn(":hooks:publishToMavenLocal", ":processor:publishToMavenLocal")
     }
 }

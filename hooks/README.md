@@ -1,6 +1,8 @@
 # Hooks
 
-> These instructions are for using the base hooks library by itself. Under most circumstances, it is advised to use the Kotlin compiler plugin with the DSL to limit the code overhead. However, if your project is Java-only or doesn't easily support Kotlin compiler plugins, it is still possible to utilize the hooks library.
+> **Note**
+> 
+> These instructions are for using the base hooks library by itself. Under most circumstances, it is advised to use the hooks processor with the DSL to limit the code overhead. However, it is still possible to utilize the hooks library directly if necessary.
 
 ### Installation
 

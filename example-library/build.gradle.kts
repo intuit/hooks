@@ -7,7 +7,7 @@ dependencies {
     implementation(libs.kotlin.coroutines.core)
 
     api(project(":hooks"))
-    ksp(project(":compiler-plugin"))
+    ksp(project(":processor"))
 
     testImplementation(platform(libs.junit.bom))
     testImplementation(libs.bundles.testing)
