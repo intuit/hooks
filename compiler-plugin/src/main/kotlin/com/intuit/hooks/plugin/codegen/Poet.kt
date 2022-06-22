@@ -57,7 +57,7 @@ internal fun HookInfo.generatePoetClass(): TypeSpec {
            Pair(superclass, call)
         }
         HookType.SyncWaterfallHook, HookType.AsyncSeriesWaterfallHook -> {
-            val superclass = createSuperClass(hookSignature.parameters.first().type.toTypeName())
+            val superclass = createSuperClass(hookSignature.parameters.first().type.toTypeName(parentResolver))
 
             val accumulatorName = params.first().withoutType
             val call = callBuilder
@@ -142,7 +142,7 @@ private val HookInfo.tapMethodsPoet : List<FunSpec>
         val returnType = STRING.copy(nullable = true)
         val nameParameter = ParameterSpec.builder("name", STRING).build()
         val idParameter = ParameterSpec.builder("id", STRING).build()
-        val functionParameter = ParameterSpec.builder("f", hookSignature.hookFunctionSignatureType.toTypeName()).build()
+        val functionParameter = ParameterSpec.builder("f", hookSignature.hookFunctionSignatureType.toTypeName(parentResolver)).build()
 
         val tap = FunSpec.builder("tap")
             .returns(returnType)
@@ -163,7 +163,7 @@ private val HookInfo.tapMethodsPoet : List<FunSpec>
     }
 
 internal val HookInfo.paramsWithTypesPoet get() = params.map {
-    ParameterSpec.builder(it.withoutType, it.parameter.type.toTypeName()).build()
+    ParameterSpec.builder(it.withoutType, it.parameter.type.toTypeName(parentResolver)).build()
 }
 
 internal fun HookInfo.generatePoetProperty(): PropertySpec {

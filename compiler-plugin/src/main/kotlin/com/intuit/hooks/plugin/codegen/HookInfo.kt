@@ -5,8 +5,10 @@ import com.google.devtools.ksp.symbol.*
 import com.intuit.hooks.plugin.ksp.text
 import com.intuit.hooks.plugin.ksp.validation.HookAnnotation
 import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.ksp.TypeParameterResolver
 import com.squareup.kotlinpoet.ksp.toKModifier
 import com.squareup.kotlinpoet.ksp.toTypeName
+import com.squareup.kotlinpoet.ksp.toTypeParameterResolver
 
 internal data class HookMember(
     val name: String,
@@ -55,6 +57,8 @@ internal data class HookInfo(
     val propertyVisibility get() = propertyDeclaration.getVisibility().toKModifier() ?: KModifier.PUBLIC
     val zeroArity = params.isEmpty()
     val isAsync = hookType.properties.contains(HookProperty.Async)
+    val parentResolver get() = (this.propertyDeclaration.parent as? KSClassDeclaration)?.typeParameters?.toTypeParameterResolver() ?: TypeParameterResolver.EMPTY
+
 }
 
 internal val HookInfo.tapMethod get() = if (!zeroArity) """
