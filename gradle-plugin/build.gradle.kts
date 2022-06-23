@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.konan.properties.Properties
 import org.jetbrains.kotlin.konan.properties.saveToFile
 
 plugins {
+    `java-gradle-plugin`
     alias(libs.plugins.gradle.publish)
 }
 
@@ -11,7 +12,6 @@ gradlePlugin {
         create("HooksGradlePlugin") {
             id = "com.intuit.hooks"
             implementationClass = "com.intuit.hooks.plugin.gradle.HooksGradlePlugin"
-            displayName = "Gradle Hooks plugin"
         }
     }
 
@@ -22,7 +22,13 @@ pluginBundle {
     website = "https://intuit.github.io/hooks/"
     vcsUrl = "https://github.com/intuit/hooks"
     description = "Gradle wrapper of the Kotlin symbol processor companion to the Intuit hooks module"
-    tags = listOf("plugins", "hooks", "ksp", "codegen")
+    tags = listOf("plugins", "hooks")
+
+    plugins {
+        named("HooksGradlePlugin") {
+            displayName = "Gradle Hooks plugin"
+        }
+    }
 }
 
 dependencies {

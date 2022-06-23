@@ -27,7 +27,7 @@ dependencyResolutionManagement {
 
             plugin("release", "net.researchgate.release").version("2.6.0")
             plugin("nexus", "io.github.gradle-nexus.publish-plugin").version("1.0.0")
-            plugin("gradle.publish", "com.gradle.plugin-publish").version("1.0.0-rc-3")
+            plugin("gradle.publish", "com.gradle.plugin-publish").version("0.13.0")
 
             plugin("ktlint", "org.jlleitschuh.gradle.ktlint").version("10.3.0")
             plugin("api", "org.jetbrains.kotlinx.binary-compatibility-validator").version("0.9.0")
