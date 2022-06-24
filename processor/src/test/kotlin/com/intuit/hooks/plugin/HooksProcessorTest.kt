@@ -174,8 +174,8 @@ class HooksProcessorTest {
             import com.intuit.hooks.SyncHook
             import com.intuit.hooks.dsl.Hooks
             
-            internal abstract class TestHooks<T> : Hooks() {
-                @Sync<(T) -> Unit>
+            internal abstract class TestHooks<T, U> : Hooks() {
+                @Sync<(T) -> U>
                 abstract val testSyncHook: SyncHook<*>
             }
             """
@@ -189,7 +189,7 @@ class HooksProcessorTest {
             fun testHook() {
                 val item = "hello"
                 var tappedValue: String? = null
-                val hooks = TestHooksImpl<String>()
+                val hooks = TestHooksImpl<String, Unit>()
                 hooks.testSyncHook.tap("test") { _, x -> tappedValue = x }
                 hooks.testSyncHook.call(item)
                 assertEquals(item, tappedValue)

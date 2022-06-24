@@ -5,6 +5,7 @@ import com.google.devtools.ksp.symbol.*
 import com.intuit.hooks.plugin.ksp.text
 import com.intuit.hooks.plugin.ksp.validation.HookAnnotation
 import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.ksp.TypeParameterResolver
 import com.squareup.kotlinpoet.ksp.toKModifier
 import com.squareup.kotlinpoet.ksp.toTypeName
@@ -21,14 +22,14 @@ internal data class HookSignature(
 ) {
     val isSuspend get() = hookFunctionSignatureType.modifiers.contains(Modifier.SUSPEND)
     val returnTypeText get() = hookFunctionSignatureReference.returnType.text
-    val returnType get() = hookFunctionSignatureReference.returnType.toTypeName()
-    val returnTypeType
-        get() = hookFunctionSignatureReference.returnType.element?.typeArguments?.firstOrNull()?.toTypeName()!!
-    val nullableReturnTypeType get() = returnTypeType.copy(nullable = true)
     val parameters get() = hookFunctionSignatureReference.functionParameters
 
     override fun toString() = hookFunctionSignatureType.text
 }
+
+internal fun HookSignature.resolveReturnType(parentResolver: TypeParameterResolver) = hookFunctionSignatureReference.returnType.toTypeName(parentResolver)
+internal fun HookSignature.resolveReturnTypeType(parentResolver: TypeParameterResolver) : TypeName = hookFunctionSignatureReference.returnType.element?.typeArguments?.firstOrNull()?.toTypeName(parentResolver)!!
+internal fun HookSignature.resolveNullableReturnTypeType(parentResolver: TypeParameterResolver) = resolveReturnTypeType(parentResolver).copy(nullable = true)
 
 internal class HookParameter(
     val parameter: KSValueParameter,

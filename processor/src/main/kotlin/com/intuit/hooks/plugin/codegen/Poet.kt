@@ -36,10 +36,10 @@ internal fun HookInfo.generateClass(): TypeSpec {
             Pair(superclass, call)
         }
         HookType.SyncBailHook -> {
-            val superclass = createSuperClass(hookSignature.returnTypeType)
+            val superclass = createSuperClass(hookSignature.resolveReturnTypeType(parentResolver))
 
             val call = callBuilder
-                .returns(hookSignature.nullableReturnTypeType)
+                .returns(hookSignature.resolveNullableReturnTypeType(parentResolver))
                 .addStatement("return super.call { f, context -> f(context, $paramsWithoutTypes) }")
 
             Pair(superclass, call)
@@ -62,7 +62,7 @@ internal fun HookInfo.generateClass(): TypeSpec {
 
             val accumulatorName = params.first().withoutType
             val call = callBuilder
-                .returns(hookSignature.returnType)
+                .returns(hookSignature.resolveReturnType(parentResolver))
                 .addCode(
                     "return super.call(%N, invokeTap = %L, invokeInterceptor = %L)",
                     accumulatorName,
@@ -91,22 +91,22 @@ internal fun HookInfo.generateClass(): TypeSpec {
             Pair(superclass, call)
         }
         HookType.AsyncParallelBailHook -> {
-            val superclass = createSuperClass(hookSignature.returnTypeType)
+            val superclass = createSuperClass(hookSignature.resolveReturnTypeType(parentResolver))
 
             // force the concurrency parameter to be first
             callBuilder.parameters.add(0, ParameterSpec("concurrency", INT))
 
             val call = callBuilder
-                .returns(hookSignature.nullableReturnTypeType)
+                .returns(hookSignature.resolveNullableReturnTypeType(parentResolver))
                 .addStatement("return super.call(concurrency) { f, context -> f(context, $paramsWithoutTypes) }")
 
             Pair(superclass, call)
         }
         HookType.AsyncSeriesBailHook -> {
-            val superclass = createSuperClass(hookSignature.returnTypeType)
+            val superclass = createSuperClass(hookSignature.resolveReturnTypeType(parentResolver))
 
             val call = callBuilder
-                .returns(hookSignature.nullableReturnTypeType)
+                .returns(hookSignature.resolveNullableReturnTypeType(parentResolver))
                 .addStatement("return super.call { f, context -> f(context, $paramsWithoutTypes) }")
 
             Pair(superclass, call)
@@ -137,7 +137,7 @@ private val HookInfo.lambdaTypeName get() = LambdaTypeName.get(
     listOf(
         ParameterSpec.unnamed(hookContext)
     ) + parameterSpecs,
-    hookSignature.returnType,
+    hookSignature.resolveReturnType(parentResolver),
 )
 
 private val HookInfo.tapMethods: List<FunSpec>
