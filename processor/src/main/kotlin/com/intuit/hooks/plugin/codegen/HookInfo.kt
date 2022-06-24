@@ -1,63 +1,43 @@
 package com.intuit.hooks.plugin.codegen
 
-import com.google.devtools.ksp.getVisibility
-import com.google.devtools.ksp.symbol.*
-import com.intuit.hooks.plugin.ksp.text
-import com.intuit.hooks.plugin.ksp.validation.HookAnnotation
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.TypeName
-import com.squareup.kotlinpoet.ksp.TypeParameterResolver
-import com.squareup.kotlinpoet.ksp.toKModifier
-import com.squareup.kotlinpoet.ksp.toTypeName
-import com.squareup.kotlinpoet.ksp.toTypeParameterResolver
-
-internal data class HookMember(
-    val name: String,
-    val visibility: String,
-)
 
 internal data class HookSignature(
-    val hookFunctionSignatureType: KSTypeReference,
-    val hookFunctionSignatureReference: KSCallableReference
-) {
-    val isSuspend get() = hookFunctionSignatureType.modifiers.contains(Modifier.SUSPEND)
-    val returnTypeText get() = hookFunctionSignatureReference.returnType.text
-    val parameters get() = hookFunctionSignatureReference.functionParameters
-
-    override fun toString() = hookFunctionSignatureType.text
+    val hookFunctionSignatureTypeText: String,
+    val isSuspend: Boolean,
+    val returnType: TypeName,
+    val returnTypeType: TypeName?,
+    val hookFunctionSignatureType: TypeName,
+    ) {
+    val nullableReturnTypeType: TypeName get() {
+        requireNotNull(returnTypeType)
+        return returnTypeType.copy(nullable = true)
+    }
+    override fun toString(): String = hookFunctionSignatureTypeText
 }
 
-internal fun HookSignature.resolveReturnType(parentResolver: TypeParameterResolver) = hookFunctionSignatureReference.returnType.toTypeName(parentResolver)
-internal fun HookSignature.resolveReturnTypeType(parentResolver: TypeParameterResolver) : TypeName = hookFunctionSignatureReference.returnType.element?.typeArguments?.firstOrNull()?.toTypeName(parentResolver)!!
-internal fun HookSignature.resolveNullableReturnTypeType(parentResolver: TypeParameterResolver) = resolveReturnTypeType(parentResolver).copy(nullable = true)
-
 internal class HookParameter(
-    val parameter: KSValueParameter,
+    val name: String?,
+    val type: TypeName,
     val position: Int,
 ) {
-    val name: String? get() = parameter.name?.asString()
-    val type: String get() = parameter.type.text
     val withType get() = "$withoutType: $type"
     val withoutType get() = name ?: "p$position"
 }
 
 internal data class HookInfo(
-    val property: HookMember,
+    val property: String,
     val hookType: HookType,
     val hookSignature: HookSignature,
     val params: List<HookParameter>,
-
-    val propertyDeclaration: KSPropertyDeclaration,
-    val annotation: HookAnnotation
+    val propertyVisibility: KModifier
 ) {
-    // TODO: Should this actually default to public?
-    val propertyVisibility get() = propertyDeclaration.getVisibility().toKModifier() ?: KModifier.PUBLIC
     val zeroArity = params.isEmpty()
     val isAsync = hookType.properties.contains(HookProperty.Async)
-    val parentResolver get() = (this.propertyDeclaration.parent as? KSClassDeclaration)?.typeParameters?.toTypeParameterResolver() ?: TypeParameterResolver.EMPTY
 }
 
 internal val HookInfo.paramsWithTypes get() = params.joinToString(transform = HookParameter::withType)
 internal val HookInfo.paramsWithoutTypes get() = params.joinToString(transform = HookParameter::withoutType)
 internal val HookInfo.superType get() = this.hookType.toString()
-internal val HookInfo.className get() = "${property.name.replaceFirstChar(Char::titlecase)}$superType"
+internal val HookInfo.className get() = "${property.replaceFirstChar(Char::titlecase)}$superType"

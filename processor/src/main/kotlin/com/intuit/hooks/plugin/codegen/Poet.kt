@@ -2,7 +2,6 @@ package com.intuit.hooks.plugin.codegen
 
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
-import com.squareup.kotlinpoet.ksp.toTypeName
 
 internal val hookContext = ClassName.bestGuess("com.intuit.hooks.HookContext")
 internal val experimentalCoroutinesAnnotation = ClassName.bestGuess("kotlinx.coroutines.ExperimentalCoroutinesApi")
@@ -35,11 +34,12 @@ internal fun HookInfo.generateClass(): TypeSpec {
 
             Pair(superclass, call)
         }
-        HookType.SyncBailHook -> {
-            val superclass = createSuperClass(hookSignature.resolveReturnTypeType(parentResolver))
+        HookType.SyncBailHook, HookType.AsyncSeriesBailHook -> {
+            requireNotNull(hookSignature.nullableReturnTypeType)
+            val superclass = createSuperClass(hookSignature.returnTypeType)
 
             val call = callBuilder
-                .returns(hookSignature.resolveNullableReturnTypeType(parentResolver))
+                .returns(hookSignature.nullableReturnTypeType)
                 .addStatement("return super.call { f, context -> f(context, $paramsWithoutTypes) }")
 
             Pair(superclass, call)
@@ -58,11 +58,11 @@ internal fun HookInfo.generateClass(): TypeSpec {
             Pair(superclass, call)
         }
         HookType.SyncWaterfallHook, HookType.AsyncSeriesWaterfallHook -> {
-            val superclass = createSuperClass(hookSignature.parameters.first().type.toTypeName(parentResolver))
+            val superclass = createSuperClass(params.first().type)
 
             val accumulatorName = params.first().withoutType
             val call = callBuilder
-                .returns(hookSignature.resolveReturnType(parentResolver))
+                .returns(hookSignature.returnType)
                 .addCode(
                     "return super.call(%N, invokeTap = %L, invokeInterceptor = %L)",
                     accumulatorName,
@@ -91,26 +91,19 @@ internal fun HookInfo.generateClass(): TypeSpec {
             Pair(superclass, call)
         }
         HookType.AsyncParallelBailHook -> {
-            val superclass = createSuperClass(hookSignature.resolveReturnTypeType(parentResolver))
+            requireNotNull(hookSignature.nullableReturnTypeType)
+            val superclass = createSuperClass(hookSignature.returnTypeType)
 
             // force the concurrency parameter to be first
             callBuilder.parameters.add(0, ParameterSpec("concurrency", INT))
 
             val call = callBuilder
-                .returns(hookSignature.resolveNullableReturnTypeType(parentResolver))
+                .returns(hookSignature.nullableReturnTypeType)
                 .addStatement("return super.call(concurrency) { f, context -> f(context, $paramsWithoutTypes) }")
 
             Pair(superclass, call)
         }
-        HookType.AsyncSeriesBailHook -> {
-            val superclass = createSuperClass(hookSignature.resolveReturnTypeType(parentResolver))
 
-            val call = callBuilder
-                .returns(hookSignature.resolveNullableReturnTypeType(parentResolver))
-                .addStatement("return super.call { f, context -> f(context, $paramsWithoutTypes) }")
-
-            Pair(superclass, call)
-        }
     }
 
     return TypeSpec.classBuilder(className).apply {
@@ -137,7 +130,7 @@ private val HookInfo.lambdaTypeName get() = LambdaTypeName.get(
     listOf(
         ParameterSpec.unnamed(hookContext)
     ) + parameterSpecs,
-    hookSignature.resolveReturnType(parentResolver),
+    hookSignature.returnType
 )
 
 private val HookInfo.tapMethods: List<FunSpec>
@@ -148,7 +141,7 @@ private val HookInfo.tapMethods: List<FunSpec>
         val returnType = STRING.copy(nullable = true)
         val nameParameter = ParameterSpec.builder("name", STRING).build()
         val idParameter = ParameterSpec.builder("id", STRING).build()
-        val functionParameter = ParameterSpec.builder("f", hookSignature.hookFunctionSignatureType.toTypeName(parentResolver)).build()
+        val functionParameter = ParameterSpec.builder("f", hookSignature.hookFunctionSignatureType).build()
 
         val tap = FunSpec.builder("tap")
             .returns(returnType)
@@ -169,11 +162,11 @@ private val HookInfo.tapMethods: List<FunSpec>
     }
 
 internal val HookInfo.parameterSpecs get() = params.map {
-    ParameterSpec.builder(it.withoutType, it.parameter.type.toTypeName(parentResolver)).build()
+    ParameterSpec.builder(it.withoutType, it.type).build()
 }
 
 internal fun HookInfo.generateProperty(): PropertySpec =
-    PropertySpec.builder(property.name, ClassName.bestGuess(className)).apply {
+    PropertySpec.builder(property, ClassName.bestGuess(className)).apply {
         initializer("$className()")
         // TODO: the visibility here might not be correct
         addModifiers(KModifier.OVERRIDE, propertyVisibility)

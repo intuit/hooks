@@ -45,6 +45,6 @@ private fun HookProperty.Waterfall.parameters(
     info: HookInfo,
     property: KSPropertyDeclaration,
 ): ValidatedNel<HookValidationError, HookProperty> {
-    return if (info.hookSignature.returnTypeText == info.params.firstOrNull()?.type) valid()
+    return if (info.hookSignature.returnType == info.params.firstOrNull()?.type) valid()
     else HookValidationError.WaterfallParameterTypeMustMatch(property).invalidNel()
 }
