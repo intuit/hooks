@@ -7,7 +7,7 @@ internal val hookContext = ClassName.bestGuess("com.intuit.hooks.HookContext")
 internal val experimentalCoroutinesAnnotation = ClassName.bestGuess("kotlinx.coroutines.ExperimentalCoroutinesApi")
 
 internal fun HookInfo.createSuperClass(extraTypeName: TypeName? = null): ParameterizedTypeName {
-    val lambdaParameter = lambdaTypeName.suspendIfAsync(this)
+    val lambdaParameter = lambdaTypeName
     val parameters = listOfNotNull(lambdaParameter, extraTypeName)
 
     // TODO: is there a way to avoid bestGuess here?
@@ -15,23 +15,19 @@ internal fun HookInfo.createSuperClass(extraTypeName: TypeName? = null): Paramet
         .parameterizedBy(parameters)
 }
 
-internal fun getTypeSpecBuilder(kind: TypeSpec.Kind, className: ClassName): TypeSpec.Builder =
-    when (kind) {
+internal fun HooksContainer.generateFile(): FileSpec =
+    FileSpec.builder(resolvedPackageName ?: "", name)
+        .addType(generateContainerClass())
+        .build()
+
+private fun HooksContainer.generateContainerClass(): TypeSpec {
+    val className = ClassName.bestGuess(name)
+    val builder = when (typeSpecKind) {
         TypeSpec.Kind.INTERFACE -> TypeSpec.interfaceBuilder(className)
         TypeSpec.Kind.CLASS -> TypeSpec.classBuilder(className)
         TypeSpec.Kind.OBJECT -> TypeSpec.objectBuilder(className)
     }
-
-internal fun HooksContainer.generateFile(): FileSpec {
-    val hooksImplClass = generateContainerClass()
-
-    return FileSpec.builder(resolvedPackageName ?: "", name)
-        .addType(hooksImplClass)
-        .build()
-}
-
-private fun HooksContainer.generateContainerClass(): TypeSpec {
-    val hooksImplClass = getTypeSpecBuilder(typeSpecKind, ClassName.bestGuess(name)).apply {
+    return builder.apply {
         superclass(superclass)
         addModifiers(visibilityModifier)
         addTypeVariables(typeArguments)
@@ -41,16 +37,18 @@ private fun HooksContainer.generateContainerClass(): TypeSpec {
             addType(it.generateClass())
         }
     }.build()
-    return hooksImplClass
 }
 
 internal fun HookInfo.generateClass(): TypeSpec {
     val callBuilder = FunSpec.builder("call")
         .addParameters(parameterSpecs)
-        .suspendIfAsync(this)
+        .apply {
+            if (this@generateClass.isAsync)
+                addModifiers(KModifier.SUSPEND)
+        }
 
     val (superclass, call) = when (hookType) {
-        HookType.SyncHook, HookType.AsyncSeriesHook, HookType.AsyncParallelHook  -> {
+        HookType.SyncHook, HookType.AsyncSeriesHook, HookType.AsyncParallelHook -> {
             val superclass = createSuperClass()
 
             val call = callBuilder
@@ -116,35 +114,23 @@ internal fun HookInfo.generateClass(): TypeSpec {
     return TypeSpec.classBuilder(className).apply {
         addModifiers(propertyVisibility, KModifier.INNER)
         addFunctions(tapMethods)
-        if (hookType == HookType.AsyncParallelBailHook) {
-            addAnnotation(experimentalCoroutinesAnnotation)
-        }
+        hookType.addedAnnotation?.let(::addAnnotation)
         superclass(superclass)
         addFunction(call.build())
     }.build()
 }
 
-private val HookInfo.interceptParameter get() = LambdaTypeName.get(
-    parameters = listOf(ParameterSpec.unnamed(hookContext)) + parameterSpecs,
-    returnType = UNIT
-).suspendIfAsync(this)
+private val HookInfo.interceptParameter get() = createHookContextLambda(UNIT)
+private val HookInfo.lambdaTypeName get() = createHookContextLambda(hookSignature.returnType)
 
-private fun FunSpec.Builder.suspendIfAsync(hookInfo: HookInfo) : FunSpec.Builder = apply {
-    if (hookInfo.isAsync) {
-        addModifiers(KModifier.SUSPEND)
-    }
+private fun HookInfo.createHookContextLambda(returnType: TypeName): LambdaTypeName {
+    val get = LambdaTypeName.get(
+        parameters = listOf(ParameterSpec.unnamed(hookContext)) + parameterSpecs,
+        returnType = returnType
+    )
+
+    return if (this.isAsync) get.copy(suspending = true) else get
 }
-
-private fun LambdaTypeName.suspendIfAsync(hookInfo: HookInfo): LambdaTypeName =
-    if (hookInfo.isAsync) this.copy(suspending = true) else this
-
-private val HookInfo.lambdaTypeName get() = LambdaTypeName.get(
-    null,
-    listOf(
-        ParameterSpec.unnamed(hookContext)
-    ) + parameterSpecs,
-    hookSignature.returnType
-)
 
 private val HookInfo.tapMethods: List<FunSpec>
     get() {
@@ -178,13 +164,15 @@ internal val HookInfo.parameterSpecs get() = params.map {
     ParameterSpec.builder(it.withoutType, it.type).build()
 }
 
+internal val HookType.addedAnnotation: AnnotationSpec? get() = when (this) {
+    HookType.AsyncParallelBailHook -> AnnotationSpec.builder(experimentalCoroutinesAnnotation).build()
+    else -> null
+}
+
 internal fun HookInfo.generateProperty(): PropertySpec =
     PropertySpec.builder(property, ClassName.bestGuess(className)).apply {
         initializer("$className()")
         // TODO: the visibility here might not be correct
         addModifiers(KModifier.OVERRIDE, propertyVisibility)
-
-        if (hookType == HookType.AsyncParallelBailHook) {
-            addAnnotation(experimentalCoroutinesAnnotation)
-        }
+        hookType.addedAnnotation?.let(::addAnnotation)
     }.build()
