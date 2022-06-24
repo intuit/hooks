@@ -101,7 +101,7 @@ public class HooksProcessor(
     public class Exception(message: String, cause: Throwable? = null) : kotlin.Exception(message, cause)
 }
 
-public fun ClassKind.toTypeSpecKind(): TypeSpec.Kind = when (this) {
+internal fun ClassKind.toTypeSpecKind(): TypeSpec.Kind = when (this) {
     ClassKind.CLASS -> TypeSpec.Kind.CLASS
     ClassKind.INTERFACE -> TypeSpec.Kind.INTERFACE
     ClassKind.OBJECT -> TypeSpec.Kind.OBJECT
