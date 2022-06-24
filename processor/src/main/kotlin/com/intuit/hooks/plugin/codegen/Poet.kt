@@ -47,28 +47,14 @@ private fun HooksContainer.generateContainerClass(): TypeSpec {
 internal fun HookInfo.generateClass(): TypeSpec {
     val callBuilder = FunSpec.builder("call")
         .addParameters(parameterSpecs)
-        .apply {
-            if (isAsync) {
-                addModifiers(KModifier.SUSPEND)
-            }
-        }
+        .suspendIfAsync(this)
 
     val (superclass, call) = when (hookType) {
-        HookType.SyncHook -> {
+        HookType.SyncHook, HookType.AsyncSeriesHook, HookType.AsyncParallelHook  -> {
             val superclass = createSuperClass()
 
             val call = callBuilder
                 .returns(UNIT)
-                .addStatement("return super.call { f, context -> f(context, $paramsWithoutTypes) }")
-
-            Pair(superclass, call)
-        }
-        HookType.SyncBailHook, HookType.AsyncSeriesBailHook -> {
-            requireNotNull(hookSignature.nullableReturnTypeType)
-            val superclass = createSuperClass(hookSignature.returnTypeType)
-
-            val call = callBuilder
-                .returns(hookSignature.nullableReturnTypeType)
                 .addStatement("return super.call { f, context -> f(context, $paramsWithoutTypes) }")
 
             Pair(superclass, call)
@@ -101,24 +87,17 @@ internal fun HookInfo.generateClass(): TypeSpec {
 
             Pair(superclass, call)
         }
-        HookType.AsyncSeriesHook -> {
-            val superclass = createSuperClass()
+        HookType.SyncBailHook, HookType.AsyncSeriesBailHook -> {
+            requireNotNull(hookSignature.nullableReturnTypeType)
+            val superclass = createSuperClass(hookSignature.returnTypeType)
 
             val call = callBuilder
-                .returns(UNIT)
+                .returns(hookSignature.nullableReturnTypeType)
                 .addStatement("return super.call { f, context -> f(context, $paramsWithoutTypes) }")
 
             Pair(superclass, call)
         }
-        HookType.AsyncParallelHook -> {
-            val superclass = createSuperClass()
-
-            val call = callBuilder
-                .returns(UNIT)
-                .addStatement("return super.call { f, context -> f(context, $paramsWithoutTypes) }")
-
-            Pair(superclass, call)
-        }
+        // parallel bail requires the concurrency parameter, otherwise it would be just like the other bail hooks
         HookType.AsyncParallelBailHook -> {
             requireNotNull(hookSignature.nullableReturnTypeType)
             val superclass = createSuperClass(hookSignature.returnTypeType)
@@ -149,6 +128,12 @@ private val HookInfo.interceptParameter get() = LambdaTypeName.get(
     parameters = listOf(ParameterSpec.unnamed(hookContext)) + parameterSpecs,
     returnType = UNIT
 ).suspendIfAsync(this)
+
+private fun FunSpec.Builder.suspendIfAsync(hookInfo: HookInfo) : FunSpec.Builder = apply {
+    if (hookInfo.isAsync) {
+        addModifiers(KModifier.SUSPEND)
+    }
+}
 
 private fun LambdaTypeName.suspendIfAsync(hookInfo: HookInfo): LambdaTypeName =
     if (hookInfo.isAsync) this.copy(suspending = true) else this
