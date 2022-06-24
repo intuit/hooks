@@ -1,3 +1,48 @@
+# v0.12.0 (Thu Jun 23 2022)
+
+### Release Notes
+
+#### Migrate from Arrow Meta to Kotlin Symbol Processor ([#24](https://github.com/intuit/hooks/pull/24))
+
+💥 **This is a breaking change** 💥 
+
+Migration to KSP from Arrow Meta because they dropped support for source generation. This does improve the overall maturity of the codegen module (`compiler-plugin` -> `processor`). However, the KSP framework doesn't support the code typing introspection that we were doing in Arrow Meta. Instead, we have to rely strictly on typings and annotations, which changes the DSL we originally had.
+
+```kotlin
+internal abstract class GenericHooks : Hooks() {
+    @Sync<(newSpeed: Int) -> Unit> abstract val sync: SyncHook<*>
+    @SyncBail<(Boolean) -> BailResult<Int>> abstract val syncBail: SyncBailHook<*, *>
+    @SyncLoop<(foo: Boolean) -> LoopResult> abstract val syncLoop: SyncLoopHook<*, *>
+    @SyncWaterfall<(name: String) -> String> abstract val syncWaterfall: SyncWaterfallHook<*, *>
+    @AsyncParallelBail<suspend (String) -> BailResult<String>> abstract val asyncParallelBail: AsyncParallelBailHook<*, *>
+    @AsyncParallel<suspend (String) -> Int> abstract val asyncParallel: AsyncParallelHook<*>
+    @AsyncSeries<suspend (String) -> Int> abstract val asyncSeries: AsyncSeriesHook<*>
+    @AsyncSeriesBail<suspend (String) -> BailResult<String>> abstract val asyncSeriesBail: AsyncSeriesBailHook<*, *>
+    @AsyncSeriesLoop<suspend (String) -> LoopResult> abstract val asyncSeriesLoop: AsyncSeriesLoopHook<*, *>
+    @AsyncSeriesWaterfall<suspend (String) -> String> abstract val asyncSeriesWaterfall: AsyncSeriesWaterfallHook<*, *>
+}
+```
+
+---
+
+#### 🚀 Enhancement
+
+- Migrate from Arrow Meta to Kotlin Symbol Processor [#24](https://github.com/intuit/hooks/pull/24) ([@sugarmanz](https://github.com/sugarmanz))
+
+#### ⚠️ Pushed to `main`
+
+- forgot this for shot in the dark ([@sugarmanz](https://github.com/sugarmanz))
+- more reversions ([@sugarmanz](https://github.com/sugarmanz))
+- revert breaking build changes ([@sugarmanz](https://github.com/sugarmanz))
+- shot in the dark ([@sugarmanz](https://github.com/sugarmanz))
+- try to fix gradle crashing on release ([@sugarmanz](https://github.com/sugarmanz))
+
+#### Authors: 1
+
+- Jeremiah Zucker ([@sugarmanz](https://github.com/sugarmanz))
+
+---
+
 # v0.11.1 (Wed Nov 03 2021)
 
 ### Release Notes

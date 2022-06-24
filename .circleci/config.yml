@@ -1,9 +1,10 @@
-version: 2
+version: 2.1
 jobs:
   build:
     docker:
       - image: cimg/openjdk:15.0.0
 
+    resource_class: large
     steps:
       - run: |
           curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/fossa-cli/master/install.sh | bash
@@ -30,10 +31,15 @@ jobs:
     docker:
       - image: circleci/openjdk:8-jdk
 
+    resource_class: large
     steps:
       - run: curl -vkL -o - https://github.com/intuit/auto/releases/download/v10.36.5/auto-linux.gz | gunzip > ~/auto
       - run: chmod a+x ~/auto
       - checkout
+      - run:
+          name: Setup Environment Variables
+          command: |
+            echo 'export PATH=$JAVA_HOME/bin:$PATH' >> $BASH_ENV
       - run: ~/auto shipit -vvv
 workflows:
   version: 2
