@@ -15,6 +15,35 @@ internal fun HookInfo.createSuperClass(extraTypeName: TypeName? = null): Paramet
         .parameterizedBy(parameters)
 }
 
+internal fun getTypeSpecBuilder(kind: TypeSpec.Kind, className: ClassName): TypeSpec.Builder =
+    when (kind) {
+        TypeSpec.Kind.INTERFACE -> TypeSpec.interfaceBuilder(className)
+        TypeSpec.Kind.CLASS -> TypeSpec.classBuilder(className)
+        TypeSpec.Kind.OBJECT -> TypeSpec.objectBuilder(className)
+    }
+
+internal fun HooksContainer.generateFile(): FileSpec {
+    val hooksImplClass = generateContainerClass()
+
+    return FileSpec.builder(resolvedPackageName ?: "", name)
+        .addType(hooksImplClass)
+        .build()
+}
+
+private fun HooksContainer.generateContainerClass(): TypeSpec {
+    val hooksImplClass = getTypeSpecBuilder(typeSpecKind, ClassName.bestGuess(name)).apply {
+        superclass(superclass)
+        addModifiers(visibilityModifier)
+        addTypeVariables(typeArguments)
+
+        hooks.forEach {
+            addProperty(it.generateProperty())
+            addType(it.generateClass())
+        }
+    }.build()
+    return hooksImplClass
+}
+
 internal fun HookInfo.generateClass(): TypeSpec {
     val callBuilder = FunSpec.builder("call")
         .addParameters(parameterSpecs)
@@ -103,7 +132,6 @@ internal fun HookInfo.generateClass(): TypeSpec {
 
             Pair(superclass, call)
         }
-
     }
 
     return TypeSpec.classBuilder(className).apply {

@@ -1,7 +1,24 @@
 package com.intuit.hooks.plugin.codegen
 
-import com.squareup.kotlinpoet.KModifier
-import com.squareup.kotlinpoet.TypeName
+import com.squareup.kotlinpoet.*
+import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
+
+internal data class HooksContainer(
+    val name: String,
+    val originalClassName: ClassName,
+    val typeSpecKind: TypeSpec.Kind,
+    val resolvedPackageName: String?,
+    val visibilityModifier: KModifier,
+    val typeArguments: List<TypeVariableName>,
+    val hooks: List<HookInfo>
+) {
+    val superclass get() = originalClassName.let {
+        if (typeArguments.isNotEmpty()) {
+            it.parameterizedBy(typeArguments)
+        } else
+            it
+    }
+}
 
 internal data class HookSignature(
     val hookFunctionSignatureTypeText: String,
@@ -9,7 +26,7 @@ internal data class HookSignature(
     val returnType: TypeName,
     val returnTypeType: TypeName?,
     val hookFunctionSignatureType: TypeName,
-    ) {
+) {
     val nullableReturnTypeType: TypeName get() {
         requireNotNull(returnTypeType)
         return returnTypeType.copy(nullable = true)

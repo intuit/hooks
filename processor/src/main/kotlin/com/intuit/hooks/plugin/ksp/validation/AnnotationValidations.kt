@@ -75,7 +75,7 @@ private fun hasCodeGenerator(annotation: HookAnnotation): ValidatedNel<HookValid
 }
 
 private fun mustBeHookType(annotation: HookAnnotation, parentResolver: TypeParameterResolver): ValidatedNel<HookValidationError, HookSignature> = try {
-    val isSuspend: Boolean  = annotation.hookFunctionSignatureType.modifiers.contains(Modifier.SUSPEND)
+    val isSuspend: Boolean = annotation.hookFunctionSignatureType.modifiers.contains(Modifier.SUSPEND)
     // I'm leaving this here because KSP knows that it's (String) -> Int, whereas once it gets to Poet, it's just kotlin.Function1<kotlin.Int, kotlin.String>
     val text = annotation.hookFunctionSignatureType.text
     val hookFunctionSignatureType = annotation.hookFunctionSignatureType.toTypeName(parentResolver)

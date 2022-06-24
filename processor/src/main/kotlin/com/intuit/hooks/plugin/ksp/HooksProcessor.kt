@@ -10,7 +10,6 @@ import com.google.devtools.ksp.validate
 import com.intuit.hooks.plugin.codegen.*
 import com.intuit.hooks.plugin.ksp.validation.validateProperty
 import com.squareup.kotlinpoet.*
-import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.ksp.*
 
 public class HooksProcessor(
@@ -50,50 +49,38 @@ public class HooksProcessor(
                 }.forEach {
                     it.accept(this, Unit)
                 }
-            } else classDeclaration.findHooks().map { codeGen ->
-                if (codeGen.firstOrNull() == null) return@map
-                val name =
-                    "${classDeclaration.parentDeclaration?.simpleName?.asString() ?: ""}${classDeclaration.simpleName.asString()}Impl"
-                val resolvedPackageName = classDeclaration.packageName.asString().takeIf(String::isNotEmpty)
-                val visibilityModifier = classDeclaration.getVisibility().toKModifier() ?: KModifier.PUBLIC
-
-                val (poetClasses, poetProperties) = codeGen.map(::generateHookClass).unzip()
-
-                val typeArguments = classDeclaration.typeParameters.map { it.toTypeVariableName() }
-
-                val superclass = classDeclaration.toClassName().let {
-                    if (typeArguments.isNotEmpty()) {
-                        it.parameterizedBy(typeArguments)
-                    } else
-                        it
-                }
-
-                val hooksImplClass = getTypeSpecBuilder(classDeclaration, ClassName.bestGuess(name))
-                    .superclass(superclass)
-                    .addModifiers(visibilityModifier)
-                    .addTypeVariables(typeArguments)
-                    .addProperties(poetProperties)
-                    .addTypes(poetClasses)
-                    .build()
-
-                val file = FileSpec.builder(resolvedPackageName ?: "", name)
-                    .addType(hooksImplClass)
-                    .build()
-
-                // TODO: somehow specify the original file as a dependency of this new file
-                file.writeTo(codeGenerator, aggregating = false)
-            }.valueOr { errors ->
-                errors.forEach { logger.error(it.message, it.symbol) }
+            } else {
+                classDeclaration.findHooks()
+                    .map { hooks -> createHooksContainer(classDeclaration, hooks) }
+                    .map { hooksContainer ->
+                        if (hooksContainer.hooks.isEmpty()) return@map
+                        // TODO: somehow specify the original file as a dependency of this new file
+                        hooksContainer.generateFile().writeTo(codeGenerator, aggregating = false)
+                    }.valueOr { errors ->
+                        errors.forEach { logger.error(it.message, it.symbol) }
+                    }
             }
         }
+    }
 
-        private fun getTypeSpecBuilder(classDeclaration: KSClassDeclaration, className: ClassName): TypeSpec.Builder =
-            when (classDeclaration.classKind) {
-                ClassKind.INTERFACE -> TypeSpec.interfaceBuilder(className)
-                ClassKind.CLASS -> TypeSpec.classBuilder(className)
-                ClassKind.OBJECT -> TypeSpec.objectBuilder(className)
-                else -> throw NotImplementedError("Hooks in constructs other than class, interface, and object aren't supported")
-            }
+    internal fun createHooksContainer(classDeclaration: KSClassDeclaration, hooks: List<HookInfo>): HooksContainer {
+        val name =
+            "${classDeclaration.parentDeclaration?.simpleName?.asString() ?: ""}${classDeclaration.simpleName.asString()}Impl"
+        val resolvedPackageName = classDeclaration.packageName.asString().takeIf(String::isNotEmpty)
+        val visibilityModifier = classDeclaration.getVisibility().toKModifier() ?: KModifier.PUBLIC
+        val typeArguments = classDeclaration.typeParameters.map { it.toTypeVariableName() }
+        val className = classDeclaration.toClassName()
+        val typeSpecKind = classDeclaration.classKind.toTypeSpecKind()
+
+        return HooksContainer(
+            name,
+            className,
+            typeSpecKind,
+            resolvedPackageName,
+            visibilityModifier,
+            typeArguments,
+            hooks
+        )
     }
 
     private fun KSClassDeclaration.findHooks() = getAllProperties()
@@ -104,15 +91,7 @@ public class HooksProcessor(
         .map(::validateProperty)
         .sequence(Semigroup.nonEmptyList())
 
-    private fun generateHookClass(hookInfo: HookInfo): Pair<TypeSpec, PropertySpec> {
-        val classDefinition = hookInfo.generateClass()
-        val propertyDefinition = hookInfo.generateProperty()
-
-        return classDefinition to propertyDefinition
-    }
-
     public class Provider : SymbolProcessorProvider {
-
         override fun create(environment: SymbolProcessorEnvironment): HooksProcessor = HooksProcessor(
             environment.codeGenerator,
             environment.logger,
@@ -120,4 +99,11 @@ public class HooksProcessor(
     }
 
     public class Exception(message: String, cause: Throwable? = null) : kotlin.Exception(message, cause)
+}
+
+public fun ClassKind.toTypeSpecKind(): TypeSpec.Kind = when (this) {
+    ClassKind.CLASS -> TypeSpec.Kind.CLASS
+    ClassKind.INTERFACE -> TypeSpec.Kind.INTERFACE
+    ClassKind.OBJECT -> TypeSpec.Kind.OBJECT
+    else -> throw NotImplementedError("Hooks in constructs other than class, interface, and object aren't supported")
 }
