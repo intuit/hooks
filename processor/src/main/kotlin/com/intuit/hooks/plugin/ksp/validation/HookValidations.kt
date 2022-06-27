@@ -22,22 +22,14 @@ internal sealed class HookValidationError(val message: String, val symbol: KSNod
 /** main entrypoint for validating [KSPropertyDeclaration]s as valid annotated hook members */
 internal fun validateProperty(property: KSPropertyDeclaration): ValidatedNel<HookValidationError, HookInfo> = with(property) {
     // validate property has the correct type
-    validateHookType().withEither { either ->
-        either.flatMap { type ->
-            // aggregate property hook type with annotation hook info
-            type.valid().zip(
-                validateHookAnnotation(),
-                ::Pair
-            ).toEither()
-        }
-    }.withEither {
-        it.flatMap { (type, info) ->
+    validateHookType()
+        .andThen { type -> validateHookAnnotation().map { Pair(type, it) } }
+        .andThen { (type, info) ->
             // validate property against hook info with specific hook type validations
             validatePropertyTypeAgainstHookInfo(type, info).zip(
-                validateHookProperties(info)
-            ) { _, _ -> info }.toEither()
+                validateHookProperties(info),
+            ) { _, _ -> info }
         }
-    }
 }
 
 private fun KSPropertyDeclaration.validateHookType(): ValidatedNel<HookValidationError, HookType> = try {

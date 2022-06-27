@@ -31,23 +31,21 @@ import com.squareup.kotlinpoet.ksp.toTypeParameterResolver
 
 /** Build [HookInfo] from the validated [HookAnnotation] found on the [property] */
 internal fun KSPropertyDeclaration.validateHookAnnotation(): ValidatedNel<HookValidationError, HookInfo> =
-    onlyHasASingleDslAnnotation().withEither {
-        it.flatMap { annotation ->
-            val parentResolver = (this.parent as? KSClassDeclaration)?.typeParameters?.toTypeParameterResolver() ?: TypeParameterResolver.EMPTY
+    onlyHasASingleDslAnnotation().andThen { annotation ->
+        val parentResolver = (this.parent as? KSClassDeclaration)?.typeParameters?.toTypeParameterResolver() ?: TypeParameterResolver.EMPTY
 
-            val hasCodeGenerator = hasCodeGenerator(annotation)
-            val mustBeHookType = mustBeHookType(annotation, parentResolver)
-            val validateParameters = validateParameters(annotation, parentResolver)
-            val hookMember = simpleName.asString()
-            // TODO: Should this actually default to public?
-            val propertyVisibility = this.getVisibility().toKModifier() ?: KModifier.PUBLIC
+        val hasCodeGenerator = hasCodeGenerator(annotation)
+        val mustBeHookType = mustBeHookType(annotation, parentResolver)
+        val validateParameters = validateParameters(annotation, parentResolver)
+        val hookMember = simpleName.asString()
+        // TODO: Should this actually default to public?
+        val propertyVisibility = this.getVisibility().toKModifier() ?: KModifier.PUBLIC
 
-            hasCodeGenerator.zip(
-                mustBeHookType,
-                validateParameters
-            ) { hookType: HookType, hookSignature: HookSignature, hookParameters: List<HookParameter> ->
-                HookInfo(hookMember, hookType, hookSignature, hookParameters, propertyVisibility)
-            }.toEither()
+        hasCodeGenerator.zip(
+            mustBeHookType,
+            validateParameters
+        ) { hookType: HookType, hookSignature: HookSignature, hookParameters: List<HookParameter> ->
+            HookInfo(hookMember, hookType, hookSignature, hookParameters, propertyVisibility)
         }
     }
 
