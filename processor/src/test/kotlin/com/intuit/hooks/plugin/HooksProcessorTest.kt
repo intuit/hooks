@@ -9,12 +9,12 @@ class HooksProcessorTest {
         val testHooks = SourceFile.kotlin(
             "TestHooks.kt",
             """
-            import com.intuit.hooks.SyncHook
             import com.intuit.hooks.dsl.Hooks
+            import com.intuit.hooks.Hook
             
             internal abstract class TestHooks : Hooks() {
                 @Sync<(String) -> Unit>
-                abstract val testSyncHook: SyncHook<*>
+                abstract val testSyncHook: Hook
             }
             """
         )
@@ -46,12 +46,12 @@ class HooksProcessorTest {
             """
             package com.intuit.hooks.test
 
-            import com.intuit.hooks.SyncHook
+            import com.intuit.hooks.Hook
             import com.intuit.hooks.dsl.Hooks
             
             internal abstract class TestHooks : Hooks() {
                 @Sync<(String) -> Unit>
-                abstract val testSyncHook: SyncHook<*>
+                abstract val testSyncHook: Hook
             }
             """
         )
@@ -65,12 +65,12 @@ class HooksProcessorTest {
         val testHooks = SourceFile.kotlin(
             "TestHooks.kt",
             """
-            import com.intuit.hooks.SyncHook
+            import com.intuit.hooks.Hook
             import com.intuit.hooks.dsl.Hooks
             
             internal abstract class TestHooks : Hooks() {
                 @Sync<(Map<List<Int>, List<String>>) -> Unit>
-                abstract val testSyncHook: SyncHook<*>
+                abstract val testSyncHook: Hook
             }
         """
         )
@@ -101,12 +101,12 @@ class HooksProcessorTest {
         val testHooks = SourceFile.kotlin(
             "TestHooks.kt",
             """
-            import com.intuit.hooks.AsyncSeriesWaterfallHook
+            import com.intuit.hooks.Hook
             import com.intuit.hooks.dsl.Hooks
             
             internal abstract class TestHooks : Hooks() {
                 @AsyncSeriesWaterfall<suspend (String) -> String>
-                abstract val testAsyncSeriesWaterfallHook: AsyncSeriesWaterfallHook<*, *>
+                abstract val testAsyncSeriesWaterfallHook: Hook
             }
         """
         )
@@ -147,17 +147,17 @@ class HooksProcessorTest {
             import kotlinx.coroutines.ExperimentalCoroutinesApi
             
             internal abstract class TestHooks : Hooks() {
-                @Sync<(newSpeed: Int) -> Unit> abstract val sync: SyncHook<*>
-                @SyncBail<(Boolean) -> BailResult<Int>> abstract val syncBail: SyncBailHook<*, *>
-                @SyncLoop<(foo: Boolean) -> LoopResult> abstract val syncLoop: SyncLoopHook<*, *>
-                @SyncWaterfall<(name: String) -> String> abstract val syncWaterfall: SyncWaterfallHook<*, *>
+                @Sync<(newSpeed: Int) -> Unit> abstract val sync: Hook
+                @SyncBail<(Boolean) -> BailResult<Int>> abstract val syncBail: Hook
+                @SyncLoop<(foo: Boolean) -> LoopResult> abstract val syncLoop: Hook
+                @SyncWaterfall<(name: String) -> String> abstract val syncWaterfall: Hook
                 @ExperimentalCoroutinesApi
-                @AsyncParallelBail<suspend (String) -> BailResult<String>> abstract val asyncParallelBail: AsyncParallelBailHook<*, *>
-                @AsyncParallel<suspend (String) -> Int> abstract val asyncParallel: AsyncParallelHook<*>
-                @AsyncSeries<suspend (String) -> Int> abstract val asyncSeries: AsyncSeriesHook<*>
-                @AsyncSeriesBail<suspend (String) -> BailResult<String>> abstract val asyncSeriesBail: AsyncSeriesBailHook<*, *>
-                @AsyncSeriesLoop<suspend (String) -> LoopResult> abstract val asyncSeriesLoop: AsyncSeriesLoopHook<*, *>
-                @AsyncSeriesWaterfall<suspend (String) -> String> abstract val asyncSeriesWaterfall: AsyncSeriesWaterfallHook<*, *>
+                @AsyncParallelBail<suspend (String) -> BailResult<String>> abstract val asyncParallelBail: Hook
+                @AsyncParallel<suspend (String) -> Int> abstract val asyncParallel: Hook
+                @AsyncSeries<suspend (String) -> Int> abstract val asyncSeries: Hook
+                @AsyncSeriesBail<suspend (String) -> BailResult<String>> abstract val asyncSeriesBail: Hook
+                @AsyncSeriesLoop<suspend (String) -> LoopResult> abstract val asyncSeriesLoop: Hook
+                @AsyncSeriesWaterfall<suspend (String) -> String> abstract val asyncSeriesWaterfall: Hook
             }
             """
         )
@@ -171,12 +171,12 @@ class HooksProcessorTest {
         val testHooks = SourceFile.kotlin(
             "TestHooks.kt",
             """
-            import com.intuit.hooks.SyncHook
+            import com.intuit.hooks.Hook
             import com.intuit.hooks.dsl.Hooks
             
             internal abstract class TestHooks<T, U> : Hooks() {
                 @Sync<(T) -> U>
-                abstract val testSyncHook: SyncHook<*>
+                abstract val testSyncHook: Hook
             }
             """
         )
@@ -207,13 +207,13 @@ class HooksProcessorTest {
         val testHooks = SourceFile.kotlin(
             "TestHooks.kt",
             """
-            import com.intuit.hooks.SyncHook
+            import com.intuit.hooks.Hook
             import com.intuit.hooks.dsl.HooksDsl
             
             class Controller {
                 abstract class Hooks : HooksDsl() {
                     @Sync<(String) -> Unit>
-                    abstract val testSyncHook: SyncHook<*>
+                    abstract val testSyncHook: Hook
                 }
 
                 val hooks = ControllerHooksImpl()

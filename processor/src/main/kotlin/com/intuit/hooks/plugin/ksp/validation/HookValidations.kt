@@ -13,37 +13,27 @@ internal sealed class HookValidationError(val message: String, val symbol: KSNod
     class WaterfallParameterTypeMustMatch(symbol: KSNode) : HookValidationError("Waterfall hooks must specify the same types for the first parameter and the return type", symbol)
     class MustBeHookTypeSignature(annotation: HookAnnotation) : HookValidationError("$annotation property requires a hook type signature", annotation.symbol)
     class NoCodeGenerator(annotation: HookAnnotation) : HookValidationError("This hook plugin has no code generator for $annotation", annotation.symbol)
-    class NoHookDslAnnotations(property: KSPropertyDeclaration) : HookValidationError("Hook property must be annotated with respective DSL annotation for ${property.type.text}", property)
+    class NoHookDslAnnotations(property: KSPropertyDeclaration) : HookValidationError("Hook property must be annotated with a DSL annotation", property)
     class TooManyHookDslAnnotations(annotations: List<KSAnnotation>, property: KSPropertyDeclaration) : HookValidationError("This hook has more than a single hook DSL annotation: $annotations", property)
     class HookPropertyTypeMismatch(property: KSPropertyDeclaration, annotationType: String) : HookValidationError("Hook property type (${property.type.text}) does not match annotation hook type (@${annotationType.dropLast(4)})", property)
-    class UnsupportedAbstractPropertyType(property: KSPropertyDeclaration) : HookValidationError("Abstract property type (${property.type.text}) not supported", property)
+    class UnsupportedAbstractPropertyType(property: KSPropertyDeclaration) : HookValidationError("Abstract property type (${property.type.text}) not supported. Hook properties must be of type com.intuit.hooks.Hook", property)
 }
 
 /** main entrypoint for validating [KSPropertyDeclaration]s as valid annotated hook members */
 internal fun validateProperty(property: KSPropertyDeclaration): ValidatedNel<HookValidationError, HookInfo> = with(property) {
     // validate property has the correct type
     validateHookType()
-        .andThen { type -> validateHookAnnotation().map { Pair(type, it) } }
-        .andThen { (type, info) ->
-            // validate property against hook info with specific hook type validations
-            validatePropertyTypeAgainstHookInfo(type, info).zip(
-                validateHookProperties(info),
-            ) { _, _ -> info }
-        }
+        .andThen { validateHookAnnotation() }
+        // validate property against hook info with specific hook type validations
+        .andThen { info -> validateHookProperties(info) }
 }
 
-private fun KSPropertyDeclaration.validateHookType(): ValidatedNel<HookValidationError, HookType> = try {
-    HookType.valueOf(type.element.toString()).valid()
+private fun KSPropertyDeclaration.validateHookType(): ValidatedNel<HookValidationError, KSTypeReference> = try {
+    if (type.text == "Hook") type.valid()
+    else HookValidationError.UnsupportedAbstractPropertyType(this).invalidNel()
 } catch (e: Exception) {
     HookValidationError.UnsupportedAbstractPropertyType(this).invalidNel()
 }
-
-private fun KSPropertyDeclaration.validatePropertyTypeAgainstHookInfo(
-    type: HookType,
-    info: HookInfo
-): ValidatedNel<HookValidationError.HookPropertyTypeMismatch, HookInfo> =
-    if (info.hookType == type) info.valid()
-    else HookValidationError.HookPropertyTypeMismatch(this, info.hookType.name).invalidNel()
 
 private fun KSPropertyDeclaration.validateHookProperties(hookInfo: HookInfo) =
     hookInfo.hookType.properties.map { it.validate(hookInfo, this) }

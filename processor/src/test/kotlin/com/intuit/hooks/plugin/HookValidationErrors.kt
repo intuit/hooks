@@ -10,7 +10,7 @@ class HookValidationErrors {
         val testHooks = SourceFile.kotlin(
             "TestHooks.kt",
             """
-            import com.intuit.hooks.SyncHook
+            import com.intuit.hooks.Hook
             import com.intuit.hooks.dsl.Hooks
             
             internal abstract class TestHooks : Hooks() {
@@ -28,18 +28,18 @@ class HookValidationErrors {
         val testHooks = SourceFile.kotlin(
             "TestHooks.kt",
             """
-            import com.intuit.hooks.SyncHook
+            import com.intuit.hooks.Hook
             import com.intuit.hooks.dsl.Hooks
             
             internal abstract class TestHooks : Hooks() {
-                abstract val syncHook: SyncHook<*>
+                abstract val syncHook: Hook
             }
             """
         )
 
         val (_, result) = compile(testHooks)
         result.assertOk()
-        result.assertContainsMessages("Hook property must be annotated with respective DSL annotation for SyncHook<*>")
+        result.assertContainsMessages("Hook property must be annotated with a DSL annotation")
     }
 
     @Test fun `hook property has too many hook annotations`() {
@@ -47,13 +47,13 @@ class HookValidationErrors {
             "TestHooks.kt",
             """
             import com.intuit.hooks.BailResult
-            import com.intuit.hooks.SyncHook
+            import com.intuit.hooks.Hook
             import com.intuit.hooks.dsl.Hooks
             
             internal abstract class TestHooks : Hooks() {
                 @Sync<() -> Unit>
                 @SyncBail<() -> BailResult<Int>>
-                abstract val syncHook: SyncHook<*>
+                abstract val syncHook: Hook
             }
             """
         )
@@ -63,36 +63,16 @@ class HookValidationErrors {
         result.assertContainsMessages("This hook has more than a single hook DSL annotation: [@Sync, @SyncBail]")
     }
 
-    @Test fun `hook property type does not match annotation`() {
-        val testHooks = SourceFile.kotlin(
-            "TestHooks.kt",
-            """
-            import com.intuit.hooks.BailResult
-            import com.intuit.hooks.SyncHook
-            import com.intuit.hooks.dsl.Hooks
-            
-            internal abstract class TestHooks : Hooks() {
-                @SyncBail<() -> BailResult<Int>>
-                abstract val syncHook: SyncHook<*>
-            }
-            """
-        )
-
-        val (_, result) = compile(testHooks)
-        result.assertOk()
-        result.assertContainsMessages("Hook property type (SyncHook<*>) does not match annotation hook type (@SyncBail")
-    }
-
     @Test fun `async hooks must has suspend modifier`() {
         val testHooks = SourceFile.kotlin(
             "TestHooks.kt",
             """
-            import com.intuit.hooks.AsyncSeriesHook
+            import com.intuit.hooks.Hook
             import com.intuit.hooks.dsl.Hooks
             
             internal abstract class TestHooks : Hooks() {
                 @AsyncSeries<() -> Unit>
-                abstract val syncHook: AsyncSeriesHook<*>
+                abstract val syncHook: Hook
             }
             """
         )
@@ -106,12 +86,12 @@ class HookValidationErrors {
         val testHooks = SourceFile.kotlin(
             "TestHooks.kt",
             """
-            import com.intuit.hooks.SyncWaterfallHook
+            import com.intuit.hooks.Hook
             import com.intuit.hooks.dsl.Hooks
             
             internal abstract class TestHooks : Hooks() {
                 @SyncWaterfall<() -> String>
-                abstract val syncHook: SyncWaterfallHook<*, *>
+                abstract val syncHook: Hook
             }
             """
         )
@@ -125,12 +105,12 @@ class HookValidationErrors {
         val testHooks = SourceFile.kotlin(
             "TestHooks.kt",
             """
-            import com.intuit.hooks.SyncWaterfallHook
+            import com.intuit.hooks.Hook
             import com.intuit.hooks.dsl.Hooks
             
             internal abstract class TestHooks : Hooks() {
                 @SyncWaterfall<(Int, Int) -> Unit>
-                abstract val syncHook: SyncWaterfallHook<*, *>
+                abstract val syncHook: Hook
             }
             """
         )
@@ -144,12 +124,12 @@ class HookValidationErrors {
         val testHooks = SourceFile.kotlin(
             "TestHooks.kt",
             """
-            import com.intuit.hooks.AsyncSeriesBailHook
+            import com.intuit.hooks.Hook
             import com.intuit.hooks.dsl.Hooks
             
             internal abstract class TestHooks : Hooks() {
                 @AsyncSeriesWaterfall<() -> String>
-                abstract val realBad: AsyncSeriesBailHook<*, *>
+                abstract val realBad: Hook
                 abstract val state: Int
             }
             """
@@ -158,7 +138,6 @@ class HookValidationErrors {
         val (_, result) = compile(testHooks)
         result.assertOk()
         result.assertContainsMessages(
-            "Hook property type (AsyncSeriesBailHook<*, *>) does not match annotation hook type (@AsyncSeriesWaterfall)",
             "Async hooks must be defined with a suspend function signature",
             "Waterfall hooks must take at least one parameter",
             "Waterfall hooks must specify the same types for the first parameter and the return type",
