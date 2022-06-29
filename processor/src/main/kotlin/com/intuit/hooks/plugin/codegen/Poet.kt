@@ -15,10 +15,12 @@ internal fun HookInfo.createSuperClass(extraTypeName: TypeName? = null): Paramet
         .parameterizedBy(parameters)
 }
 
-internal fun HooksContainer.generateFile(): FileSpec =
-    FileSpec.builder(resolvedPackageName ?: "", name)
-        .addType(generateContainerClass())
-        .build()
+internal fun generateFile(resolvedPackageName: String, name: String, hookContainers: List<HooksContainer>): FileSpec =
+    FileSpec.builder(resolvedPackageName, name).apply {
+        hookContainers
+            .map(HooksContainer::generateContainerClass)
+            .forEach(::addType)
+    }.build()
 
 private fun HooksContainer.generateContainerClass(): TypeSpec {
     val className = ClassName.bestGuess(name)

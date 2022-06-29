@@ -30,9 +30,8 @@ import com.squareup.kotlinpoet.ksp.toTypeParameterResolver
 }
 
 /** Build [HookInfo] from the validated [HookAnnotation] found on the [property] */
-internal fun KSPropertyDeclaration.validateHookAnnotation(): ValidatedNel<HookValidationError, HookInfo> =
+internal fun KSPropertyDeclaration.validateHookAnnotation(parentResolver: TypeParameterResolver): ValidatedNel<HookValidationError, HookInfo> =
     onlyHasASingleDslAnnotation().andThen { annotation ->
-        val parentResolver = (this.parent as? KSClassDeclaration)?.typeParameters?.toTypeParameterResolver() ?: TypeParameterResolver.EMPTY
 
         val hasCodeGenerator = hasCodeGenerator(annotation)
         val mustBeHookType = mustBeHookType(annotation, parentResolver)
@@ -51,9 +50,11 @@ internal fun KSPropertyDeclaration.validateHookAnnotation(): ValidatedNel<HookVa
 
 private fun KSPropertyDeclaration.onlyHasASingleDslAnnotation(): ValidatedNel<HookValidationError, HookAnnotation> {
     val annotations = annotations.filter { it.shortName.asString() in annotationDslMarkers }.toList()
-    if (annotations.isEmpty()) return HookValidationError.NoHookDslAnnotations(this).invalidNel()
-    else if (annotations.size > 1) return HookValidationError.TooManyHookDslAnnotations(annotations, this).invalidNel()
-    return annotations.single().let(::HookAnnotation).valid()
+    return when(annotations.size) {
+        0 -> HookValidationError.NoHookDslAnnotations(this).invalidNel()
+        1 -> annotations.single().let(::HookAnnotation).valid()
+        else -> HookValidationError.TooManyHookDslAnnotations(annotations, this).invalidNel()
+    }
 }
 
 private fun validateParameters(annotation: HookAnnotation, parentResolver: TypeParameterResolver): ValidatedNel<HookValidationError, List<HookParameter>> = try {

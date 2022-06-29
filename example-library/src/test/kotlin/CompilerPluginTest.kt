@@ -20,7 +20,7 @@ class CompilerPluginTest {
                 "ksp",
                 "main",
                 "kotlin",
-            ).resolve("${it}Impl.kt")
+            ).resolve("${it}Hooks.kt")
         }.forEach {
             assertTrue(it.exists()) { "$it does not exist" }
         }

@@ -5,6 +5,46 @@ import org.junit.jupiter.api.Test
 
 class HooksProcessorTest {
 
+    @Test fun `multiple hook classes in a single file`() {
+        val testHooks = SourceFile.kotlin(
+            "TestHooks.kt",
+            """
+            import com.intuit.hooks.dsl.Hooks
+            import com.intuit.hooks.Hook
+            
+            internal abstract class TestHooks : Hooks() {
+                @Sync<(String) -> Unit>
+                abstract val testSyncHook: Hook
+            }
+
+            internal abstract class AnotherHookClass : Hooks() {
+                @Sync<(String) -> Unit>
+                abstract val testSyncHook: Hook
+            }
+            """
+        )
+
+        val assertions = SourceFile.kotlin(
+            "Assertions.kt",
+            """
+            import org.junit.jupiter.api.Assertions.*
+
+            fun testHook() {
+                var tapCalled = false
+                val hooks = TestHooksImpl()
+                val another = AnotherHookClassImpl()
+                hooks.testSyncHook.tap("test") { _, x -> tapCalled = true }
+                hooks.testSyncHook.call("hello")
+                assertTrue(tapCalled)
+            }
+            """
+        )
+
+        val (compilation, result) = compile(testHooks, assertions)
+        result.assertOk()
+        compilation.assertKspGeneratedSources("TestHooksHooks.kt")
+        result.runCompiledAssertions()
+    }
     @Test fun `generates simple sync hook`() {
         val testHooks = SourceFile.kotlin(
             "TestHooks.kt",
@@ -36,7 +76,7 @@ class HooksProcessorTest {
 
         val (compilation, result) = compile(testHooks, assertions)
         result.assertOk()
-        compilation.assertKspGeneratedSources("TestHooksImpl.kt")
+        compilation.assertKspGeneratedSources("TestHooksHooks.kt")
         result.runCompiledAssertions()
     }
 
@@ -58,7 +98,7 @@ class HooksProcessorTest {
 
         val (compilation, result) = compile(testHooks)
         result.assertOk()
-        compilation.assertKspGeneratedSources("com.intuit.hooks.test.TestHooksImpl.kt")
+        compilation.assertKspGeneratedSources("com.intuit.hooks.test.TestHooksHooks.kt")
     }
 
     @Test fun `generates hook with nested generic type params`() {
@@ -93,7 +133,7 @@ class HooksProcessorTest {
 
         val (compilation, result) = compile(testHooks, assertions)
         result.assertOk()
-        compilation.assertKspGeneratedSources("TestHooksImpl.kt")
+        compilation.assertKspGeneratedSources("TestHooksHooks.kt")
         result.runCompiledAssertions()
     }
 
@@ -134,7 +174,7 @@ class HooksProcessorTest {
 
         val (compilation, result) = compile(testHooks, assertions)
         result.assertOk()
-        compilation.assertKspGeneratedSources("TestHooksImpl.kt")
+        compilation.assertKspGeneratedSources("TestHooksHooks.kt")
         result.runCompiledAssertions()
     }
 
@@ -164,7 +204,7 @@ class HooksProcessorTest {
 
         val (compilation, result) = compile(testHooks)
         result.assertOk()
-        compilation.assertKspGeneratedSources("TestHooksImpl.kt")
+        compilation.assertKspGeneratedSources("TestHooksHooks.kt")
     }
 
     @Test fun `generates generic hook class`() {
@@ -199,7 +239,7 @@ class HooksProcessorTest {
 
         val (compilation, result) = compile(testHooks, assertions)
         result.assertOk()
-        compilation.assertKspGeneratedSources("TestHooksImpl.kt")
+        compilation.assertKspGeneratedSources("TestHooksHooks.kt")
         result.runCompiledAssertions()
     }
 
@@ -239,7 +279,7 @@ class HooksProcessorTest {
 
         val (compilation, result) = compile(testHooks, assertions)
         result.assertOk()
-        compilation.assertKspGeneratedSources("ControllerHooksImpl.kt")
+        compilation.assertKspGeneratedSources("TestHooksHooks.kt")
         result.runCompiledAssertions()
     }
 }

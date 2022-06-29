@@ -77,6 +77,6 @@ class HooksGradlePluginTest {
             .build()
 
         assertEquals(TaskOutcome.SUCCESS, runner.task(":kspKotlin")?.outcome)
-        assertTrue(workingDir.resolve("build/generated/ksp/main/kotlin/TestHooksImpl.kt").exists())
+        assertTrue(workingDir.resolve("build/generated/ksp/main/kotlin/TestHooksHooks.kt").exists())
     }
 }
