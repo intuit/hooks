@@ -14,7 +14,6 @@ import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ksp.TypeParameterResolver
 import com.squareup.kotlinpoet.ksp.toKModifier
 import com.squareup.kotlinpoet.ksp.toTypeName
-import com.squareup.kotlinpoet.ksp.toTypeParameterResolver
 
 /** Wrapper for [KSAnnotation] when we're sure that the annotation is a hook annotation */
 @JvmInline internal value class HookAnnotation(val symbol: KSAnnotation) {
@@ -49,7 +48,7 @@ internal fun KSPropertyDeclaration.validateHookAnnotation(parentResolver: TypePa
 
 private fun KSPropertyDeclaration.onlyHasASingleDslAnnotation(): ValidatedNel<HookValidationError, HookAnnotation> {
     val annotations = annotations.filter { it.shortName.asString() in annotationDslMarkers }.toList()
-    return when(annotations.size) {
+    return when (annotations.size) {
         0 -> HookValidationError.NoHookDslAnnotations(this).invalidNel()
         1 -> annotations.single().let(::HookAnnotation).valid()
         else -> HookValidationError.TooManyHookDslAnnotations(annotations, this).invalidNel()

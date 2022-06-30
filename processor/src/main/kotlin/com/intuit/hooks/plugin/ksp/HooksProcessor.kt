@@ -51,7 +51,7 @@ public class HooksProcessor(
                 }
             }.toList()
 
-            if(hookContainers.isEmpty()) return
+            if (hookContainers.isEmpty()) return
 
             val packageName = file.packageName.asString()
             val name = file.fileName.split(".").first()
@@ -112,7 +112,6 @@ public class HooksProcessor(
         override fun defaultHandler(node: KSNode, data: Unit): List<ValidatedNel<HookValidationError, HooksContainer>> =
             TODO("Not yet implemented")
     }
-
 
     public class Provider : SymbolProcessorProvider {
         override fun create(environment: SymbolProcessorEnvironment): HooksProcessor = HooksProcessor(
