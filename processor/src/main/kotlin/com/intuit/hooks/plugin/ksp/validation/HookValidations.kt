@@ -5,7 +5,6 @@ import com.google.devtools.ksp.symbol.*
 import com.intuit.hooks.plugin.codegen.HookInfo
 import com.intuit.hooks.plugin.ksp.text
 import com.squareup.kotlinpoet.ksp.TypeParameterResolver
-import com.squareup.kotlinpoet.ksp.toTypeParameterResolver
 
 // TODO: It'd be nice if the validations were codegen framework agnostic
 internal sealed class HookValidationError(val message: String, val symbol: KSNode) {

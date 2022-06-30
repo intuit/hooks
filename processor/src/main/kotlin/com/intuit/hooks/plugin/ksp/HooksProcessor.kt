@@ -52,27 +52,26 @@ public class HooksProcessor(
             }.toList()
 
             if(hookContainers.isEmpty()) return
+
             val packageName = file.packageName.asString()
             val name = file.fileName.split(".").first()
 
-            generateFile(packageName, "${name}Hooks", hookContainers).writeTo(codeGenerator, aggregating = false)
+            generateFile(packageName, "${name}Hooks", hookContainers).writeTo(codeGenerator, aggregating = false, originatingKSFiles = listOf(file))
         }
     }
 
     private inner class HookContainerVisitor : KSDefaultVisitor<Unit, List<ValidatedNel<HookValidationError, HooksContainer>>>() {
         override fun visitClassDeclaration(classDeclaration: KSClassDeclaration, data: Unit): List<ValidatedNel<HookValidationError, HooksContainer>> {
             val superTypeNames = classDeclaration.superTypes
-                .map(KSTypeReference::element)
-                .filterIsInstance<KSClassifierReference>()
-                .map(KSClassifierReference::referencedName)
+                .filter { it.toString().contains("Hooks") }
+                .toList()
 
-            // TODO: Account for import aliases :P + how to avoid false positives? probably through resolve
-            return if (!superTypeNames.contains("Hooks") && !superTypeNames.contains("HooksDsl")) {
+            return if (superTypeNames.isEmpty()) {
                 classDeclaration.declarations
                     .filter { it is KSClassDeclaration && it.validate() }
                     .flatMap { it.accept(this, Unit) }
                     .toList()
-            } else {
+            } else if (superTypeNames.any { it.resolve().declaration.qualifiedName?.getQualifier() == "com.intuit.hooks.dsl" }) {
                 val parentResolver = classDeclaration.typeParameters.toTypeParameterResolver()
 
                 classDeclaration.getAllProperties()
@@ -80,6 +79,8 @@ public class HooksProcessor(
                     .sequence(Semigroup.nonEmptyList())
                     .map { hooks -> createHooksContainer(classDeclaration, hooks) }
                     .let(::listOf)
+            } else {
+                emptyList()
             }
         }
 

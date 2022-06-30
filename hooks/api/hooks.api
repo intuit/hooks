@@ -49,7 +49,7 @@ public final class com/intuit/hooks/BailResult$Continue : com/intuit/hooks/BailR
 	public fun <init> ()V
 }
 
-public abstract class com/intuit/hooks/BaseHook {
+public abstract class com/intuit/hooks/BaseHook : com/intuit/hooks/Hook {
 	public fun <init> (Ljava/lang/String;)V
 	protected fun generateRandomId ()Ljava/lang/String;
 	protected fun getInterceptors ()Lcom/intuit/hooks/Interceptors;
@@ -60,6 +60,9 @@ public abstract class com/intuit/hooks/BaseHook {
 	public final fun tap (Ljava/lang/String;Ljava/lang/String;Lkotlin/Function;)Ljava/lang/String;
 	public final fun tap (Ljava/lang/String;Lkotlin/Function;)Ljava/lang/String;
 	public final fun untap (Ljava/lang/String;)V
+}
+
+public abstract class com/intuit/hooks/Hook {
 }
 
 public class com/intuit/hooks/Interceptors {

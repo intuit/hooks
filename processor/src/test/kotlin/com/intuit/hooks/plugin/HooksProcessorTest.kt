@@ -5,6 +5,44 @@ import org.junit.jupiter.api.Test
 
 class HooksProcessorTest {
 
+    @Test fun `ignores subclasses of the Hooks class`() {
+        val testHooks = SourceFile.kotlin(
+            "TestHooks.kt",
+            """
+            import com.intuit.hooks.dsl.HooksDsl
+            import com.intuit.hooks.*
+            
+            class Test {
+                abstract class Hooks : HooksDsl() {
+                    @Sync<(newSpeed: Int) -> Unit> abstract val sync: Hook
+                }
+            } 
+
+            class HandCraftedArtisanalHooksImpl : Test.Hooks() {
+            
+              public override val sync: SyncSyncHook = SyncSyncHook()
+
+              public inner class SyncSyncHook : SyncHook<(HookContext, newSpeed: Int) -> Unit>() {
+                public fun tap(name: String, f: Function1<Int, Unit>): String? = tap(name, generateRandomId(),
+                    f)
+
+                public fun tap(
+                  name: String,
+                  id: String,
+                  f: Function1<Int, Unit>,
+                ): String? = super.tap(name, id) { _: HookContext, newSpeed: kotlin.Int -> f(newSpeed)}
+
+                public fun call(newSpeed: Int): Unit = super.call { f, context -> f(context, newSpeed) }
+              }
+            }
+            """
+        )
+
+        val (compilation, result) = compile(testHooks)
+        result.assertOk()
+        compilation.assertKspGeneratedSources("TestHooksHooks.kt")
+        result.assertNoKspErrors()
+    }
     @Test fun `multiple hook classes in a single file`() {
         val testHooks = SourceFile.kotlin(
             "TestHooks.kt",
@@ -45,6 +83,7 @@ class HooksProcessorTest {
         compilation.assertKspGeneratedSources("TestHooksHooks.kt")
         result.runCompiledAssertions()
     }
+
     @Test fun `generates simple sync hook`() {
         val testHooks = SourceFile.kotlin(
             "TestHooks.kt",

@@ -10,7 +10,7 @@ class CompilerPluginTest {
     @Test
     fun `sources are generated in specified directory`() {
         val generatedDirPath = Paths.get(System.getProperty("user.dir"), "build", "generated")
-        listOf("car.CarHooks", "generic.GenericHooks").map {
+        listOf("car.Car", "generic.GenericHooks").map {
             "com.intuit.hooks.example.library.$it"
         }.map {
             Paths.get("", *it.split(".").toTypedArray())

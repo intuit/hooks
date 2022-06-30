@@ -37,7 +37,6 @@ internal fun KSPropertyDeclaration.validateHookAnnotation(parentResolver: TypePa
         val mustBeHookType = mustBeHookType(annotation, parentResolver)
         val validateParameters = validateParameters(annotation, parentResolver)
         val hookMember = simpleName.asString()
-        // TODO: Should this actually default to public?
         val propertyVisibility = this.getVisibility().toKModifier() ?: KModifier.PUBLIC
 
         hasCodeGenerator.zip(
