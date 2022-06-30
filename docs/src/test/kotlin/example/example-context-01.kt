@@ -2,10 +2,10 @@
 package com.intuit.hooks.example.exampleContext01
 
 import com.intuit.hooks.dsl.Hooks
-import com.intuit.hooks.SyncHook
+import com.intuit.hooks.Hook
 
 abstract class CarHooks : Hooks() {
-    @Sync<(newSpeed: Int) -> Unit> abstract val accelerate: SyncHook<*>
+    @Sync<(newSpeed: Int) -> Unit> abstract val accelerate: Hook
 }
 
 class Car {
