@@ -1,54 +1,60 @@
 package com.intuit.hooks.plugin.codegen
 
-internal data class HookMember(
+import com.squareup.kotlinpoet.*
+import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
+
+internal data class HooksContainer(
     val name: String,
-    val visibility: String,
-)
+    val originalClassName: ClassName,
+    val typeSpecKind: TypeSpec.Kind,
+    val resolvedPackageName: String?,
+    val visibilityModifier: KModifier,
+    val typeArguments: List<TypeVariableName>,
+    val hooks: List<HookInfo>
+) {
+    val superclass get() = originalClassName.let {
+        if (typeArguments.isNotEmpty()) {
+            it.parameterizedBy(typeArguments)
+        } else
+            it
+    }
+}
 
 internal data class HookSignature(
-    val text: String,
+    val hookFunctionSignatureTypeText: String,
     val isSuspend: Boolean,
-    val returnType: String,
-    /** For hooks that return a wrapped result, like [BailResult], this is the inner type */
-    val returnTypeType: String?,
+    val returnType: TypeName,
+    val returnTypeType: TypeName?,
+    val hookFunctionSignatureType: TypeName,
 ) {
-    val nullableReturnTypeType = "${returnTypeType}${if (returnTypeType?.last() == '?') "" else "?"}"
-
-    override fun toString() = text
+    val nullableReturnTypeType: TypeName get() {
+        requireNotNull(returnTypeType)
+        return returnTypeType.copy(nullable = true)
+    }
+    override fun toString(): String = hookFunctionSignatureTypeText
 }
 
 internal class HookParameter(
     val name: String?,
-    val type: String,
+    val type: TypeName,
     val position: Int,
-)
-
-internal val HookParameter.withType get() = "$withoutType: $type"
-internal val HookParameter.withoutType get() = name ?: "p$position"
+) {
+    val withType get() = "$withoutType: $type"
+    val withoutType get() = name ?: "p$position"
+}
 
 internal data class HookInfo(
-    val property: HookMember,
+    val property: String,
     val hookType: HookType,
     val hookSignature: HookSignature,
     val params: List<HookParameter>,
+    val propertyVisibility: KModifier
 ) {
     val zeroArity = params.isEmpty()
     val isAsync = hookType.properties.contains(HookProperty.Async)
 }
 
-internal val HookInfo.tapMethod get() = if (!zeroArity) """
-    public fun tap(name: String, f: $hookSignature): String? = tap(name, generateRandomId(), f)
-    public fun tap(name: String, id: String, f: $hookSignature): String? = super.tap(name, id) { _: HookContext, $paramsWithTypes -> f($paramsWithoutTypes) }
-""".trimIndent() else ""
 internal val HookInfo.paramsWithTypes get() = params.joinToString(transform = HookParameter::withType)
 internal val HookInfo.paramsWithoutTypes get() = params.joinToString(transform = HookParameter::withoutType)
-internal fun HookInfo.generateClass() = this.hookType.generateClass(this)
-internal fun HookInfo.generateProperty() = (if (hookType == HookType.AsyncParallelBailHook) "@kotlinx.coroutines.ExperimentalCoroutinesApi\n" else "") +
-    "override val ${property.name}: $className = $className()"
-internal fun HookInfo.generateImports(): List<String> = emptyList()
-
 internal val HookInfo.superType get() = this.hookType.toString()
-
-internal val HookInfo.className get() = "${property.name.replaceFirstChar(Char::titlecase)}$superType"
-internal val HookInfo.typeParameter get() = "(${if (isAsync) "suspend " else ""}(HookContext, $paramsWithTypes) -> ${hookSignature.returnType})"
-internal val HookInfo.interceptParameter get() = "${if (isAsync) "suspend " else ""}(HookContext, $paramsWithTypes) -> Unit"
+internal val HookInfo.className get() = "${property.replaceFirstChar(Char::titlecase)}$superType"

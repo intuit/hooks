@@ -33,8 +33,8 @@ class SyncWaterfallHookTests {
     @Test
     fun `waterfall taps work with arity 2`() {
         val h = Hook2<String, Int>()
-        h.tap("continue") { _, x, y -> "$x David" }
-        h.tap("continue again") { _, x, y -> "$x Jeremiah" }
+        h.tap("continue") { _, x, _ -> "$x David" }
+        h.tap("continue again") { _, x, _ -> "$x Jeremiah" }
 
         val result = h.call("Kian", 3)
         Assertions.assertEquals("Kian David Jeremiah", result)

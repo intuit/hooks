@@ -4,13 +4,17 @@ import arrow.core.*
 import com.google.devtools.ksp.getVisibility
 import com.google.devtools.ksp.symbol.*
 import com.intuit.hooks.plugin.codegen.HookInfo
-import com.intuit.hooks.plugin.codegen.HookMember
 import com.intuit.hooks.plugin.codegen.HookParameter
 import com.intuit.hooks.plugin.codegen.HookSignature
 import com.intuit.hooks.plugin.codegen.HookType
 import com.intuit.hooks.plugin.codegen.HookType.Companion.annotationDslMarkers
 import com.intuit.hooks.plugin.ksp.HooksProcessor
 import com.intuit.hooks.plugin.ksp.text
+import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.ksp.TypeParameterResolver
+import com.squareup.kotlinpoet.ksp.toKModifier
+import com.squareup.kotlinpoet.ksp.toTypeName
+import com.squareup.kotlinpoet.ksp.toTypeParameterResolver
 
 /** Wrapper for [KSAnnotation] when we're sure that the annotation is a hook annotation */
 @JvmInline internal value class HookAnnotation(val symbol: KSAnnotation) {
@@ -27,16 +31,21 @@ import com.intuit.hooks.plugin.ksp.text
 
 /** Build [HookInfo] from the validated [HookAnnotation] found on the [property] */
 internal fun KSPropertyDeclaration.validateHookAnnotation(): ValidatedNel<HookValidationError, HookInfo> =
-    onlyHasASingleDslAnnotation().withEither {
-        it.flatMap { annotation ->
-            hasCodeGenerator(annotation).zip(
-                mustBeHookType(annotation),
-                validateParameters(annotation),
-                HookMember(
-                    simpleName.asString(),
-                    getVisibility().name.lowercase(),
-                ).let(::HookInfo::partially1),
-            ).toEither()
+    onlyHasASingleDslAnnotation().andThen { annotation ->
+        val parentResolver = (this.parent as? KSClassDeclaration)?.typeParameters?.toTypeParameterResolver() ?: TypeParameterResolver.EMPTY
+
+        val hasCodeGenerator = hasCodeGenerator(annotation)
+        val mustBeHookType = mustBeHookType(annotation, parentResolver)
+        val validateParameters = validateParameters(annotation, parentResolver)
+        val hookMember = simpleName.asString()
+        // TODO: Should this actually default to public?
+        val propertyVisibility = this.getVisibility().toKModifier() ?: KModifier.PUBLIC
+
+        hasCodeGenerator.zip(
+            mustBeHookType,
+            validateParameters
+        ) { hookType: HookType, hookSignature: HookSignature, hookParameters: List<HookParameter> ->
+            HookInfo(hookMember, hookType, hookSignature, hookParameters, propertyVisibility)
         }
     }
 
@@ -47,9 +56,11 @@ private fun KSPropertyDeclaration.onlyHasASingleDslAnnotation(): ValidatedNel<Ho
     return annotations.single().let(::HookAnnotation).valid()
 }
 
-private fun validateParameters(annotation: HookAnnotation): ValidatedNel<HookValidationError, List<HookParameter>> = try {
+private fun validateParameters(annotation: HookAnnotation, parentResolver: TypeParameterResolver): ValidatedNel<HookValidationError, List<HookParameter>> = try {
     annotation.hookFunctionSignatureReference.functionParameters.mapIndexed { index: Int, parameter: KSValueParameter ->
-        HookParameter(parameter.name?.asString(), parameter.type.text, index)
+        val name = parameter.name?.asString()
+        val type = parameter.type.toTypeName(parentResolver)
+        HookParameter(name, type, index)
     }.valid()
 } catch (exception: Exception) {
     HookValidationError.MustBeHookTypeSignature(annotation).invalidNel()
@@ -61,12 +72,20 @@ private fun hasCodeGenerator(annotation: HookAnnotation): ValidatedNel<HookValid
     HookValidationError.NoCodeGenerator(annotation).invalidNel()
 }
 
-private fun mustBeHookType(annotation: HookAnnotation): ValidatedNel<HookValidationError, HookSignature> = try {
+private fun mustBeHookType(annotation: HookAnnotation, parentResolver: TypeParameterResolver): ValidatedNel<HookValidationError, HookSignature> = try {
+    val isSuspend: Boolean = annotation.hookFunctionSignatureType.modifiers.contains(Modifier.SUSPEND)
+    // I'm leaving this here because KSP knows that it's (String) -> Int, whereas once it gets to Poet, it's just kotlin.Function1<kotlin.Int, kotlin.String>
+    val text = annotation.hookFunctionSignatureType.text
+    val hookFunctionSignatureType = annotation.hookFunctionSignatureType.toTypeName(parentResolver)
+    val returnType = annotation.hookFunctionSignatureReference.returnType.toTypeName(parentResolver)
+    val returnTypeType = annotation.hookFunctionSignatureReference.returnType.element?.typeArguments?.firstOrNull()?.toTypeName(parentResolver)
+
     HookSignature(
-        annotation.hookFunctionSignatureType.text,
-        annotation.hookFunctionSignatureType.modifiers.contains(Modifier.SUSPEND),
-        annotation.hookFunctionSignatureReference.returnType.text,
-        annotation.hookFunctionSignatureReference.returnType.element?.typeArguments?.firstOrNull()?.text,
+        text,
+        isSuspend,
+        returnType,
+        returnTypeType,
+        hookFunctionSignatureType
     ).valid()
 } catch (exception: Exception) {
     HookValidationError.MustBeHookTypeSignature(annotation).invalidNel()

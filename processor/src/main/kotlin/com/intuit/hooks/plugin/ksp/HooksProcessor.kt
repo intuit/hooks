@@ -1,17 +1,16 @@
 package com.intuit.hooks.plugin.ksp
 
-import arrow.core.sequenceValidated
+import arrow.core.sequence
 import arrow.core.valueOr
 import arrow.typeclasses.Semigroup
 import com.google.devtools.ksp.getVisibility
 import com.google.devtools.ksp.processing.*
 import com.google.devtools.ksp.symbol.*
 import com.google.devtools.ksp.validate
-import com.intuit.hooks.plugin.codegen.HookInfo
-import com.intuit.hooks.plugin.codegen.generateClass
-import com.intuit.hooks.plugin.codegen.generateImports
-import com.intuit.hooks.plugin.codegen.generateProperty
+import com.intuit.hooks.plugin.codegen.*
 import com.intuit.hooks.plugin.ksp.validation.validateProperty
+import com.squareup.kotlinpoet.*
+import com.squareup.kotlinpoet.ksp.*
 
 public class HooksProcessor(
     private val codeGenerator: CodeGenerator,
@@ -50,45 +49,38 @@ public class HooksProcessor(
                 }.forEach {
                     it.accept(this, Unit)
                 }
-            } else classDeclaration.findHooks().map { codeGen ->
-                if (codeGen.firstOrNull() == null) return@map
-
-                val packageName = classDeclaration.packageName
-                val (classes, properties) = codeGen.map(::generateHookClass).unzip()
-                val imports = createImportDirectives(classDeclaration, codeGen.toList())
-
-                val visibility = classDeclaration.getVisibility().name.lowercase()
-                val kind = classDeclaration.classKind.name.lowercase()
-                val name =
-                    "${classDeclaration.parentDeclaration?.simpleName?.asString() ?: ""}${classDeclaration.simpleName.asString()}Impl"
-                val typeParameters = if (classDeclaration.typeParameters.isEmpty()) "" else "<${
-                classDeclaration.typeParameters.joinToString(separator = ", ") { it.simpleName.asString() }
-                }>"
-                val fqName = classDeclaration.qualifiedName!!.asString()
-
-                val newSource =
-                    """|${packageName.asString().takeIf(String::isNotEmpty)?.let { "package $it" } ?: ""}
-                       |
-                       |$imports
-                       |
-                       |$visibility $kind $name$typeParameters : ${fqName}$typeParameters() {
-                       |   ${properties.joinToString("\n", "\n", "\n") { it }}
-                       |   ${classes.joinToString("\n", "\n", "\n") { it }} 
-                       |}""".trimMargin()
-
-                codeGenerator.createNewFile(
-                    Dependencies(true, classDeclaration.containingFile!!),
-                    packageName.asString(),
-                    name,
-                ).use {
-                    newSource
-                        .let(String::toByteArray)
-                        .let(it::write)
-                }
-            }.valueOr { errors ->
-                errors.forEach { logger.error(it.message, it.symbol) }
+            } else {
+                classDeclaration.findHooks()
+                    .map { hooks -> createHooksContainer(classDeclaration, hooks) }
+                    .map { hooksContainer ->
+                        if (hooksContainer.hooks.isEmpty()) return@map
+                        // TODO: somehow specify the original file as a dependency of this new file
+                        hooksContainer.generateFile().writeTo(codeGenerator, aggregating = false)
+                    }.valueOr { errors ->
+                        errors.forEach { logger.error(it.message, it.symbol) }
+                    }
             }
         }
+    }
+
+    internal fun createHooksContainer(classDeclaration: KSClassDeclaration, hooks: List<HookInfo>): HooksContainer {
+        val name =
+            "${classDeclaration.parentDeclaration?.simpleName?.asString() ?: ""}${classDeclaration.simpleName.asString()}Impl"
+        val resolvedPackageName = classDeclaration.packageName.asString().takeIf(String::isNotEmpty)
+        val visibilityModifier = classDeclaration.getVisibility().toKModifier() ?: KModifier.PUBLIC
+        val typeArguments = classDeclaration.typeParameters.map { it.toTypeVariableName() }
+        val className = classDeclaration.toClassName()
+        val typeSpecKind = classDeclaration.classKind.toTypeSpecKind()
+
+        return HooksContainer(
+            name,
+            className,
+            typeSpecKind,
+            resolvedPackageName,
+            visibilityModifier,
+            typeArguments,
+            hooks
+        )
     }
 
     private fun KSClassDeclaration.findHooks() = getAllProperties()
@@ -97,33 +89,9 @@ public class HooksProcessor(
             it.modifiers.contains(Modifier.ABSTRACT)
         }
         .map(::validateProperty)
-        .sequenceValidated(Semigroup.nonEmptyList())
-
-    private fun generateHookClass(hookInfo: HookInfo): Pair<String, String> {
-        val classDefinition = hookInfo.generateClass()
-        val propertyDefinition = hookInfo.generateProperty()
-
-        return classDefinition to propertyDefinition
-    }
-
-    private fun createImportDirectives(classDeclaration: KSClassDeclaration, hooks: List<HookInfo>): String {
-        val existingImports = emptyList<String>() // TODO: Get imports -- this might be fixed with kotlin poet?
-//        classDeclaration.containingFile?.
-//        ?.removeHooksDslImport()
-//        ?.map { it.text ?: "" }
-//        ?: emptyList()
-
-        val newImports = hooks.flatMap(HookInfo::generateImports)
-
-        val hookStarImport = listOf("import com.intuit.hooks.*")
-
-        return (hookStarImport + existingImports + newImports)
-            .distinct()
-            .joinToString("\n")
-    }
+        .sequence(Semigroup.nonEmptyList())
 
     public class Provider : SymbolProcessorProvider {
-
         override fun create(environment: SymbolProcessorEnvironment): HooksProcessor = HooksProcessor(
             environment.codeGenerator,
             environment.logger,
@@ -131,4 +99,11 @@ public class HooksProcessor(
     }
 
     public class Exception(message: String, cause: Throwable? = null) : kotlin.Exception(message, cause)
+}
+
+internal fun ClassKind.toTypeSpecKind(): TypeSpec.Kind = when (this) {
+    ClassKind.CLASS -> TypeSpec.Kind.CLASS
+    ClassKind.INTERFACE -> TypeSpec.Kind.INTERFACE
+    ClassKind.OBJECT -> TypeSpec.Kind.OBJECT
+    else -> throw NotImplementedError("Hooks in constructs other than class, interface, and object aren't supported")
 }
