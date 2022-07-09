@@ -1,3 +1,35 @@
+# v0.13.0 (Sat Jul 09 2022)
+
+### Release Notes
+
+#### New Hooks DSL ([#29](https://github.com/intuit/hooks/pull/29))
+
+💥 **Breaking Change** 💥 
+
+Relax typing specification when using the DSL. Hooks should always use the `Hook` superclass as the specified type and rely solely on the annotation to specify the actual constraints of the hook:
+
+```kotlin
+abstract class CarHooks : Hooks() {
+    @Sync<() -> Unit>
+    abstract val brake: Hook
+    
+    @Sync<(newSpeed: Int) -> Unit>
+    abstract val accelerate: Hook
+}
+```
+
+---
+
+#### 🚀 Enhancement
+
+- New Hooks DSL [#29](https://github.com/intuit/hooks/pull/29) ([@stabbylambda](https://github.com/stabbylambda))
+
+#### Authors: 1
+
+- David Stone ([@stabbylambda](https://github.com/stabbylambda))
+
+---
+
 # v0.12.1 (Sat Jul 09 2022)
 
 #### 🐛 Bug Fix
