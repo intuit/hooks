@@ -8,16 +8,16 @@ Cars come with many features that can vary heavily depending on the make, model,
 
 <!--- INCLUDE
 import com.intuit.hooks.dsl.Hooks
-import com.intuit.hooks.SyncHook
+import com.intuit.hooks.Hook
 -->
 
 ```kotlin
 abstract class CarHooks : Hooks() {
     @Sync<() -> Unit>
-    abstract val brake: SyncHook<*>
+    abstract val brake: Hook
     
     @Sync<(newSpeed: Int) -> Unit>
-    abstract val accelerate: SyncHook<*>
+    abstract val accelerate: Hook
 }
 
 ```
@@ -65,14 +65,14 @@ In the snippet above, loggers were tapped to each hook from the `car` reference.
 
 <!--- INCLUDE
 import com.intuit.hooks.dsl.Hooks
-import com.intuit.hooks.SyncHook
+import com.intuit.hooks.Hook
 
 abstract class CarHooks : Hooks() {
     @Sync<() -> Unit>
-    abstract val brake: SyncHook<*>
+    abstract val brake: Hook
     
     @Sync<(newSpeed: Int) -> Unit>
-    abstract val accelerate: SyncHook<*>
+    abstract val accelerate: Hook
 }
 -->
 

@@ -48,6 +48,12 @@ fun KotlinCompilation.Result.assertContainsMessages(vararg messages: String) {
     }
 }
 
+fun KotlinCompilation.Result.assertNoKspErrors() {
+    Assertions.assertFalse(this.messages.contains("e: [ksp]")) {
+        "Compilation result had a KSP error"
+    }
+}
+
 /** Perform compilation on the [sources], utilizing the default configuration for the [HooksProcessor], if not explicitly configured */
 fun compile(
     vararg sources: SourceFile,

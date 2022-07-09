@@ -7,7 +7,6 @@ internal data class HooksContainer(
     val name: String,
     val originalClassName: ClassName,
     val typeSpecKind: TypeSpec.Kind,
-    val resolvedPackageName: String?,
     val visibilityModifier: KModifier,
     val typeArguments: List<TypeVariableName>,
     val hooks: List<HookInfo>

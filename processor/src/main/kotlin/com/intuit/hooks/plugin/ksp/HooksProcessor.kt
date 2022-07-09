@@ -1,13 +1,14 @@
 package com.intuit.hooks.plugin.ksp
 
-import arrow.core.sequence
-import arrow.core.valueOr
+import arrow.core.*
 import arrow.typeclasses.Semigroup
 import com.google.devtools.ksp.getVisibility
 import com.google.devtools.ksp.processing.*
 import com.google.devtools.ksp.symbol.*
 import com.google.devtools.ksp.validate
+import com.google.devtools.ksp.visitor.KSDefaultVisitor
 import com.intuit.hooks.plugin.codegen.*
+import com.intuit.hooks.plugin.ksp.validation.HookValidationError
 import com.intuit.hooks.plugin.ksp.validation.validateProperty
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ksp.*
@@ -19,77 +20,98 @@ public class HooksProcessor(
 
     override fun process(resolver: Resolver): List<KSAnnotated> {
         resolver.getNewFiles().forEach {
-            it.accept(HooksVisitor(), Unit)
+            it.accept(HookFileVisitor(), Unit)
         }
 
         return emptyList()
     }
 
-    private inner class HooksVisitor : KSVisitorVoid() {
+    private inner class HookPropertyVisitor : KSDefaultVisitor<TypeParameterResolver, ValidatedNel<HookValidationError, HookInfo>>() {
+        override fun visitPropertyDeclaration(property: KSPropertyDeclaration, parentResolver: TypeParameterResolver): ValidatedNel<HookValidationError, HookInfo> {
+            return if (property.modifiers.contains(Modifier.ABSTRACT))
+                validateProperty(property, parentResolver)
+            else
+                HookValidationError.NotAnAbstractProperty(property).invalidNel()
+        }
 
+        override fun defaultHandler(node: KSNode, data: TypeParameterResolver): ValidatedNel<HookValidationError, HookInfo> =
+            TODO("Not yet implemented")
+    }
+
+    private inner class HookFileVisitor : KSVisitorVoid() {
         override fun visitFile(file: KSFile, data: Unit) {
-            file.declarations.filter {
+            val hookContainers = file.declarations.filter {
                 it is KSClassDeclaration
-            }.forEach {
-                it.accept(this, Unit)
-            }
-        }
-
-        override fun visitClassDeclaration(classDeclaration: KSClassDeclaration, data: Unit) {
-            // TODO: This should really be restructured to follow KSP visitor pattern for members
-            val superTypeNames = classDeclaration.superTypes
-                .map(KSTypeReference::element)
-                .filterIsInstance<KSClassifierReference>()
-                .map(KSClassifierReference::referencedName)
-
-            // TODO: Account for import aliases :P + how to avoid false positives? probably through resolve
-            if (!superTypeNames.contains("Hooks") && !superTypeNames.contains("HooksDsl")) {
-                classDeclaration.declarations.filter {
-                    it is KSClassDeclaration && it.validate()
-                }.forEach {
-                    it.accept(this, Unit)
+            }.flatMap {
+                it.accept(HookContainerVisitor(), Unit)
+            }.mapNotNull { v ->
+                v.valueOr { errors ->
+                    errors.forEach { error -> logger.error(error.message, error.symbol) }
+                    null
                 }
-            } else {
-                classDeclaration.findHooks()
+            }.toList()
+
+            if (hookContainers.isEmpty()) return
+
+            val packageName = file.packageName.asString()
+            val name = file.fileName.split(".").first()
+
+            generateFile(packageName, "${name}Hooks", hookContainers).writeTo(codeGenerator, aggregating = false, originatingKSFiles = listOf(file))
+        }
+    }
+
+    private inner class HookContainerVisitor : KSDefaultVisitor<Unit, List<ValidatedNel<HookValidationError, HooksContainer>>>() {
+        override fun visitClassDeclaration(classDeclaration: KSClassDeclaration, data: Unit): List<ValidatedNel<HookValidationError, HooksContainer>> {
+            val superTypeNames = classDeclaration.superTypes
+                .filter { it.toString().contains("Hooks") }
+                .toList()
+
+            return if (superTypeNames.isEmpty()) {
+                classDeclaration.declarations
+                    .filter { it is KSClassDeclaration && it.validate() }
+                    .flatMap { it.accept(this, Unit) }
+                    .toList()
+            } else if (superTypeNames.any { it.resolve().declaration.qualifiedName?.getQualifier() == "com.intuit.hooks.dsl" }) {
+                val parentResolver = classDeclaration.typeParameters.toTypeParameterResolver()
+
+                classDeclaration.getAllProperties()
+                    .map { it.accept(HookPropertyVisitor(), parentResolver) }
+                    .sequence(Semigroup.nonEmptyList())
                     .map { hooks -> createHooksContainer(classDeclaration, hooks) }
-                    .map { hooksContainer ->
-                        if (hooksContainer.hooks.isEmpty()) return@map
-                        // TODO: somehow specify the original file as a dependency of this new file
-                        hooksContainer.generateFile().writeTo(codeGenerator, aggregating = false)
-                    }.valueOr { errors ->
-                        errors.forEach { logger.error(it.message, it.symbol) }
-                    }
+                    .let(::listOf)
+            } else {
+                emptyList()
             }
         }
-    }
 
-    internal fun createHooksContainer(classDeclaration: KSClassDeclaration, hooks: List<HookInfo>): HooksContainer {
-        val name =
-            "${classDeclaration.parentDeclaration?.simpleName?.asString() ?: ""}${classDeclaration.simpleName.asString()}Impl"
-        val resolvedPackageName = classDeclaration.packageName.asString().takeIf(String::isNotEmpty)
-        val visibilityModifier = classDeclaration.getVisibility().toKModifier() ?: KModifier.PUBLIC
-        val typeArguments = classDeclaration.typeParameters.map { it.toTypeVariableName() }
-        val className = classDeclaration.toClassName()
-        val typeSpecKind = classDeclaration.classKind.toTypeSpecKind()
-
-        return HooksContainer(
-            name,
-            className,
-            typeSpecKind,
-            resolvedPackageName,
-            visibilityModifier,
-            typeArguments,
-            hooks
-        )
-    }
-
-    private fun KSClassDeclaration.findHooks() = getAllProperties()
-        .filter {
-            // Only process properties that are abstract b/c that's what we need for a concrete class
-            it.modifiers.contains(Modifier.ABSTRACT)
+        fun ClassKind.toTypeSpecKind(): TypeSpec.Kind = when (this) {
+            ClassKind.CLASS -> TypeSpec.Kind.CLASS
+            ClassKind.INTERFACE -> TypeSpec.Kind.INTERFACE
+            ClassKind.OBJECT -> TypeSpec.Kind.OBJECT
+            else -> throw NotImplementedError("Hooks in constructs other than class, interface, and object aren't supported")
         }
-        .map(::validateProperty)
-        .sequence(Semigroup.nonEmptyList())
+
+        fun createHooksContainer(classDeclaration: KSClassDeclaration, hooks: List<HookInfo>): HooksContainer {
+            val name =
+                "${classDeclaration.parentDeclaration?.simpleName?.asString() ?: ""}${classDeclaration.simpleName.asString()}Impl"
+            val visibilityModifier = classDeclaration.getVisibility().toKModifier() ?: KModifier.PUBLIC
+            val typeArguments = classDeclaration.typeParameters.map { it.toTypeVariableName() }
+            val className = classDeclaration.toClassName()
+            val typeSpecKind = classDeclaration.classKind.toTypeSpecKind()
+
+            return HooksContainer(
+                name,
+                className,
+                typeSpecKind,
+                visibilityModifier,
+                typeArguments,
+                hooks
+            )
+        }
+
+        override fun defaultHandler(node: KSNode, data: Unit): List<ValidatedNel<HookValidationError, HooksContainer>> =
+            TODO("Not yet implemented")
+    }
 
     public class Provider : SymbolProcessorProvider {
         override fun create(environment: SymbolProcessorEnvironment): HooksProcessor = HooksProcessor(
@@ -99,11 +121,4 @@ public class HooksProcessor(
     }
 
     public class Exception(message: String, cause: Throwable? = null) : kotlin.Exception(message, cause)
-}
-
-internal fun ClassKind.toTypeSpecKind(): TypeSpec.Kind = when (this) {
-    ClassKind.CLASS -> TypeSpec.Kind.CLASS
-    ClassKind.INTERFACE -> TypeSpec.Kind.INTERFACE
-    ClassKind.OBJECT -> TypeSpec.Kind.OBJECT
-    else -> throw NotImplementedError("Hooks in constructs other than class, interface, and object aren't supported")
 }

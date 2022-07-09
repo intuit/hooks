@@ -2,14 +2,14 @@
 package com.intuit.hooks.example.exampleCar02
 
 import com.intuit.hooks.dsl.Hooks
-import com.intuit.hooks.SyncHook
+import com.intuit.hooks.Hook
 
 abstract class CarHooks : Hooks() {
     @Sync<() -> Unit>
-    abstract val brake: SyncHook<*>
+    abstract val brake: Hook
     
     @Sync<(newSpeed: Int) -> Unit>
-    abstract val accelerate: SyncHook<*>
+    abstract val accelerate: Hook
 }
 
 class Car(vararg plugins: Plugin) {

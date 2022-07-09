@@ -59,12 +59,12 @@ class HooksGradlePluginTest {
         }
         testHooks.appendKotlin(
             """
-            import com.intuit.hooks.SyncHook
+            import com.intuit.hooks.*
             import com.intuit.hooks.dsl.Hooks
             
             internal abstract class TestHooks : Hooks() {
                 @Sync<(String) -> Unit>
-                abstract val testSyncHook: SyncHook<*>
+                abstract val testSyncHook: Hook
             }
         """
         )
@@ -77,6 +77,6 @@ class HooksGradlePluginTest {
             .build()
 
         assertEquals(TaskOutcome.SUCCESS, runner.task(":kspKotlin")?.outcome)
-        assertTrue(workingDir.resolve("build/generated/ksp/main/kotlin/TestHooksImpl.kt").exists())
+        assertTrue(workingDir.resolve("build/generated/ksp/main/kotlin/TestHooksHooks.kt").exists())
     }
 }

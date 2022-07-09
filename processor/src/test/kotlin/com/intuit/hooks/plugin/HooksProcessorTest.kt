@@ -5,16 +5,95 @@ import org.junit.jupiter.api.Test
 
 class HooksProcessorTest {
 
+    @Test fun `ignores subclasses of the Hooks class`() {
+        val testHooks = SourceFile.kotlin(
+            "TestHooks.kt",
+            """
+            import com.intuit.hooks.dsl.HooksDsl
+            import com.intuit.hooks.*
+            
+            class Test {
+                abstract class Hooks : HooksDsl() {
+                    @Sync<(newSpeed: Int) -> Unit> abstract val sync: Hook
+                }
+            } 
+
+            class HandCraftedArtisanalHooksImpl : Test.Hooks() {
+            
+              public override val sync: SyncSyncHook = SyncSyncHook()
+
+              public inner class SyncSyncHook : SyncHook<(HookContext, newSpeed: Int) -> Unit>() {
+                public fun tap(name: String, f: Function1<Int, Unit>): String? = tap(name, generateRandomId(),
+                    f)
+
+                public fun tap(
+                  name: String,
+                  id: String,
+                  f: Function1<Int, Unit>,
+                ): String? = super.tap(name, id) { _: HookContext, newSpeed: kotlin.Int -> f(newSpeed)}
+
+                public fun call(newSpeed: Int): Unit = super.call { f, context -> f(context, newSpeed) }
+              }
+            }
+            """
+        )
+
+        val (compilation, result) = compile(testHooks)
+        result.assertOk()
+        compilation.assertKspGeneratedSources("TestHooksHooks.kt")
+        result.assertNoKspErrors()
+    }
+    @Test fun `multiple hook classes in a single file`() {
+        val testHooks = SourceFile.kotlin(
+            "TestHooks.kt",
+            """
+            import com.intuit.hooks.dsl.Hooks
+            import com.intuit.hooks.Hook
+            
+            internal abstract class TestHooks : Hooks() {
+                @Sync<(String) -> Unit>
+                abstract val testSyncHook: Hook
+            }
+
+            internal abstract class AnotherHookClass : Hooks() {
+                @Sync<(String) -> Unit>
+                abstract val testSyncHook: Hook
+            }
+            """
+        )
+
+        val assertions = SourceFile.kotlin(
+            "Assertions.kt",
+            """
+            import org.junit.jupiter.api.Assertions.*
+
+            fun testHook() {
+                var tapCalled = false
+                val hooks = TestHooksImpl()
+                val another = AnotherHookClassImpl()
+                hooks.testSyncHook.tap("test") { _, x -> tapCalled = true }
+                hooks.testSyncHook.call("hello")
+                assertTrue(tapCalled)
+            }
+            """
+        )
+
+        val (compilation, result) = compile(testHooks, assertions)
+        result.assertOk()
+        compilation.assertKspGeneratedSources("TestHooksHooks.kt")
+        result.runCompiledAssertions()
+    }
+
     @Test fun `generates simple sync hook`() {
         val testHooks = SourceFile.kotlin(
             "TestHooks.kt",
             """
-            import com.intuit.hooks.SyncHook
             import com.intuit.hooks.dsl.Hooks
+            import com.intuit.hooks.Hook
             
             internal abstract class TestHooks : Hooks() {
                 @Sync<(String) -> Unit>
-                abstract val testSyncHook: SyncHook<*>
+                abstract val testSyncHook: Hook
             }
             """
         )
@@ -36,7 +115,7 @@ class HooksProcessorTest {
 
         val (compilation, result) = compile(testHooks, assertions)
         result.assertOk()
-        compilation.assertKspGeneratedSources("TestHooksImpl.kt")
+        compilation.assertKspGeneratedSources("TestHooksHooks.kt")
         result.runCompiledAssertions()
     }
 
@@ -46,31 +125,31 @@ class HooksProcessorTest {
             """
             package com.intuit.hooks.test
 
-            import com.intuit.hooks.SyncHook
+            import com.intuit.hooks.Hook
             import com.intuit.hooks.dsl.Hooks
             
             internal abstract class TestHooks : Hooks() {
                 @Sync<(String) -> Unit>
-                abstract val testSyncHook: SyncHook<*>
+                abstract val testSyncHook: Hook
             }
             """
         )
 
         val (compilation, result) = compile(testHooks)
         result.assertOk()
-        compilation.assertKspGeneratedSources("com.intuit.hooks.test.TestHooksImpl.kt")
+        compilation.assertKspGeneratedSources("com.intuit.hooks.test.TestHooksHooks.kt")
     }
 
     @Test fun `generates hook with nested generic type params`() {
         val testHooks = SourceFile.kotlin(
             "TestHooks.kt",
             """
-            import com.intuit.hooks.SyncHook
+            import com.intuit.hooks.Hook
             import com.intuit.hooks.dsl.Hooks
             
             internal abstract class TestHooks : Hooks() {
                 @Sync<(Map<List<Int>, List<String>>) -> Unit>
-                abstract val testSyncHook: SyncHook<*>
+                abstract val testSyncHook: Hook
             }
         """
         )
@@ -93,7 +172,7 @@ class HooksProcessorTest {
 
         val (compilation, result) = compile(testHooks, assertions)
         result.assertOk()
-        compilation.assertKspGeneratedSources("TestHooksImpl.kt")
+        compilation.assertKspGeneratedSources("TestHooksHooks.kt")
         result.runCompiledAssertions()
     }
 
@@ -101,12 +180,12 @@ class HooksProcessorTest {
         val testHooks = SourceFile.kotlin(
             "TestHooks.kt",
             """
-            import com.intuit.hooks.AsyncSeriesWaterfallHook
+            import com.intuit.hooks.Hook
             import com.intuit.hooks.dsl.Hooks
             
             internal abstract class TestHooks : Hooks() {
                 @AsyncSeriesWaterfall<suspend (String) -> String>
-                abstract val testAsyncSeriesWaterfallHook: AsyncSeriesWaterfallHook<*, *>
+                abstract val testAsyncSeriesWaterfallHook: Hook
             }
         """
         )
@@ -134,7 +213,7 @@ class HooksProcessorTest {
 
         val (compilation, result) = compile(testHooks, assertions)
         result.assertOk()
-        compilation.assertKspGeneratedSources("TestHooksImpl.kt")
+        compilation.assertKspGeneratedSources("TestHooksHooks.kt")
         result.runCompiledAssertions()
     }
 
@@ -147,36 +226,36 @@ class HooksProcessorTest {
             import kotlinx.coroutines.ExperimentalCoroutinesApi
             
             internal abstract class TestHooks : Hooks() {
-                @Sync<(newSpeed: Int) -> Unit> abstract val sync: SyncHook<*>
-                @SyncBail<(Boolean) -> BailResult<Int>> abstract val syncBail: SyncBailHook<*, *>
-                @SyncLoop<(foo: Boolean) -> LoopResult> abstract val syncLoop: SyncLoopHook<*, *>
-                @SyncWaterfall<(name: String) -> String> abstract val syncWaterfall: SyncWaterfallHook<*, *>
+                @Sync<(newSpeed: Int) -> Unit> abstract val sync: Hook
+                @SyncBail<(Boolean) -> BailResult<Int>> abstract val syncBail: Hook
+                @SyncLoop<(foo: Boolean) -> LoopResult> abstract val syncLoop: Hook
+                @SyncWaterfall<(name: String) -> String> abstract val syncWaterfall: Hook
                 @ExperimentalCoroutinesApi
-                @AsyncParallelBail<suspend (String) -> BailResult<String>> abstract val asyncParallelBail: AsyncParallelBailHook<*, *>
-                @AsyncParallel<suspend (String) -> Int> abstract val asyncParallel: AsyncParallelHook<*>
-                @AsyncSeries<suspend (String) -> Int> abstract val asyncSeries: AsyncSeriesHook<*>
-                @AsyncSeriesBail<suspend (String) -> BailResult<String>> abstract val asyncSeriesBail: AsyncSeriesBailHook<*, *>
-                @AsyncSeriesLoop<suspend (String) -> LoopResult> abstract val asyncSeriesLoop: AsyncSeriesLoopHook<*, *>
-                @AsyncSeriesWaterfall<suspend (String) -> String> abstract val asyncSeriesWaterfall: AsyncSeriesWaterfallHook<*, *>
+                @AsyncParallelBail<suspend (String) -> BailResult<String>> abstract val asyncParallelBail: Hook
+                @AsyncParallel<suspend (String) -> Int> abstract val asyncParallel: Hook
+                @AsyncSeries<suspend (String) -> Int> abstract val asyncSeries: Hook
+                @AsyncSeriesBail<suspend (String) -> BailResult<String>> abstract val asyncSeriesBail: Hook
+                @AsyncSeriesLoop<suspend (String) -> LoopResult> abstract val asyncSeriesLoop: Hook
+                @AsyncSeriesWaterfall<suspend (String) -> String> abstract val asyncSeriesWaterfall: Hook
             }
             """
         )
 
         val (compilation, result) = compile(testHooks)
         result.assertOk()
-        compilation.assertKspGeneratedSources("TestHooksImpl.kt")
+        compilation.assertKspGeneratedSources("TestHooksHooks.kt")
     }
 
     @Test fun `generates generic hook class`() {
         val testHooks = SourceFile.kotlin(
             "TestHooks.kt",
             """
-            import com.intuit.hooks.SyncHook
+            import com.intuit.hooks.Hook
             import com.intuit.hooks.dsl.Hooks
             
             internal abstract class TestHooks<T, U> : Hooks() {
                 @Sync<(T) -> U>
-                abstract val testSyncHook: SyncHook<*>
+                abstract val testSyncHook: Hook
             }
             """
         )
@@ -199,7 +278,7 @@ class HooksProcessorTest {
 
         val (compilation, result) = compile(testHooks, assertions)
         result.assertOk()
-        compilation.assertKspGeneratedSources("TestHooksImpl.kt")
+        compilation.assertKspGeneratedSources("TestHooksHooks.kt")
         result.runCompiledAssertions()
     }
 
@@ -207,13 +286,13 @@ class HooksProcessorTest {
         val testHooks = SourceFile.kotlin(
             "TestHooks.kt",
             """
-            import com.intuit.hooks.SyncHook
+            import com.intuit.hooks.Hook
             import com.intuit.hooks.dsl.HooksDsl
             
             class Controller {
                 abstract class Hooks : HooksDsl() {
                     @Sync<(String) -> Unit>
-                    abstract val testSyncHook: SyncHook<*>
+                    abstract val testSyncHook: Hook
                 }
 
                 val hooks = ControllerHooksImpl()
@@ -239,7 +318,7 @@ class HooksProcessorTest {
 
         val (compilation, result) = compile(testHooks, assertions)
         result.assertOk()
-        compilation.assertKspGeneratedSources("ControllerHooksImpl.kt")
+        compilation.assertKspGeneratedSources("TestHooksHooks.kt")
         result.runCompiledAssertions()
     }
 }

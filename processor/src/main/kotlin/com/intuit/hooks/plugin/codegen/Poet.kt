@@ -10,15 +10,16 @@ internal fun HookInfo.createSuperClass(extraTypeName: TypeName? = null): Paramet
     val lambdaParameter = lambdaTypeName
     val parameters = listOfNotNull(lambdaParameter, extraTypeName)
 
-    // TODO: is there a way to avoid bestGuess here?
     return ClassName.bestGuess("com.intuit.hooks.$superType")
         .parameterizedBy(parameters)
 }
 
-internal fun HooksContainer.generateFile(): FileSpec =
-    FileSpec.builder(resolvedPackageName ?: "", name)
-        .addType(generateContainerClass())
-        .build()
+internal fun generateFile(resolvedPackageName: String, name: String, hookContainers: List<HooksContainer>): FileSpec =
+    FileSpec.builder(resolvedPackageName, name).apply {
+        hookContainers
+            .map(HooksContainer::generateContainerClass)
+            .forEach(::addType)
+    }.build()
 
 private fun HooksContainer.generateContainerClass(): TypeSpec {
     val className = ClassName.bestGuess(name)
@@ -172,7 +173,6 @@ internal val HookType.addedAnnotation: AnnotationSpec? get() = when (this) {
 internal fun HookInfo.generateProperty(): PropertySpec =
     PropertySpec.builder(property, ClassName.bestGuess(className)).apply {
         initializer("$className()")
-        // TODO: the visibility here might not be correct
         addModifiers(KModifier.OVERRIDE, propertyVisibility)
         hookType.addedAnnotation?.let(::addAnnotation)
     }.build()

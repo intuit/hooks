@@ -1,6 +1,7 @@
 package example
 
 import com.intuit.hooks.AsyncSeriesHook
+import com.intuit.hooks.Hook
 import com.intuit.hooks.HookContext
 import com.intuit.hooks.SyncHook
 import com.intuit.hooks.dsl.Hooks
@@ -55,7 +56,7 @@ fun typed() {
 // START concise_dsl
 abstract class SomeHooks : Hooks() {
     @Sync<() -> Unit>
-    abstract val syncHook: SyncHook<*>
+    abstract val syncHook: Hook
 }
 // END concise_dsl
 

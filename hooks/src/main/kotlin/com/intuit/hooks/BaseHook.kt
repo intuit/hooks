@@ -70,7 +70,9 @@ public abstract class SyncBaseHook<F : Function<*>>(type: String) : BaseHook<F>(
     }
 }
 
-public abstract class BaseHook<F : Function<*>>(private val type: String) {
+public sealed class Hook
+
+public abstract class BaseHook<F : Function<*>>(private val type: String) : Hook() {
     protected var taps: List<TapInfo<F>> = emptyList(); private set
     protected open val interceptors: Interceptors<F> = Interceptors()
 
