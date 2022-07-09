@@ -1,3 +1,16 @@
+# v0.12.1 (Sat Jul 09 2022)
+
+#### 🐛 Bug Fix
+
+- Switch to KotlinPoet Code Generation [#28](https://github.com/intuit/hooks/pull/28) ([@sugarmanz](https://github.com/sugarmanz) [@stabbylambda](https://github.com/stabbylambda))
+
+#### Authors: 2
+
+- David Stone ([@stabbylambda](https://github.com/stabbylambda))
+- Jeremiah Zucker ([@sugarmanz](https://github.com/sugarmanz))
+
+---
+
 # v0.12.0 (Thu Jun 23 2022)
 
 ### Release Notes
