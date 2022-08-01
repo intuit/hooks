@@ -1,3 +1,23 @@
+# v0.13.1 (Mon Aug 01 2022)
+
+### Release Notes
+
+#### scope version properties to avoid conflicts ([#30](https://github.com/intuit/hooks/pull/30))
+
+Scope metadata b/c it was conflicting w/ another Gradle plugin
+
+---
+
+#### 🐛 Bug Fix
+
+- scope version properties to avoid conflicts [#30](https://github.com/intuit/hooks/pull/30) ([@sugarmanz](https://github.com/sugarmanz))
+
+#### Authors: 1
+
+- Jeremiah Zucker ([@sugarmanz](https://github.com/sugarmanz))
+
+---
+
 # v0.13.0 (Sat Jul 09 2022)
 
 ### Release Notes
