@@ -11,7 +11,7 @@ public class HooksGradlePlugin : Plugin<Project> {
 
     private val properties by lazy {
         Properties().apply {
-            HooksGradlePlugin::class.java.classLoader.getResourceAsStream("version.properties").let(::load)
+            HooksGradlePlugin::class.java.classLoader.getResourceAsStream("com/intuit/hooks/plugin/gradle/version.properties").let(::load)
         }
     }
 

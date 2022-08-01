@@ -48,9 +48,14 @@ tasks {
         dependsOn(processResources)
 
         doLast {
+            val properties = "$buildDir/resources/main/com/intuit/hooks/plugin/gradle"
+                .let(::File)
+                .apply(File::mkdirs)
+                .child("version.properties")
+
             Properties().apply {
                 set("version", project.version.toString())
-            }.saveToFile(File("$buildDir/resources/main/version.properties"))
+            }.saveToFile(properties)
         }
     }
 
