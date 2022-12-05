@@ -1,3 +1,31 @@
+# v0.14.0 (Mon Dec 05 2022)
+
+### Release Notes
+
+#### make tap info mutable ([#31](https://github.com/intuit/hooks/pull/31))
+
+Add `data class` APIs to `TapInfo` such that it can be mutated.
+
+#### scope version properties to avoid conflicts ([#30](https://github.com/intuit/hooks/pull/30))
+
+Scope metadata b/c it was conflicting w/ another Gradle plugin
+
+---
+
+#### 🚀 Enhancement
+
+- make tap info mutable [#31](https://github.com/intuit/hooks/pull/31) ([@sugarmanz](https://github.com/sugarmanz))
+
+#### 🐛 Bug Fix
+
+- scope version properties to avoid conflicts [#30](https://github.com/intuit/hooks/pull/30) ([@sugarmanz](https://github.com/sugarmanz))
+
+#### Authors: 1
+
+- Jeremiah Zucker ([@sugarmanz](https://github.com/sugarmanz))
+
+---
+
 # v0.13.0 (Sat Jul 09 2022)
 
 ### Release Notes
