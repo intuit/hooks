@@ -125,10 +125,19 @@ public abstract class com/intuit/hooks/SyncWaterfallHook : com/intuit/hooks/Sync
 }
 
 public final class com/intuit/hooks/TapInfo {
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Lkotlin/Function;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lkotlin/Function;)Lcom/intuit/hooks/TapInfo;
+	public static synthetic fun copy$default (Lcom/intuit/hooks/TapInfo;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lkotlin/Function;ILjava/lang/Object;)Lcom/intuit/hooks/TapInfo;
+	public fun equals (Ljava/lang/Object;)Z
 	public final fun getF ()Lkotlin/Function;
 	public final fun getId ()Ljava/lang/String;
 	public final fun getName ()Ljava/lang/String;
 	public final fun getType ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
 public abstract class com/intuit/hooks/dsl/Hooks {

@@ -33,7 +33,7 @@ public open class Interceptors<F : Function<*>> {
     }
 }
 
-public class TapInfo<FWithContext : Function<*>> internal constructor(
+public data class TapInfo<FWithContext : Function<*>> internal constructor(
     public val name: String,
     public val id: String,
     public val type: String,
