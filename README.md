@@ -188,3 +188,5 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 [![FOSSA Status](https://app.fossa.com/api/projects/custom%2B23410%2Fgit%40github.com%3Aintuit%2Fhooks.svg?type=large)](https://app.fossa.com/projects/custom%2B23410%2Fgit%40github.com%3Aintuit%2Fhooks?ref=badge_large)
 
 This product includes software developed by the Apache Software Foundation (http://www.apache.org/).
+
+<!-- TRIGGER -->
