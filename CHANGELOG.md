@@ -1,3 +1,15 @@
+# v0.14.1 (Tue Dec 06 2022)
+
+#### ⚠️ Pushed to `main`
+
+- fix ci ([@sugarmanz](https://github.com/sugarmanz))
+
+#### Authors: 1
+
+- Jeremiah Zucker ([@sugarmanz](https://github.com/sugarmanz))
+
+---
+
 # v0.14.0 (Mon Dec 05 2022)
 
 ### Release Notes
