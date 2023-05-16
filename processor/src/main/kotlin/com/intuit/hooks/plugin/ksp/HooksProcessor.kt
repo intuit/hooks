@@ -9,11 +9,13 @@ import com.google.devtools.ksp.symbol.*
 import com.google.devtools.ksp.validate
 import com.google.devtools.ksp.visitor.KSDefaultVisitor
 import com.intuit.hooks.plugin.codegen.*
+import com.intuit.hooks.plugin.ensure
 import com.intuit.hooks.plugin.ksp.validation.*
 import com.intuit.hooks.plugin.ksp.validation.EdgeCase
 import com.intuit.hooks.plugin.ksp.validation.HookValidationError
 import com.intuit.hooks.plugin.ksp.validation.error
 import com.intuit.hooks.plugin.ksp.validation.validateProperty
+import com.intuit.hooks.plugin.raise
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ksp.*
 
