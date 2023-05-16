@@ -1,14 +1,18 @@
 package com.intuit.hooks.plugin.ksp
 
 import arrow.core.*
-import arrow.typeclasses.Semigroup
+import arrow.core.raise.Raise
+import arrow.core.raise.recover
 import com.google.devtools.ksp.getVisibility
 import com.google.devtools.ksp.processing.*
 import com.google.devtools.ksp.symbol.*
 import com.google.devtools.ksp.validate
 import com.google.devtools.ksp.visitor.KSDefaultVisitor
 import com.intuit.hooks.plugin.codegen.*
+import com.intuit.hooks.plugin.ksp.validation.*
+import com.intuit.hooks.plugin.ksp.validation.EdgeCase
 import com.intuit.hooks.plugin.ksp.validation.HookValidationError
+import com.intuit.hooks.plugin.ksp.validation.error
 import com.intuit.hooks.plugin.ksp.validation.validateProperty
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ksp.*
@@ -26,62 +30,66 @@ public class HooksProcessor(
         return emptyList()
     }
 
-    private inner class HookPropertyVisitor : KSDefaultVisitor<TypeParameterResolver, ValidatedNel<HookValidationError, HookInfo>>() {
-        override fun visitPropertyDeclaration(property: KSPropertyDeclaration, parentResolver: TypeParameterResolver): ValidatedNel<HookValidationError, HookInfo> {
-            return if (property.modifiers.contains(Modifier.ABSTRACT))
-                validateProperty(property, parentResolver)
-            else
-                HookValidationError.NotAnAbstractProperty(property).invalidNel()
+    private inner class HookPropertyVisitor : KSDefaultVisitor<TypeParameterResolver, HookInfo>() {
+
+        context(Raise<Nel<HookValidationError>>)
+        override fun visitPropertyDeclaration(property: KSPropertyDeclaration, parentResolver: TypeParameterResolver): HookInfo {
+            ensure(property.modifiers.contains(Modifier.ABSTRACT)) {
+                HookValidationError.NotAnAbstractProperty(property)
+            }
+
+            return property.validateProperty(parentResolver)
         }
 
-        override fun defaultHandler(node: KSNode, data: TypeParameterResolver): ValidatedNel<HookValidationError, HookInfo> =
-            TODO("Not yet implemented")
+        override fun defaultHandler(node: KSNode, data: TypeParameterResolver) = error("Should not happen.")
     }
 
     private inner class HookFileVisitor : KSVisitorVoid() {
         override fun visitFile(file: KSFile, data: Unit) {
-            val hookContainers = file.declarations.filter {
-                it is KSClassDeclaration
-            }.flatMap {
-                it.accept(HookContainerVisitor(), Unit)
-            }.mapNotNull { v ->
-                v.valueOr { errors ->
-                    errors.forEach { error -> logger.error(error.message, error.symbol) }
-                    null
-                }
-            }.toList()
+            recover({
+                val containers = file.declarations
+                    .filterIsInstance<KSClassDeclaration>()
+                    .flatMap { it.accept(HookContainerVisitor(), this) }
+                    .ifEmpty { raise(EdgeCase.NoHooksDefined(file)) }
 
-            if (hookContainers.isEmpty()) return
+                val packageName = file.packageName.asString()
+                val name = file.fileName.split(".").first()
 
-            val packageName = file.packageName.asString()
-            val name = file.fileName.split(".").first()
-
-            generateFile(packageName, "${name}Hooks", hookContainers).writeTo(codeGenerator, aggregating = false, originatingKSFiles = listOf(file))
+                // May raise some additional errors
+                generateFile(packageName, "${name}Hooks", containers.toList())
+                    .writeTo(codeGenerator, aggregating = false, originatingKSFiles = listOf(file))
+            }, { errors: Nel<LogicalFailure> ->
+                errors.filterIsInstance<HookValidationError>().forEach(logger::error)
+            }, { throwable: Throwable ->
+                logger.error("Uncaught exception while processing file: ${throwable.localizedMessage}", file)
+                logger.exception(throwable)
+            })
         }
     }
 
-    private inner class HookContainerVisitor : KSDefaultVisitor<Unit, List<ValidatedNel<HookValidationError, HooksContainer>>>() {
-        override fun visitClassDeclaration(classDeclaration: KSClassDeclaration, data: Unit): List<ValidatedNel<HookValidationError, HooksContainer>> {
+    private inner class HookContainerVisitor : KSDefaultVisitor<Raise<Nel<HookValidationError>>, Sequence<HooksContainer>>() {
+        // TODO: Try with context receiver
+        override fun visitClassDeclaration(
+            classDeclaration: KSClassDeclaration,
+            raise: Raise<Nel<HookValidationError>>
+        ): Sequence<HooksContainer> = with(raise) {
             val superTypeNames = classDeclaration.superTypes
                 .filter { it.toString().contains("Hooks") }
                 .toList()
 
             return if (superTypeNames.isEmpty()) {
                 classDeclaration.declarations
-                    .filter { it is KSClassDeclaration && it.validate() }
-                    .flatMap { it.accept(this, Unit) }
-                    .toList()
+                    .filter { it is KSClassDeclaration && it.validate() /* TODO: Tie in validations to KSP */ }
+                    .flatMap { it.accept(this@HookContainerVisitor, raise) }
             } else if (superTypeNames.any { it.resolve().declaration.qualifiedName?.getQualifier() == "com.intuit.hooks.dsl" }) {
                 val parentResolver = classDeclaration.typeParameters.toTypeParameterResolver()
 
                 classDeclaration.getAllProperties()
                     .map { it.accept(HookPropertyVisitor(), parentResolver) }
-                    .sequence(Semigroup.nonEmptyList())
-                    .map { hooks -> createHooksContainer(classDeclaration, hooks) }
-                    .let(::listOf)
-            } else {
-                emptyList()
-            }
+                    // TODO: Maybe curry class declaration
+                    .run { createHooksContainer(classDeclaration, toList()) }
+                    .let { sequenceOf(it) }
+            } else emptySequence()
         }
 
         fun ClassKind.toTypeSpecKind(): TypeSpec.Kind = when (this) {
@@ -109,8 +117,7 @@ public class HooksProcessor(
             )
         }
 
-        override fun defaultHandler(node: KSNode, data: Unit): List<ValidatedNel<HookValidationError, HooksContainer>> =
-            TODO("Not yet implemented")
+        override fun defaultHandler(node: KSNode, data: Raise<Nel<HookValidationError>>) = TODO("Not yet implemented")
     }
 
     public class Provider : SymbolProcessorProvider {

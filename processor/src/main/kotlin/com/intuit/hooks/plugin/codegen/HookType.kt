@@ -20,8 +20,10 @@ internal enum class HookType(vararg val properties: HookProperty) {
     AsyncSeriesLoopHook(HookProperty.Async, HookProperty.Loop);
 
     companion object {
-        val annotationDslMarkers = values().map {
-            it.name.dropLast(4)
+        val supportedHookTypes = values().map(HookType::name)
+
+        val annotationDslMarkers = supportedHookTypes.map {
+            it.dropLast(4)
         }
     }
 }

@@ -176,6 +176,7 @@ subprojects {
         val configure: KotlinCompile.() -> Unit = {
             kotlinOptions {
                 freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
+                freeCompilerArgs += "-Xcontext-receivers"
             }
         }
 

@@ -15,7 +15,7 @@ dependencyResolutionManagement {
         create("libs") {
             version("kotlin", "1.6.21")
             version("ktlint", "0.45.2")
-            version("arrow", "1.1.2")
+            version("arrow", "1.2.0-RC")
             version("ksp", "1.6.21-1.0.6")
             version("poet", "1.12.0")
             version("junit", "5.7.0")
