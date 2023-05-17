@@ -15,7 +15,7 @@ val KotlinCompilation.kspGeneratedSources get() =
 fun KotlinCompilation.assertKspGeneratedSources(vararg sources: String) {
     sources.map {
         kspSourcesDir.resolve("kotlin").resolve(
-            it.removeSuffixIfPresent(".kt").replace(".", "/").suffix("kt")
+            it.removeSuffixIfPresent(".kt").replace(".", "/").suffix("kt"),
         )
     }.forEach {
         Assertions.assertTrue(kspGeneratedSources.contains(it)) { "KSP processing did not generate file: $it" }

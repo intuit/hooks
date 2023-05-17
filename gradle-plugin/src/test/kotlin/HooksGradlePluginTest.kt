@@ -33,7 +33,7 @@ class HooksGradlePluginTest {
                 kotlin("jvm")
                 id("com.intuit.hooks")
             }
-        """
+        """,
         )
     }
 
@@ -41,7 +41,7 @@ class HooksGradlePluginTest {
         buildFile.appendKotlin(
             """
             hooks {}
-        """
+        """,
         )
 
         assertDoesNotThrow {
@@ -66,7 +66,7 @@ class HooksGradlePluginTest {
                 @Sync<(String) -> Unit>
                 abstract val testSyncHook: Hook
             }
-        """
+        """,
         )
 
         val runner = GradleRunner.create()

@@ -14,8 +14,9 @@ internal data class HooksContainer(
     val superclass get() = originalClassName.let {
         if (typeArguments.isNotEmpty()) {
             it.parameterizedBy(typeArguments)
-        } else
+        } else {
             it
+        }
     }
 }
 
@@ -24,7 +25,7 @@ internal data class HookSignature(
     val isSuspend: Boolean,
     val returnType: TypeName,
     val returnTypeType: TypeName?,
-    val hookFunctionSignatureType: TypeName,
+    val hookFunctionSignatureType: TypeName
 ) {
     val nullableReturnTypeType: TypeName get() {
         requireNotNull(returnTypeType)
@@ -36,7 +37,7 @@ internal data class HookSignature(
 internal class HookParameter(
     val name: String?,
     val type: TypeName,
-    val position: Int,
+    val position: Int
 ) {
     val withType get() = "$withoutType: $type"
     val withoutType get() = name ?: "p$position"

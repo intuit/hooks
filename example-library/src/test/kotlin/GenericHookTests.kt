@@ -1,6 +1,7 @@
 package com.intuit.hooks.example.library
 
-import com.intuit.hooks.BailResult.*
+import com.intuit.hooks.BailResult.Bail
+import com.intuit.hooks.BailResult.Continue
 import com.intuit.hooks.HookContext
 import com.intuit.hooks.LoopResult
 import com.intuit.hooks.example.library.generic.GenericHooksImpl
@@ -140,6 +141,7 @@ class GenericHookTests {
         val result = h.call("Kian")
         Assertions.assertEquals("bail now", result)
     }
+
     @Test
     fun `async series loop`() = runBlocking {
         var incrementedA = 0

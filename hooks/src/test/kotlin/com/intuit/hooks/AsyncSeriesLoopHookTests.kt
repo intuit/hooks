@@ -1,6 +1,8 @@
 package com.intuit.hooks
 
-import io.mockk.*
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.mockk
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions
@@ -10,7 +12,7 @@ class AsyncSeriesLoopHookTests {
     class LoopHook1<T1> : AsyncSeriesLoopHook<suspend (HookContext, T1) -> LoopResult, suspend (HookContext, T1) -> Unit>() {
         suspend fun call(p1: T1) = super.call(
             invokeTap = { f, context -> f(context, p1) },
-            invokeInterceptor = { f, context -> f(context, p1) }
+            invokeInterceptor = { f, context -> f(context, p1) },
         )
     }
 

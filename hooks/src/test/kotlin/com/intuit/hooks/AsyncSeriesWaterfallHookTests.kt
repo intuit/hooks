@@ -10,7 +10,7 @@ class AsyncSeriesWaterfallHookTests {
         suspend fun call(p1: R) = super.call(
             p1,
             invokeTap = { f, r, context -> f(context, r) },
-            invokeInterceptor = { f, context -> f(context, p1) }
+            invokeInterceptor = { f, context -> f(context, p1) },
         )
     }
 

@@ -7,6 +7,7 @@ public abstract class AsyncSeriesBailHook<F : Function<BailResult<R>>, R> : Asyn
         taps.forEach { tapInfo ->
             when (val result = invokeWithContext(tapInfo.f, context)) {
                 is BailResult.Bail<R> -> return@call result.value
+                is BailResult.Continue<*> -> Unit
             }
         }
 

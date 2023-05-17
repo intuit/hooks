@@ -60,8 +60,9 @@ tasks {
 
     val publish by creating {
         group = "publishing"
-        if (!isSnapshot)
+        if (!isSnapshot) {
             finalizedBy("closeAndReleaseSonatypeStagingRepository", ":docs:orchidDeploy", ":gradle-plugin:publishPlugins")
+        }
     }
 
     val version by creating {
@@ -176,6 +177,7 @@ subprojects {
         val configure: KotlinCompile.() -> Unit = {
             kotlinOptions {
                 freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
+                freeCompilerArgs += "-Xcontext-receivers"
             }
         }
 

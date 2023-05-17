@@ -16,7 +16,7 @@ tasks {
         from(
             configurations.compileClasspath.get().filter { dependency ->
                 dependency.absolutePath.contains("kotlin-maven-symbol-processing")
-            }.map(::zipTree)
+            }.map(::zipTree),
         ) {
             this.duplicatesStrategy = DuplicatesStrategy.EXCLUDE
         }

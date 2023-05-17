@@ -21,17 +21,18 @@ public class HooksGradlePlugin : Plugin<Project> {
 
     private fun Project.addDependency(configuration: String, dependencyNotation: String) = configurations
         .getByName(configuration).dependencies.add(
-            dependencies.create(dependencyNotation)
+            dependencies.create(dependencyNotation),
         )
 
     override fun apply(project: Project): Unit = with(project) {
         extensions.create(
             "hooks",
-            HooksGradleExtension::class.java
+            HooksGradleExtension::class.java,
         )
 
-        if (!pluginManager.hasPlugin("com.google.devtools.ksp"))
+        if (!pluginManager.hasPlugin("com.google.devtools.ksp")) {
             pluginManager.apply("com.google.devtools.ksp")
+        }
 
         addDependency("api", "com.intuit.hooks:hooks:$hooksVersion")
         addDependency("ksp", "com.intuit.hooks:processor:$hooksVersion")

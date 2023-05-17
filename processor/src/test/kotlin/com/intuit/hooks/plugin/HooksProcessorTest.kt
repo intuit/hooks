@@ -35,7 +35,7 @@ class HooksProcessorTest {
                 public fun call(newSpeed: Int): Unit = super.call { f, context -> f(context, newSpeed) }
               }
             }
-            """
+            """,
         )
 
         val (compilation, result) = compile(testHooks)
@@ -43,6 +43,7 @@ class HooksProcessorTest {
         compilation.assertKspGeneratedSources("TestHooksHooks.kt")
         result.assertNoKspErrors()
     }
+
     @Test fun `multiple hook classes in a single file`() {
         val testHooks = SourceFile.kotlin(
             "TestHooks.kt",
@@ -59,7 +60,7 @@ class HooksProcessorTest {
                 @Sync<(String) -> Unit>
                 abstract val testSyncHook: Hook
             }
-            """
+            """,
         )
 
         val assertions = SourceFile.kotlin(
@@ -75,7 +76,7 @@ class HooksProcessorTest {
                 hooks.testSyncHook.call("hello")
                 assertTrue(tapCalled)
             }
-            """
+            """,
         )
 
         val (compilation, result) = compile(testHooks, assertions)
@@ -95,7 +96,7 @@ class HooksProcessorTest {
                 @Sync<(String) -> Unit>
                 abstract val testSyncHook: Hook
             }
-            """
+            """,
         )
 
         val assertions = SourceFile.kotlin(
@@ -110,7 +111,7 @@ class HooksProcessorTest {
                 hooks.testSyncHook.call("hello")
                 assertTrue(tapCalled)
             }
-            """
+            """,
         )
 
         val (compilation, result) = compile(testHooks, assertions)
@@ -132,7 +133,7 @@ class HooksProcessorTest {
                 @Sync<(String) -> Unit>
                 abstract val testSyncHook: Hook
             }
-            """
+            """,
         )
 
         val (compilation, result) = compile(testHooks)
@@ -151,7 +152,7 @@ class HooksProcessorTest {
                 @Sync<(Map<List<Int>, List<String>>) -> Unit>
                 abstract val testSyncHook: Hook
             }
-        """
+        """,
         )
 
         val assertions = SourceFile.kotlin(
@@ -167,7 +168,7 @@ class HooksProcessorTest {
                 hooks.testSyncHook.call(item)
                 assertEquals(item, tappedItem)
             }
-            """
+            """,
         )
 
         val (compilation, result) = compile(testHooks, assertions)
@@ -187,7 +188,7 @@ class HooksProcessorTest {
                 @AsyncSeriesWaterfall<suspend (String) -> String>
                 abstract val testAsyncSeriesWaterfallHook: Hook
             }
-        """
+        """,
         )
 
         val assertions = SourceFile.kotlin(
@@ -208,7 +209,7 @@ class HooksProcessorTest {
                 assertEquals(initialValue, tappedItem)
                 assertEquals("hello world!", result)
             }
-            """
+            """,
         )
 
         val (compilation, result) = compile(testHooks, assertions)
@@ -238,7 +239,7 @@ class HooksProcessorTest {
                 @AsyncSeriesLoop<suspend (String) -> LoopResult> abstract val asyncSeriesLoop: Hook
                 @AsyncSeriesWaterfall<suspend (String) -> String> abstract val asyncSeriesWaterfall: Hook
             }
-            """
+            """,
         )
 
         val (compilation, result) = compile(testHooks)
@@ -257,7 +258,7 @@ class HooksProcessorTest {
                 @Sync<(T) -> U>
                 abstract val testSyncHook: Hook
             }
-            """
+            """,
         )
 
         val assertions = SourceFile.kotlin(
@@ -273,7 +274,7 @@ class HooksProcessorTest {
                 hooks.testSyncHook.call(item)
                 assertEquals(item, tappedValue)
             }
-            """
+            """,
         )
 
         val (compilation, result) = compile(testHooks, assertions)
@@ -297,7 +298,7 @@ class HooksProcessorTest {
 
                 val hooks = ControllerHooksImpl()
             }
-            """
+            """,
         )
 
         val assertions = SourceFile.kotlin(
@@ -313,7 +314,7 @@ class HooksProcessorTest {
                 controller.hooks.testSyncHook.call(item)
                 assertEquals(item, tappedValue)
             }
-            """
+            """,
         )
 
         val (compilation, result) = compile(testHooks, assertions)

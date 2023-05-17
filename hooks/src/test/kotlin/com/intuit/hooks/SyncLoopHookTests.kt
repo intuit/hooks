@@ -13,7 +13,7 @@ class SyncLoopHookTests {
     class LoopHook1<T1> : SyncLoopHook<(HookContext, T1) -> LoopResult, (HookContext, T1) -> Unit>() {
         fun call(p1: T1) = super.call(
             invokeTap = { f, context -> f(context, p1) },
-            invokeInterceptor = { f, context -> f(context, p1) }
+            invokeInterceptor = { f, context -> f(context, p1) },
         )
     }
 

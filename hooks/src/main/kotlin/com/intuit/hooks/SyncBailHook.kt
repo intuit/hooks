@@ -13,6 +13,7 @@ public abstract class SyncBailHook<F : Function<BailResult<R>>, R> : SyncBaseHoo
         taps.forEach { tapInfo ->
             when (val result = invokeWithContext(tapInfo.f, context)) {
                 is BailResult.Bail<R> -> return@call result.value
+                is BailResult.Continue<*> -> Unit
             }
         }
 

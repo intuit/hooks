@@ -1,7 +1,7 @@
 package com.intuit.hooks.example.library
 
 import com.intuit.hooks.example.library.car.Car
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 internal class CarHooksTest {
