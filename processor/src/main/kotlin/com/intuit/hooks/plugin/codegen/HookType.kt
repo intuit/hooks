@@ -7,7 +7,7 @@ internal sealed class HookProperty {
     object Waterfall : HookProperty()
 }
 
-internal enum class HookType(vararg val properties: HookProperty) {
+internal enum class HookType(val properties: Set<HookProperty>) {
     SyncHook,
     SyncBailHook(HookProperty.Bail),
     SyncWaterfallHook(HookProperty.Waterfall),
@@ -18,6 +18,8 @@ internal enum class HookType(vararg val properties: HookProperty) {
     AsyncSeriesBailHook(HookProperty.Async, HookProperty.Bail),
     AsyncSeriesWaterfallHook(HookProperty.Async, HookProperty.Waterfall),
     AsyncSeriesLoopHook(HookProperty.Async, HookProperty.Loop);
+
+    constructor(vararg properties: HookProperty) : this(properties.toSet())
 
     companion object {
         val supportedHookTypes = values().map(HookType::name)

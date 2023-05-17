@@ -20,8 +20,8 @@ class HookValidationErrors {
         )
 
         val (_, result) = compile(testHooks)
-        result.assertOk()
-        result.assertContainsMessages("Abstract property type (Int) not supported")
+        result.assertCompilationError()
+        result.assertContainsMessages("Property type (Int) not supported")
     }
 
     @Test fun `hook property does not have any hook annotation`() {
@@ -38,7 +38,7 @@ class HookValidationErrors {
         )
 
         val (_, result) = compile(testHooks)
-        result.assertOk()
+        result.assertCompilationError()
         result.assertContainsMessages("Hook property must be annotated with a DSL annotation")
     }
 
@@ -59,7 +59,7 @@ class HookValidationErrors {
         )
 
         val (_, result) = compile(testHooks)
-        result.assertOk()
+        result.assertCompilationError()
         result.assertContainsMessages("This hook has more than a single hook DSL annotation: [@Sync, @SyncBail]")
     }
 
@@ -78,7 +78,7 @@ class HookValidationErrors {
         )
 
         val (_, result) = compile(testHooks)
-        result.assertOk()
+        result.assertCompilationError()
         result.assertContainsMessages("Async hooks must be defined with a suspend function signature")
     }
 
@@ -97,7 +97,7 @@ class HookValidationErrors {
         )
 
         val (_, result) = compile(testHooks)
-        result.assertOk()
+        result.assertCompilationError()
         result.assertContainsMessages("Waterfall hooks must take at least one parameter")
     }
 
@@ -116,7 +116,7 @@ class HookValidationErrors {
         )
 
         val (_, result) = compile(testHooks)
-        result.assertOk()
+        result.assertCompilationError()
         result.assertContainsMessages("Waterfall hooks must specify the same types for the first parameter and the return type")
     }
 
@@ -130,18 +130,19 @@ class HookValidationErrors {
             internal abstract class TestHooks : Hooks() {
                 @AsyncSeriesWaterfall<() -> String>
                 abstract val realBad: Hook
-                abstract val state: Int
+                val state: Int
             }
             """
         )
 
         val (_, result) = compile(testHooks)
-        result.assertOk()
+        result.assertCompilationError()
         result.assertContainsMessages(
             "Async hooks must be defined with a suspend function signature",
             "Waterfall hooks must take at least one parameter",
             "Waterfall hooks must specify the same types for the first parameter and the return type",
-            "Abstract property type (Int) not supported",
+            "Property type (Int) not supported",
+            "Hooks can only be abstract properties"
         )
     }
 }

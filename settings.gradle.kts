@@ -13,10 +13,10 @@ enableFeaturePreview("ONE_LOCKFILE_PER_PROJECT")
 dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
-            version("kotlin", "1.6.21")
-            version("ktlint", "0.45.2")
+            version("kotlin", "1.8.10")
+            version("ktlint", "0.49.1")
             version("arrow", "1.2.0-RC")
-            version("ksp", "1.6.21-1.0.6")
+            version("ksp", "1.8.10-1.0.9")
             version("poet", "1.12.0")
             version("junit", "5.7.0")
             version("knit", "0.4.0")
@@ -29,8 +29,8 @@ dependencyResolutionManagement {
             plugin("nexus", "io.github.gradle-nexus.publish-plugin").version("1.0.0")
             plugin("gradle.publish", "com.gradle.plugin-publish").version("0.13.0")
 
-            plugin("ktlint", "org.jlleitschuh.gradle.ktlint").version("10.3.0")
-            plugin("api", "org.jetbrains.kotlinx.binary-compatibility-validator").version("0.9.0")
+            plugin("ktlint", "org.jlleitschuh.gradle.ktlint").version("11.3.2")
+            plugin("api", "org.jetbrains.kotlinx.binary-compatibility-validator").version("0.13.1")
 
             plugin("knit", "kotlinx-knit").versionRef("knit")
             plugin("dokka", "org.jetbrains.dokka").versionRef("kotlin")
@@ -86,7 +86,7 @@ dependencyResolutionManagement {
             library("junit.bom", "org.junit", "junit-bom").version("5.7.0")
             library("junit.jupiter", "org.junit.jupiter", "junit-jupiter").withoutVersion()
             library("mockk", "io.mockk", "mockk").version("1.10.2")
-            library("ksp.testing", "com.github.tschuchortdev", "kotlin-compile-testing-ksp").version("1.4.8")
+            library("ksp.testing", "com.github.tschuchortdev", "kotlin-compile-testing-ksp").version("1.5.0")
             library("knit.testing", "org.jetbrains.kotlinx", "kotlinx-knit-test").versionRef("knit")
 
             bundle("testing", listOf("junit.jupiter", "mockk"))

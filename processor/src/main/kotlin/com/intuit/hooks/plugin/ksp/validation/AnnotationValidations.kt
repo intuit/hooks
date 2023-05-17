@@ -47,6 +47,15 @@ import com.squareup.kotlinpoet.ksp.toTypeName
 /** Build [HookInfo] from the validated [HookAnnotation] found on the [property] */
 context(Raise<Nel<HookValidationError>>)
 internal fun KSPropertyDeclaration.validateHookAnnotation(parentResolver: TypeParameterResolver): HookInfo {
+    // why is onlyHasASingleDslAnnotation wrapped in ensure while nothing else
+    // is? great question! this is because onlyHasASingleDslAnnotation is a
+    // singularly concerned validation function that has an explicitly matching
+    // raise context. onlyHasASingleDslAnnotation will _only_ ever raise a singular
+    // error, and therefore, shouldn't be treated as if it might have
+    // many to raise. We use ensure to narrow down the raise type param
+    // to what we expect, and then unwrap to explicitly re-raise within
+    // a non-empty-list context.
+
     val annotation = ensure { onlyHasASingleDslAnnotation() }
 
     return zipOrAccumulate(

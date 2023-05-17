@@ -1,13 +1,16 @@
 package com.intuit.hooks.plugin.ksp.validation
 
-import arrow.core.*
-import arrow.core.raise.*
+import arrow.core.Nel
+import arrow.core.mapOrAccumulate
+import arrow.core.raise.Raise
 import arrow.core.raise.ensure
+import arrow.core.raise.zipOrAccumulate
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.symbol.*
 import com.intuit.hooks.plugin.codegen.HookInfo
 import com.intuit.hooks.plugin.ensure
 import com.intuit.hooks.plugin.ksp.text
+import com.intuit.hooks.plugin.mapOrAccumulate
 import com.squareup.kotlinpoet.ksp.TypeParameterResolver
 
 context(HookValidationError)
@@ -24,8 +27,9 @@ internal sealed class HookValidationError(override val message: String, val symb
     class NoCodeGenerator(annotation: HookAnnotation) : HookValidationError("This hook plugin has no code generator for $annotation", annotation.symbol)
     class NoHookDslAnnotations(property: KSPropertyDeclaration) : HookValidationError("Hook property must be annotated with a DSL annotation", property)
     class TooManyHookDslAnnotations(annotations: List<KSAnnotation>, property: KSPropertyDeclaration) : HookValidationError("This hook has more than a single hook DSL annotation: $annotations", property)
-    class UnsupportedAbstractPropertyType(property: KSPropertyDeclaration) : HookValidationError("Abstract property type (${property.type.text}) not supported. Hook properties must be of type com.intuit.hooks.Hook", property)
+    class UnsupportedPropertyType(property: KSPropertyDeclaration) : HookValidationError("Property type (${property.type.text}) not supported. Hook properties must be of type com.intuit.hooks.Hook", property)
     class NotAnAbstractProperty(property: KSPropertyDeclaration) : HookValidationError("Hooks can only be abstract properties", property)
+    class UnsupportedContainer(declaration: KSClassDeclaration) : HookValidationError("Hooks in constructs other than class, interface, and object aren't supported", declaration)
 
     operator fun component1(): String = message
 
@@ -36,36 +40,27 @@ internal sealed class HookValidationError(override val message: String, val symb
 context(Raise<Nel<HookValidationError>>)
 internal fun KSPropertyDeclaration.validateProperty(parentResolver: TypeParameterResolver): HookInfo {
     // 1. validate types
+    validateHookType()
+
     // 2. validation annotation and
+    val info = validateHookAnnotation(parentResolver)
+
     // 3. validate properties against type
+    validateHookProperties(info)
 
-    // why is validateHookType wrapped in ensure while nothing else is?
-    // great question! this is because validateHookType is a singularly
-    // concerned validation function that has an explicitly matching
-    // raise context. validateHookType will _only_ ever raise a singular
-    // error, and therefore, shouldn't be treated as if it might have
-    // many to raise. We use ensure to narrow down the raise type param
-    // to what we expect, and then unwrap to explicitly re-raise within
-    // a non-empty-list context.
-
-    ensure {
-        validateHookType()
-    }
-
-    return validateHookAnnotation(parentResolver).also {
-        validateHookProperties(it)
-    }
+    return info
 }
 
-context(Raise<HookValidationError.UnsupportedAbstractPropertyType>)
+context(Raise<Nel<HookValidationError>>)
 private fun KSPropertyDeclaration.validateHookType() {
-    ensure(type.text == "Hook") {
-        HookValidationError.UnsupportedAbstractPropertyType(this)
-    }
+    zipOrAccumulate(
+        { ensure(type.text == "Hook") { HookValidationError.UnsupportedPropertyType(this@validateHookType) } },
+        { ensure(modifiers.contains(Modifier.ABSTRACT)) { HookValidationError.NotAnAbstractProperty(this@validateHookType) } },
+    ) { _, _ -> }
 }
 
 context(Raise<Nel<HookValidationError>>) private fun KSPropertyDeclaration.validateHookProperties(info: HookInfo) {
-    info.hookType.properties.map {
-        it.validate(info, this)
+    info.hookType.properties.mapOrAccumulate {
+        it.validate(info, this@validateHookProperties)
     }
 }
