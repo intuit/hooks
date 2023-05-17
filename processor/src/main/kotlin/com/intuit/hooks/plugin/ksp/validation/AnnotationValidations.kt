@@ -64,7 +64,7 @@ internal fun KSPropertyDeclaration.validateHookAnnotation(parentResolver: TypePa
         { annotation.mustBeHookType(parentResolver) },
         { annotation.validateParameters(parentResolver) },
         { getVisibility().toKModifier() ?: KModifier.PUBLIC },
-        ::HookInfo
+        ::HookInfo,
     )
 }
 
@@ -106,7 +106,7 @@ private fun HookAnnotation.mustBeHookType(parentResolver: TypeParameterResolver)
         isSuspend,
         returnType,
         returnTypeType,
-        hookFunctionSignatureType
+        hookFunctionSignatureType,
     )
 } catch (exception: Exception) {
     raise(HookValidationError.MustBeHookTypeSignature(this))

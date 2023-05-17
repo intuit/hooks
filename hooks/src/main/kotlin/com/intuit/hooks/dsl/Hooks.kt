@@ -60,7 +60,8 @@ public abstract class Hooks {
         ReplaceWith("@Hooks.AsyncParallelBail<F>"),
         DeprecationLevel.ERROR,
     )
-    @ExperimentalCoroutinesApi protected fun <F : Function<BailResult<*>>> asyncParallelBailHook(): AsyncParallelBailHook<*, *> = stub()
+    @ExperimentalCoroutinesApi
+    protected fun <F : Function<BailResult<*>>> asyncParallelBailHook(): AsyncParallelBailHook<*, *> = stub()
 
     protected annotation class AsyncSeries<F : Function<*>>
 

@@ -9,8 +9,11 @@ internal val KSTypeArgument.text: String get() = when (variance) {
     else -> "${variance.label} ${type!!.text}"
 }
 
-internal val List<KSTypeArgument>.text: String get() = if (isEmpty()) "" else
+internal val List<KSTypeArgument>.text: String get() = if (isEmpty()) {
+    ""
+} else {
     "<${joinToString(transform = KSTypeArgument::text)}>"
+}
 
 internal val KSTypeReference.text: String get() = element?.let {
     when (it) {

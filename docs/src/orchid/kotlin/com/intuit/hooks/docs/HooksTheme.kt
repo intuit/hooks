@@ -35,6 +35,6 @@ class HooksTheme @Inject constructor(context: OrchidContext) : Theme(context, "H
             listOfNotNull(super.getResourceSource(), delegateTheme.resourceSource),
             emptyList(),
             priority,
-            ThemeResourceSource
+            ThemeResourceSource,
         )
 }

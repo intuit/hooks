@@ -44,7 +44,7 @@ public inline fun <Error, A> Iterable<A>.accumulate(
     flatMap {
         recover({
             operation(it); emptyList()
-        }) { it }
+        },) { it }
     }.toNonEmptyListOrNull()?.let { raise(it) }
 }
 
@@ -62,7 +62,7 @@ public inline fun <Error, A, B> Iterable<A>.mapOrAccumulate( // TODO: Consider r
     @BuilderInference operation: Raise<Nel<Error>>.(A) -> B
 ): List<B> = recover({
     mapOrAccumulate(this@mapOrAccumulate) { operation(it) }
-}) { errors -> raise(errors.flatMap { it }) }
+},) { errors -> raise(errors.flatMap { it }) }
 
 /** [mapOrAccumulate] variant that accumulates errors from a validator that may raise multiple errors */
 context(Raise<NonEmptyList<Error>>)
@@ -71,7 +71,7 @@ public inline fun <Error, A, B> NonEmptyList<A>.mapOrAccumulate( // TODO: Consid
     @BuilderInference operation: Raise<Nel<Error>>.(A) -> B
 ): NonEmptyList<B> = recover({
     mapOrAccumulate(this@mapOrAccumulate) { operation(it) }
-}) { errors -> raise(errors.flatMap { it }) }
+},) { errors -> raise(errors.flatMap { it }) }
 
 /** [mapOrAccumulate] variant that accumulates errors from a validator that may raise multiple errors */
 context(Raise<NonEmptyList<Error>>)
@@ -80,4 +80,4 @@ public inline fun <Error, A, B> NonEmptySet<A>.mapOrAccumulate( // TODO: Conside
     @BuilderInference operation: Raise<Nel<Error>>.(A) -> B
 ): NonEmptySet<B> = recover({
     mapOrAccumulate(this@mapOrAccumulate) { operation(it) }
-}) { errors -> raise(errors.flatMap { it }) }
+},) { errors -> raise(errors.flatMap { it }) }

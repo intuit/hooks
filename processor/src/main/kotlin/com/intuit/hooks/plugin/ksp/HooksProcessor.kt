@@ -56,7 +56,7 @@ public class HooksProcessor(
             }, { throwable: Throwable ->
                 logger.error("Uncaught exception while processing file: ${throwable.localizedMessage}", file)
                 logger.exception(throwable)
-            })
+            },)
         }
     }
 
@@ -107,7 +107,7 @@ public class HooksProcessor(
                 typeSpecKind,
                 visibilityModifier,
                 typeArguments,
-                hooks
+                hooks,
             )
         }
     }

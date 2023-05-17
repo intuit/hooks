@@ -16,7 +16,7 @@ class HookValidationErrors {
             internal abstract class TestHooks : Hooks() {
                 abstract val nonHookProperty: Int
             }
-            """
+            """,
         )
 
         val (_, result) = compile(testHooks)
@@ -34,7 +34,7 @@ class HookValidationErrors {
             internal abstract class TestHooks : Hooks() {
                 abstract val syncHook: Hook
             }
-            """
+            """,
         )
 
         val (_, result) = compile(testHooks)
@@ -55,7 +55,7 @@ class HookValidationErrors {
                 @SyncBail<() -> BailResult<Int>>
                 abstract val syncHook: Hook
             }
-            """
+            """,
         )
 
         val (_, result) = compile(testHooks)
@@ -74,7 +74,7 @@ class HookValidationErrors {
                 @AsyncSeries<() -> Unit>
                 abstract val syncHook: Hook
             }
-            """
+            """,
         )
 
         val (_, result) = compile(testHooks)
@@ -93,7 +93,7 @@ class HookValidationErrors {
                 @SyncWaterfall<() -> String>
                 abstract val syncHook: Hook
             }
-            """
+            """,
         )
 
         val (_, result) = compile(testHooks)
@@ -112,7 +112,7 @@ class HookValidationErrors {
                 @SyncWaterfall<(Int, Int) -> Unit>
                 abstract val syncHook: Hook
             }
-            """
+            """,
         )
 
         val (_, result) = compile(testHooks)
@@ -132,7 +132,7 @@ class HookValidationErrors {
                 abstract val realBad: Hook
                 val state: Int
             }
-            """
+            """,
         )
 
         val (_, result) = compile(testHooks)
@@ -142,7 +142,7 @@ class HookValidationErrors {
             "Waterfall hooks must take at least one parameter",
             "Waterfall hooks must specify the same types for the first parameter and the return type",
             "Property type (Int) not supported",
-            "Hooks can only be abstract properties"
+            "Hooks can only be abstract properties",
         )
     }
 }

@@ -8,7 +8,7 @@ class SyncWaterfallHookTests {
         fun call(p1: T1) = super.call(
             p1,
             invokeTap = { f, acc, context -> f(context, acc) },
-            invokeInterceptor = { f, context -> f(context, p1) }
+            invokeInterceptor = { f, context -> f(context, p1) },
         )
     }
 
@@ -16,7 +16,7 @@ class SyncWaterfallHookTests {
         fun call(p1: T1, p2: T2) = super.call(
             p1,
             invokeTap = { f, acc, context -> f(context, acc, p2) },
-            invokeInterceptor = { f, context -> f(context, p1, p2) }
+            invokeInterceptor = { f, context -> f(context, p1, p2) },
         )
     }
 

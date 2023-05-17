@@ -60,8 +60,9 @@ tasks {
 
     val publish by creating {
         group = "publishing"
-        if (!isSnapshot)
+        if (!isSnapshot) {
             finalizedBy("closeAndReleaseSonatypeStagingRepository", ":docs:orchidDeploy", ":gradle-plugin:publishPlugins")
+        }
     }
 
     val version by creating {

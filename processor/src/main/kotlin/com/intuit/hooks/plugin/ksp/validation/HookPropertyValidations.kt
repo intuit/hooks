@@ -10,7 +10,7 @@ import com.intuit.hooks.plugin.ensure
 context(Raise<Nel<HookValidationError>>)
 internal fun HookProperty.validate(
     info: HookInfo,
-    property: KSPropertyDeclaration,
+    property: KSPropertyDeclaration
 ) {
     when (this) {
         is HookProperty.Bail -> Unit
@@ -30,7 +30,7 @@ private fun HookInfo.validateAsync(property: KSPropertyDeclaration) {
 context(Raise<Nel<HookValidationError>>)
 private fun HookProperty.Waterfall.validate(
     info: HookInfo,
-    property: KSPropertyDeclaration,
+    property: KSPropertyDeclaration
 ) {
     zipOrAccumulate(
         { arity(info, property) },
@@ -41,7 +41,7 @@ private fun HookProperty.Waterfall.validate(
 context(Raise<HookValidationError.WaterfallMustHaveParameters>)
 private fun HookProperty.Waterfall.arity(
     info: HookInfo,
-    property: KSPropertyDeclaration,
+    property: KSPropertyDeclaration
 ) {
     ensure(!info.zeroArity) { HookValidationError.WaterfallMustHaveParameters(property) }
 }
@@ -49,7 +49,7 @@ private fun HookProperty.Waterfall.arity(
 context(Raise<HookValidationError.WaterfallParameterTypeMustMatch>)
 private fun HookProperty.Waterfall.parameters(
     info: HookInfo,
-    property: KSPropertyDeclaration,
+    property: KSPropertyDeclaration
 ) {
     ensure(info.hookSignature.returnType == info.params.firstOrNull()?.type) {
         HookValidationError.WaterfallParameterTypeMustMatch(property)

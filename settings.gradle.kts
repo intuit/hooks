@@ -78,7 +78,7 @@ dependencyResolutionManagement {
                     "orchid.plugins.snippets",
                     "orchid.plugins.copper",
                     "orchid.plugins.wiki",
-                )
+                ),
             )
 
             // Testing

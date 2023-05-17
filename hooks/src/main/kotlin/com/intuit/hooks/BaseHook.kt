@@ -37,7 +37,7 @@ public data class TapInfo<FWithContext : Function<*>> internal constructor(
     public val name: String,
     public val id: String,
     public val type: String,
-    public val f: FWithContext,
+    public val f: FWithContext
     // val stage: Int, // todo: maybe this should be forEachIndexed?
     // before?: string | Array // todo: do we even really need this?
 )

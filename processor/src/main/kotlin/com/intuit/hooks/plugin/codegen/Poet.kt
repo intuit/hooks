@@ -44,8 +44,9 @@ internal fun HookInfo.generateClass(): TypeSpec {
     val callBuilder = FunSpec.builder("call")
         .addParameters(parameterSpecs)
         .apply {
-            if (this@generateClass.isAsync)
+            if (this@generateClass.isAsync) {
                 addModifiers(KModifier.SUSPEND)
+            }
         }
 
     val (superclass, call) = when (hookType) {
@@ -66,7 +67,7 @@ internal fun HookInfo.generateClass(): TypeSpec {
                 .addCode(
                     "return super.call(invokeTap = %L, invokeInterceptor = %L)",
                     CodeBlock.of("{ f, context -> f(context, $paramsWithoutTypes) }"),
-                    CodeBlock.of("{ f, context -> f(context, $paramsWithoutTypes) }")
+                    CodeBlock.of("{ f, context -> f(context, $paramsWithoutTypes) }"),
                 )
 
             Pair(superclass, call)
@@ -81,7 +82,7 @@ internal fun HookInfo.generateClass(): TypeSpec {
                     "return super.call(%N, invokeTap = %L, invokeInterceptor = %L)",
                     accumulatorName,
                     CodeBlock.of("{ f, %N, context -> f(context, $paramsWithoutTypes) }", accumulatorName),
-                    CodeBlock.of("{ f, context -> f(context, $paramsWithoutTypes) }")
+                    CodeBlock.of("{ f, context -> f(context, $paramsWithoutTypes) }"),
                 )
 
             Pair(superclass, call)
@@ -127,7 +128,7 @@ private val HookInfo.lambdaTypeName get() = createHookContextLambda(hookSignatur
 private fun HookInfo.createHookContextLambda(returnType: TypeName): LambdaTypeName {
     val get = LambdaTypeName.get(
         parameters = listOf(ParameterSpec.unnamed(hookContext)) + parameterSpecs,
-        returnType = returnType
+        returnType = returnType,
     )
 
     return if (this.isAsync) get.copy(suspending = true) else get
