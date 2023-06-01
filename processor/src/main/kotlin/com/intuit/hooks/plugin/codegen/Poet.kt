@@ -48,7 +48,7 @@ internal fun HookInfo.generateClass(): TypeSpec {
                 addModifiers(KModifier.SUSPEND)
         }
 
-    val (superclass, call) = when (hookType) {
+    val (superclass, calls) = when (hookType) {
         HookType.SyncHook, HookType.AsyncSeriesHook, HookType.AsyncParallelHook -> {
             val superclass = createSuperClass()
 
@@ -56,7 +56,7 @@ internal fun HookInfo.generateClass(): TypeSpec {
                 .returns(UNIT)
                 .addStatement("return super.call { f, context -> f(context, $paramsWithoutTypes) }")
 
-            Pair(superclass, call)
+            Pair(superclass, listOf(call))
         }
         HookType.SyncLoopHook, HookType.AsyncSeriesLoopHook -> {
             val superclass = createSuperClass(interceptParameter)
@@ -69,7 +69,7 @@ internal fun HookInfo.generateClass(): TypeSpec {
                     CodeBlock.of("{ f, context -> f(context, $paramsWithoutTypes) }")
                 )
 
-            Pair(superclass, call)
+            Pair(superclass, listOf(call))
         }
         HookType.SyncWaterfallHook, HookType.AsyncSeriesWaterfallHook -> {
             val superclass = createSuperClass(params.first().type)
@@ -84,26 +84,46 @@ internal fun HookInfo.generateClass(): TypeSpec {
                     CodeBlock.of("{ f, context -> f(context, $paramsWithoutTypes) }")
                 )
 
-            Pair(superclass, call)
+            Pair(superclass, listOf(call))
         }
         HookType.SyncBailHook, HookType.AsyncSeriesBailHook -> {
             requireNotNull(hookSignature.nullableReturnTypeType)
             val superclass = createSuperClass(hookSignature.returnTypeType)
 
-            val call = callBuilder
+            val call = FunSpec.builder("call")
+                .addParameters(parameterSpecs)
+                .apply {
+                    if (this@generateClass.isAsync)
+                        addModifiers(KModifier.SUSPEND)
+                }
                 .addParameter(
                     ParameterSpec.builder(
                         "default",
                         LambdaTypeName.get(
                             parameters = parameterSpecs,
                             returnType = hookSignature.returnTypeType!!
-                        ).copy(nullable = true)
+                        )
+                    ).build()
+                )
+                .returns(hookSignature.nullableReturnTypeType)
+                .addStatement("return call ($paramsWithoutTypes) { _, arg1 -> default.invoke(arg1) }")
+
+            val call2 = FunSpec.builder("call")
+                .addParameters(parameterSpecs)
+                .apply {
+                    if (this@generateClass.isAsync)
+                        addModifiers(KModifier.SUSPEND)
+                }
+                .addParameter(
+                    ParameterSpec.builder(
+                        "default",
+                        createHookContextLambda(hookSignature.returnTypeType!!).copy(nullable = true)
                     ).defaultValue(CodeBlock.of("null")).build()
                 )
                 .returns(hookSignature.nullableReturnTypeType)
-                .addStatement("return super.call ({ f, context -> f(context, $paramsWithoutTypes) }, default?.let { { default($paramsWithoutTypes) } } )")
+                .addStatement("return super.call ({ f, context -> f(context, $paramsWithoutTypes) }, default?.let { { context -> default(context, $paramsWithoutTypes) } } )")
 
-            Pair(superclass, call)
+            Pair(superclass, listOf(call, call2))
         }
         // parallel bail requires the concurrency parameter, otherwise it would be just like the other bail hooks
         HookType.AsyncParallelBailHook -> {
@@ -117,7 +137,7 @@ internal fun HookInfo.generateClass(): TypeSpec {
                 .returns(hookSignature.nullableReturnTypeType)
                 .addStatement("return super.call(concurrency) { f, context -> f(context, $paramsWithoutTypes) }")
 
-            Pair(superclass, call)
+            Pair(superclass, listOf(call))
         }
     }
 
@@ -126,7 +146,7 @@ internal fun HookInfo.generateClass(): TypeSpec {
         addFunctions(tapMethods)
         hookType.addedAnnotation?.let(::addAnnotation)
         superclass(superclass)
-        addFunction(call.build())
+        addFunctions(calls.map { it.build() })
     }.build()
 }
 

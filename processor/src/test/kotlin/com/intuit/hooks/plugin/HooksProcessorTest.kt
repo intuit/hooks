@@ -306,7 +306,7 @@ class HooksProcessorTest {
             fun testHook() {
                 val hooks = TestBailHooksImpl()
                 hooks.testSyncBailHook.tap("test") { _, _ -> BailResult.Continue() }
-                val result = hooks.testSyncBailHook.call("hello") { str ->
+                val result = hooks.testSyncBailHook.call("hello") { ctx, str ->
                     str + " world"
                 }
                 assertEquals("hello world", result)
