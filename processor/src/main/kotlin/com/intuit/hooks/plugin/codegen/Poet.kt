@@ -91,8 +91,17 @@ internal fun HookInfo.generateClass(): TypeSpec {
             val superclass = createSuperClass(hookSignature.returnTypeType)
 
             val call = callBuilder
+                .addParameter(
+                    ParameterSpec.builder(
+                        "default",
+                        LambdaTypeName.get(
+                            parameters = parameterSpecs,
+                            returnType = hookSignature.returnTypeType!!
+                        ).copy(nullable = true)
+                    ).defaultValue(CodeBlock.of("null")).build()
+                )
                 .returns(hookSignature.nullableReturnTypeType)
-                .addStatement("return super.call { f, context -> f(context, $paramsWithoutTypes) }")
+                .addStatement("return super.call ({ f, context -> f(context, $paramsWithoutTypes) }, default?.let { { default($paramsWithoutTypes) } } )")
 
             Pair(superclass, call)
         }
