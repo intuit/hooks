@@ -6,8 +6,8 @@ public sealed class BailResult<T> {
     public class Continue<T> : BailResult<T>()
 }
 
-public abstract class SyncBailHook<T, F : (HookContext, T) -> BailResult<R>, R> : SyncBaseHook<F>("SyncBailHook") {
-    protected fun call(invokeWithContext: (F, HookContext) -> BailResult<R>, default: ((T) -> Unit)? = null, p1: T): R? {
+public abstract class SyncBailHook<F : Function<BailResult<R>>, R> : SyncBaseHook<F>("SyncBailHook") {
+    protected fun call(invokeWithContext: (F, HookContext) -> BailResult<R>, default: (() -> R)? = null): R? {
         val context = setup(invokeWithContext)
 
         taps.forEach { tapInfo ->
@@ -17,7 +17,6 @@ public abstract class SyncBailHook<T, F : (HookContext, T) -> BailResult<R>, R> 
             }
         }
 
-        default?.invoke(p1)
-        return null
+        return default?.invoke()
     }
 }

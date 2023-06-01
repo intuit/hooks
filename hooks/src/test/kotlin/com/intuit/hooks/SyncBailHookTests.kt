@@ -7,8 +7,13 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
 class SyncBailHookTests {
-    class Hook1<T1, R : Any?> : SyncBailHook<T1, (HookContext, T1) -> BailResult<R>, R>() {
-        fun call(p1: T1, default: ((T1) -> Unit)? = null) = super.call({ f, context -> f(context, p1) }, default, p1)
+    class Hook1<T1, R : Any?> : SyncBailHook<(HookContext, T1) -> BailResult<R>, R>() {
+        fun call(p1: T1, default: ((T1) -> R)? = null) = super.call(
+            { f, context -> f(context, p1) },
+            default?.let {
+                { default(p1) }
+            }
+        )
     }
 
     @Test
@@ -58,12 +63,11 @@ class SyncBailHookTests {
         h.tap("continue") { _, _ -> BailResult.Continue() }
         h.tap("continue again") { _, _ -> BailResult.Continue() }
 
-        var bailResult: String? = null
-        h.call("David") {
-            bailResult = it
+        val result = h.call("David") {
+            it
         }
 
-        Assertions.assertEquals("David", bailResult)
+        Assertions.assertEquals("David", result)
     }
 
     @Test
@@ -73,11 +77,8 @@ class SyncBailHookTests {
         h.tap("bail") { _, _ -> BailResult.Bail("bailing") }
         h.tap("continue again") { _, _ -> Assertions.fail("Should never have gotten here!") }
 
-        var bailResult: String? = null
-        h.call("David") {
-            bailResult = it
-        }
+        val result = h.call("David") { it }
 
-        Assertions.assertEquals(null, bailResult)
+        Assertions.assertEquals("bailing", result)
     }
 }

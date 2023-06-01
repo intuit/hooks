@@ -24,7 +24,7 @@ public abstract class Hooks {
         ReplaceWith("@Hooks.SyncBail<F>"),
         DeprecationLevel.ERROR,
     )
-    protected fun <F : Function<BailResult<*>>> syncBailHook(): SyncBailHook<*, *, *> = stub()
+    protected fun <F : Function<BailResult<*>>> syncBailHook(): SyncBailHook<*, *> = stub()
 
     protected annotation class SyncWaterfall<F : Function<*>>
 
