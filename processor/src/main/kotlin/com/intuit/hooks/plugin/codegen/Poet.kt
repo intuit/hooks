@@ -104,7 +104,7 @@ internal fun HookInfo.generateClass(): TypeSpec {
                 .returns(hookSignature.nullableReturnTypeType)
                 .addStatement("return call ($paramsWithoutTypes) { _, arg1 -> default.invoke(arg1) }")
 
-            val call2 = callBuilder
+            val contextCall = callBuilder
                 .addParameter(
                     ParameterSpec.builder(
                         "default",
@@ -114,7 +114,7 @@ internal fun HookInfo.generateClass(): TypeSpec {
                 .returns(hookSignature.nullableReturnTypeType)
                 .addStatement("return super.call ({ f, context -> f(context, $paramsWithoutTypes) }, default?.let { { context -> default(context, $paramsWithoutTypes) } } )")
 
-            Pair(superclass, listOf(call, call2))
+            Pair(superclass, listOf(call, contextCall))
         }
         // parallel bail requires the concurrency parameter, otherwise it would be just like the other bail hooks
         HookType.AsyncParallelBailHook -> {
