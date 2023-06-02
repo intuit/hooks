@@ -20,7 +20,7 @@
 <a href="https://app.fossa.com/projects/custom%2B23410%2Fgit%40github.com%3Aintuit%2Fhooks?ref=badge_shield" alt="FOSSA Status"><img src="https://app.fossa.com/api/projects/custom%2B23410%2Fgit%40github.com%3Aintuit%2Fhooks.svg?type=shield"/></a>
 <a href="https://github.com/intuit/hooks/search?l=kotlin"><img src="https://img.shields.io/github/languages/top/intuit/hooks.svg?logo=Kotlin&logoColor=orange" alt="GitHub top language" /></a>
 <a href="https://ktlint.gihub.io"><img src="https://img.shields.io/badge/code%20style-%E2%9D%A4-FF4081.svg" alt="KtLint" /></a><!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-<a href="#contributors-"><img src="https://img.shields.io/badge/all_contributors-4-orange.svg" alt="All Contributors" /></a>
+<a href="#contributors-"><img src="https://img.shields.io/badge/all_contributors-5-orange.svg" alt="All Contributors" /></a>
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 </div>
 
@@ -173,6 +173,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/stabbylambda"><img src="https://avatars3.githubusercontent.com/u/124668?v=4?s=100" width="100px;" alt=""/><br /><sub><b>David Stone</b></sub></a><br /><a href="https://github.com/intuit/hooks/commits?author=stabbylambda" title="Documentation">📖</a> <a href="https://github.com/intuit/hooks/commits?author=stabbylambda" title="Tests">⚠️</a> <a href="https://github.com/intuit/hooks/commits?author=stabbylambda" title="Code">💻</a></td>
     <td align="center"><a href="http://hipstersmoothie.com/"><img src="https://avatars.githubusercontent.com/u/1192452?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Andrew Lisowski</b></sub></a><br /><a href="https://github.com/intuit/hooks/commits?author=hipstersmoothie" title="Documentation">📖</a> <a href="#infra-hipstersmoothie" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/intuit/hooks/commits?author=hipstersmoothie" title="Tests">⚠️</a> <a href="https://github.com/intuit/hooks/commits?author=hipstersmoothie" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/kharrop"><img src="https://avatars.githubusercontent.com/u/24794756?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Kelly Harrop</b></sub></a><br /><a href="#design-kharrop" title="Design">🎨</a></td>
+    <td align="center"><a href="https://github.com/brocollie08"><img src="https://avatars.githubusercontent.com/u/13474011?v=4?s=100" width="100px;" alt=""/><br /><sub><b>brocollie08</b></sub></a><br /><a href="https://github.com/intuit/hooks/commits?author=brocollie08" title="Tests">⚠️</a> <a href="https://github.com/intuit/hooks/commits?author=brocollie08" title="Code">💻</a></td>
   </tr>
 </table>
 
