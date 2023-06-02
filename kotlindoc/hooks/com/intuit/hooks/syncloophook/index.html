@@ -1,0 +1,641 @@
+<!doctype html>
+<html lang="en" class="has-spaced-navbar-fixed-top">
+<head>
+
+
+
+
+
+
+<meta charset="utf-8"/>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+<meta name="generator" content="Orchid 0.21.1"/>
+<link rel="icon" href="https://intuit.github.io/hooks/favicon.ico">
+
+
+<meta name="robots" content="index, follow">
+
+
+
+<title>SyncLoopHook</title>
+
+
+<meta name="description" content="Hooks is a little module for plugins, in Kotlin.">
+
+
+
+
+
+<!-- start:inject styles -->
+<link rel="stylesheet" type="text/css" href="https://intuit.github.io/hooks/HooksTheme/186090c8/assets/css/bulma.min.css"  />
+<link rel="stylesheet" type="text/css" href="https://intuit.github.io/hooks/HooksTheme/186090c8/assets/css/bulma-tooltip.css"  />
+<link rel="stylesheet" type="text/css" href="https://intuit.github.io/hooks/HooksTheme/186090c8/assets/css/bulma-accordion.min.css"  />
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/themes/prism-tomorrow.min.css"  />
+<link rel="stylesheet" type="text/css" href="https://intuit.github.io/hooks/assets/css/prismFixes.css"  />
+<link rel="stylesheet" type="text/css" href="https://intuit.github.io/hooks/assets/css/orchidSearch.css"  />
+<link rel="stylesheet" type="text/css" href="https://intuit.github.io/hooks/assets/css/orchidSourceDoc.css"  />
+<!-- end:inject styles -->
+
+
+
+
+
+<!-- start:debug info -->
+
+<!-- THEME -->
+<!-- Type: HooksTheme -->
+<!-- Class: com.intuit.hooks.docs.HooksTheme -->
+
+<!-- PAGE -->
+<!-- Type: classes -->
+<!-- Class: com.eden.orchid.sourcedoc.page.SourceDocPage -->
+<!-- Layout: index -->
+<!-- Resolved Layout: templates/layouts/index.peb -->
+<!-- Page Template: kotlindocClass, sourceDocPage, classes, page -->
+<!-- Resolved Page Template: templates/pages/sourceDocPage.peb -->
+
+<!-- RESOURCE -->
+<!-- Class: com.eden.orchid.sourcedoc.page.SourceDocResource -->
+<!-- Source Filename:  -->
+
+<!-- COMPLETE PAGE CONFIGURATION -->
+<script>
+    window.allData = {"reference":{"path":"kotlindoc/hooks","baseUrl":"https://intuit.github.io/hooks","fileName":"com/intuit/hooks/syncloophook","extension":"html","usePrettyUrl":true,"link":"https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/syncloophook"},"description":"","title":"SyncLoopHook"};
+</script>
+
+<!-- end:debug info -->
+
+
+
+<script>
+    window.site = {"orchidVersion":"0.21.1","baseUrl":"https://intuit.github.io/hooks","environment":"debug","version":"0.15.0"};
+</script>
+
+
+    <!-- start:inject meta-components [head] -->
+    
+
+        
+            
+        
+
+        
+            
+        
+    
+    <!-- end:inject meta-components [head] -->
+
+
+
+    <!-- start:inject meta-components [head] -->
+    
+
+        
+            
+        
+
+        
+            
+        
+    
+    <!-- end:inject meta-components [head] -->
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+<nav class="navbar is-spaced is-fixed-top is-dark" role="navigation" aria-label="main navigation">
+  <div class="container">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://intuit.github.io/hooks">
+        <img src="https://intuit.github.io/hooks/assets/media/hooks_multi-3d-dark-bg.svg" alt="Hooks">
+      </a>
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navMenu">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+    <div class="navbar-menu" id="navMenu">
+      <div class="navbar-start">
+        <form id="search-input" data-orchid-search>
+  <div class="field has-addons">
+    <div class="control text-control">
+      <input class="input" type="text" name="query" placeholder="Search Hooks docs...">
+
+      <div id="search-progress" data-orchid-search-progress style="display: none;">
+        <div class="loader">Loading...</div>
+      </div>
+    </div>
+    <div class="control">
+      <input type="submit" class="button is-info" value="Search">
+    </div>
+  </div>
+</form>
+<div id="search-results" data-orchid-search-results style="display: none;">
+  <div class="carat"></div>
+  <b>
+    Search Results
+    <i class="fa fa-times" aria-hidden="true" onclick="$('[data-orchid-search-results]').hide()"></i>
+  </b>
+  <ul></ul>
+</div>
+
+      </div>
+      <div class="navbar-end">
+
+      
+      
+        <a class="navbar-item" href="https://intuit.github.io/hooks">
+          <span class="icon has-text-info"><i class="fas fa-home"></i></span>
+          <span>Home</span>
+        </a>
+      
+      
+      
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">
+            <span class="icon has-text-info"><i class="fas fa-graduation-cap"></i></span>
+            <span>User Guide</span>
+          </a>
+          <div class="navbar-dropdown is-right">
+          
+            
+              <a class="navbar-item" href="https://intuit.github.io/hooks/wiki/getting-started">Getting Started</a>
+            
+          
+            
+              <a class="navbar-item" href="https://intuit.github.io/hooks/wiki/using-hooks">Using Hooks</a>
+            
+          
+            
+              <a class="navbar-item" href="https://intuit.github.io/hooks/wiki/key-concepts">Key Concepts</a>
+            
+          
+            
+              <a class="navbar-item" href="https://intuit.github.io/hooks/wiki/plugin-architecture">Plugin Architecture</a>
+            
+          
+          </div>
+        </div>
+      
+      
+      
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">
+            <span class="icon has-text-info"><i class="fas fa-book"></i></span>
+            <span>API</span>
+          </a>
+          <div class="navbar-dropdown is-right">
+          
+            
+              <a class="navbar-item" href="https://intuit.github.io/hooks/modules/hooks">Hooks Library</a>
+            
+          
+            
+              <hr class="navbar-divider">
+            
+          
+            
+              <a class="navbar-item" href="https://intuit.github.io/hooks/modules/gradle-plugin">Gradle Plugin</a>
+            
+          
+            
+              <a class="navbar-item" href="https://intuit.github.io/hooks/modules/processor">Hooks Processor</a>
+            
+          
+            
+              <a class="navbar-item" href="https://intuit.github.io/hooks/modules/maven-plugin">Maven Kotlin Extension</a>
+            
+          
+          </div>
+        </div>
+      
+      
+      
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">
+            <span class="icon has-text-info"><i class="fas fa-info-circle"></i></span>
+            <span>Information</span>
+          </a>
+          <div class="navbar-dropdown is-right">
+          
+            
+              <a class="navbar-item" href="https://intuit.github.io/hooks/changelog">Changelog</a>
+            
+          
+            
+              <a class="navbar-item" href="https://intuit.github.io/hooks/license">License</a>
+            
+          
+          </div>
+        </div>
+      
+      
+
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main class="section">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-10-desktop">
+      
+        
+<nav class="breadcrumb" aria-label="breadcrumbs">
+<ul>
+
+
+    <li><a href="https://intuit.github.io/hooks/modules/hooks">Hooks Library</a></li>
+
+
+
+    <li class="is-active"><a href="https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/syncloophook" aria-current="page">SyncLoopHook</a></li>
+
+
+</ul>
+</nav>
+
+
+        <div class="content is-medium">
+        
+    <!-- start:inject components -->
+    
+        
+            
+                
+                    
+                        <div class="sourcedoc-page orchid-sourcedoc content">
+  
+<div class="sourcedoc-section section-root section-level-1" id="SyncLoopHook">
+
+
+  
+
+  
+    <div class="sourcedoc-section section-element" id="2b000cd98e9a1d8db1d777265bc19afe87dd7242">
+      
+      <p class="sourcedoc-section section-signature">
+        <code>abstract class <a href="https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/syncloophook">SyncLoopHook</a>&lt;F : Function&lt;<a href="https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/loopresult">LoopResult</a>&gt;, FInterceptor : Function&lt;*&gt;&gt; : <a href="https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/syncbasehook">SyncBaseHook</a>&lt;F&gt;</code>
+      </p>
+
+      
+        
+    <!-- start:inject components -->
+    
+    <!-- end:inject components -->
+
+
+      
+
+      <div class="sourcedoc-section section-comments"></div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-2" id="fields">
+
+
+  <p class="sourcedoc-section section-name"><strong>Fields</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="8b69a489e86d41ee50c7833d86aadf1344091ee2">
+        <td class="sourcedoc-section section-signature">
+          <code>protected open interceptors: <a href="https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/loopinterceptors">LoopInterceptors</a>&lt;F, FInterceptor&gt;</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+          
+<div class="sourcedoc-section section-root section-level-2" id="constructors">
+
+
+  <p class="sourcedoc-section section-name"><strong>Constructors</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="d4613aad3f43ed7d2b370aabe518d8516ff827ff">
+        <td class="sourcedoc-section section-signature">
+          <code>constructor()</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+          
+<div class="sourcedoc-section section-root section-level-2" id="methods">
+
+
+  
+    <h2 class="sourcedoc-section section-name">Methods</h2>
+  
+
+  
+    <div class="sourcedoc-section section-element" id="0ffcec05b1e771c2540ff39f27a2b575573b3114">
+      
+      <h3 class="sourcedoc-section element-name">call</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>protected fun call(invokeTap: (F, <a href="https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/hookcontext">HookContext</a>)-&gt;<a href="https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/loopresult">LoopResult</a>, invokeInterceptor: (FInterceptor, <a href="https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/hookcontext">HookContext</a>)-&gt;Unit)</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"></div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="aa2a19481d234f1d8a83d16900c4591f57c6e67d">
+
+
+  <p class="sourcedoc-section section-name"><strong>Parameters</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="7661edca81c2e3ea8672be3509f179664ab8bb5f">
+        <td class="sourcedoc-section section-signature">
+          <code>invokeTap: (F, <a href="https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/hookcontext">HookContext</a>)-&gt;<a href="https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/loopresult">LoopResult</a></code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      <tr class="sourcedoc-section section-element" id="18a4349a89222346d4a667fb946fefe784c7a5b0">
+        <td class="sourcedoc-section section-signature">
+          <code>invokeInterceptor: (FInterceptor, <a href="https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/hookcontext">HookContext</a>)-&gt;Unit</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="71a411f73049f13fcdba9af384f67a68251f90ba">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="f6b935ab337145efdeadda28cae18aa89a845e36">
+        <td class="sourcedoc-section section-signature">
+          <code>Unit</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="c6fdd4ec47df963c1bce68a8b46ceb453bb4a829">
+      
+      <h3 class="sourcedoc-section element-name">interceptLoop</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>fun interceptLoop(f: FInterceptor)</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"></div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="7d9a295c2e7b8c228a0263d958f532f998337e99">
+
+
+  <p class="sourcedoc-section section-name"><strong>Parameters</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="9913fb286f72058f444292a31b54f673a6235e8b">
+        <td class="sourcedoc-section section-signature">
+          <code>f: FInterceptor</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="ae7eb669d4cf698bdba6b93079aaee437ab4ad96">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="f6b935ab337145efdeadda28cae18aa89a845e36">
+        <td class="sourcedoc-section section-signature">
+          <code>Unit</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+
+</div>
+
+        
+      
+    </div>
+  
+
+</div>
+
+</div>
+
+
+
+                    
+                
+            
+        
+    
+    <!-- end:inject components -->
+
+
+        </div>
+      
+      
+
+      </div>
+    </div>
+  </div>
+</main>
+<footer class="footer">
+  <div class="container">
+    <div class="columns">
+      <div class="column">
+        <p class="has-text-left-tablet has-text-centered-mobile">
+        
+          <a href="https://github.com/intuit/hooks/" class="button is-dark">
+            <span class="icon"><i class="fab fa-lg fa-github"></i></span>
+            <span>GitHub</span>
+          </a>
+        
+        </p>
+      </div>
+      <div class="column">
+        <p class="has-text-right-tablet has-text-centered-mobile">
+          <a href="https://bulma.io/">
+            <img
+              src="https://intuit.github.io/hooks/assets/media/made-with-bulma--semiblack.png"
+              alt="Bulma"
+              width="171"
+              height="32">
+          </a>
+          <a href="https://orchid.run/">
+            <img
+              src="https://intuit.github.io/hooks/assets/svg/orchid/logo_top_light.svg"
+              alt="Orchid 0.21.1"
+              width="64"
+              height="32">
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- start:inject scripts -->
+<script defer  src="https://use.fontawesome.com/releases/v5.4.0/js/all.js"></script>
+<script  src="https://intuit.github.io/hooks/HooksTheme/186090c8/assets/js/bulma.js"></script>
+<script  src="https://intuit.github.io/hooks/HooksTheme/186090c8/assets/js/bulma-accordion.min.js"></script>
+<script  src="https://intuit.github.io/hooks/HooksTheme/186090c8/assets/js/bulma-tabs.js"></script>
+<script  src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/prism.min.js"></script>
+<script  src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-java.min.js"></script>
+<script  src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-kotlin.min.js"></script>
+<script  src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-groovy.min.js"></script>
+<script  src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-yaml.min.js"></script>
+<script  src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-markup.min.js"></script>
+<script  src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script  src="https://unpkg.com/lunr/lunr.js"></script>
+<script  src="https://intuit.github.io/hooks/assets/js/orchidSearch.js"></script>
+<!-- end:inject scripts -->
+
+
+
+</body>
+</html>

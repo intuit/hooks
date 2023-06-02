@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="en" class="has-spaced-navbar-fixed-top">
+<head>
+
+
+
+
+
+
+<meta charset="utf-8"/>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+<meta name="generator" content="Orchid 0.21.1"/>
+<link rel="icon" href="https://intuit.github.io/hooks/favicon.ico">
+
+
+<meta name="robots" content="index, follow">
+
+
+
+<title>Key Concepts</title>
+
+
+<meta name="description" content="Hooks is a little module for plugins, in Kotlin.">
+
+
+
+<link rel="prev" href="https://intuit.github.io/hooks/wiki/using-hooks">
+
+
+<link rel="next" href="https://intuit.github.io/hooks/wiki/plugin-architecture">
+
+
+<!-- start:inject styles -->
+<link rel="stylesheet" type="text/css" href="https://intuit.github.io/hooks/HooksTheme/186090c8/assets/css/bulma.min.css"  />
+<link rel="stylesheet" type="text/css" href="https://intuit.github.io/hooks/HooksTheme/186090c8/assets/css/bulma-tooltip.css"  />
+<link rel="stylesheet" type="text/css" href="https://intuit.github.io/hooks/HooksTheme/186090c8/assets/css/bulma-accordion.min.css"  />
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/themes/prism-tomorrow.min.css"  />
+<link rel="stylesheet" type="text/css" href="https://intuit.github.io/hooks/assets/css/prismFixes.css"  />
+<link rel="stylesheet" type="text/css" href="https://intuit.github.io/hooks/assets/css/orchidSearch.css"  />
+<!-- end:inject styles -->
+
+
+
+
+
+<!-- start:debug info -->
+
+<!-- THEME -->
+<!-- Type: HooksTheme -->
+<!-- Class: com.intuit.hooks.docs.HooksTheme -->
+
+<!-- PAGE -->
+<!-- Type: wiki -->
+<!-- Class: com.eden.orchid.wiki.pages.WikiPage -->
+<!-- Layout: index -->
+<!-- Resolved Layout: templates/layouts/index.peb -->
+<!-- Page Template: wiki, page -->
+<!-- Resolved Page Template: templates/pages/page.peb -->
+
+<!-- RESOURCE -->
+<!-- Class: com.eden.orchid.api.resources.resource.FileResource -->
+<!-- Source Filename: wiki/key-concepts.md -->
+
+<!-- COMPLETE PAGE CONFIGURATION -->
+<script>
+    window.allData = {"reference":{"path":"wiki","baseUrl":"https://intuit.github.io/hooks","fileName":"key-concepts","extension":"html","usePrettyUrl":true,"link":"https://intuit.github.io/hooks/wiki/key-concepts"},"next":{"path":"wiki","baseUrl":"https://intuit.github.io/hooks","fileName":"plugin-architecture","extension":"html","usePrettyUrl":true,"link":"https://intuit.github.io/hooks/wiki/plugin-architecture"},"previous":{"path":"wiki","baseUrl":"https://intuit.github.io/hooks","fileName":"using-hooks","extension":"html","usePrettyUrl":true,"link":"https://intuit.github.io/hooks/wiki/using-hooks"},"description":"","title":"Key Concepts"};
+</script>
+
+<!-- end:debug info -->
+
+
+
+<script>
+    window.site = {"orchidVersion":"0.21.1","baseUrl":"https://intuit.github.io/hooks","environment":"debug","version":"0.15.0"};
+</script>
+
+
+    <!-- start:inject meta-components [head] -->
+    
+
+        
+            
+        
+
+        
+            
+        
+    
+    <!-- end:inject meta-components [head] -->
+
+
+
+    <!-- start:inject meta-components [head] -->
+    
+
+        
+            
+        
+
+        
+            
+        
+    
+    <!-- end:inject meta-components [head] -->
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+<nav class="navbar is-spaced is-fixed-top is-dark" role="navigation" aria-label="main navigation">
+  <div class="container">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://intuit.github.io/hooks">
+        <img src="https://intuit.github.io/hooks/assets/media/hooks_multi-3d-dark-bg.svg" alt="Hooks">
+      </a>
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navMenu">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+    <div class="navbar-menu" id="navMenu">
+      <div class="navbar-start">
+        <form id="search-input" data-orchid-search>
+  <div class="field has-addons">
+    <div class="control text-control">
+      <input class="input" type="text" name="query" placeholder="Search Hooks docs...">
+
+      <div id="search-progress" data-orchid-search-progress style="display: none;">
+        <div class="loader">Loading...</div>
+      </div>
+    </div>
+    <div class="control">
+      <input type="submit" class="button is-info" value="Search">
+    </div>
+  </div>
+</form>
+<div id="search-results" data-orchid-search-results style="display: none;">
+  <div class="carat"></div>
+  <b>
+    Search Results
+    <i class="fa fa-times" aria-hidden="true" onclick="$('[data-orchid-search-results]').hide()"></i>
+  </b>
+  <ul></ul>
+</div>
+
+      </div>
+      <div class="navbar-end">
+
+      
+      
+        <a class="navbar-item" href="https://intuit.github.io/hooks">
+          <span class="icon has-text-info"><i class="fas fa-home"></i></span>
+          <span>Home</span>
+        </a>
+      
+      
+      
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">
+            <span class="icon has-text-info"><i class="fas fa-graduation-cap"></i></span>
+            <span>User Guide</span>
+          </a>
+          <div class="navbar-dropdown is-right">
+          
+            
+              <a class="navbar-item" href="https://intuit.github.io/hooks/wiki/getting-started">Getting Started</a>
+            
+          
+            
+              <a class="navbar-item" href="https://intuit.github.io/hooks/wiki/using-hooks">Using Hooks</a>
+            
+          
+            
+              <a class="navbar-item" href="https://intuit.github.io/hooks/wiki/key-concepts">Key Concepts</a>
+            
+          
+            
+              <a class="navbar-item" href="https://intuit.github.io/hooks/wiki/plugin-architecture">Plugin Architecture</a>
+            
+          
+          </div>
+        </div>
+      
+      
+      
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">
+            <span class="icon has-text-info"><i class="fas fa-book"></i></span>
+            <span>API</span>
+          </a>
+          <div class="navbar-dropdown is-right">
+          
+            
+              <a class="navbar-item" href="https://intuit.github.io/hooks/modules/hooks">Hooks Library</a>
+            
+          
+            
+              <hr class="navbar-divider">
+            
+          
+            
+              <a class="navbar-item" href="https://intuit.github.io/hooks/modules/gradle-plugin">Gradle Plugin</a>
+            
+          
+            
+              <a class="navbar-item" href="https://intuit.github.io/hooks/modules/processor">Hooks Processor</a>
+            
+          
+            
+              <a class="navbar-item" href="https://intuit.github.io/hooks/modules/maven-plugin">Maven Kotlin Extension</a>
+            
+          
+          </div>
+        </div>
+      
+      
+      
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">
+            <span class="icon has-text-info"><i class="fas fa-info-circle"></i></span>
+            <span>Information</span>
+          </a>
+          <div class="navbar-dropdown is-right">
+          
+            
+              <a class="navbar-item" href="https://intuit.github.io/hooks/changelog">Changelog</a>
+            
+          
+            
+              <a class="navbar-item" href="https://intuit.github.io/hooks/license">License</a>
+            
+          
+          </div>
+        </div>
+      
+      
+
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main class="section">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-10-desktop">
+      
+        
+<nav class="breadcrumb" aria-label="breadcrumbs">
+<ul>
+
+
+    <li><a href="https://intuit.github.io/hooks/wiki">Wiki</a></li>
+
+
+
+    <li class="is-active"><a href="https://intuit.github.io/hooks/wiki/key-concepts" aria-current="page">Key Concepts</a></li>
+
+
+</ul>
+</nav>
+
+
+        <div class="content is-medium">
+        
+    <!-- start:inject components -->
+    
+        
+            
+                
+                    
+                        <div class="content is-medium-tablet is-large-fullhd">
+<h1 id="key-concepts"><a href="#key-concepts" id="key-concepts" class="anchor"></a>Key Concepts</h1>
+<h3 id="nomenclature"><a href="#nomenclature" id="nomenclature" class="anchor"></a>Nomenclature</h3>
+<p>To those new to this project, it might help to go over some keywords:</p>
+<ul>
+<li>Hook - some functionality in a construct that can be extended</li>
+<li>Tap - action taken by plugin to extend functionality</li>
+<li>Call - action taken by hook owner to invoke plugins</li>
+<li>Plugin - something that taps a hook</li>
+</ul>
+<blockquote>
+<p>A <strong>plugin</strong> can <strong>tap</strong> into a <strong>hook</strong> to provide additional functionality</p>
+</blockquote>
+<h3 id="hooks"><a href="#hooks" id="hooks" class="anchor"></a>Hooks</h3>
+<p>The hooks library exposes a collection of different types of hooks that support different behavior. Each type of hook has some support for asynchronous evaluation through Kotlin coroutines.</p>
+<table>
+<thead>
+<tr><th>Type</th><th>Behavior</th><th>Async Support</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Basic</strong></td><td>Basic hooks simply calls every function it tapped in a row</td><td><code>SERIES</code>, <code>PARALLEL</code></td></tr>
+<tr><td><strong>Waterfall</strong></td><td>Waterfall hooks also call each tapped function in a row, however, it supports propagating return value from each function to the next function</td><td><code>SERIES</code>, <code>PARALLEL</code></td></tr>
+<tr><td><strong>Bail</strong></td><td>Bail hooks allow exiting early with a return value. When any of the tapped function bails, the bail hook will stop executing the remaining ones</td><td><code>PARALLEL</code></td></tr>
+<tr><td><strong>Loop</strong></td><td>When a plugin in a loop hook returns a non-undefined value the hook will restart from the first plugin. It will loop until all plugins return undefined.</td><td><code>PARALLEL</code></td></tr>
+</tbody>
+</table>
+<h3 id="untapping"><a href="#untapping" id="untapping" class="anchor"></a>Untapping</h3>
+<p>Hooks that are tapped return a unique ID that can be used to <code>untap</code> from a hook, effectively removing that <code>tap</code> from the hook. For convenience, this ID can be specified when tapping the hook to easily override if the callback needs to be updated.</p>
+<!--- INCLUDE
+import com.intuit.hooks.*
+-->
+<pre><code class="language-kotlin">class SimpleHook : SyncHook&lt;(HookContext) -&gt; Unit&gt;() {
+    fun call() = super.call { f, context -&gt; f(context) }
+}
+</code></pre>
+<!--- INCLUDE
+
+fun main() {
+-->
+<pre><code class="language-kotlin">val simpleHook = SimpleHook()
+val tap1 = simpleHook.tap(&quot;tap1&quot;) {
+    println(&quot;doing something&quot;)
+}!!
+
+// to remove previously tapped function
+simpleHook.untap(tap1)
+// or to override previously tapped function
+simpleHook.tap(&quot;tap1&quot;, tap1) {
+    println(&quot;doing something else&quot;)
+}
+</code></pre>
+<!--- INCLUDE
+}
+-->
+<!--- KNIT example-untap-01.kt --> 
+<blockquote>
+<p>With the register interceptors described below, calling <code>tap</code> is not guaranteed to actually tap the hook if the interceptor rejects it. In this case, the ID returned from <code>tap</code> will be <code>null</code>.</p>
+</blockquote>
+<h3 id="interceptors"><a href="#interceptors" id="interceptors" class="anchor"></a>Interceptors</h3>
+<p>Every hook provides support to register interceptors for different events:</p>
+<table>
+<thead>
+<tr><th>API</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>interceptCall</code></td><td>Call interceptors will trigger when hooks are triggered and have access to the hook parameters, including the <a href="#hook-context"><code>HookContext</code></a></td></tr>
+<tr><td><code>interceptTap</code></td><td>Tap interceptors will trigger for each tapped plugin when a the hook is called and have access to the corresponding <a href="https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/tapinfo/"><code>TapInfo</code></a> and the <a href="#hook-context"><code>HookContext</code></a></td></tr>
+<tr><td><code>interceptRegister</code></td><td>Register interceptors will trigger when a plugin taps into a hook and have the opportunity to modify or remove the corresponding <a href="https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/tapinfo/"><code>TapInfo</code></a></td></tr>
+<tr><td><code>interceptLoop</code></td><td>Loop interceptors share the same signature as call interceptors, but are only available for <strong>Loop</strong> hooks, and will be triggered each time the hook evaluation loops</td></tr>
+</tbody>
+</table>
+<h3 id="hook-context"><a href="#hook-context" id="hook-context" class="anchor"></a>Hook context</h3>
+<p>Every plugin and some interceptors have access to a <code>HookContext</code>, which can be used to read or write arbitrary values for subsequent plugins and interceptors.</p>
+<!--- TEST_NAME HookContextTest -->
+<!--- INCLUDE
+import com.intuit.hooks.dsl.Hooks
+import com.intuit.hooks.Hook
+
+abstract class CarHooks : Hooks() {
+    @Sync<(newSpeed: Int) -> Unit> abstract val accelerate: Hook
+}
+
+class Car {
+    val hooks = CarHooksImpl()
+
+    var speed: Int = 0
+        set(value) {
+            hooks.accelerate.call(value)
+        }
+}
+
+fun main() {
+    val car = Car()
+-->
+<pre><code class="language-kotlin">    car.hooks.accelerate.interceptTap { context, tapInfo -&gt;
+        println(&quot;${tapInfo.name} is doing it's job&quot;)
+        context[&quot;hasMuffler&quot;] = true
+    }
+    
+    car.hooks.accelerate.tap(&quot;NoisePlugin&quot;) { context, newSpeed -&gt; 
+        println(if (context[&quot;hasMuffler&quot;] == true) &quot;Silence...&quot; else &quot;Vroom!&quot;)
+    }
+    
+    car.speed = 20
+    // NoisePlugin is doing it's job
+    // Silence...
+</code></pre>
+<!--- INCLUDE
+}
+-->
+<blockquote>
+<p>This snippet might make more sense with respect to the example laid out in <a href="../plugin-architecture">plugin architecture</a>.</p>
+</blockquote>
+<!--- KNIT example-context-01.kt --> 
+<!--- TEST
+NoisePlugin is doing it's job
+Silence...
+-->
+
+</div>
+
+                    
+                
+            
+        
+    
+    <!-- end:inject components -->
+
+
+        </div>
+      
+      
+<nav class="pagination is-medium" role="navigation" aria-label="pagination">
+  <a class="pagination-previous button is-large is-link is-outlined"
+   href="https://intuit.github.io/hooks/wiki/using-hooks" >
+      <span class="icon">
+        <i class="fas fa-arrow-left"></i>
+      </span>
+  </a>
+  <a class="pagination-next button is-large is-link is-outlined"
+   href="https://intuit.github.io/hooks/wiki/plugin-architecture" >
+      <span class="icon">
+        <i class="fas fa-arrow-right"></i>
+      </span>
+  </a>
+</nav>
+
+
+      </div>
+    </div>
+  </div>
+</main>
+<footer class="footer">
+  <div class="container">
+    <div class="columns">
+      <div class="column">
+        <p class="has-text-left-tablet has-text-centered-mobile">
+        
+          <a href="https://github.com/intuit/hooks/" class="button is-dark">
+            <span class="icon"><i class="fab fa-lg fa-github"></i></span>
+            <span>GitHub</span>
+          </a>
+        
+        </p>
+      </div>
+      <div class="column">
+        <p class="has-text-right-tablet has-text-centered-mobile">
+          <a href="https://bulma.io/">
+            <img
+              src="https://intuit.github.io/hooks/assets/media/made-with-bulma--semiblack.png"
+              alt="Bulma"
+              width="171"
+              height="32">
+          </a>
+          <a href="https://orchid.run/">
+            <img
+              src="https://intuit.github.io/hooks/assets/svg/orchid/logo_top_light.svg"
+              alt="Orchid 0.21.1"
+              width="64"
+              height="32">
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- start:inject scripts -->
+<script defer  src="https://use.fontawesome.com/releases/v5.4.0/js/all.js"></script>
+<script  src="https://intuit.github.io/hooks/HooksTheme/186090c8/assets/js/bulma.js"></script>
+<script  src="https://intuit.github.io/hooks/HooksTheme/186090c8/assets/js/bulma-accordion.min.js"></script>
+<script  src="https://intuit.github.io/hooks/HooksTheme/186090c8/assets/js/bulma-tabs.js"></script>
+<script  src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/prism.min.js"></script>
+<script  src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-java.min.js"></script>
+<script  src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-kotlin.min.js"></script>
+<script  src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-groovy.min.js"></script>
+<script  src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-yaml.min.js"></script>
+<script  src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-markup.min.js"></script>
+<script  src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script  src="https://unpkg.com/lunr/lunr.js"></script>
+<script  src="https://intuit.github.io/hooks/assets/js/orchidSearch.js"></script>
+<!-- end:inject scripts -->
+
+
+
+</body>
+</html>

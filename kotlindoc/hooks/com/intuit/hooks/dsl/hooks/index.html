@@ -1,0 +1,941 @@
+<!doctype html>
+<html lang="en" class="has-spaced-navbar-fixed-top">
+<head>
+
+
+
+
+
+
+<meta charset="utf-8"/>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+<meta name="generator" content="Orchid 0.21.1"/>
+<link rel="icon" href="https://intuit.github.io/hooks/favicon.ico">
+
+
+<meta name="robots" content="index, follow">
+
+
+
+<title>Hooks</title>
+
+
+<meta name="description" content="Hooks is a little module for plugins, in Kotlin.">
+
+
+
+
+
+<!-- start:inject styles -->
+<link rel="stylesheet" type="text/css" href="https://intuit.github.io/hooks/HooksTheme/186090c8/assets/css/bulma.min.css"  />
+<link rel="stylesheet" type="text/css" href="https://intuit.github.io/hooks/HooksTheme/186090c8/assets/css/bulma-tooltip.css"  />
+<link rel="stylesheet" type="text/css" href="https://intuit.github.io/hooks/HooksTheme/186090c8/assets/css/bulma-accordion.min.css"  />
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/themes/prism-tomorrow.min.css"  />
+<link rel="stylesheet" type="text/css" href="https://intuit.github.io/hooks/assets/css/prismFixes.css"  />
+<link rel="stylesheet" type="text/css" href="https://intuit.github.io/hooks/assets/css/orchidSearch.css"  />
+<link rel="stylesheet" type="text/css" href="https://intuit.github.io/hooks/assets/css/orchidSourceDoc.css"  />
+<!-- end:inject styles -->
+
+
+
+
+
+<!-- start:debug info -->
+
+<!-- THEME -->
+<!-- Type: HooksTheme -->
+<!-- Class: com.intuit.hooks.docs.HooksTheme -->
+
+<!-- PAGE -->
+<!-- Type: classes -->
+<!-- Class: com.eden.orchid.sourcedoc.page.SourceDocPage -->
+<!-- Layout: index -->
+<!-- Resolved Layout: templates/layouts/index.peb -->
+<!-- Page Template: kotlindocClass, sourceDocPage, classes, page -->
+<!-- Resolved Page Template: templates/pages/sourceDocPage.peb -->
+
+<!-- RESOURCE -->
+<!-- Class: com.eden.orchid.sourcedoc.page.SourceDocResource -->
+<!-- Source Filename:  -->
+
+<!-- COMPLETE PAGE CONFIGURATION -->
+<script>
+    window.allData = {"reference":{"path":"kotlindoc/hooks","baseUrl":"https://intuit.github.io/hooks","fileName":"com/intuit/hooks/dsl/hooks","extension":"html","usePrettyUrl":true,"link":"https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/dsl/hooks"},"description":"","title":"Hooks"};
+</script>
+
+<!-- end:debug info -->
+
+
+
+<script>
+    window.site = {"orchidVersion":"0.21.1","baseUrl":"https://intuit.github.io/hooks","environment":"debug","version":"0.15.0"};
+</script>
+
+
+    <!-- start:inject meta-components [head] -->
+    
+
+        
+            
+        
+
+        
+            
+        
+    
+    <!-- end:inject meta-components [head] -->
+
+
+
+    <!-- start:inject meta-components [head] -->
+    
+
+        
+            
+        
+
+        
+            
+        
+    
+    <!-- end:inject meta-components [head] -->
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+<nav class="navbar is-spaced is-fixed-top is-dark" role="navigation" aria-label="main navigation">
+  <div class="container">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://intuit.github.io/hooks">
+        <img src="https://intuit.github.io/hooks/assets/media/hooks_multi-3d-dark-bg.svg" alt="Hooks">
+      </a>
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navMenu">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+    <div class="navbar-menu" id="navMenu">
+      <div class="navbar-start">
+        <form id="search-input" data-orchid-search>
+  <div class="field has-addons">
+    <div class="control text-control">
+      <input class="input" type="text" name="query" placeholder="Search Hooks docs...">
+
+      <div id="search-progress" data-orchid-search-progress style="display: none;">
+        <div class="loader">Loading...</div>
+      </div>
+    </div>
+    <div class="control">
+      <input type="submit" class="button is-info" value="Search">
+    </div>
+  </div>
+</form>
+<div id="search-results" data-orchid-search-results style="display: none;">
+  <div class="carat"></div>
+  <b>
+    Search Results
+    <i class="fa fa-times" aria-hidden="true" onclick="$('[data-orchid-search-results]').hide()"></i>
+  </b>
+  <ul></ul>
+</div>
+
+      </div>
+      <div class="navbar-end">
+
+      
+      
+        <a class="navbar-item" href="https://intuit.github.io/hooks">
+          <span class="icon has-text-info"><i class="fas fa-home"></i></span>
+          <span>Home</span>
+        </a>
+      
+      
+      
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">
+            <span class="icon has-text-info"><i class="fas fa-graduation-cap"></i></span>
+            <span>User Guide</span>
+          </a>
+          <div class="navbar-dropdown is-right">
+          
+            
+              <a class="navbar-item" href="https://intuit.github.io/hooks/wiki/getting-started">Getting Started</a>
+            
+          
+            
+              <a class="navbar-item" href="https://intuit.github.io/hooks/wiki/using-hooks">Using Hooks</a>
+            
+          
+            
+              <a class="navbar-item" href="https://intuit.github.io/hooks/wiki/key-concepts">Key Concepts</a>
+            
+          
+            
+              <a class="navbar-item" href="https://intuit.github.io/hooks/wiki/plugin-architecture">Plugin Architecture</a>
+            
+          
+          </div>
+        </div>
+      
+      
+      
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">
+            <span class="icon has-text-info"><i class="fas fa-book"></i></span>
+            <span>API</span>
+          </a>
+          <div class="navbar-dropdown is-right">
+          
+            
+              <a class="navbar-item" href="https://intuit.github.io/hooks/modules/hooks">Hooks Library</a>
+            
+          
+            
+              <hr class="navbar-divider">
+            
+          
+            
+              <a class="navbar-item" href="https://intuit.github.io/hooks/modules/gradle-plugin">Gradle Plugin</a>
+            
+          
+            
+              <a class="navbar-item" href="https://intuit.github.io/hooks/modules/processor">Hooks Processor</a>
+            
+          
+            
+              <a class="navbar-item" href="https://intuit.github.io/hooks/modules/maven-plugin">Maven Kotlin Extension</a>
+            
+          
+          </div>
+        </div>
+      
+      
+      
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">
+            <span class="icon has-text-info"><i class="fas fa-info-circle"></i></span>
+            <span>Information</span>
+          </a>
+          <div class="navbar-dropdown is-right">
+          
+            
+              <a class="navbar-item" href="https://intuit.github.io/hooks/changelog">Changelog</a>
+            
+          
+            
+              <a class="navbar-item" href="https://intuit.github.io/hooks/license">License</a>
+            
+          
+          </div>
+        </div>
+      
+      
+
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main class="section">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-10-desktop">
+      
+        
+<nav class="breadcrumb" aria-label="breadcrumbs">
+<ul>
+
+
+    <li><a href="https://intuit.github.io/hooks/modules/hooks">Hooks Library</a></li>
+
+
+
+    <li class="is-active"><a href="https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/dsl/hooks" aria-current="page">Hooks</a></li>
+
+
+</ul>
+</nav>
+
+
+        <div class="content is-medium">
+        
+    <!-- start:inject components -->
+    
+        
+            
+                
+                    
+                        <div class="sourcedoc-page orchid-sourcedoc content">
+  
+<div class="sourcedoc-section section-root section-level-1" id="Hooks">
+
+
+  
+
+  
+    <div class="sourcedoc-section section-element" id="94afc312a341bedd0c372269435e64ccdfaa5f81">
+      
+      <p class="sourcedoc-section section-signature">
+        <code>abstract class <a href="https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/dsl/hooks">Hooks</a>: Any</code>
+      </p>
+
+      
+        
+    <!-- start:inject components -->
+    
+    <!-- end:inject components -->
+
+
+      
+
+      <div class="sourcedoc-section section-comments"></div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-2" id="constructors">
+
+
+  <p class="sourcedoc-section section-name"><strong>Constructors</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="d4613aad3f43ed7d2b370aabe518d8516ff827ff">
+        <td class="sourcedoc-section section-signature">
+          <code>constructor()</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+          
+<div class="sourcedoc-section section-root section-level-2" id="methods">
+
+
+  
+    <h2 class="sourcedoc-section section-name">Methods</h2>
+  
+
+  
+    <div class="sourcedoc-section section-element" id="e97bee028562b10026bb39ad55a469ae545decc2">
+      
+      <h3 class="sourcedoc-section element-name">syncHook</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>protected fun &lt;F : Function&lt;*&gt;&gt; syncHook(): <a href="https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/synchook">SyncHook</a>&lt;*&gt;</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"></div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="201e3614ccc5cd34dcae20ae800c8635d222fb3e">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="2db4f9648332f5ebf253ad9450ed1df819d0e232">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/synchook">SyncHook</a>&lt;*&gt;</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="2439d5fb9b8d4d8a03b14ddedeb4d075d468b77e">
+      
+      <h3 class="sourcedoc-section element-name">syncBailHook</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>protected fun &lt;F : Function&lt;<a href="https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/bailresult">BailResult</a>&lt;*&gt;&gt;&gt; syncBailHook(): <a href="https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/syncbailhook">SyncBailHook</a>&lt;*, *&gt;</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"></div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="7d9cae8b7f0c4dd89cf26c10a74a3b2206fc14d8">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="6ea4286d053ca7d6bda75df844a4f05fb4a04c6c">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/syncbailhook">SyncBailHook</a>&lt;*, *&gt;</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="01722a598b1d5e1eacdf20b56b4ee9a2a363eee7">
+      
+      <h3 class="sourcedoc-section element-name">syncWaterfallHook</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>protected fun &lt;F : Function&lt;*&gt;&gt; syncWaterfallHook(): <a href="https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/syncwaterfallhook">SyncWaterfallHook</a>&lt;*, *&gt;</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"></div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="9e9274db16ff4bc721bb531cc95194afb9294c3d">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="ae90980e5873fa7be23db32d221f61277afe18c7">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/syncwaterfallhook">SyncWaterfallHook</a>&lt;*, *&gt;</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="455777b66950a34607c8b92ead5a0278263402ca">
+      
+      <h3 class="sourcedoc-section element-name">syncLoopHook</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>protected fun &lt;F : Function&lt;<a href="https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/loopresult">LoopResult</a>&gt;&gt; syncLoopHook(): <a href="https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/syncloophook">SyncLoopHook</a>&lt;*, *&gt;</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"></div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="aeee5791481b6ab7f4e1d74b153ddbbe9fbbfb20">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="c7d2d43ad73793a516cf28d95b4d45565dddcafe">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/syncloophook">SyncLoopHook</a>&lt;*, *&gt;</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="bc51486bcaccb246f911b63214fcb24e13fca0f7">
+      
+      <h3 class="sourcedoc-section element-name">asyncParallelHook</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>protected fun &lt;F : Function&lt;*&gt;&gt; asyncParallelHook(): <a href="https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/asyncparallelhook">AsyncParallelHook</a>&lt;*&gt;</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"></div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="65aabfcb74485de92c89cf640272cc082acf9150">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="520fd2cb80491b3bb210cba756b99e4578737162">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/asyncparallelhook">AsyncParallelHook</a>&lt;*&gt;</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="25114bd52ee9fff914babf6d9ecbff8fe3273aff">
+      
+      <h3 class="sourcedoc-section element-name">asyncParallelBailHook</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>protected fun &lt;F : Function&lt;<a href="https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/bailresult">BailResult</a>&lt;*&gt;&gt;&gt; asyncParallelBailHook(): <a href="https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/asyncparallelbailhook">AsyncParallelBailHook</a>&lt;*, *&gt;</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"></div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="e9fa5b838d7acf1ee53d6ba22152841707dd8bac">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="4d6152961f29e21b42c61e1606042885c74906c0">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/asyncparallelbailhook">AsyncParallelBailHook</a>&lt;*, *&gt;</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="7b45783d2273b498bb422e5795941d52bb0995d2">
+      
+      <h3 class="sourcedoc-section element-name">asyncSeriesHook</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>protected fun &lt;F : Function&lt;*&gt;&gt; asyncSeriesHook(): <a href="https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/asyncserieshook">AsyncSeriesHook</a>&lt;*&gt;</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"></div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="f1b7a5fe03c7e8d728e90ffac6892aa2ac944711">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="936e5cde9e60b118562abb3dd1c15c653b7634c6">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/asyncserieshook">AsyncSeriesHook</a>&lt;*&gt;</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="afbafecf61ec58c73f84d3d4da2f70ee42451dd4">
+      
+      <h3 class="sourcedoc-section element-name">asyncSeriesBailHook</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>protected fun &lt;F : Function&lt;<a href="https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/bailresult">BailResult</a>&lt;*&gt;&gt;&gt; asyncSeriesBailHook(): <a href="https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/asyncseriesbailhook">AsyncSeriesBailHook</a>&lt;*, *&gt;</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"></div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="b850c429e75f976972d2ea8de2845462673e488a">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="b026853ac3d686b242506fb6bf192c1da93aceb3">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/asyncseriesbailhook">AsyncSeriesBailHook</a>&lt;*, *&gt;</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="41e9be42ed4e5831607a38fb173ea2b88d7a737c">
+      
+      <h3 class="sourcedoc-section element-name">asyncSeriesWaterfallHook</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>protected fun &lt;F : Function&lt;*&gt;&gt; asyncSeriesWaterfallHook(): <a href="https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/asyncserieswaterfallhook">AsyncSeriesWaterfallHook</a>&lt;*, *&gt;</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"></div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="c4db55c35dc5466969c627a6a9bb2ffc4129b18a">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="3a028367e73a4d5b45269199fbb1e4f3e0791294">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/asyncserieswaterfallhook">AsyncSeriesWaterfallHook</a>&lt;*, *&gt;</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="65fcea212457634d333a365203053236feda69a9">
+      
+      <h3 class="sourcedoc-section element-name">asyncSeriesLoopHook</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>protected fun &lt;F : Function&lt;<a href="https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/loopresult">LoopResult</a>&gt;&gt; asyncSeriesLoopHook(): <a href="https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/asyncseriesloophook">AsyncSeriesLoopHook</a>&lt;*, *&gt;</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"></div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="e7d1834504d585fafebabdf16fa02eb8e839c6ff">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="7309f723c25524b1cbca85db06d3b3a324f45c6f">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/asyncseriesloophook">AsyncSeriesLoopHook</a>&lt;*, *&gt;</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+
+</div>
+
+        
+      
+    </div>
+  
+
+</div>
+
+</div>
+
+
+
+                    
+                
+            
+        
+    
+    <!-- end:inject components -->
+
+
+        </div>
+      
+      
+
+      </div>
+    </div>
+  </div>
+</main>
+<footer class="footer">
+  <div class="container">
+    <div class="columns">
+      <div class="column">
+        <p class="has-text-left-tablet has-text-centered-mobile">
+        
+          <a href="https://github.com/intuit/hooks/" class="button is-dark">
+            <span class="icon"><i class="fab fa-lg fa-github"></i></span>
+            <span>GitHub</span>
+          </a>
+        
+        </p>
+      </div>
+      <div class="column">
+        <p class="has-text-right-tablet has-text-centered-mobile">
+          <a href="https://bulma.io/">
+            <img
+              src="https://intuit.github.io/hooks/assets/media/made-with-bulma--semiblack.png"
+              alt="Bulma"
+              width="171"
+              height="32">
+          </a>
+          <a href="https://orchid.run/">
+            <img
+              src="https://intuit.github.io/hooks/assets/svg/orchid/logo_top_light.svg"
+              alt="Orchid 0.21.1"
+              width="64"
+              height="32">
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- start:inject scripts -->
+<script defer  src="https://use.fontawesome.com/releases/v5.4.0/js/all.js"></script>
+<script  src="https://intuit.github.io/hooks/HooksTheme/186090c8/assets/js/bulma.js"></script>
+<script  src="https://intuit.github.io/hooks/HooksTheme/186090c8/assets/js/bulma-accordion.min.js"></script>
+<script  src="https://intuit.github.io/hooks/HooksTheme/186090c8/assets/js/bulma-tabs.js"></script>
+<script  src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/prism.min.js"></script>
+<script  src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-java.min.js"></script>
+<script  src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-kotlin.min.js"></script>
+<script  src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-groovy.min.js"></script>
+<script  src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-yaml.min.js"></script>
+<script  src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-markup.min.js"></script>
+<script  src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script  src="https://unpkg.com/lunr/lunr.js"></script>
+<script  src="https://intuit.github.io/hooks/assets/js/orchidSearch.js"></script>
+<!-- end:inject scripts -->
+
+
+
+</body>
+</html>

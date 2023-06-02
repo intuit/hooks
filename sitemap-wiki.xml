@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>https://intuit.github.io/hooks/wiki</loc>
+        <lastmod>2023-06-02</lastmod>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://intuit.github.io/hooks/wiki/getting-started</loc>
+        <lastmod>2023-06-02</lastmod>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://intuit.github.io/hooks/wiki/using-hooks</loc>
+        <lastmod>2023-06-02</lastmod>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://intuit.github.io/hooks/wiki/key-concepts</loc>
+        <lastmod>2023-06-02</lastmod>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://intuit.github.io/hooks/wiki/plugin-architecture</loc>
+        <lastmod>2023-06-02</lastmod>
+        <priority>0.5</priority>
+    </url>
+</urlset>

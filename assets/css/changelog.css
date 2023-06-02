@@ -1,0 +1,6 @@
+.accordions .accordion .accordion-header {
+  background-color: #f5f5f5;
+  color: #363636; }
+
+.accordions .accordion .accordion-header + .accordion-body {
+  border: 0; }

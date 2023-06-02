@@ -1,0 +1,1291 @@
+<!doctype html>
+<html lang="en" class="has-spaced-navbar-fixed-top">
+<head>
+
+
+
+
+
+
+<meta charset="utf-8"/>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+<meta name="generator" content="Orchid 0.21.1"/>
+<link rel="icon" href="https://intuit.github.io/hooks/favicon.ico">
+
+
+<meta name="robots" content="index, follow">
+
+
+
+<title>Changelog</title>
+
+
+<meta name="description" content="Hooks is a little module for plugins, in Kotlin.">
+
+
+
+
+
+<!-- start:inject styles -->
+<link rel="stylesheet" type="text/css" href="https://intuit.github.io/hooks/HooksTheme/186090c8/assets/css/bulma.min.css"  />
+<link rel="stylesheet" type="text/css" href="https://intuit.github.io/hooks/HooksTheme/186090c8/assets/css/bulma-tooltip.css"  />
+<link rel="stylesheet" type="text/css" href="https://intuit.github.io/hooks/HooksTheme/186090c8/assets/css/bulma-accordion.min.css"  />
+<link rel="stylesheet" type="text/css" href="https://intuit.github.io/hooks/assets/css/changelog.css"  />
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/themes/prism-tomorrow.min.css"  />
+<link rel="stylesheet" type="text/css" href="https://intuit.github.io/hooks/assets/css/prismFixes.css"  />
+<link rel="stylesheet" type="text/css" href="https://intuit.github.io/hooks/assets/css/orchidSearch.css"  />
+<!-- end:inject styles -->
+
+
+
+
+
+<!-- start:debug info -->
+
+<!-- THEME -->
+<!-- Type: HooksTheme -->
+<!-- Class: com.intuit.hooks.docs.HooksTheme -->
+
+<!-- PAGE -->
+<!-- Type: staticPage -->
+<!-- Class: com.eden.orchid.pages.pages.StaticPage -->
+<!-- Layout: index -->
+<!-- Resolved Layout: templates/layouts/index.peb -->
+<!-- Page Template: staticPage, page -->
+<!-- Resolved Page Template: templates/pages/page.peb -->
+
+<!-- RESOURCE -->
+<!-- Class: com.eden.orchid.api.resources.resource.FileResource -->
+<!-- Source Filename: pages/changelog.md -->
+
+<!-- COMPLETE PAGE CONFIGURATION -->
+<script>
+    window.allData = {"reference":{"path":"","baseUrl":"https://intuit.github.io/hooks","fileName":"changelog","extension":"html","usePrettyUrl":true,"link":"https://intuit.github.io/hooks/changelog"},"description":"","title":"Changelog"};
+</script>
+
+<!-- end:debug info -->
+
+
+
+<script>
+    window.site = {"orchidVersion":"0.21.1","baseUrl":"https://intuit.github.io/hooks","environment":"debug","version":"0.15.0"};
+</script>
+
+
+    <!-- start:inject meta-components [head] -->
+    
+
+        
+            
+        
+
+        
+            
+        
+    
+    <!-- end:inject meta-components [head] -->
+
+
+
+    <!-- start:inject meta-components [head] -->
+    
+
+        
+            
+        
+
+        
+            
+        
+    
+    <!-- end:inject meta-components [head] -->
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+<nav class="navbar is-spaced is-fixed-top is-dark" role="navigation" aria-label="main navigation">
+  <div class="container">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://intuit.github.io/hooks">
+        <img src="https://intuit.github.io/hooks/assets/media/hooks_multi-3d-dark-bg.svg" alt="Hooks">
+      </a>
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navMenu">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+    <div class="navbar-menu" id="navMenu">
+      <div class="navbar-start">
+        <form id="search-input" data-orchid-search>
+  <div class="field has-addons">
+    <div class="control text-control">
+      <input class="input" type="text" name="query" placeholder="Search Hooks docs...">
+
+      <div id="search-progress" data-orchid-search-progress style="display: none;">
+        <div class="loader">Loading...</div>
+      </div>
+    </div>
+    <div class="control">
+      <input type="submit" class="button is-info" value="Search">
+    </div>
+  </div>
+</form>
+<div id="search-results" data-orchid-search-results style="display: none;">
+  <div class="carat"></div>
+  <b>
+    Search Results
+    <i class="fa fa-times" aria-hidden="true" onclick="$('[data-orchid-search-results]').hide()"></i>
+  </b>
+  <ul></ul>
+</div>
+
+      </div>
+      <div class="navbar-end">
+
+      
+      
+        <a class="navbar-item" href="https://intuit.github.io/hooks">
+          <span class="icon has-text-info"><i class="fas fa-home"></i></span>
+          <span>Home</span>
+        </a>
+      
+      
+      
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">
+            <span class="icon has-text-info"><i class="fas fa-graduation-cap"></i></span>
+            <span>User Guide</span>
+          </a>
+          <div class="navbar-dropdown is-right">
+          
+            
+              <a class="navbar-item" href="https://intuit.github.io/hooks/wiki/getting-started">Getting Started</a>
+            
+          
+            
+              <a class="navbar-item" href="https://intuit.github.io/hooks/wiki/using-hooks">Using Hooks</a>
+            
+          
+            
+              <a class="navbar-item" href="https://intuit.github.io/hooks/wiki/key-concepts">Key Concepts</a>
+            
+          
+            
+              <a class="navbar-item" href="https://intuit.github.io/hooks/wiki/plugin-architecture">Plugin Architecture</a>
+            
+          
+          </div>
+        </div>
+      
+      
+      
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">
+            <span class="icon has-text-info"><i class="fas fa-book"></i></span>
+            <span>API</span>
+          </a>
+          <div class="navbar-dropdown is-right">
+          
+            
+              <a class="navbar-item" href="https://intuit.github.io/hooks/modules/hooks">Hooks Library</a>
+            
+          
+            
+              <hr class="navbar-divider">
+            
+          
+            
+              <a class="navbar-item" href="https://intuit.github.io/hooks/modules/gradle-plugin">Gradle Plugin</a>
+            
+          
+            
+              <a class="navbar-item" href="https://intuit.github.io/hooks/modules/processor">Hooks Processor</a>
+            
+          
+            
+              <a class="navbar-item" href="https://intuit.github.io/hooks/modules/maven-plugin">Maven Kotlin Extension</a>
+            
+          
+          </div>
+        </div>
+      
+      
+      
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">
+            <span class="icon has-text-info"><i class="fas fa-info-circle"></i></span>
+            <span>Information</span>
+          </a>
+          <div class="navbar-dropdown is-right">
+          
+            
+              <a class="navbar-item" href="https://intuit.github.io/hooks/changelog">Changelog</a>
+            
+          
+            
+              <a class="navbar-item" href="https://intuit.github.io/hooks/license">License</a>
+            
+          
+          </div>
+        </div>
+      
+      
+
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main class="section">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-10-desktop">
+      
+        
+<nav class="breadcrumb" aria-label="breadcrumbs">
+<ul>
+
+
+    <li class="is-active"><a href="https://intuit.github.io/hooks/changelog" aria-current="page">Changelog</a></li>
+
+
+</ul>
+</nav>
+
+
+        <div class="content is-medium">
+        
+    <!-- start:inject components -->
+    
+        
+            
+                
+                    
+                        <div class="component component-changelog component-order-0">
+                            <h1>Changelog</h1>
+<section class="accordions" id="changelog">
+  
+    <div class="card accordion">
+      <header class="is-light accordion-header toggle">
+        <h2 class="title is-4">0.15.0
+        <p class="subtitle is-6">
+          <time datetime="Fri Jun 02 2023">Fri Jun 02 2023</time>
+        </p></h2>
+          <span class="icon is-medium is-light">
+            <i class="fas fa-angle-down" aria-hidden="true"></i>
+          </span>
+      </header>
+      <div class="accordion-body">
+        <div class="content accordion-content"><p>:tada: This release contains work from a new contributor! :tada:</p>
+<p>Thank you, null<a href="https://github.com/brocollie08">@brocollie08</a>, for all your work!</p>
+<h3 id="release-notes"><a href="#release-notes" id="release-notes" class="anchor"></a>Release Notes</h3>
+<h4 id="bailhook-default-handler-33"><a href="#bailhook-default-handler-33" id="bailhook-default-handler-33" class="anchor"></a>BailHook default handler (<a href="https://github.com/intuit/hooks/pull/33">#33</a>)</h4>
+<p>Allows for <code>SyncBailHook</code> to call with a default handler for when the taps do not bail and return nothing</p>
+<hr />
+<h4 id="-enhancement"><a href="#-enhancement" id="-enhancement" class="anchor"></a>🚀 Enhancement</h4>
+<ul>
+<li>BailHook default handler <a href="https://github.com/intuit/hooks/pull/33">#33</a> (<a href="https://github.com/brocollie08">@brocollie08</a>)</li>
+</ul>
+<h4 id="authors-1"><a href="#authors-1" id="authors-1" class="anchor"></a>Authors: 1</h4>
+<ul>
+<li><a href="https://github.com/brocollie08">@brocollie08</a></li>
+</ul>
+<hr />
+</div>
+      </div>
+    </div>
+    <br>
+  
+    <div class="card accordion">
+      <header class="is-light accordion-header toggle">
+        <h2 class="title is-4">0.14.1
+        <p class="subtitle is-6">
+          <time datetime="Tue Dec 06 2022">Tue Dec 06 2022</time>
+        </p></h2>
+          <span class="icon is-medium is-light">
+            <i class="fas fa-angle-down" aria-hidden="true"></i>
+          </span>
+      </header>
+      <div class="accordion-body">
+        <div class="content accordion-content"><h4 id="-pushed-to-main"><a href="#-pushed-to-main" id="-pushed-to-main" class="anchor"></a>⚠️ Pushed to <code>main</code></h4>
+<ul>
+<li>fix ci (<a href="https://github.com/sugarmanz">@sugarmanz</a>)</li>
+</ul>
+<h4 id="authors-1"><a href="#authors-1" id="authors-1" class="anchor"></a>Authors: 1</h4>
+<ul>
+<li>Jeremiah Zucker (<a href="https://github.com/sugarmanz">@sugarmanz</a>)</li>
+</ul>
+<hr />
+</div>
+      </div>
+    </div>
+    <br>
+  
+    <div class="card accordion">
+      <header class="is-light accordion-header toggle">
+        <h2 class="title is-4">0.14.0
+        <p class="subtitle is-6">
+          <time datetime="Mon Dec 05 2022">Mon Dec 05 2022</time>
+        </p></h2>
+          <span class="icon is-medium is-light">
+            <i class="fas fa-angle-down" aria-hidden="true"></i>
+          </span>
+      </header>
+      <div class="accordion-body">
+        <div class="content accordion-content"><h3 id="release-notes"><a href="#release-notes" id="release-notes" class="anchor"></a>Release Notes</h3>
+<h4 id="make-tap-info-mutable-31"><a href="#make-tap-info-mutable-31" id="make-tap-info-mutable-31" class="anchor"></a>make tap info mutable (<a href="https://github.com/intuit/hooks/pull/31">#31</a>)</h4>
+<p>Add <code>data class</code> APIs to <code>TapInfo</code> such that it can be mutated.</p>
+<h4 id="scope-version-properties-to-avoid-conflicts-30"><a href="#scope-version-properties-to-avoid-conflicts-30" id="scope-version-properties-to-avoid-conflicts-30" class="anchor"></a>scope version properties to avoid conflicts (<a href="https://github.com/intuit/hooks/pull/30">#30</a>)</h4>
+<p>Scope metadata b/c it was conflicting w/ another Gradle plugin</p>
+<hr />
+<h4 id="-enhancement"><a href="#-enhancement" id="-enhancement" class="anchor"></a>🚀 Enhancement</h4>
+<ul>
+<li>make tap info mutable <a href="https://github.com/intuit/hooks/pull/31">#31</a> (<a href="https://github.com/sugarmanz">@sugarmanz</a>)</li>
+</ul>
+<h4 id="-bug-fix"><a href="#-bug-fix" id="-bug-fix" class="anchor"></a>🐛 Bug Fix</h4>
+<ul>
+<li>scope version properties to avoid conflicts <a href="https://github.com/intuit/hooks/pull/30">#30</a> (<a href="https://github.com/sugarmanz">@sugarmanz</a>)</li>
+</ul>
+<h4 id="authors-1"><a href="#authors-1" id="authors-1" class="anchor"></a>Authors: 1</h4>
+<ul>
+<li>Jeremiah Zucker (<a href="https://github.com/sugarmanz">@sugarmanz</a>)</li>
+</ul>
+<hr />
+</div>
+      </div>
+    </div>
+    <br>
+  
+    <div class="card accordion">
+      <header class="is-light accordion-header toggle">
+        <h2 class="title is-4">0.13.0
+        <p class="subtitle is-6">
+          <time datetime="Sat Jul 09 2022">Sat Jul 09 2022</time>
+        </p></h2>
+          <span class="icon is-medium is-light">
+            <i class="fas fa-angle-down" aria-hidden="true"></i>
+          </span>
+      </header>
+      <div class="accordion-body">
+        <div class="content accordion-content"><h3 id="release-notes"><a href="#release-notes" id="release-notes" class="anchor"></a>Release Notes</h3>
+<h4 id="new-hooks-dsl-29"><a href="#new-hooks-dsl-29" id="new-hooks-dsl-29" class="anchor"></a>New Hooks DSL (<a href="https://github.com/intuit/hooks/pull/29">#29</a>)</h4>
+<p>💥 <strong>Breaking Change</strong> 💥</p>
+<p>Relax typing specification when using the DSL. Hooks should always use the <code>Hook</code> superclass as the specified type and rely solely on the annotation to specify the actual constraints of the hook:</p>
+<pre><code class="language-kotlin">abstract class CarHooks : Hooks() {
+    @Sync&lt;() -&gt; Unit&gt;
+    abstract val brake: Hook
+    
+    @Sync&lt;(newSpeed: Int) -&gt; Unit&gt;
+    abstract val accelerate: Hook
+}
+</code></pre>
+<hr />
+<h4 id="-enhancement"><a href="#-enhancement" id="-enhancement" class="anchor"></a>🚀 Enhancement</h4>
+<ul>
+<li>New Hooks DSL <a href="https://github.com/intuit/hooks/pull/29">#29</a> (<a href="https://github.com/stabbylambda">@stabbylambda</a>)</li>
+</ul>
+<h4 id="authors-1"><a href="#authors-1" id="authors-1" class="anchor"></a>Authors: 1</h4>
+<ul>
+<li>David Stone (<a href="https://github.com/stabbylambda">@stabbylambda</a>)</li>
+</ul>
+<hr />
+</div>
+      </div>
+    </div>
+    <br>
+  
+    <div class="card accordion">
+      <header class="is-light accordion-header toggle">
+        <h2 class="title is-4">0.12.1
+        <p class="subtitle is-6">
+          <time datetime="Sat Jul 09 2022">Sat Jul 09 2022</time>
+        </p></h2>
+          <span class="icon is-medium is-light">
+            <i class="fas fa-angle-down" aria-hidden="true"></i>
+          </span>
+      </header>
+      <div class="accordion-body">
+        <div class="content accordion-content"><h4 id="-bug-fix"><a href="#-bug-fix" id="-bug-fix" class="anchor"></a>🐛 Bug Fix</h4>
+<ul>
+<li>Switch to KotlinPoet Code Generation <a href="https://github.com/intuit/hooks/pull/28">#28</a> (<a href="https://github.com/sugarmanz">@sugarmanz</a> <a href="https://github.com/stabbylambda">@stabbylambda</a>)</li>
+</ul>
+<h4 id="authors-2"><a href="#authors-2" id="authors-2" class="anchor"></a>Authors: 2</h4>
+<ul>
+<li>David Stone (<a href="https://github.com/stabbylambda">@stabbylambda</a>)</li>
+<li>Jeremiah Zucker (<a href="https://github.com/sugarmanz">@sugarmanz</a>)</li>
+</ul>
+<hr />
+</div>
+      </div>
+    </div>
+    <br>
+  
+    <div class="card accordion">
+      <header class="is-light accordion-header toggle">
+        <h2 class="title is-4">0.12.0
+        <p class="subtitle is-6">
+          <time datetime="Thu Jun 23 2022">Thu Jun 23 2022</time>
+        </p></h2>
+          <span class="icon is-medium is-light">
+            <i class="fas fa-angle-down" aria-hidden="true"></i>
+          </span>
+      </header>
+      <div class="accordion-body">
+        <div class="content accordion-content"><h3 id="release-notes"><a href="#release-notes" id="release-notes" class="anchor"></a>Release Notes</h3>
+<h4 id="migrate-from-arrow-meta-to-kotlin-symbol-processor-24"><a href="#migrate-from-arrow-meta-to-kotlin-symbol-processor-24" id="migrate-from-arrow-meta-to-kotlin-symbol-processor-24" class="anchor"></a>Migrate from Arrow Meta to Kotlin Symbol Processor (<a href="https://github.com/intuit/hooks/pull/24">#24</a>)</h4>
+<p>💥 <strong>This is a breaking change</strong> 💥</p>
+<p>Migration to KSP from Arrow Meta because they dropped support for source generation. This does improve the overall maturity of the codegen module (<code>compiler-plugin</code> -&gt; <code>processor</code>). However, the KSP framework doesn't support the code typing introspection that we were doing in Arrow Meta. Instead, we have to rely strictly on typings and annotations, which changes the DSL we originally had.</p>
+<pre><code class="language-kotlin">internal abstract class GenericHooks : Hooks() {
+    @Sync&lt;(newSpeed: Int) -&gt; Unit&gt; abstract val sync: SyncHook&lt;*&gt;
+    @SyncBail&lt;(Boolean) -&gt; BailResult&lt;Int&gt;&gt; abstract val syncBail: SyncBailHook&lt;*, *&gt;
+    @SyncLoop&lt;(foo: Boolean) -&gt; LoopResult&gt; abstract val syncLoop: SyncLoopHook&lt;*, *&gt;
+    @SyncWaterfall&lt;(name: String) -&gt; String&gt; abstract val syncWaterfall: SyncWaterfallHook&lt;*, *&gt;
+    @AsyncParallelBail&lt;suspend (String) -&gt; BailResult&lt;String&gt;&gt; abstract val asyncParallelBail: AsyncParallelBailHook&lt;*, *&gt;
+    @AsyncParallel&lt;suspend (String) -&gt; Int&gt; abstract val asyncParallel: AsyncParallelHook&lt;*&gt;
+    @AsyncSeries&lt;suspend (String) -&gt; Int&gt; abstract val asyncSeries: AsyncSeriesHook&lt;*&gt;
+    @AsyncSeriesBail&lt;suspend (String) -&gt; BailResult&lt;String&gt;&gt; abstract val asyncSeriesBail: AsyncSeriesBailHook&lt;*, *&gt;
+    @AsyncSeriesLoop&lt;suspend (String) -&gt; LoopResult&gt; abstract val asyncSeriesLoop: AsyncSeriesLoopHook&lt;*, *&gt;
+    @AsyncSeriesWaterfall&lt;suspend (String) -&gt; String&gt; abstract val asyncSeriesWaterfall: AsyncSeriesWaterfallHook&lt;*, *&gt;
+}
+</code></pre>
+<hr />
+<h4 id="-enhancement"><a href="#-enhancement" id="-enhancement" class="anchor"></a>🚀 Enhancement</h4>
+<ul>
+<li>Migrate from Arrow Meta to Kotlin Symbol Processor <a href="https://github.com/intuit/hooks/pull/24">#24</a> (<a href="https://github.com/sugarmanz">@sugarmanz</a>)</li>
+</ul>
+<h4 id="-pushed-to-main"><a href="#-pushed-to-main" id="-pushed-to-main" class="anchor"></a>⚠️ Pushed to <code>main</code></h4>
+<ul>
+<li>forgot this for shot in the dark (<a href="https://github.com/sugarmanz">@sugarmanz</a>)</li>
+<li>more reversions (<a href="https://github.com/sugarmanz">@sugarmanz</a>)</li>
+<li>revert breaking build changes (<a href="https://github.com/sugarmanz">@sugarmanz</a>)</li>
+<li>shot in the dark (<a href="https://github.com/sugarmanz">@sugarmanz</a>)</li>
+<li>try to fix gradle crashing on release (<a href="https://github.com/sugarmanz">@sugarmanz</a>)</li>
+</ul>
+<h4 id="authors-1"><a href="#authors-1" id="authors-1" class="anchor"></a>Authors: 1</h4>
+<ul>
+<li>Jeremiah Zucker (<a href="https://github.com/sugarmanz">@sugarmanz</a>)</li>
+</ul>
+<hr />
+</div>
+      </div>
+    </div>
+    <br>
+  
+    <div class="card accordion">
+      <header class="is-light accordion-header toggle">
+        <h2 class="title is-4">0.11.1
+        <p class="subtitle is-6">
+          <time datetime="Wed Nov 03 2021">Wed Nov 03 2021</time>
+        </p></h2>
+          <span class="icon is-medium is-light">
+            <i class="fas fa-angle-down" aria-hidden="true"></i>
+          </span>
+      </header>
+      <div class="accordion-body">
+        <div class="content accordion-content"><h3 id="release-notes"><a href="#release-notes" id="release-notes" class="anchor"></a>Release Notes</h3>
+<h4 id="add-explicit-visibility-to-satisfy-kotlin-explicit-api-check-20"><a href="#add-explicit-visibility-to-satisfy-kotlin-explicit-api-check-20" id="add-explicit-visibility-to-satisfy-kotlin-explicit-api-check-20" class="anchor"></a>Add explicit visibility to satisfy Kotlin explicit API check (<a href="https://github.com/intuit/hooks/pull/20">#20</a>)</h4>
+<p>Generated source code will adhere to Kotlin explicit API check if hooks are <code>public</code>.</p>
+<hr />
+<h4 id="-bug-fix"><a href="#-bug-fix" id="-bug-fix" class="anchor"></a>🐛 Bug Fix</h4>
+<ul>
+<li>Add explicit visibility to satisfy Kotlin explicit API check <a href="https://github.com/intuit/hooks/pull/20">#20</a> (<a href="https://github.com/sugarmanz">@sugarmanz</a>)</li>
+</ul>
+<h4 id="authors-1"><a href="#authors-1" id="authors-1" class="anchor"></a>Authors: 1</h4>
+<ul>
+<li>Jeremiah Zucker (<a href="https://github.com/sugarmanz">@sugarmanz</a>)</li>
+</ul>
+<hr />
+</div>
+      </div>
+    </div>
+    <br>
+  
+    <div class="card accordion">
+      <header class="is-light accordion-header toggle">
+        <h2 class="title is-4">0.11.0
+        <p class="subtitle is-6">
+          <time datetime="Wed Oct 27 2021">Wed Oct 27 2021</time>
+        </p></h2>
+          <span class="icon is-medium is-light">
+            <i class="fas fa-angle-down" aria-hidden="true"></i>
+          </span>
+      </header>
+      <div class="accordion-body">
+        <div class="content accordion-content"><h3 id="release-notes"><a href="#release-notes" id="release-notes" class="anchor"></a>Release Notes</h3>
+<h4 id="untap-support--various-fixes-19"><a href="#untap-support--various-fixes-19" id="untap-support--various-fixes-19" class="anchor"></a>Untap support &amp; various fixes (<a href="https://github.com/intuit/hooks/pull/19">#19</a>)</h4>
+<h3 id="small-fixes"><a href="#small-fixes" id="small-fixes" class="anchor"></a>Small fixes</h3>
+<ul>
+<li>Fix Gradle generation params</li>
+<li>Modify async hook strategy to not take a scope, as this is already required to call the <code>suspend</code> method</li>
+<li>Fix <code>AsyncParallelHook</code> to actually suspend properly until all callbacks complete</li>
+<li>Replace mutable list containing <code>TapInfo</code> with a mutable <code>var</code> containing an immutable list (this fixes an issue when tapping a hook that is currently being called: <code>ConcurrentModificationException</code>)</li>
+</ul>
+<h3 id="untapping"><a href="#untapping" id="untapping" class="anchor"></a>Untapping</h3>
+<p>In order to allow calling sites to unregister stale callbacks and prevent memory leaks, the <code>tap</code> API now returns a <code>String</code> representing the ID of the specific &quot;tap&quot;. The ID can then be passed into the new <code>untap</code> API to remove the callback from the hook. This ID can be randomly generated or manually passed when tapping a hook. Manually passing an ID is useful for when the tapper wants to replace a stale callback without calling needing to <code>untap</code> explicitly.</p>
+<hr />
+<h4 id="-enhancement"><a href="#-enhancement" id="-enhancement" class="anchor"></a>🚀 Enhancement</h4>
+<h4 id="authors-1"><a href="#authors-1" id="authors-1" class="anchor"></a>Authors: 1</h4>
+<ul>
+<li>Jeremiah Zucker (<a href="https://github.com/sugarmanz">@sugarmanz</a>)</li>
+</ul>
+<hr />
+</div>
+      </div>
+    </div>
+    <br>
+  
+    <div class="card accordion">
+      <header class="is-light accordion-header toggle">
+        <h2 class="title is-4">0.10.2
+        <p class="subtitle is-6">
+          <time datetime="Thu Oct 07 2021">Thu Oct 07 2021</time>
+        </p></h2>
+          <span class="icon is-medium is-light">
+            <i class="fas fa-angle-down" aria-hidden="true"></i>
+          </span>
+      </header>
+      <div class="accordion-body">
+        <div class="content accordion-content"><h3 id="release-notes"><a href="#release-notes" id="release-notes" class="anchor"></a>Release Notes</h3>
+<h4 id="format-generated-source-with-ktlint-18"><a href="#format-generated-source-with-ktlint-18" id="format-generated-source-with-ktlint-18" class="anchor"></a>Format generated source with KtLint (<a href="https://github.com/intuit/hooks/pull/18">#18</a>)</h4>
+<h2 id="what-changed"><a href="#what-changed" id="what-changed" class="anchor"></a>What Changed</h2>
+<p>Format generated source with KtLint</p>
+</div>
+      </div>
+    </div>
+    <br>
+  
+    <div class="card accordion">
+      <header class="is-light accordion-header toggle">
+        <h2 class="title is-4">0.10.1
+        <p class="subtitle is-6">
+          <time datetime="Thu Oct 07 2021">Thu Oct 07 2021</time>
+        </p></h2>
+          <span class="icon is-medium is-light">
+            <i class="fas fa-angle-down" aria-hidden="true"></i>
+          </span>
+      </header>
+      <div class="accordion-body">
+        <div class="content accordion-content"><h3 id="release-notes"><a href="#release-notes" id="release-notes" class="anchor"></a>Release Notes</h3>
+<h4 id="manually-bump-version-snapshot-17"><a href="#manually-bump-version-snapshot-17" id="manually-bump-version-snapshot-17" class="anchor"></a>manually bump version snapshot (<a href="https://github.com/intuit/hooks/pull/17">#17</a>)</h4>
+<hr />
+<h4 id="-bug-fix"><a href="#-bug-fix" id="-bug-fix" class="anchor"></a>🐛 Bug Fix</h4>
+<ul>
+<li>manually bump version snapshot <a href="https://github.com/intuit/hooks/pull/17">#17</a> (<a href="https://github.com/sugarmanz">@sugarmanz</a>)</li>
+<li>enhance class name and path generation strategy <a href="https://github.com/intuit/hooks/pull/17">#17</a> (<a href="https://github.com/sugarmanz">@sugarmanz</a>)</li>
+<li>enhance hooks dsl detection and change example to use nested class <a href="https://github.com/intuit/hooks/pull/17">#17</a> (<a href="https://github.com/sugarmanz">@sugarmanz</a>)</li>
+<li>use fully qualified path for superclass <a href="https://github.com/intuit/hooks/pull/17">#17</a> (<a href="https://github.com/sugarmanz">@sugarmanz</a>)</li>
+</ul>
+<h4 id="authors-1"><a href="#authors-1" id="authors-1" class="anchor"></a>Authors: 1</h4>
+<ul>
+<li>Jeremiah Zucker (<a href="https://github.com/sugarmanz">@sugarmanz</a>)</li>
+</ul>
+<hr />
+</div>
+      </div>
+    </div>
+    <br>
+  
+    <div class="card accordion">
+      <header class="is-light accordion-header toggle">
+        <h2 class="title is-4">0.10.0
+        <p class="subtitle is-6">
+          <time datetime="Wed Oct 06 2021">Wed Oct 06 2021</time>
+        </p></h2>
+          <span class="icon is-medium is-light">
+            <i class="fas fa-angle-down" aria-hidden="true"></i>
+          </span>
+      </header>
+      <div class="accordion-body">
+        <div class="content accordion-content"><h3 id="release-notes"><a href="#release-notes" id="release-notes" class="anchor"></a>Release Notes</h3>
+<h4 id="upgrade-to-arrow-100-and-fix-generated-sources-root-15"><a href="#upgrade-to-arrow-100-and-fix-generated-sources-root-15" id="upgrade-to-arrow-100-and-fix-generated-sources-root-15" class="anchor"></a>upgrade to arrow 1.0.0 and fix generated sources root (<a href="https://github.com/intuit/hooks/pull/15">#15</a>)</h4>
+<ul>
+<li>Upgrade to Arrow 1.0.0</li>
+<li>Fixed issue where JAR bundling was somehow causing the plugin options to be dropped</li>
+</ul>
+<hr />
+<h4 id="-enhancement"><a href="#-enhancement" id="-enhancement" class="anchor"></a>🚀 Enhancement</h4>
+<ul>
+<li>upgrade to arrow 1.0.0 and fix generated sources root <a href="https://github.com/intuit/hooks/pull/15">#15</a> (<a href="https://github.com/sugarmanz">@sugarmanz</a>)</li>
+</ul>
+<h4 id="authors-1"><a href="#authors-1" id="authors-1" class="anchor"></a>Authors: 1</h4>
+<ul>
+<li>Jeremiah Zucker (<a href="https://github.com/sugarmanz">@sugarmanz</a>)</li>
+</ul>
+<hr />
+</div>
+      </div>
+    </div>
+    <br>
+  
+    <div class="card accordion">
+      <header class="is-light accordion-header toggle">
+        <h2 class="title is-4">0.9.1
+        <p class="subtitle is-6">
+          <time datetime="Mon May 10 2021">Mon May 10 2021</time>
+        </p></h2>
+          <span class="icon is-medium is-light">
+            <i class="fas fa-angle-down" aria-hidden="true"></i>
+          </span>
+      </header>
+      <div class="accordion-body">
+        <div class="content accordion-content"><h4 id="-bug-fix"><a href="#-bug-fix" id="-bug-fix" class="anchor"></a>🐛 Bug Fix</h4>
+<ul>
+<li>Upgrade to Kotlin 1.5 <a href="https://github.com/intuit/hooks/pull/13">#13</a> (<a href="https://github.com/stabbylambda">@stabbylambda</a>)</li>
+</ul>
+<h4 id="-pushed-to-main"><a href="#-pushed-to-main" id="-pushed-to-main" class="anchor"></a>⚠️ Pushed to <code>main</code></h4>
+<ul>
+<li>rename master to main (jeremiah_zucker@intuit.com)</li>
+</ul>
+<h4 id="-internal"><a href="#-internal" id="-internal" class="anchor"></a>🏠 Internal</h4>
+<ul>
+<li>Upgrade binary compatibility tool to 0.5.0 <a href="https://github.com/intuit/hooks/pull/14">#14</a> (jeremiah_zucker@intuit.com)</li>
+<li>Setup Auto for Canary and Next <a href="https://github.com/intuit/hooks/pull/12">#12</a> (jeremiah_zucker@intuit.com)</li>
+</ul>
+<h4 id="authors-2"><a href="#authors-2" id="authors-2" class="anchor"></a>Authors: 2</h4>
+<ul>
+<li>David Stone (<a href="https://github.com/stabbylambda">@stabbylambda</a>)</li>
+<li>Jeremiah Zucker (<a href="https://github.com/sugarmanz">@sugarmanz</a>)</li>
+</ul>
+<hr />
+</div>
+      </div>
+    </div>
+    <br>
+  
+    <div class="card accordion">
+      <header class="is-light accordion-header toggle">
+        <h2 class="title is-4">0.9.0
+        <p class="subtitle is-6">
+          <time datetime="Wed Mar 17 2021">Wed Mar 17 2021</time>
+        </p></h2>
+          <span class="icon is-medium is-light">
+            <i class="fas fa-angle-down" aria-hidden="true"></i>
+          </span>
+      </header>
+      <div class="accordion-body">
+        <div class="content accordion-content"><p>:tada: This release contains work from a new contributor! :tada:</p>
+<p>Thank you, David Stone (<a href="https://github.com/stabbylambda">@stabbylambda</a>), for all your work!</p>
+<h3 id="release-notes"><a href="#release-notes" id="release-notes" class="anchor"></a>Release Notes</h3>
+<h4 id="hooks-with-type-parameters-8"><a href="#hooks-with-type-parameters-8" id="hooks-with-type-parameters-8" class="anchor"></a>Hooks with type parameters (<a href="https://github.com/intuit/hooks/pull/8">#8</a>)</h4>
+<p>Enhance DSL to adds the ability to generate Hooks with type parameters. The use case for this is when some piece of data is known only to the consumer of a library and the consumers of the taps, but not necessarily the library itself. As an example:</p>
+<pre><code class="language-kotlin">class FooHooks&lt;T&gt; : Hooks() {
+    open val beforeCalc = syncHook&lt;(T) -&gt; Unit&gt;()
+}
+
+data class Foo&lt;T&gt;(val t: T)  {
+    public val hooks = FooHooksImpl&lt;T&gt;()
+
+    fun calc() {
+        hooks.beforeCalc.call(t)
+        // ...
+    }
+}
+
+fun runCalcsWithLog() {
+    val f = Foo&lt;String&gt;(&quot;hi&quot;)
+    f.hooks.beforeCalc.tap(&quot;hi&quot;) { x -&gt; println(x) }
+}
+</code></pre>
+<hr />
+<h4 id="-enhancement"><a href="#-enhancement" id="-enhancement" class="anchor"></a>🚀 Enhancement</h4>
+<ul>
+<li>Hooks with type parameters <a href="https://github.com/intuit/hooks/pull/8">#8</a> (<a href="https://github.com/stabbylambda">@stabbylambda</a>)</li>
+</ul>
+<h4 id="-bug-fix"><a href="#-bug-fix" id="-bug-fix" class="anchor"></a>🐛 Bug Fix</h4>
+<ul>
+<li>Update to use Typed Quotes <a href="https://github.com/intuit/hooks/pull/7">#7</a> (<a href="https://github.com/stabbylambda">@stabbylambda</a>)</li>
+</ul>
+<h4 id="-documentation"><a href="#-documentation" id="-documentation" class="anchor"></a>📝 Documentation</h4>
+<ul>
+<li>update docs for gradle plugin portal <a href="https://github.com/intuit/hooks/pull/6">#6</a> (<a href="https://github.com/sugarmanz">@sugarmanz</a>)</li>
+</ul>
+<h4 id="authors-2"><a href="#authors-2" id="authors-2" class="anchor"></a>Authors: 2</h4>
+<ul>
+<li>David Stone (<a href="https://github.com/stabbylambda">@stabbylambda</a>)</li>
+<li>Jeremiah Zucker (<a href="https://github.com/sugarmanz">@sugarmanz</a>)</li>
+</ul>
+<hr />
+</div>
+      </div>
+    </div>
+    <br>
+  
+    <div class="card accordion">
+      <header class="is-light accordion-header toggle">
+        <h2 class="title is-4">0.8.2
+        <p class="subtitle is-6">
+          <time datetime="Tue Mar 02 2021">Tue Mar 02 2021</time>
+        </p></h2>
+          <span class="icon is-medium is-light">
+            <i class="fas fa-angle-down" aria-hidden="true"></i>
+          </span>
+      </header>
+      <div class="accordion-body">
+        <div class="content accordion-content"><h4 id="-bug-fix"><a href="#-bug-fix" id="-bug-fix" class="anchor"></a>🐛 Bug Fix</h4>
+<ul>
+<li>Publish to Gradle Plugin Portal <a href="https://github.com/intuit/hooks/pull/5">#5</a> (<a href="https://github.com/sugarmanz">@sugarmanz</a>)</li>
+</ul>
+<h4 id="authors-1"><a href="#authors-1" id="authors-1" class="anchor"></a>Authors: 1</h4>
+<ul>
+<li>Jeremiah Zucker (<a href="https://github.com/sugarmanz">@sugarmanz</a>)</li>
+</ul>
+<hr />
+</div>
+      </div>
+    </div>
+    <br>
+  
+    <div class="card accordion">
+      <header class="is-light accordion-header toggle">
+        <h2 class="title is-4">0.8.1
+        <p class="subtitle is-6">
+          <time datetime="Tue Mar 02 2021">Tue Mar 02 2021</time>
+        </p></h2>
+          <span class="icon is-medium is-light">
+            <i class="fas fa-angle-down" aria-hidden="true"></i>
+          </span>
+      </header>
+      <div class="accordion-body">
+        <div class="content accordion-content"><h4 id="-pushed-to-master"><a href="#-pushed-to-master" id="-pushed-to-master" class="anchor"></a>⚠️ Pushed to <code>master</code></h4>
+<ul>
+<li>Fix orchid deploy (<a href="https://github.com/sugarmanz">@sugarmanz</a>)</li>
+</ul>
+<h4 id="authors-1"><a href="#authors-1" id="authors-1" class="anchor"></a>Authors: 1</h4>
+<ul>
+<li>Jeremiah Zucker (<a href="https://github.com/sugarmanz">@sugarmanz</a>)</li>
+</ul>
+<hr />
+</div>
+      </div>
+    </div>
+    <br>
+  
+    <div class="card accordion">
+      <header class="is-light accordion-header toggle">
+        <h2 class="title is-4">0.8.0
+        <p class="subtitle is-6">
+          <time datetime="Tue Mar 02 2021">Tue Mar 02 2021</time>
+        </p></h2>
+          <span class="icon is-medium is-light">
+            <i class="fas fa-angle-down" aria-hidden="true"></i>
+          </span>
+      </header>
+      <div class="accordion-body">
+        <div class="content accordion-content"><h4 id="-enhancement"><a href="#-enhancement" id="-enhancement" class="anchor"></a>🚀 Enhancement</h4>
+<ul>
+<li>Finalize publishing and fix links <a href="https://github.com/intuit/hooks/pull/4">#4</a> (<a href="https://github.com/sugarmanz">@sugarmanz</a>)</li>
+</ul>
+<h4 id="authors-1"><a href="#authors-1" id="authors-1" class="anchor"></a>Authors: 1</h4>
+<ul>
+<li>Jeremiah Zucker (<a href="https://github.com/sugarmanz">@sugarmanz</a>)</li>
+</ul>
+<hr />
+</div>
+      </div>
+    </div>
+    <br>
+  
+    <div class="card accordion">
+      <header class="is-light accordion-header toggle">
+        <h2 class="title is-4">0.7.4
+        <p class="subtitle is-6">
+          <time datetime="Tue Mar 02 2021">Tue Mar 02 2021</time>
+        </p></h2>
+          <span class="icon is-medium is-light">
+            <i class="fas fa-angle-down" aria-hidden="true"></i>
+          </span>
+      </header>
+      <div class="accordion-body">
+        <div class="content accordion-content"><p>:tada: This release contains work from new contributors! :tada:</p>
+<p>Thanks for all your work!</p>
+<p>:heart: Jeremiah Zucker (<a href="https://github.com/sugarmanz">@sugarmanz</a>)</p>
+<p>:heart: Andrew Lisowski (<a href="https://github.com/hipstersmoothie">@hipstersmoothie</a>)</p>
+<h4 id="-bug-fix"><a href="#-bug-fix" id="-bug-fix" class="anchor"></a>🐛 Bug Fix</h4>
+<ul>
+<li>test signing first <a href="https://github.com/intuit/hooks/pull/3">#3</a> (<a href="https://github.com/sugarmanz">@sugarmanz</a>)</li>
+<li>Configure CI <a href="https://github.com/intuit/hooks/pull/2">#2</a> (<a href="https://github.com/sugarmanz">@sugarmanz</a>)</li>
+<li>migrate links <a href="https://github.com/intuit/hooks/pull/1">#1</a> (<a href="https://github.com/sugarmanz">@sugarmanz</a>)</li>
+</ul>
+<h4 id="-pushed-to-master"><a href="#-pushed-to-master" id="-pushed-to-master" class="anchor"></a>⚠️ Pushed to <code>master</code></h4>
+<ul>
+<li>don't do other publishing yet (<a href="https://github.com/sugarmanz">@sugarmanz</a>)</li>
+<li>prepare 0.7.3-SNAPSHOT (<a href="https://github.com/sugarmanz">@sugarmanz</a>)</li>
+<li>version 0.7.2-SNAPSHOT (<a href="https://github.com/sugarmanz">@sugarmanz</a>)</li>
+<li>specify subproj (<a href="https://github.com/sugarmanz">@sugarmanz</a>)</li>
+<li>move auto download (<a href="https://github.com/sugarmanz">@sugarmanz</a>)</li>
+<li>initialize public repo (<a href="https://github.com/hipstersmoothie">@hipstersmoothie</a>)</li>
+</ul>
+<h4 id="authors-2"><a href="#authors-2" id="authors-2" class="anchor"></a>Authors: 2</h4>
+<ul>
+<li>Andrew Lisowski (<a href="https://github.com/hipstersmoothie">@hipstersmoothie</a>)</li>
+<li>Jeremiah Zucker (<a href="https://github.com/sugarmanz">@sugarmanz</a>)</li>
+</ul>
+<hr />
+</div>
+      </div>
+    </div>
+    <br>
+  
+    <div class="card accordion">
+      <header class="is-light accordion-header toggle">
+        <h2 class="title is-4">0.7.0
+        <p class="subtitle is-6">
+          <time datetime="Sat Jan 23 2021">Sat Jan 23 2021</time>
+        </p></h2>
+          <span class="icon is-medium is-light">
+            <i class="fas fa-angle-down" aria-hidden="true"></i>
+          </span>
+      </header>
+      <div class="accordion-body">
+        <div class="content accordion-content"><h3 id="release-notes"><a href="#release-notes" id="release-notes" class="anchor"></a>Release Notes</h3>
+<p><em>From #38</em></p>
+<ul>
+<li>Configure <a href="https://github.com/JLLeitschuh/ktlint-gradle">KtLint Gradle Plugin</a></li>
+<li>Enable <a href="https://kotlinlang.org/docs/reference/whatsnew14.html#explicit-api-mode-for-library-authors">explicit API mode</a></li>
+<li>Setup <a href="https://github.com/Kotlin/binary-compatibility-validator">API matching tool</a></li>
+<li>Generate <a href="https://kotlin.github.io/dokka/1.4.20/">Dokka API docs</a></li>
+<li>Migrate to <a href="https://docs.gradle.org/current/userguide/kotlin_dsl.html">Gradle Kotlin DSL</a></li>
+</ul>
+<hr />
+<h4 id="-enhancement"><a href="#-enhancement" id="-enhancement" class="anchor"></a>🚀 Enhancement</h4>
+<ul>
+<li>Add logo &amp; fix build redeclaration issue <a href="https://github.intuit.com/player/hooks/pull/39">#39</a> (<a href="https://github.intuit.com/JZUCKER">@JZUCKER</a>)</li>
+<li>Quality-of-Life Tooling <a href="https://github.intuit.com/player/hooks/pull/38">#38</a> (<a href="https://github.intuit.com/JZUCKER">@JZUCKER</a>)</li>
+</ul>
+<h4 id="authors-1"><a href="#authors-1" id="authors-1" class="anchor"></a>Authors: 1</h4>
+<ul>
+<li>Jeremiah Zucker (<a href="https://github.intuit.com/JZUCKER">@JZUCKER</a>)</li>
+</ul>
+<hr />
+</div>
+      </div>
+    </div>
+    <br>
+  
+    <div class="card accordion">
+      <header class="is-light accordion-header toggle">
+        <h2 class="title is-4">0.6.0
+        <p class="subtitle is-6">
+          <time datetime="Tue Jan 12 2021">Tue Jan 12 2021</time>
+        </p></h2>
+          <span class="icon is-medium is-light">
+            <i class="fas fa-angle-down" aria-hidden="true"></i>
+          </span>
+      </header>
+      <div class="accordion-body">
+        <div class="content accordion-content"><h3 id="release-notes"><a href="#release-notes" id="release-notes" class="anchor"></a>Release Notes</h3>
+<p><em>From #36</em></p>
+<p>Implement Kotlin Maven Plugin Extension</p>
+<hr />
+<h4 id="-enhancement"><a href="#-enhancement" id="-enhancement" class="anchor"></a>🚀 Enhancement</h4>
+<ul>
+<li>[PLAYA-7426] Implement Kotlin Maven Plugin Extension <a href="https://github.intuit.com/player/hooks/pull/36">#36</a> (<a href="https://github.intuit.com/JZUCKER">@JZUCKER</a>)</li>
+</ul>
+<h4 id="authors-1"><a href="#authors-1" id="authors-1" class="anchor"></a>Authors: 1</h4>
+<ul>
+<li>Jeremiah Zucker (<a href="https://github.intuit.com/JZUCKER">@JZUCKER</a>)</li>
+</ul>
+<hr />
+</div>
+      </div>
+    </div>
+    <br>
+  
+    <div class="card accordion">
+      <header class="is-light accordion-header toggle">
+        <h2 class="title is-4">0.5.0
+        <p class="subtitle is-6">
+          <time datetime="Wed Jan 06 2021">Wed Jan 06 2021</time>
+        </p></h2>
+          <span class="icon is-medium is-light">
+            <i class="fas fa-angle-down" aria-hidden="true"></i>
+          </span>
+      </header>
+      <div class="accordion-body">
+        <div class="content accordion-content"><h4 id="-enhancement"><a href="#-enhancement" id="-enhancement" class="anchor"></a>🚀 Enhancement</h4>
+<ul>
+<li>repo renaming to hooks <a href="https://github.intuit.com/player/hooks/pull/37">#37</a> (<a href="https://github.intuit.com/JZUCKER">@JZUCKER</a>)</li>
+</ul>
+<h4 id="authors-1"><a href="#authors-1" id="authors-1" class="anchor"></a>Authors: 1</h4>
+<ul>
+<li>Jeremiah Zucker (<a href="https://github.intuit.com/JZUCKER">@JZUCKER</a>)</li>
+</ul>
+<hr />
+</div>
+      </div>
+    </div>
+    <br>
+  
+    <div class="card accordion">
+      <header class="is-light accordion-header toggle">
+        <h2 class="title is-4">0.4.0
+        <p class="subtitle is-6">
+          <time datetime="Wed Jan 06 2021">Wed Jan 06 2021</time>
+        </p></h2>
+          <span class="icon is-medium is-light">
+            <i class="fas fa-angle-down" aria-hidden="true"></i>
+          </span>
+      </header>
+      <div class="accordion-body">
+        <div class="content accordion-content"><h3 id="release-notes"><a href="#release-notes" id="release-notes" class="anchor"></a>Release Notes</h3>
+<p><em>From #31</em></p>
+<h4 id="gradle-plugin"><a href="#gradle-plugin" id="gradle-plugin" class="anchor"></a>Gradle Plugin</h4>
+<p>Implement Gradle plugin for the compiler plugin. When added to a project, it will automatically include the correct dependencies.</p>
+<h4 id="renaming"><a href="#renaming" id="renaming" class="anchor"></a>Renaming</h4>
+<p>Remove all <code>tapable</code> references from the package name.</p>
+<hr />
+<h4 id="-enhancement"><a href="#-enhancement" id="-enhancement" class="anchor"></a>🚀 Enhancement</h4>
+<ul>
+<li>[PLAYA-7369] Gradle plugin wrapper <a href="https://github.intuit.com/player/tapable-kt/pull/31">#31</a> (<a href="https://github.intuit.com/JZUCKER">@JZUCKER</a> <a href="https://github.intuit.com/dstone3">@dstone3</a>)</li>
+</ul>
+<h4 id="authors-2"><a href="#authors-2" id="authors-2" class="anchor"></a>Authors: 2</h4>
+<ul>
+<li>David Stone (<a href="https://github.intuit.com/dstone3">@dstone3</a>)</li>
+<li>Jeremiah Zucker (<a href="https://github.intuit.com/JZUCKER">@JZUCKER</a>)</li>
+</ul>
+<hr />
+</div>
+      </div>
+    </div>
+    <br>
+  
+    <div class="card accordion">
+      <header class="is-light accordion-header toggle">
+        <h2 class="title is-4">0.3.0
+        <p class="subtitle is-6">
+          <time datetime="Tue Jan 05 2021">Tue Jan 05 2021</time>
+        </p></h2>
+          <span class="icon is-medium is-light">
+            <i class="fas fa-angle-down" aria-hidden="true"></i>
+          </span>
+      </header>
+      <div class="accordion-body">
+        <div class="content accordion-content"><h3 id="release-notes"><a href="#release-notes" id="release-notes" class="anchor"></a>Release Notes</h3>
+<p><em>From #33</em></p>
+<hr />
+<h4 id="-enhancement"><a href="#-enhancement" id="-enhancement" class="anchor"></a>🚀 Enhancement</h4>
+<ul>
+<li>Upgrade Kotlin and Gradle stuff <a href="https://github.intuit.com/player/tapable-kt/pull/34">#34</a> (<a href="https://github.intuit.com/dstone3">@dstone3</a>)</li>
+</ul>
+<h4 id="-bug-fix"><a href="#-bug-fix" id="-bug-fix" class="anchor"></a>🐛 Bug Fix</h4>
+<ul>
+<li>Better name + some README <a href="https://github.intuit.com/player/tapable-kt/pull/33">#33</a> (<a href="https://github.intuit.com/dstone3">@dstone3</a>)</li>
+<li>Add MIT LICENSE <a href="https://github.intuit.com/player/tapable-kt/pull/30">#30</a> (<a href="https://github.intuit.com/JZUCKER">@JZUCKER</a>)</li>
+</ul>
+<h4 id="-documentation"><a href="#-documentation" id="-documentation" class="anchor"></a>📝 Documentation</h4>
+<ul>
+<li>Open Source Readiness <a href="https://github.intuit.com/player/tapable-kt/pull/27">#27</a> (<a href="https://github.intuit.com/JZUCKER">@JZUCKER</a>)</li>
+<li>InnerSource Readiness <a href="https://github.intuit.com/player/tapable-kt/pull/25">#25</a> (<a href="https://github.intuit.com/JZUCKER">@JZUCKER</a>)</li>
+</ul>
+<h4 id="authors-2"><a href="#authors-2" id="authors-2" class="anchor"></a>Authors: 2</h4>
+<ul>
+<li>David Stone (<a href="https://github.intuit.com/dstone3">@dstone3</a>)</li>
+<li>Jeremiah Zucker (<a href="https://github.intuit.com/JZUCKER">@JZUCKER</a>)</li>
+</ul>
+<hr />
+</div>
+      </div>
+    </div>
+    <br>
+  
+    <div class="card accordion">
+      <header class="is-light accordion-header toggle">
+        <h2 class="title is-4">0.2.0
+        <p class="subtitle is-6">
+          <time datetime="Fri Nov 13 2020">Fri Nov 13 2020</time>
+        </p></h2>
+          <span class="icon is-medium is-light">
+            <i class="fas fa-angle-down" aria-hidden="true"></i>
+          </span>
+      </header>
+      <div class="accordion-body">
+        <div class="content accordion-content"><h4 id="-enhancement"><a href="#-enhancement" id="-enhancement" class="anchor"></a>🚀 Enhancement</h4>
+<ul>
+<li>Better compiler errors <a href="https://github.intuit.com/player/tapable-kt/pull/20">#20</a> (<a href="https://github.intuit.com/dstone3">@dstone3</a>)</li>
+</ul>
+<h4 id="authors-1"><a href="#authors-1" id="authors-1" class="anchor"></a>Authors: 1</h4>
+<ul>
+<li>David Stone (<a href="https://github.intuit.com/dstone3">@dstone3</a>)</li>
+</ul>
+<hr />
+</div>
+      </div>
+    </div>
+    <br>
+  
+    <div class="card accordion">
+      <header class="is-light accordion-header toggle">
+        <h2 class="title is-4">0.1.4
+        <p class="subtitle is-6">
+          <time datetime="Fri Nov 13 2020">Fri Nov 13 2020</time>
+        </p></h2>
+          <span class="icon is-medium is-light">
+            <i class="fas fa-angle-down" aria-hidden="true"></i>
+          </span>
+      </header>
+      <div class="accordion-body">
+        <div class="content accordion-content"><h4 id="-bug-fix"><a href="#-bug-fix" id="-bug-fix" class="anchor"></a>🐛 Bug Fix</h4>
+<ul>
+<li>fix publishing <a href="https://github.intuit.com/player/tapable-kt/pull/21">#21</a> (<a href="https://github.intuit.com/JZUCKER">@JZUCKER</a>)</li>
+</ul>
+<h4 id="authors-1"><a href="#authors-1" id="authors-1" class="anchor"></a>Authors: 1</h4>
+<ul>
+<li>Jeremiah Zucker (<a href="https://github.intuit.com/JZUCKER">@JZUCKER</a>)</li>
+</ul>
+<hr />
+</div>
+      </div>
+    </div>
+    <br>
+  
+    <div class="card accordion">
+      <header class="is-light accordion-header toggle">
+        <h2 class="title is-4">0.1.3
+        <p class="subtitle is-6">
+          <time datetime="Tue Nov 10 2020">Tue Nov 10 2020</time>
+        </p></h2>
+          <span class="icon is-medium is-light">
+            <i class="fas fa-angle-down" aria-hidden="true"></i>
+          </span>
+      </header>
+      <div class="accordion-body">
+        <div class="content accordion-content"><h4 id="-bug-fix"><a href="#-bug-fix" id="-bug-fix" class="anchor"></a>🐛 Bug Fix</h4>
+<ul>
+<li>Break out generators <a href="https://github.intuit.com/player/tapable-kt/pull/19">#19</a> (<a href="https://github.intuit.com/dstone3">@dstone3</a>)</li>
+</ul>
+<h4 id="authors-1"><a href="#authors-1" id="authors-1" class="anchor"></a>Authors: 1</h4>
+<ul>
+<li>David Stone (<a href="https://github.intuit.com/dstone3">@dstone3</a>)</li>
+</ul>
+<hr />
+</div>
+      </div>
+    </div>
+    <br>
+  
+    <div class="card accordion">
+      <header class="is-light accordion-header toggle">
+        <h2 class="title is-4">0.1.2
+        <p class="subtitle is-6">
+          <time datetime="Tue Nov 10 2020">Tue Nov 10 2020</time>
+        </p></h2>
+          <span class="icon is-medium is-light">
+            <i class="fas fa-angle-down" aria-hidden="true"></i>
+          </span>
+      </header>
+      <div class="accordion-body">
+        <div class="content accordion-content"><h4 id="-bug-fix"><a href="#-bug-fix" id="-bug-fix" class="anchor"></a>🐛 Bug Fix</h4>
+<ul>
+<li>Add a validation phase for hooks <a href="https://github.intuit.com/player/tapable-kt/pull/13">#13</a> (<a href="https://github.intuit.com/dstone3">@dstone3</a>)</li>
+</ul>
+<h4 id="authors-1"><a href="#authors-1" id="authors-1" class="anchor"></a>Authors: 1</h4>
+<ul>
+<li>David Stone (<a href="https://github.intuit.com/dstone3">@dstone3</a>)</li>
+</ul>
+<hr />
+</div>
+      </div>
+    </div>
+    <br>
+  
+    <div class="card accordion">
+      <header class="is-light accordion-header toggle">
+        <h2 class="title is-4">0.1.1
+        <p class="subtitle is-6">
+          <time datetime="Mon Nov 09 2020">Mon Nov 09 2020</time>
+        </p></h2>
+          <span class="icon is-medium is-light">
+            <i class="fas fa-angle-down" aria-hidden="true"></i>
+          </span>
+      </header>
+      <div class="accordion-body">
+        <div class="content accordion-content"><h4 id="-bug-fix"><a href="#-bug-fix" id="-bug-fix" class="anchor"></a>🐛 Bug Fix</h4>
+<ul>
+<li>Extract test dependencies <a href="https://github.intuit.com/player/tapable-kt/pull/17">#17</a> (<a href="https://github.intuit.com/dstone3">@dstone3</a>)</li>
+</ul>
+<h4 id="authors-1"><a href="#authors-1" id="authors-1" class="anchor"></a>Authors: 1</h4>
+<ul>
+<li>David Stone (<a href="https://github.intuit.com/dstone3">@dstone3</a>)</li>
+</ul>
+<hr />
+</div>
+      </div>
+    </div>
+    <br>
+  
+    <div class="card accordion">
+      <header class="is-light accordion-header toggle">
+        <h2 class="title is-4">0.1.0
+        <p class="subtitle is-6">
+          <time datetime="Mon Nov 09 2020">Mon Nov 09 2020</time>
+        </p></h2>
+          <span class="icon is-medium is-light">
+            <i class="fas fa-angle-down" aria-hidden="true"></i>
+          </span>
+      </header>
+      <div class="accordion-body">
+        <div class="content accordion-content"><h4 id="-enhancement"><a href="#-enhancement" id="-enhancement" class="anchor"></a>🚀 Enhancement</h4>
+<ul>
+<li>Bail Result <a href="https://github.intuit.com/player/tapable-kt/pull/16">#16</a> (<a href="https://github.intuit.com/JZUCKER">@JZUCKER</a>)</li>
+</ul>
+<h4 id="authors-1"><a href="#authors-1" id="authors-1" class="anchor"></a>Authors: 1</h4>
+<ul>
+<li>Jeremiah Zucker (<a href="https://github.intuit.com/JZUCKER">@JZUCKER</a>)</li>
+</ul>
+<hr />
+</div>
+      </div>
+    </div>
+    <br>
+  
+    <div class="card accordion">
+      <header class="is-light accordion-header toggle">
+        <h2 class="title is-4">0.0.2
+        <p class="subtitle is-6">
+          <time datetime="Fri Nov 06 2020">Fri Nov 06 2020</time>
+        </p></h2>
+          <span class="icon is-medium is-light">
+            <i class="fas fa-angle-down" aria-hidden="true"></i>
+          </span>
+      </header>
+      <div class="accordion-body">
+        <div class="content accordion-content"><h3 id="release-notes"><a href="#release-notes" id="release-notes" class="anchor"></a>Release Notes</h3>
+<p><em>From #7</em></p>
+<p>First published alpha release of Intuit Tapable for the JVM. This includes the complete set of working hooks, as well as a compiler plugin to help generate specific hook implementations. This project as a whole is based on Webpack's <a href="https://github.com/webpack/tapable">Tapable</a> for JS.</p>
+<hr />
+<h4 id="-bug-fix"><a href="#-bug-fix" id="-bug-fix" class="anchor"></a>🐛 Bug Fix</h4>
+<ul>
+<li>Initial build &amp; release <a href="https://github.intuit.com/player/tapable-kt/pull/7">#7</a> (<a href="https://github.intuit.com/JZUCKER">@JZUCKER</a>)</li>
+<li>Fix the suspend function and add back the convenience tap <a href="https://github.intuit.com/player/tapable-kt/pull/6">#6</a> (<a href="https://github.intuit.com/dstone3">@dstone3</a>)</li>
+<li>Implement the compiler plugin <a href="https://github.intuit.com/player/tapable-kt/pull/5">#5</a> (<a href="https://github.intuit.com/JZUCKER">@JZUCKER</a> <a href="https://github.intuit.com/dstone3">@dstone3</a>)</li>
+<li>Add Async Parallel and Bail <a href="https://github.intuit.com/player/tapable-kt/pull/4">#4</a> (<a href="https://github.intuit.com/dstone3">@dstone3</a>)</li>
+<li>Some cleanup <a href="https://github.intuit.com/player/tapable-kt/pull/3">#3</a> (<a href="https://github.intuit.com/dstone3">@dstone3</a>)</li>
+<li>Sync Hooks + Interceptors <a href="https://github.intuit.com/player/tapable-kt/pull/2">#2</a> (<a href="https://github.intuit.com/dstone3">@dstone3</a>)</li>
+<li>Basic sync hook <a href="https://github.intuit.com/player/tapable-kt/pull/1">#1</a> (<a href="https://github.intuit.com/dstone3">@dstone3</a> <a href="https://github.intuit.com/JZUCKER">@JZUCKER</a>)</li>
+</ul>
+<h4 id="-pushed-to-master"><a href="#-pushed-to-master" id="-pushed-to-master" class="anchor"></a>⚠️ Pushed to <code>master</code></h4>
+<ul>
+<li>It helps to check in the gradle wrapper (<a href="https://github.intuit.com/dstone3">@dstone3</a>)</li>
+<li>Update README.md (<a href="https://github.intuit.com/dstone3">@dstone3</a>)</li>
+<li>Initial commit (<a href="https://github.intuit.com/dstone3">@dstone3</a>)</li>
+</ul>
+<h4 id="authors-2"><a href="#authors-2" id="authors-2" class="anchor"></a>Authors: 2</h4>
+<ul>
+<li>David Stone (<a href="https://github.intuit.com/dstone3">@dstone3</a>)</li>
+<li>Jeremiah Zucker (<a href="https://github.intuit.com/JZUCKER">@JZUCKER</a>)</li>
+</ul>
+</div>
+      </div>
+    </div>
+    <br>
+  
+    <div class="card accordion">
+      <header class="is-light accordion-header toggle">
+        <h2 class="title is-4">Why
+        <p class="subtitle is-6">
+          <time datetime=""></time>
+        </p></h2>
+          <span class="icon is-medium is-light">
+            <i class="fas fa-angle-down" aria-hidden="true"></i>
+          </span>
+      </header>
+      <div class="accordion-body">
+        <div class="content accordion-content"><p>To make generated source more readable for consumers</p>
+<hr />
+<h4 id="-bug-fix"><a href="#-bug-fix" id="-bug-fix" class="anchor"></a>🐛 Bug Fix</h4>
+<ul>
+<li>Format generated source with KtLint <a href="https://github.com/intuit/hooks/pull/18">#18</a> (<a href="https://github.com/sugarmanz">@sugarmanz</a>)</li>
+</ul>
+<h4 id="authors-1"><a href="#authors-1" id="authors-1" class="anchor"></a>Authors: 1</h4>
+<ul>
+<li>Jeremiah Zucker (<a href="https://github.com/sugarmanz">@sugarmanz</a>)</li>
+</ul>
+<hr />
+</div>
+      </div>
+    </div>
+    <br>
+  
+</section>
+
+                        </div>
+                    
+                
+            
+        
+    
+    <!-- end:inject components -->
+
+
+        </div>
+      
+      
+
+      </div>
+    </div>
+  </div>
+</main>
+<footer class="footer">
+  <div class="container">
+    <div class="columns">
+      <div class="column">
+        <p class="has-text-left-tablet has-text-centered-mobile">
+        
+          <a href="https://github.com/intuit/hooks/" class="button is-dark">
+            <span class="icon"><i class="fab fa-lg fa-github"></i></span>
+            <span>GitHub</span>
+          </a>
+        
+        </p>
+      </div>
+      <div class="column">
+        <p class="has-text-right-tablet has-text-centered-mobile">
+          <a href="https://bulma.io/">
+            <img
+              src="https://intuit.github.io/hooks/assets/media/made-with-bulma--semiblack.png"
+              alt="Bulma"
+              width="171"
+              height="32">
+          </a>
+          <a href="https://orchid.run/">
+            <img
+              src="https://intuit.github.io/hooks/assets/svg/orchid/logo_top_light.svg"
+              alt="Orchid 0.21.1"
+              width="64"
+              height="32">
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- start:inject scripts -->
+<script defer  src="https://use.fontawesome.com/releases/v5.4.0/js/all.js"></script>
+<script  src="https://intuit.github.io/hooks/HooksTheme/186090c8/assets/js/bulma.js"></script>
+<script  src="https://intuit.github.io/hooks/HooksTheme/186090c8/assets/js/bulma-accordion.min.js"></script>
+<script  src="https://intuit.github.io/hooks/HooksTheme/186090c8/assets/js/bulma-tabs.js"></script>
+<script  src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/prism.min.js"></script>
+<script  src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-java.min.js"></script>
+<script  src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-kotlin.min.js"></script>
+<script  src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-groovy.min.js"></script>
+<script  src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-yaml.min.js"></script>
+<script  src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-markup.min.js"></script>
+<script  src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script  src="https://unpkg.com/lunr/lunr.js"></script>
+<script  src="https://intuit.github.io/hooks/assets/js/orchidSearch.js"></script>
+<!-- end:inject scripts -->
+
+
+
+</body>
+</html>

@@ -1,0 +1,686 @@
+{
+  "ownKey": "kotlindoc",
+  "childrenPages": {
+    "kotlindoc": {
+      "ownKey": "kotlindoc",
+      "childrenPages": {"hooks": {
+        "ownKey": "hooks",
+        "childrenPages": {"com": {
+          "ownKey": "com",
+          "childrenPages": {"intuit": {
+            "ownKey": "intuit",
+            "childrenPages": {"hooks": {
+              "ownKey": "hooks",
+              "childrenPages": {
+                "syncloophook": {
+                  "ownKey": "syncloophook",
+                  "ownPages": [{
+                    "reference": {
+                      "path": "kotlindoc/hooks",
+                      "baseUrl": "https://intuit.github.io/hooks",
+                      "fileName": "com/intuit/hooks/syncloophook",
+                      "extension": "html",
+                      "usePrettyUrl": true,
+                      "link": "https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/syncloophook"
+                    },
+                    "description": "",
+                    "title": "SyncLoopHook",
+                    "content": "<p>interceptors<\/p>\n<p><init><\/p>\n<p>call<\/p>\n<p>interceptLoop<\/p>\n"
+                  }]
+                },
+                "syncwaterfallhook": {
+                  "ownKey": "syncwaterfallhook",
+                  "ownPages": [{
+                    "reference": {
+                      "path": "kotlindoc/hooks",
+                      "baseUrl": "https://intuit.github.io/hooks",
+                      "fileName": "com/intuit/hooks/syncwaterfallhook",
+                      "extension": "html",
+                      "usePrettyUrl": true,
+                      "link": "https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/syncwaterfallhook"
+                    },
+                    "description": "",
+                    "title": "SyncWaterfallHook",
+                    "content": "<p><init><\/p>\n<p>call<\/p>\n"
+                  }]
+                },
+                "asyncseriesbailhook": {
+                  "ownKey": "asyncseriesbailhook",
+                  "ownPages": [{
+                    "reference": {
+                      "path": "kotlindoc/hooks",
+                      "baseUrl": "https://intuit.github.io/hooks",
+                      "fileName": "com/intuit/hooks/asyncseriesbailhook",
+                      "extension": "html",
+                      "usePrettyUrl": true,
+                      "link": "https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/asyncseriesbailhook"
+                    },
+                    "description": "",
+                    "title": "AsyncSeriesBailHook",
+                    "content": "<p><init><\/p>\n<p>call<\/p>\n"
+                  }]
+                },
+                "tapinfo": {
+                  "ownKey": "tapinfo",
+                  "ownPages": [{
+                    "reference": {
+                      "path": "kotlindoc/hooks",
+                      "baseUrl": "https://intuit.github.io/hooks",
+                      "fileName": "com/intuit/hooks/tapinfo",
+                      "extension": "html",
+                      "usePrettyUrl": true,
+                      "link": "https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/tapinfo"
+                    },
+                    "description": "",
+                    "title": "TapInfo",
+                    "content": "<p>name<\/p>\n<p>id<\/p>\n<p>type<\/p>\n<p>f<\/p>\n"
+                  }]
+                },
+                "asyncparallelhook": {
+                  "ownKey": "asyncparallelhook",
+                  "ownPages": [{
+                    "reference": {
+                      "path": "kotlindoc/hooks",
+                      "baseUrl": "https://intuit.github.io/hooks",
+                      "fileName": "com/intuit/hooks/asyncparallelhook",
+                      "extension": "html",
+                      "usePrettyUrl": true,
+                      "link": "https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/asyncparallelhook"
+                    },
+                    "description": "",
+                    "title": "AsyncParallelHook",
+                    "content": "<p><init><\/p>\n<p>call<\/p>\n"
+                  }]
+                },
+                "loopinterceptors": {
+                  "ownKey": "loopinterceptors",
+                  "ownPages": [{
+                    "reference": {
+                      "path": "kotlindoc/hooks",
+                      "baseUrl": "https://intuit.github.io/hooks",
+                      "fileName": "com/intuit/hooks/loopinterceptors",
+                      "extension": "html",
+                      "usePrettyUrl": true,
+                      "link": "https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/loopinterceptors"
+                    },
+                    "description": "",
+                    "title": "LoopInterceptors",
+                    "content": "<p>loop<\/p>\n<p><init><\/p>\n<p>addLoopInterceptor<\/p>\n"
+                  }]
+                },
+                "bailresult": {
+                  "ownKey": "bailresult",
+                  "childrenPages": {
+                    "continue": {
+                      "ownKey": "continue",
+                      "ownPages": [{
+                        "reference": {
+                          "path": "kotlindoc/hooks",
+                          "baseUrl": "https://intuit.github.io/hooks",
+                          "fileName": "com/intuit/hooks/bailresult/continue",
+                          "extension": "html",
+                          "usePrettyUrl": true,
+                          "link": "https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/bailresult/continue"
+                        },
+                        "description": "",
+                        "title": "Continue",
+                        "content": "<p><init><\/p>\n"
+                      }]
+                    },
+                    "bail": {
+                      "ownKey": "bail",
+                      "ownPages": [{
+                        "reference": {
+                          "path": "kotlindoc/hooks",
+                          "baseUrl": "https://intuit.github.io/hooks",
+                          "fileName": "com/intuit/hooks/bailresult/bail",
+                          "extension": "html",
+                          "usePrettyUrl": true,
+                          "link": "https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/bailresult/bail"
+                        },
+                        "description": "",
+                        "title": "Bail",
+                        "content": "<p>value<\/p>\n<p><init><\/p>\n"
+                      }]
+                    }
+                  },
+                  "ownPages": [{
+                    "reference": {
+                      "path": "kotlindoc/hooks",
+                      "baseUrl": "https://intuit.github.io/hooks",
+                      "fileName": "com/intuit/hooks/bailresult",
+                      "extension": "html",
+                      "usePrettyUrl": true,
+                      "link": "https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/bailresult"
+                    },
+                    "description": "",
+                    "title": "BailResult",
+                    "content": ""
+                  }]
+                },
+                "syncbailhook": {
+                  "ownKey": "syncbailhook",
+                  "ownPages": [{
+                    "reference": {
+                      "path": "kotlindoc/hooks",
+                      "baseUrl": "https://intuit.github.io/hooks",
+                      "fileName": "com/intuit/hooks/syncbailhook",
+                      "extension": "html",
+                      "usePrettyUrl": true,
+                      "link": "https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/syncbailhook"
+                    },
+                    "description": "",
+                    "title": "SyncBailHook",
+                    "content": "<p><init><\/p>\n<p>call<\/p>\n"
+                  }]
+                },
+                "synchook": {
+                  "ownKey": "synchook",
+                  "ownPages": [{
+                    "reference": {
+                      "path": "kotlindoc/hooks",
+                      "baseUrl": "https://intuit.github.io/hooks",
+                      "fileName": "com/intuit/hooks/synchook",
+                      "extension": "html",
+                      "usePrettyUrl": true,
+                      "link": "https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/synchook"
+                    },
+                    "description": "",
+                    "title": "SyncHook",
+                    "content": "<p><init><\/p>\n<p>call<\/p>\n"
+                  }]
+                },
+                "hookcontext": {
+                  "ownKey": "hookcontext",
+                  "ownPages": [{
+                    "reference": {
+                      "path": "kotlindoc/hooks",
+                      "baseUrl": "https://intuit.github.io/hooks",
+                      "fileName": "com/intuit/hooks/hookcontext",
+                      "extension": "html",
+                      "usePrettyUrl": true,
+                      "link": "https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/hookcontext"
+                    },
+                    "description": "",
+                    "title": "HookContext",
+                    "content": ""
+                  }]
+                },
+                "asyncbasehook": {
+                  "ownKey": "asyncbasehook",
+                  "ownPages": [{
+                    "reference": {
+                      "path": "kotlindoc/hooks",
+                      "baseUrl": "https://intuit.github.io/hooks",
+                      "fileName": "com/intuit/hooks/asyncbasehook",
+                      "extension": "html",
+                      "usePrettyUrl": true,
+                      "link": "https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/asyncbasehook"
+                    },
+                    "description": "",
+                    "title": "AsyncBaseHook",
+                    "content": "<p><init><\/p>\n<p>setup<\/p>\n"
+                  }]
+                },
+                "asyncseriesloophook": {
+                  "ownKey": "asyncseriesloophook",
+                  "ownPages": [{
+                    "reference": {
+                      "path": "kotlindoc/hooks",
+                      "baseUrl": "https://intuit.github.io/hooks",
+                      "fileName": "com/intuit/hooks/asyncseriesloophook",
+                      "extension": "html",
+                      "usePrettyUrl": true,
+                      "link": "https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/asyncseriesloophook"
+                    },
+                    "description": "",
+                    "title": "AsyncSeriesLoopHook",
+                    "content": "<p>interceptors<\/p>\n<p><init><\/p>\n<p>call<\/p>\n<p>interceptLoop<\/p>\n"
+                  }]
+                },
+                "hook": {
+                  "ownKey": "hook",
+                  "ownPages": [{
+                    "reference": {
+                      "path": "kotlindoc/hooks",
+                      "baseUrl": "https://intuit.github.io/hooks",
+                      "fileName": "com/intuit/hooks/hook",
+                      "extension": "html",
+                      "usePrettyUrl": true,
+                      "link": "https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/hook"
+                    },
+                    "description": "",
+                    "title": "Hook",
+                    "content": ""
+                  }]
+                },
+                "loopresult": {
+                  "ownKey": "loopresult",
+                  "ownPages": [{
+                    "reference": {
+                      "path": "kotlindoc/hooks",
+                      "baseUrl": "https://intuit.github.io/hooks",
+                      "fileName": "com/intuit/hooks/loopresult",
+                      "extension": "html",
+                      "usePrettyUrl": true,
+                      "link": "https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/loopresult"
+                    },
+                    "description": "",
+                    "title": "LoopResult",
+                    "content": "<p>Restart<\/p>\n<p>Continue<\/p>\n<p>LoopResult<\/p>\n"
+                  }]
+                },
+                "utils": {
+                  "ownKey": "utils",
+                  "ownPages": [{
+                    "reference": {
+                      "path": "kotlindoc/hooks",
+                      "baseUrl": "https://intuit.github.io/hooks",
+                      "fileName": "com/intuit/hooks/utils",
+                      "extension": "html",
+                      "usePrettyUrl": true,
+                      "link": "https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/utils"
+                    },
+                    "description": "",
+                    "title": "com.intuit.hooks.utils",
+                    "content": ""
+                  }]
+                },
+                "asyncserieswaterfallhook": {
+                  "ownKey": "asyncserieswaterfallhook",
+                  "ownPages": [{
+                    "reference": {
+                      "path": "kotlindoc/hooks",
+                      "baseUrl": "https://intuit.github.io/hooks",
+                      "fileName": "com/intuit/hooks/asyncserieswaterfallhook",
+                      "extension": "html",
+                      "usePrettyUrl": true,
+                      "link": "https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/asyncserieswaterfallhook"
+                    },
+                    "description": "",
+                    "title": "AsyncSeriesWaterfallHook",
+                    "content": "<p><init><\/p>\n<p>call<\/p>\n"
+                  }]
+                },
+                "syncbasehook": {
+                  "ownKey": "syncbasehook",
+                  "ownPages": [{
+                    "reference": {
+                      "path": "kotlindoc/hooks",
+                      "baseUrl": "https://intuit.github.io/hooks",
+                      "fileName": "com/intuit/hooks/syncbasehook",
+                      "extension": "html",
+                      "usePrettyUrl": true,
+                      "link": "https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/syncbasehook"
+                    },
+                    "description": "",
+                    "title": "SyncBaseHook",
+                    "content": "<p><init><\/p>\n<p>setup<\/p>\n"
+                  }]
+                },
+                "basehook": {
+                  "ownKey": "basehook",
+                  "ownPages": [{
+                    "reference": {
+                      "path": "kotlindoc/hooks",
+                      "baseUrl": "https://intuit.github.io/hooks",
+                      "fileName": "com/intuit/hooks/basehook",
+                      "extension": "html",
+                      "usePrettyUrl": true,
+                      "link": "https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/basehook"
+                    },
+                    "description": "",
+                    "title": "BaseHook",
+                    "content": "<p>taps<\/p>\n<p>interceptors<\/p>\n<p><init><\/p>\n<p>tap<\/p>\n<p>Tap the hook with  f .<\/p>\ntap\n<p>Tap the hook with  f .<\/p>\nuntap\n<p>Remove tapped callback associated with the  id  returned from  tap <\/p>\ninterceptTap\n<p>interceptCall<\/p>\n<p>interceptRegister<\/p>\n<p>generateRandomId<\/p>\n<p>Method to generate a random identifier for managing  TapInfo s<\/p>\n"
+                  }]
+                },
+                "asyncparallelbailhook": {
+                  "ownKey": "asyncparallelbailhook",
+                  "ownPages": [{
+                    "reference": {
+                      "path": "kotlindoc/hooks",
+                      "baseUrl": "https://intuit.github.io/hooks",
+                      "fileName": "com/intuit/hooks/asyncparallelbailhook",
+                      "extension": "html",
+                      "usePrettyUrl": true,
+                      "link": "https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/asyncparallelbailhook"
+                    },
+                    "description": "",
+                    "title": "AsyncParallelBailHook",
+                    "content": "<p><init><\/p>\n<p>call<\/p>\n"
+                  }]
+                },
+                "dsl": {
+                  "ownKey": "dsl",
+                  "childrenPages": {
+                    "hooksdsl": {
+                      "ownKey": "hooksdsl",
+                      "ownPages": [{
+                        "reference": {
+                          "path": "kotlindoc/hooks",
+                          "baseUrl": "https://intuit.github.io/hooks",
+                          "fileName": "com/intuit/hooks/dsl/hooksdsl",
+                          "extension": "html",
+                          "usePrettyUrl": true,
+                          "link": "https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/dsl/hooksdsl"
+                        },
+                        "description": "",
+                        "title": "HooksDsl",
+                        "content": ""
+                      }]
+                    },
+                    "hooks": {
+                      "ownKey": "hooks",
+                      "childrenPages": {
+                        "asyncparallel": {
+                          "ownKey": "asyncparallel",
+                          "ownPages": [{
+                            "reference": {
+                              "path": "kotlindoc/hooks",
+                              "baseUrl": "https://intuit.github.io/hooks",
+                              "fileName": "com/intuit/hooks/dsl/hooks/asyncparallel",
+                              "extension": "html",
+                              "usePrettyUrl": true,
+                              "link": "https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/dsl/hooks/asyncparallel"
+                            },
+                            "description": "",
+                            "title": "AsyncParallel",
+                            "content": "<p><init><\/p>\n"
+                          }]
+                        },
+                        "syncbail": {
+                          "ownKey": "syncbail",
+                          "ownPages": [{
+                            "reference": {
+                              "path": "kotlindoc/hooks",
+                              "baseUrl": "https://intuit.github.io/hooks",
+                              "fileName": "com/intuit/hooks/dsl/hooks/syncbail",
+                              "extension": "html",
+                              "usePrettyUrl": true,
+                              "link": "https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/dsl/hooks/syncbail"
+                            },
+                            "description": "",
+                            "title": "SyncBail",
+                            "content": "<p><init><\/p>\n"
+                          }]
+                        },
+                        "asyncseriesbail": {
+                          "ownKey": "asyncseriesbail",
+                          "ownPages": [{
+                            "reference": {
+                              "path": "kotlindoc/hooks",
+                              "baseUrl": "https://intuit.github.io/hooks",
+                              "fileName": "com/intuit/hooks/dsl/hooks/asyncseriesbail",
+                              "extension": "html",
+                              "usePrettyUrl": true,
+                              "link": "https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/dsl/hooks/asyncseriesbail"
+                            },
+                            "description": "",
+                            "title": "AsyncSeriesBail",
+                            "content": "<p><init><\/p>\n"
+                          }]
+                        },
+                        "syncwaterfall": {
+                          "ownKey": "syncwaterfall",
+                          "ownPages": [{
+                            "reference": {
+                              "path": "kotlindoc/hooks",
+                              "baseUrl": "https://intuit.github.io/hooks",
+                              "fileName": "com/intuit/hooks/dsl/hooks/syncwaterfall",
+                              "extension": "html",
+                              "usePrettyUrl": true,
+                              "link": "https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/dsl/hooks/syncwaterfall"
+                            },
+                            "description": "",
+                            "title": "SyncWaterfall",
+                            "content": "<p><init><\/p>\n"
+                          }]
+                        },
+                        "asyncserieswaterfall": {
+                          "ownKey": "asyncserieswaterfall",
+                          "ownPages": [{
+                            "reference": {
+                              "path": "kotlindoc/hooks",
+                              "baseUrl": "https://intuit.github.io/hooks",
+                              "fileName": "com/intuit/hooks/dsl/hooks/asyncserieswaterfall",
+                              "extension": "html",
+                              "usePrettyUrl": true,
+                              "link": "https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/dsl/hooks/asyncserieswaterfall"
+                            },
+                            "description": "",
+                            "title": "AsyncSeriesWaterfall",
+                            "content": "<p><init><\/p>\n"
+                          }]
+                        },
+                        "asyncparallelbail": {
+                          "ownKey": "asyncparallelbail",
+                          "ownPages": [{
+                            "reference": {
+                              "path": "kotlindoc/hooks",
+                              "baseUrl": "https://intuit.github.io/hooks",
+                              "fileName": "com/intuit/hooks/dsl/hooks/asyncparallelbail",
+                              "extension": "html",
+                              "usePrettyUrl": true,
+                              "link": "https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/dsl/hooks/asyncparallelbail"
+                            },
+                            "description": "",
+                            "title": "AsyncParallelBail",
+                            "content": "<p><init><\/p>\n"
+                          }]
+                        },
+                        "asyncseries": {
+                          "ownKey": "asyncseries",
+                          "ownPages": [{
+                            "reference": {
+                              "path": "kotlindoc/hooks",
+                              "baseUrl": "https://intuit.github.io/hooks",
+                              "fileName": "com/intuit/hooks/dsl/hooks/asyncseries",
+                              "extension": "html",
+                              "usePrettyUrl": true,
+                              "link": "https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/dsl/hooks/asyncseries"
+                            },
+                            "description": "",
+                            "title": "AsyncSeries",
+                            "content": "<p><init><\/p>\n"
+                          }]
+                        },
+                        "syncloop": {
+                          "ownKey": "syncloop",
+                          "ownPages": [{
+                            "reference": {
+                              "path": "kotlindoc/hooks",
+                              "baseUrl": "https://intuit.github.io/hooks",
+                              "fileName": "com/intuit/hooks/dsl/hooks/syncloop",
+                              "extension": "html",
+                              "usePrettyUrl": true,
+                              "link": "https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/dsl/hooks/syncloop"
+                            },
+                            "description": "",
+                            "title": "SyncLoop",
+                            "content": "<p><init><\/p>\n"
+                          }]
+                        },
+                        "asyncseriesloop": {
+                          "ownKey": "asyncseriesloop",
+                          "ownPages": [{
+                            "reference": {
+                              "path": "kotlindoc/hooks",
+                              "baseUrl": "https://intuit.github.io/hooks",
+                              "fileName": "com/intuit/hooks/dsl/hooks/asyncseriesloop",
+                              "extension": "html",
+                              "usePrettyUrl": true,
+                              "link": "https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/dsl/hooks/asyncseriesloop"
+                            },
+                            "description": "",
+                            "title": "AsyncSeriesLoop",
+                            "content": "<p><init><\/p>\n"
+                          }]
+                        },
+                        "sync": {
+                          "ownKey": "sync",
+                          "ownPages": [{
+                            "reference": {
+                              "path": "kotlindoc/hooks",
+                              "baseUrl": "https://intuit.github.io/hooks",
+                              "fileName": "com/intuit/hooks/dsl/hooks/sync",
+                              "extension": "html",
+                              "usePrettyUrl": true,
+                              "link": "https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/dsl/hooks/sync"
+                            },
+                            "description": "",
+                            "title": "Sync",
+                            "content": "<p><init><\/p>\n"
+                          }]
+                        }
+                      },
+                      "ownPages": [{
+                        "reference": {
+                          "path": "kotlindoc/hooks",
+                          "baseUrl": "https://intuit.github.io/hooks",
+                          "fileName": "com/intuit/hooks/dsl/hooks",
+                          "extension": "html",
+                          "usePrettyUrl": true,
+                          "link": "https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/dsl/hooks"
+                        },
+                        "description": "",
+                        "title": "Hooks",
+                        "content": "<p><init><\/p>\n<p>syncHook<\/p>\n<p>syncBailHook<\/p>\n<p>syncWaterfallHook<\/p>\n<p>syncLoopHook<\/p>\n<p>asyncParallelHook<\/p>\n<p>asyncParallelBailHook<\/p>\n<p>asyncSeriesHook<\/p>\n<p>asyncSeriesBailHook<\/p>\n<p>asyncSeriesWaterfallHook<\/p>\n<p>asyncSeriesLoopHook<\/p>\n"
+                      }]
+                    }
+                  },
+                  "ownPages": [{
+                    "reference": {
+                      "path": "kotlindoc/hooks",
+                      "baseUrl": "https://intuit.github.io/hooks",
+                      "fileName": "com/intuit/hooks/dsl",
+                      "extension": "html",
+                      "usePrettyUrl": true,
+                      "link": "https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/dsl"
+                    },
+                    "description": "",
+                    "title": "com.intuit.hooks.dsl",
+                    "content": "<p>Hooks<\/p>\n<p>HooksDsl<\/p>\n<p>HooksDsl<\/p>\n"
+                  }]
+                },
+                "asyncserieshook": {
+                  "ownKey": "asyncserieshook",
+                  "ownPages": [{
+                    "reference": {
+                      "path": "kotlindoc/hooks",
+                      "baseUrl": "https://intuit.github.io/hooks",
+                      "fileName": "com/intuit/hooks/asyncserieshook",
+                      "extension": "html",
+                      "usePrettyUrl": true,
+                      "link": "https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/asyncserieshook"
+                    },
+                    "description": "",
+                    "title": "AsyncSeriesHook",
+                    "content": "<p><init><\/p>\n<p>call<\/p>\n"
+                  }]
+                },
+                "interceptors": {
+                  "ownKey": "interceptors",
+                  "ownPages": [{
+                    "reference": {
+                      "path": "kotlindoc/hooks",
+                      "baseUrl": "https://intuit.github.io/hooks",
+                      "fileName": "com/intuit/hooks/interceptors",
+                      "extension": "html",
+                      "usePrettyUrl": true,
+                      "link": "https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks/interceptors"
+                    },
+                    "description": "",
+                    "title": "Interceptors",
+                    "content": "<p>register<\/p>\n<p>tap<\/p>\n<p>call<\/p>\n<p><init><\/p>\n<p>addRegisterInterceptor<\/p>\n<p>invokeRegisterInterceptors<\/p>\n<p>addTapInterceptor<\/p>\n<p>invokeTapInterceptors<\/p>\n<p>addCallInterceptor<\/p>\n"
+                  }]
+                }
+              },
+              "ownPages": [{
+                "reference": {
+                  "path": "kotlindoc/hooks",
+                  "baseUrl": "https://intuit.github.io/hooks",
+                  "fileName": "com/intuit/hooks",
+                  "extension": "html",
+                  "usePrettyUrl": true,
+                  "link": "https://intuit.github.io/hooks/kotlindoc/hooks/com/intuit/hooks"
+                },
+                "description": "",
+                "title": "com.intuit.hooks",
+                "content": "<p>AsyncParallelBailHook<\/p>\n<p>AsyncParallelHook<\/p>\n<p>AsyncSeriesBailHook<\/p>\n<p>AsyncSeriesHook<\/p>\n<p>AsyncSeriesLoopHook<\/p>\n<p>AsyncSeriesWaterfallHook<\/p>\n<p>HookContext<\/p>\n<p>Interceptors<\/p>\n<p>TapInfo<\/p>\n<p>AsyncBaseHook<\/p>\n<p>SyncBaseHook<\/p>\n<p>Hook<\/p>\n<p>BaseHook<\/p>\n<p>BailResult<\/p>\n<p>SyncBailHook<\/p>\n<p>SyncHook<\/p>\n<p>LoopResult<\/p>\n<p>LoopInterceptors<\/p>\n<p>SyncLoopHook<\/p>\n<p>SyncWaterfallHook<\/p>\n<p>com.intuit.hooks.dsl<\/p>\n<p>com.intuit.hooks.utils<\/p>\n<p>HookContext<\/p>\n"
+              }]
+            }}
+          }}
+        }}
+      }}
+    },
+    "modules": {
+      "ownKey": "modules",
+      "childrenPages": {
+        "maven-plugin": {
+          "ownKey": "maven-plugin",
+          "ownPages": [{
+            "reference": {
+              "path": "modules",
+              "baseUrl": "https://intuit.github.io/hooks",
+              "fileName": "maven-plugin",
+              "extension": "html",
+              "usePrettyUrl": true,
+              "link": "https://intuit.github.io/hooks/modules/maven-plugin"
+            },
+            "description": "",
+            "title": "Maven Kotlin Extension",
+            "content": "<h1 id=\"maven-kotlin-plugin-extension\"><a href=\"#maven-kotlin-plugin-extension\" id=\"maven-kotlin-plugin-extension\" class=\"anchor\"><\/a>Maven Kotlin Plugin Extension<\/h1>\n<blockquote>\n<p><strong>Warning<\/strong><\/p>\n<p>The Maven Kotlin plugin automatically bundles a specific version of the KSP plugin, which is tied to a specific version of Kotlin (can be found <a href=\"./settings.gradle.kts#19\">here<\/a>). This means the Gradle plugin is only compatible with projects that use that specific Kotlin version. At some point, this module will be upgraded to publish in accordance to the KSP/Kotlin version it bundles.<\/p>\n<\/blockquote>\n<p>At the moment, the Maven extension is not complete and only helps to register the KSP plugin and partially configure the generated source directory. You will still be required to add the appropriate dependencies and add the generated source directory to your source sets.<\/p>\n<h3 id=\"installation\"><a href=\"#installation\" id=\"installation\" class=\"anchor\"><\/a>Installation<\/h3>\n<pre><code class=\"language-xml\">&lt;project&gt;\n    &lt;properties&gt;\n        &lt;hooks.version&gt;latest version&lt;/hooks.version&gt;\n    &lt;/properties&gt;\n\n    &lt;dependencies&gt;\n        &lt;!-- Hooks runtime --&gt;\n        &lt;dependency&gt;\n            &lt;groupId&gt;com.intuit.hooks&lt;/groupId&gt;\n            &lt;artifactId&gt;hooks&lt;/artifactId&gt;\n            &lt;version&gt;${hooks.version}&lt;/version&gt;\n        &lt;/dependency&gt;\n    \n        &lt;!-- Other dependencies... --&gt;\n    &lt;/dependencies&gt;\n\n    &lt;build&gt;\n        &lt;plugins&gt;\n            &lt;plugin&gt;\n                &lt;groupId&gt;org.jetbrains.kotlin&lt;/groupId&gt;\n                &lt;artifactId&gt;kotlin-maven-plugin&lt;/artifactId&gt;\n                &lt;version&gt;${kotlin.version}&lt;/version&gt;\n                &lt;executions&gt;\n                    &lt;execution&gt;\n                        &lt;id&gt;compile&lt;/id&gt;\n                        &lt;phase&gt;compile&lt;/phase&gt;\n                        &lt;goals&gt;\n                            &lt;goal&gt;compile&lt;/goal&gt;\n                        &lt;/goals&gt;\n                    &lt;/execution&gt;\n                &lt;/executions&gt;\n                &lt;configuration&gt;\n                    &lt;compilerPlugins&gt;\n                        &lt;!-- Apply hooks plugin --&gt;\n                        &lt;plugin&gt;hooks&lt;/plugin&gt;\n                    &lt;/compilerPlugins&gt;\n                    &lt;!-- Configure generated source directories --&gt;\n                    &lt;sourceDirs&gt;\n                        &lt;source&gt;${project.basedir}/src/main/kotlin&lt;/source&gt;\n                    &lt;/sourceDirs&gt;\n                &lt;/configuration&gt;\n                &lt;!-- Add hooks maven plugin to compiler classpath --&gt;\n                &lt;dependencies&gt;\n                    &lt;dependency&gt;\n                        &lt;groupId&gt;com.intuit.hooks&lt;/groupId&gt;\n                        &lt;artifactId&gt;maven-plugin&lt;/artifactId&gt;\n                        &lt;version&gt;${hooks.version}&lt;/version&gt;\n                    &lt;/dependency&gt;\n                &lt;/dependencies&gt;\n            &lt;/plugin&gt;\n        &lt;/plugins&gt;\n    &lt;/build&gt;\n&lt;/project&gt;\n<\/code><\/pre>\n"
+          }]
+        },
+        "gradle-plugin": {
+          "ownKey": "gradle-plugin",
+          "ownPages": [{
+            "reference": {
+              "path": "modules",
+              "baseUrl": "https://intuit.github.io/hooks",
+              "fileName": "gradle-plugin",
+              "extension": "html",
+              "usePrettyUrl": true,
+              "link": "https://intuit.github.io/hooks/modules/gradle-plugin"
+            },
+            "description": "",
+            "title": "Gradle Plugin",
+            "content": "<h1 id=\"gradle-plugin\"><a href=\"#gradle-plugin\" id=\"gradle-plugin\" class=\"anchor\"><\/a>Gradle Plugin<\/h1>\n<blockquote>\n<p><strong>Warning<\/strong><\/p>\n<p>The Gradle plugin automatically bundles a specific version of the KSP plugin, which is tied to a specific version of Kotlin (can be found <a href=\"./settings.gradle.kts#19\">here<\/a>). This means the Gradle plugin is only compatible with projects that use that specific Kotlin version. At some point, this module will be upgraded to publish in accordance to the KSP/Kotlin version it bundles.<\/p>\n<\/blockquote>\n<p>Applying the hooks Gradle plugin automatically adds the appropriate dependencies to your project, configures the generated source directory, and registers the KSP plugin.<\/p>\n<h3 id=\"installation\"><a href=\"#installation\" id=\"installation\" class=\"anchor\"><\/a>Installation<\/h3>\n<p>Add the following to your modules <code>build.gradle(.kts)<\/code>:<\/p>\n<pre><code class=\"language-kotlin\">// build.gradle(.kts)\nplugins {\n    // other plugins\n\n    // apply hooks gradle plugin\n    id(&quot;com.intuit.hooks&quot;) version &quot;$HOOKS_VERSION&quot;\n}\n<\/code><\/pre>\n"
+          }]
+        },
+        "hooks": {
+          "ownKey": "hooks",
+          "ownPages": [{
+            "reference": {
+              "path": "modules",
+              "baseUrl": "https://intuit.github.io/hooks",
+              "fileName": "hooks",
+              "extension": "html",
+              "usePrettyUrl": true,
+              "link": "https://intuit.github.io/hooks/modules/hooks"
+            },
+            "description": "",
+            "title": "Hooks Library",
+            "content": "<h1 id=\"hooks\"><a href=\"#hooks\" id=\"hooks\" class=\"anchor\"><\/a>Hooks<\/h1>\n<blockquote>\n<p><strong>Note<\/strong><\/p>\n<p>These instructions are for using the base hooks library by itself. Under most circumstances, it is advised to use the hooks processor with the DSL to limit the code overhead. However, it is still possible to utilize the hooks library directly if necessary.<\/p>\n<\/blockquote>\n<h3 id=\"installation\"><a href=\"#installation\" id=\"installation\" class=\"anchor\"><\/a>Installation<\/h3>\n<p>Add dependency to your <code>build.gradle(.kts)<\/code>:<\/p>\n<!--- PREFIX \n/*\n----- SUFFIX\n*/\n-->\n<pre><code class=\"language-kotlin\">implementation(&quot;com.intuit.hooks:hooks:$version&quot;)\n<\/code><\/pre>\n<!--- KNIT example-hooksinstallation-01.kt --> \n<h3 id=\"creating-a-hook\"><a href=\"#creating-a-hook\" id=\"creating-a-hook\" class=\"anchor\"><\/a>Creating a hook<\/h3>\n<p>Each type of hook is exposed as an abstract class that can be subclassed to create a hook. Generally, the only additional functionality required for a hook is a public, typed <code>call<\/code> and <code>tap<\/code> method. These methods will effectively serve as the public API for your hook. Additionally, each of the base classes require a type parameter that represents the function signature for the <code>tap<\/code> method.<\/p>\n<p>For example, consider a basic synchronous hook that doesn't take any parameters. This essentially could represent a simple eventing pub-sub model.<\/p>\n<!--- TEST_NAME SimpleHookTest --> \n<!--- INCLUDE\nimport com.intuit.hooks.HookContext\nimport com.intuit.hooks.SyncHook\n-->\n<pre><code class=\"language-kotlin\">class SimpleHook : SyncHook&lt;(HookContext) -&gt; Unit&gt;() {\n    fun call() = super.call { f, context -&gt; f(context) }\n}\n<\/code><\/pre>\n<blockquote>\n<p>Note here that the type parameter for <code>SyncHook<\/code> requires <code>HookContext<\/code> as the first parameter even though this use case doesn't merit a parameter. This is the case for all hooks, regardless of the hooks' arity.<\/p>\n<\/blockquote>\n<p><code>SimpleHook<\/code> can then be used directly to <code>tap<\/code> and <code>call<\/code>:<\/p>\n<pre><code class=\"language-kotlin\">fun main() {\n    val hook = SimpleHook()\n    hook.tap(&quot;logging&quot;) { context -&gt;\n        println(&quot;my hook was called&quot;)\n    }\n    hook.call()\n}\n<\/code><\/pre>\n<!--- KNIT example-synchook-01.kt --> \n<blockquote>\n<p>You can get the full code <a href=\"https://github.com/intuit/hooks/tree/main/docs/src/test/kotlin/example/example-synchook-01.kt\">here<\/a>.<\/p>\n<\/blockquote>\n<p>We should expect the <code>tapped<\/code> function to be executed once the hook is <code>called<\/code>, which would print the following:<\/p>\n<pre><code class=\"language-text\">my hook was called\n<\/code><\/pre>\n<!--- TEST -->\n"
+          }]
+        },
+        "processor": {
+          "ownKey": "processor",
+          "ownPages": [{
+            "reference": {
+              "path": "modules",
+              "baseUrl": "https://intuit.github.io/hooks",
+              "fileName": "processor",
+              "extension": "html",
+              "usePrettyUrl": true,
+              "link": "https://intuit.github.io/hooks/modules/processor"
+            },
+            "description": "",
+            "title": "Hooks Processor",
+            "content": "<h1 id=\"hooks-processor\"><a href=\"#hooks-processor\" id=\"hooks-processor\" class=\"anchor\"><\/a>Hooks Processor<\/h1>\n<p>Built on the <a href=\"https://kotlinlang.org/docs/ksp-overview.html#0\">Kotlin Symbol Processing API<\/a>, the Hooks processor enables consumers to create hooks using the type-driven DSL provided in the hooks library. KSP based processors are generally easy to apply to Gradle projects using the provided <a href=\"https://kotlinlang.org/docs/ksp-quickstart.html#use-your-own-processor-in-a-project\">plugin<\/a>. However, we also have Gradle and Maven wrappers to ease the burden of KSP configuration. If you'd like to use outside those build systems, the processor is published as <code>com.intuit.hooks:processor:$version<\/code>. If you do find yourself using the processor directly, we would love to hear about your use case and would appreciate any contributions to support other build systems.<\/p>\n<h3 id=\"manual-gradle-ksp-configuration\"><a href=\"#manual-gradle-ksp-configuration\" id=\"manual-gradle-ksp-configuration\" class=\"anchor\"><\/a>Manual Gradle KSP configuration<\/h3>\n<!--- INCLUDE\n/** Throwaway code for knit (would be really nice if I could just specify a start for knit or exclude for knit)\n-->\n<pre><code class=\"language-kotlin\">// build.gradle(.kts)\nplugins {\n    id(&quot;com.google.devtools.ksp&quot;) version KSP_VERSION // &gt;= 1.0.5\n}\n\ndependencies {\n    ksp(&quot;com.intuit.hooks&quot;, &quot;processor&quot;, HOOKS_VERSION)\n}\n<\/code><\/pre>\n<!--- INCLUDE\n*/\n-->\n<!--- KNIT example-throwaway-01.kt -->\n<h3 id=\"processor-dsl\"><a href=\"#processor-dsl\" id=\"processor-dsl\" class=\"anchor\"><\/a>Processor DSL<\/h3>\n<p>With the processor configured in your project, you can now create hooks by defining a <code>Hooks<\/code> subclass. This gives you access to a collection of methods to create hook implementations based on the type signature passed into the method.<\/p>\n<!--- TEST_NAME HooksDSLTest -->\n<!--- INCLUDE\nimport com.intuit.hooks.*\nimport com.intuit.hooks.dsl.Hooks\n-->\n<pre><code class=\"language-kotlin\">internal abstract class GenericHooks : Hooks() {\n    @Sync&lt;(newSpeed: Int) -&gt; Unit&gt; abstract val sync: Hook\n    @SyncBail&lt;(Boolean) -&gt; BailResult&lt;Int&gt;&gt; abstract val syncBail: Hook\n    @SyncLoop&lt;(foo: Boolean) -&gt; LoopResult&gt; abstract val syncLoop: Hook\n    @SyncWaterfall&lt;(name: String) -&gt; String&gt; abstract val syncWaterfall: Hook\n    @AsyncParallelBail&lt;suspend (String) -&gt; BailResult&lt;String&gt;&gt; abstract val asyncParallelBail: Hook\n    @AsyncParallel&lt;suspend (String) -&gt; Int&gt; abstract val asyncParallel: Hook\n    @AsyncSeries&lt;suspend (String) -&gt; Int&gt; abstract val asyncSeries: Hook\n    @AsyncSeriesBail&lt;suspend (String) -&gt; BailResult&lt;String&gt;&gt; abstract val asyncSeriesBail: Hook\n    @AsyncSeriesLoop&lt;suspend (String) -&gt; LoopResult&gt; abstract val asyncSeriesLoop: Hook\n    @AsyncSeriesWaterfall&lt;suspend (String) -&gt; String&gt; abstract val asyncSeriesWaterfall: Hook\n}\n<\/code><\/pre>\n<p>The processor uses this class to create new hook implementations and instances. Currently, the processor generates a new class that subclasses <code>GenericHooks<\/code> and overrides the member properties, which is why they need to be <code>abstract<\/code>. This is important to note, as otherwise, the code will not compile because the member property is final. When using the hooks DSL, you must follow these constraints:<\/p>\n<ol>\n<li><code>Hooks<\/code> subclass <em>must<\/em> be abstract<\/li>\n<li>All member properties that use the hooks DSL methods <em>must<\/em> be abstract<\/li>\n<li>Hook property types can include star projection, but should be the same hook type<\/li>\n<li>Any <code>async<\/code> hook must take a <code>suspend<\/code> typed method<\/li>\n<li>Bail hooks must return a <code>BailResult<\/code><\/li>\n<li>Loop hooks must return a <code>LoopResult<\/code><\/li>\n<\/ol>\n<p>Most of these constraints should give you an error when the processor runs, however others might result in a generic compiler error, like stated above.<\/p>\n<p>The generated class name will be <code>${name}Impl<\/code>, thus the snippet above could be used in the following manner:<\/p>\n<pre><code class=\"language-kotlin\">fun main() {\n    val hooks = GenericHooksImpl()\n    hooks.sync.tap(&quot;LoggerPlugin&quot;) { newSpeed: Int -&gt;\n        println(&quot;newSpeed: $newSpeed&quot;)\n    }\n    hooks.sync.call(30)\n    // newSpeed: 30\n}\n<\/code><\/pre>\n<!--- KNIT example-dsl-01.kt -->\n<!--- TEST\nnewSpeed: 30\n-->\n"
+          }]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,210 @@
+[
+  {
+    "patch": true,
+    "components": {
+      "major": "0",
+      "minor": "15",
+      "patch": "0"
+    },
+    "releaseNotes": "<p>:tada: This release contains work from a new contributor! :tada:<\/p>\n<p>Thank you, null<a href=\"https://github.com/brocollie08\">@brocollie08<\/a>, for all your work!<\/p>\n<h3 id=\"release-notes\"><a href=\"#release-notes\" id=\"release-notes\" class=\"anchor\"><\/a>Release Notes<\/h3>\n<h4 id=\"bailhook-default-handler-33\"><a href=\"#bailhook-default-handler-33\" id=\"bailhook-default-handler-33\" class=\"anchor\"><\/a>BailHook default handler (<a href=\"https://github.com/intuit/hooks/pull/33\">#33<\/a>)<\/h4>\n<p>Allows for <code>SyncBailHook<\/code> to call with a default handler for when the taps do not bail and return nothing<\/p>\n<hr />\n<h4 id=\"-enhancement\"><a href=\"#-enhancement\" id=\"-enhancement\" class=\"anchor\"><\/a>🚀 Enhancement<\/h4>\n<ul>\n<li>BailHook default handler <a href=\"https://github.com/intuit/hooks/pull/33\">#33<\/a> (<a href=\"https://github.com/brocollie08\">@brocollie08<\/a>)<\/li>\n<\/ul>\n<h4 id=\"authors-1\"><a href=\"#authors-1\" id=\"authors-1\" class=\"anchor\"><\/a>Authors: 1<\/h4>\n<ul>\n<li><a href=\"https://github.com/brocollie08\">@brocollie08<\/a><\/li>\n<\/ul>\n<hr />\n",
+    "major": false,
+    "minor": true,
+    "version": "0.15.0",
+    "url": ""
+  },
+  {
+    "patch": false,
+    "components": {
+      "major": "0",
+      "minor": "14",
+      "patch": "0"
+    },
+    "releaseNotes": "<h3 id=\"release-notes\"><a href=\"#release-notes\" id=\"release-notes\" class=\"anchor\"><\/a>Release Notes<\/h3>\n<h4 id=\"make-tap-info-mutable-31\"><a href=\"#make-tap-info-mutable-31\" id=\"make-tap-info-mutable-31\" class=\"anchor\"><\/a>make tap info mutable (<a href=\"https://github.com/intuit/hooks/pull/31\">#31<\/a>)<\/h4>\n<p>Add <code>data class<\/code> APIs to <code>TapInfo<\/code> such that it can be mutated.<\/p>\n<h4 id=\"scope-version-properties-to-avoid-conflicts-30\"><a href=\"#scope-version-properties-to-avoid-conflicts-30\" id=\"scope-version-properties-to-avoid-conflicts-30\" class=\"anchor\"><\/a>scope version properties to avoid conflicts (<a href=\"https://github.com/intuit/hooks/pull/30\">#30<\/a>)<\/h4>\n<p>Scope metadata b/c it was conflicting w/ another Gradle plugin<\/p>\n<hr />\n<h4 id=\"-enhancement\"><a href=\"#-enhancement\" id=\"-enhancement\" class=\"anchor\"><\/a>🚀 Enhancement<\/h4>\n<ul>\n<li>make tap info mutable <a href=\"https://github.com/intuit/hooks/pull/31\">#31<\/a> (<a href=\"https://github.com/sugarmanz\">@sugarmanz<\/a>)<\/li>\n<\/ul>\n<h4 id=\"-bug-fix\"><a href=\"#-bug-fix\" id=\"-bug-fix\" class=\"anchor\"><\/a>🐛 Bug Fix<\/h4>\n<ul>\n<li>scope version properties to avoid conflicts <a href=\"https://github.com/intuit/hooks/pull/30\">#30<\/a> (<a href=\"https://github.com/sugarmanz\">@sugarmanz<\/a>)<\/li>\n<\/ul>\n<h4 id=\"authors-1\"><a href=\"#authors-1\" id=\"authors-1\" class=\"anchor\"><\/a>Authors: 1<\/h4>\n<ul>\n<li>Jeremiah Zucker (<a href=\"https://github.com/sugarmanz\">@sugarmanz<\/a>)<\/li>\n<\/ul>\n<hr />\n",
+    "major": false,
+    "minor": true,
+    "version": "0.14.0",
+    "url": ""
+  },
+  {
+    "patch": true,
+    "components": {
+      "major": "0",
+      "minor": "13",
+      "patch": "0"
+    },
+    "releaseNotes": "<h3 id=\"release-notes\"><a href=\"#release-notes\" id=\"release-notes\" class=\"anchor\"><\/a>Release Notes<\/h3>\n<h4 id=\"new-hooks-dsl-29\"><a href=\"#new-hooks-dsl-29\" id=\"new-hooks-dsl-29\" class=\"anchor\"><\/a>New Hooks DSL (<a href=\"https://github.com/intuit/hooks/pull/29\">#29<\/a>)<\/h4>\n<p>💥 <strong>Breaking Change<\/strong> 💥<\/p>\n<p>Relax typing specification when using the DSL. Hooks should always use the <code>Hook<\/code> superclass as the specified type and rely solely on the annotation to specify the actual constraints of the hook:<\/p>\n<pre><code class=\"language-kotlin\">abstract class CarHooks : Hooks() {\n    @Sync&lt;() -&gt; Unit&gt;\n    abstract val brake: Hook\n    \n    @Sync&lt;(newSpeed: Int) -&gt; Unit&gt;\n    abstract val accelerate: Hook\n}\n<\/code><\/pre>\n<hr />\n<h4 id=\"-enhancement\"><a href=\"#-enhancement\" id=\"-enhancement\" class=\"anchor\"><\/a>🚀 Enhancement<\/h4>\n<ul>\n<li>New Hooks DSL <a href=\"https://github.com/intuit/hooks/pull/29\">#29<\/a> (<a href=\"https://github.com/stabbylambda\">@stabbylambda<\/a>)<\/li>\n<\/ul>\n<h4 id=\"authors-1\"><a href=\"#authors-1\" id=\"authors-1\" class=\"anchor\"><\/a>Authors: 1<\/h4>\n<ul>\n<li>David Stone (<a href=\"https://github.com/stabbylambda\">@stabbylambda<\/a>)<\/li>\n<\/ul>\n<hr />\n",
+    "major": false,
+    "minor": true,
+    "version": "0.13.0",
+    "url": ""
+  },
+  {
+    "patch": true,
+    "components": {
+      "major": "0",
+      "minor": "12",
+      "patch": "0"
+    },
+    "releaseNotes": "<h3 id=\"release-notes\"><a href=\"#release-notes\" id=\"release-notes\" class=\"anchor\"><\/a>Release Notes<\/h3>\n<h4 id=\"migrate-from-arrow-meta-to-kotlin-symbol-processor-24\"><a href=\"#migrate-from-arrow-meta-to-kotlin-symbol-processor-24\" id=\"migrate-from-arrow-meta-to-kotlin-symbol-processor-24\" class=\"anchor\"><\/a>Migrate from Arrow Meta to Kotlin Symbol Processor (<a href=\"https://github.com/intuit/hooks/pull/24\">#24<\/a>)<\/h4>\n<p>💥 <strong>This is a breaking change<\/strong> 💥<\/p>\n<p>Migration to KSP from Arrow Meta because they dropped support for source generation. This does improve the overall maturity of the codegen module (<code>compiler-plugin<\/code> -&gt; <code>processor<\/code>). However, the KSP framework doesn't support the code typing introspection that we were doing in Arrow Meta. Instead, we have to rely strictly on typings and annotations, which changes the DSL we originally had.<\/p>\n<pre><code class=\"language-kotlin\">internal abstract class GenericHooks : Hooks() {\n    @Sync&lt;(newSpeed: Int) -&gt; Unit&gt; abstract val sync: SyncHook&lt;*&gt;\n    @SyncBail&lt;(Boolean) -&gt; BailResult&lt;Int&gt;&gt; abstract val syncBail: SyncBailHook&lt;*, *&gt;\n    @SyncLoop&lt;(foo: Boolean) -&gt; LoopResult&gt; abstract val syncLoop: SyncLoopHook&lt;*, *&gt;\n    @SyncWaterfall&lt;(name: String) -&gt; String&gt; abstract val syncWaterfall: SyncWaterfallHook&lt;*, *&gt;\n    @AsyncParallelBail&lt;suspend (String) -&gt; BailResult&lt;String&gt;&gt; abstract val asyncParallelBail: AsyncParallelBailHook&lt;*, *&gt;\n    @AsyncParallel&lt;suspend (String) -&gt; Int&gt; abstract val asyncParallel: AsyncParallelHook&lt;*&gt;\n    @AsyncSeries&lt;suspend (String) -&gt; Int&gt; abstract val asyncSeries: AsyncSeriesHook&lt;*&gt;\n    @AsyncSeriesBail&lt;suspend (String) -&gt; BailResult&lt;String&gt;&gt; abstract val asyncSeriesBail: AsyncSeriesBailHook&lt;*, *&gt;\n    @AsyncSeriesLoop&lt;suspend (String) -&gt; LoopResult&gt; abstract val asyncSeriesLoop: AsyncSeriesLoopHook&lt;*, *&gt;\n    @AsyncSeriesWaterfall&lt;suspend (String) -&gt; String&gt; abstract val asyncSeriesWaterfall: AsyncSeriesWaterfallHook&lt;*, *&gt;\n}\n<\/code><\/pre>\n<hr />\n<h4 id=\"-enhancement\"><a href=\"#-enhancement\" id=\"-enhancement\" class=\"anchor\"><\/a>🚀 Enhancement<\/h4>\n<ul>\n<li>Migrate from Arrow Meta to Kotlin Symbol Processor <a href=\"https://github.com/intuit/hooks/pull/24\">#24<\/a> (<a href=\"https://github.com/sugarmanz\">@sugarmanz<\/a>)<\/li>\n<\/ul>\n<h4 id=\"-pushed-to-main\"><a href=\"#-pushed-to-main\" id=\"-pushed-to-main\" class=\"anchor\"><\/a>⚠️ Pushed to <code>main<\/code><\/h4>\n<ul>\n<li>forgot this for shot in the dark (<a href=\"https://github.com/sugarmanz\">@sugarmanz<\/a>)<\/li>\n<li>more reversions (<a href=\"https://github.com/sugarmanz\">@sugarmanz<\/a>)<\/li>\n<li>revert breaking build changes (<a href=\"https://github.com/sugarmanz\">@sugarmanz<\/a>)<\/li>\n<li>shot in the dark (<a href=\"https://github.com/sugarmanz\">@sugarmanz<\/a>)<\/li>\n<li>try to fix gradle crashing on release (<a href=\"https://github.com/sugarmanz\">@sugarmanz<\/a>)<\/li>\n<\/ul>\n<h4 id=\"authors-1\"><a href=\"#authors-1\" id=\"authors-1\" class=\"anchor\"><\/a>Authors: 1<\/h4>\n<ul>\n<li>Jeremiah Zucker (<a href=\"https://github.com/sugarmanz\">@sugarmanz<\/a>)<\/li>\n<\/ul>\n<hr />\n",
+    "major": false,
+    "minor": true,
+    "version": "0.12.0",
+    "url": ""
+  },
+  {
+    "patch": true,
+    "components": {
+      "major": "0",
+      "minor": "11",
+      "patch": "0"
+    },
+    "releaseNotes": "<h3 id=\"release-notes\"><a href=\"#release-notes\" id=\"release-notes\" class=\"anchor\"><\/a>Release Notes<\/h3>\n<h4 id=\"untap-support--various-fixes-19\"><a href=\"#untap-support--various-fixes-19\" id=\"untap-support--various-fixes-19\" class=\"anchor\"><\/a>Untap support &amp; various fixes (<a href=\"https://github.com/intuit/hooks/pull/19\">#19<\/a>)<\/h4>\n<h3 id=\"small-fixes\"><a href=\"#small-fixes\" id=\"small-fixes\" class=\"anchor\"><\/a>Small fixes<\/h3>\n<ul>\n<li>Fix Gradle generation params<\/li>\n<li>Modify async hook strategy to not take a scope, as this is already required to call the <code>suspend<\/code> method<\/li>\n<li>Fix <code>AsyncParallelHook<\/code> to actually suspend properly until all callbacks complete<\/li>\n<li>Replace mutable list containing <code>TapInfo<\/code> with a mutable <code>var<\/code> containing an immutable list (this fixes an issue when tapping a hook that is currently being called: <code>ConcurrentModificationException<\/code>)<\/li>\n<\/ul>\n<h3 id=\"untapping\"><a href=\"#untapping\" id=\"untapping\" class=\"anchor\"><\/a>Untapping<\/h3>\n<p>In order to allow calling sites to unregister stale callbacks and prevent memory leaks, the <code>tap<\/code> API now returns a <code>String<\/code> representing the ID of the specific &quot;tap&quot;. The ID can then be passed into the new <code>untap<\/code> API to remove the callback from the hook. This ID can be randomly generated or manually passed when tapping a hook. Manually passing an ID is useful for when the tapper wants to replace a stale callback without calling needing to <code>untap<\/code> explicitly.<\/p>\n<hr />\n<h4 id=\"-enhancement\"><a href=\"#-enhancement\" id=\"-enhancement\" class=\"anchor\"><\/a>🚀 Enhancement<\/h4>\n<h4 id=\"authors-1\"><a href=\"#authors-1\" id=\"authors-1\" class=\"anchor\"><\/a>Authors: 1<\/h4>\n<ul>\n<li>Jeremiah Zucker (<a href=\"https://github.com/sugarmanz\">@sugarmanz<\/a>)<\/li>\n<\/ul>\n<hr />\n",
+    "major": false,
+    "minor": true,
+    "version": "0.11.0",
+    "url": ""
+  },
+  {
+    "patch": true,
+    "components": {
+      "major": "0",
+      "minor": "10",
+      "patch": "0"
+    },
+    "releaseNotes": "<h3 id=\"release-notes\"><a href=\"#release-notes\" id=\"release-notes\" class=\"anchor\"><\/a>Release Notes<\/h3>\n<h4 id=\"upgrade-to-arrow-100-and-fix-generated-sources-root-15\"><a href=\"#upgrade-to-arrow-100-and-fix-generated-sources-root-15\" id=\"upgrade-to-arrow-100-and-fix-generated-sources-root-15\" class=\"anchor\"><\/a>upgrade to arrow 1.0.0 and fix generated sources root (<a href=\"https://github.com/intuit/hooks/pull/15\">#15<\/a>)<\/h4>\n<ul>\n<li>Upgrade to Arrow 1.0.0<\/li>\n<li>Fixed issue where JAR bundling was somehow causing the plugin options to be dropped<\/li>\n<\/ul>\n<hr />\n<h4 id=\"-enhancement\"><a href=\"#-enhancement\" id=\"-enhancement\" class=\"anchor\"><\/a>🚀 Enhancement<\/h4>\n<ul>\n<li>upgrade to arrow 1.0.0 and fix generated sources root <a href=\"https://github.com/intuit/hooks/pull/15\">#15<\/a> (<a href=\"https://github.com/sugarmanz\">@sugarmanz<\/a>)<\/li>\n<\/ul>\n<h4 id=\"authors-1\"><a href=\"#authors-1\" id=\"authors-1\" class=\"anchor\"><\/a>Authors: 1<\/h4>\n<ul>\n<li>Jeremiah Zucker (<a href=\"https://github.com/sugarmanz\">@sugarmanz<\/a>)<\/li>\n<\/ul>\n<hr />\n",
+    "major": false,
+    "minor": true,
+    "version": "0.10.0",
+    "url": ""
+  },
+  {
+    "patch": true,
+    "components": {
+      "major": "0",
+      "minor": "9",
+      "patch": "0"
+    },
+    "releaseNotes": "<p>:tada: This release contains work from a new contributor! :tada:<\/p>\n<p>Thank you, David Stone (<a href=\"https://github.com/stabbylambda\">@stabbylambda<\/a>), for all your work!<\/p>\n<h3 id=\"release-notes\"><a href=\"#release-notes\" id=\"release-notes\" class=\"anchor\"><\/a>Release Notes<\/h3>\n<h4 id=\"hooks-with-type-parameters-8\"><a href=\"#hooks-with-type-parameters-8\" id=\"hooks-with-type-parameters-8\" class=\"anchor\"><\/a>Hooks with type parameters (<a href=\"https://github.com/intuit/hooks/pull/8\">#8<\/a>)<\/h4>\n<p>Enhance DSL to adds the ability to generate Hooks with type parameters. The use case for this is when some piece of data is known only to the consumer of a library and the consumers of the taps, but not necessarily the library itself. As an example:<\/p>\n<pre><code class=\"language-kotlin\">class FooHooks&lt;T&gt; : Hooks() {\n    open val beforeCalc = syncHook&lt;(T) -&gt; Unit&gt;()\n}\n\ndata class Foo&lt;T&gt;(val t: T)  {\n    public val hooks = FooHooksImpl&lt;T&gt;()\n\n    fun calc() {\n        hooks.beforeCalc.call(t)\n        // ...\n    }\n}\n\nfun runCalcsWithLog() {\n    val f = Foo&lt;String&gt;(&quot;hi&quot;)\n    f.hooks.beforeCalc.tap(&quot;hi&quot;) { x -&gt; println(x) }\n}\n<\/code><\/pre>\n<hr />\n<h4 id=\"-enhancement\"><a href=\"#-enhancement\" id=\"-enhancement\" class=\"anchor\"><\/a>🚀 Enhancement<\/h4>\n<ul>\n<li>Hooks with type parameters <a href=\"https://github.com/intuit/hooks/pull/8\">#8<\/a> (<a href=\"https://github.com/stabbylambda\">@stabbylambda<\/a>)<\/li>\n<\/ul>\n<h4 id=\"-bug-fix\"><a href=\"#-bug-fix\" id=\"-bug-fix\" class=\"anchor\"><\/a>🐛 Bug Fix<\/h4>\n<ul>\n<li>Update to use Typed Quotes <a href=\"https://github.com/intuit/hooks/pull/7\">#7<\/a> (<a href=\"https://github.com/stabbylambda\">@stabbylambda<\/a>)<\/li>\n<\/ul>\n<h4 id=\"-documentation\"><a href=\"#-documentation\" id=\"-documentation\" class=\"anchor\"><\/a>📝 Documentation<\/h4>\n<ul>\n<li>update docs for gradle plugin portal <a href=\"https://github.com/intuit/hooks/pull/6\">#6<\/a> (<a href=\"https://github.com/sugarmanz\">@sugarmanz<\/a>)<\/li>\n<\/ul>\n<h4 id=\"authors-2\"><a href=\"#authors-2\" id=\"authors-2\" class=\"anchor\"><\/a>Authors: 2<\/h4>\n<ul>\n<li>David Stone (<a href=\"https://github.com/stabbylambda\">@stabbylambda<\/a>)<\/li>\n<li>Jeremiah Zucker (<a href=\"https://github.com/sugarmanz\">@sugarmanz<\/a>)<\/li>\n<\/ul>\n<hr />\n",
+    "major": false,
+    "minor": true,
+    "version": "0.9.0",
+    "url": ""
+  },
+  {
+    "patch": true,
+    "components": {
+      "major": "0",
+      "minor": "8",
+      "patch": "0"
+    },
+    "releaseNotes": "<h4 id=\"-enhancement\"><a href=\"#-enhancement\" id=\"-enhancement\" class=\"anchor\"><\/a>🚀 Enhancement<\/h4>\n<ul>\n<li>Finalize publishing and fix links <a href=\"https://github.com/intuit/hooks/pull/4\">#4<\/a> (<a href=\"https://github.com/sugarmanz\">@sugarmanz<\/a>)<\/li>\n<\/ul>\n<h4 id=\"authors-1\"><a href=\"#authors-1\" id=\"authors-1\" class=\"anchor\"><\/a>Authors: 1<\/h4>\n<ul>\n<li>Jeremiah Zucker (<a href=\"https://github.com/sugarmanz\">@sugarmanz<\/a>)<\/li>\n<\/ul>\n<hr />\n",
+    "major": false,
+    "minor": true,
+    "version": "0.8.0",
+    "url": ""
+  },
+  {
+    "patch": false,
+    "components": {
+      "major": "0",
+      "minor": "7",
+      "patch": "0"
+    },
+    "releaseNotes": "<h3 id=\"release-notes\"><a href=\"#release-notes\" id=\"release-notes\" class=\"anchor\"><\/a>Release Notes<\/h3>\n<p><em>From #38<\/em><\/p>\n<ul>\n<li>Configure <a href=\"https://github.com/JLLeitschuh/ktlint-gradle\">KtLint Gradle Plugin<\/a><\/li>\n<li>Enable <a href=\"https://kotlinlang.org/docs/reference/whatsnew14.html#explicit-api-mode-for-library-authors\">explicit API mode<\/a><\/li>\n<li>Setup <a href=\"https://github.com/Kotlin/binary-compatibility-validator\">API matching tool<\/a><\/li>\n<li>Generate <a href=\"https://kotlin.github.io/dokka/1.4.20/\">Dokka API docs<\/a><\/li>\n<li>Migrate to <a href=\"https://docs.gradle.org/current/userguide/kotlin_dsl.html\">Gradle Kotlin DSL<\/a><\/li>\n<\/ul>\n<hr />\n<h4 id=\"-enhancement\"><a href=\"#-enhancement\" id=\"-enhancement\" class=\"anchor\"><\/a>🚀 Enhancement<\/h4>\n<ul>\n<li>Add logo &amp; fix build redeclaration issue <a href=\"https://github.intuit.com/player/hooks/pull/39\">#39<\/a> (<a href=\"https://github.intuit.com/JZUCKER\">@JZUCKER<\/a>)<\/li>\n<li>Quality-of-Life Tooling <a href=\"https://github.intuit.com/player/hooks/pull/38\">#38<\/a> (<a href=\"https://github.intuit.com/JZUCKER\">@JZUCKER<\/a>)<\/li>\n<\/ul>\n<h4 id=\"authors-1\"><a href=\"#authors-1\" id=\"authors-1\" class=\"anchor\"><\/a>Authors: 1<\/h4>\n<ul>\n<li>Jeremiah Zucker (<a href=\"https://github.intuit.com/JZUCKER\">@JZUCKER<\/a>)<\/li>\n<\/ul>\n<hr />\n",
+    "major": false,
+    "minor": true,
+    "version": "0.7.0",
+    "url": ""
+  },
+  {
+    "patch": false,
+    "components": {
+      "major": "0",
+      "minor": "6",
+      "patch": "0"
+    },
+    "releaseNotes": "<h3 id=\"release-notes\"><a href=\"#release-notes\" id=\"release-notes\" class=\"anchor\"><\/a>Release Notes<\/h3>\n<p><em>From #36<\/em><\/p>\n<p>Implement Kotlin Maven Plugin Extension<\/p>\n<hr />\n<h4 id=\"-enhancement\"><a href=\"#-enhancement\" id=\"-enhancement\" class=\"anchor\"><\/a>🚀 Enhancement<\/h4>\n<ul>\n<li>[PLAYA-7426] Implement Kotlin Maven Plugin Extension <a href=\"https://github.intuit.com/player/hooks/pull/36\">#36<\/a> (<a href=\"https://github.intuit.com/JZUCKER\">@JZUCKER<\/a>)<\/li>\n<\/ul>\n<h4 id=\"authors-1\"><a href=\"#authors-1\" id=\"authors-1\" class=\"anchor\"><\/a>Authors: 1<\/h4>\n<ul>\n<li>Jeremiah Zucker (<a href=\"https://github.intuit.com/JZUCKER\">@JZUCKER<\/a>)<\/li>\n<\/ul>\n<hr />\n",
+    "major": false,
+    "minor": true,
+    "version": "0.6.0",
+    "url": ""
+  },
+  {
+    "patch": false,
+    "components": {
+      "major": "0",
+      "minor": "5",
+      "patch": "0"
+    },
+    "releaseNotes": "<h4 id=\"-enhancement\"><a href=\"#-enhancement\" id=\"-enhancement\" class=\"anchor\"><\/a>🚀 Enhancement<\/h4>\n<ul>\n<li>repo renaming to hooks <a href=\"https://github.intuit.com/player/hooks/pull/37\">#37<\/a> (<a href=\"https://github.intuit.com/JZUCKER\">@JZUCKER<\/a>)<\/li>\n<\/ul>\n<h4 id=\"authors-1\"><a href=\"#authors-1\" id=\"authors-1\" class=\"anchor\"><\/a>Authors: 1<\/h4>\n<ul>\n<li>Jeremiah Zucker (<a href=\"https://github.intuit.com/JZUCKER\">@JZUCKER<\/a>)<\/li>\n<\/ul>\n<hr />\n",
+    "major": false,
+    "minor": true,
+    "version": "0.5.0",
+    "url": ""
+  },
+  {
+    "patch": false,
+    "components": {
+      "major": "0",
+      "minor": "4",
+      "patch": "0"
+    },
+    "releaseNotes": "<h3 id=\"release-notes\"><a href=\"#release-notes\" id=\"release-notes\" class=\"anchor\"><\/a>Release Notes<\/h3>\n<p><em>From #31<\/em><\/p>\n<h4 id=\"gradle-plugin\"><a href=\"#gradle-plugin\" id=\"gradle-plugin\" class=\"anchor\"><\/a>Gradle Plugin<\/h4>\n<p>Implement Gradle plugin for the compiler plugin. When added to a project, it will automatically include the correct dependencies.<\/p>\n<h4 id=\"renaming\"><a href=\"#renaming\" id=\"renaming\" class=\"anchor\"><\/a>Renaming<\/h4>\n<p>Remove all <code>tapable<\/code> references from the package name.<\/p>\n<hr />\n<h4 id=\"-enhancement\"><a href=\"#-enhancement\" id=\"-enhancement\" class=\"anchor\"><\/a>🚀 Enhancement<\/h4>\n<ul>\n<li>[PLAYA-7369] Gradle plugin wrapper <a href=\"https://github.intuit.com/player/tapable-kt/pull/31\">#31<\/a> (<a href=\"https://github.intuit.com/JZUCKER\">@JZUCKER<\/a> <a href=\"https://github.intuit.com/dstone3\">@dstone3<\/a>)<\/li>\n<\/ul>\n<h4 id=\"authors-2\"><a href=\"#authors-2\" id=\"authors-2\" class=\"anchor\"><\/a>Authors: 2<\/h4>\n<ul>\n<li>David Stone (<a href=\"https://github.intuit.com/dstone3\">@dstone3<\/a>)<\/li>\n<li>Jeremiah Zucker (<a href=\"https://github.intuit.com/JZUCKER\">@JZUCKER<\/a>)<\/li>\n<\/ul>\n<hr />\n",
+    "major": false,
+    "minor": true,
+    "version": "0.4.0",
+    "url": ""
+  },
+  {
+    "patch": false,
+    "components": {
+      "major": "0",
+      "minor": "3",
+      "patch": "0"
+    },
+    "releaseNotes": "<h3 id=\"release-notes\"><a href=\"#release-notes\" id=\"release-notes\" class=\"anchor\"><\/a>Release Notes<\/h3>\n<p><em>From #33<\/em><\/p>\n<hr />\n<h4 id=\"-enhancement\"><a href=\"#-enhancement\" id=\"-enhancement\" class=\"anchor\"><\/a>🚀 Enhancement<\/h4>\n<ul>\n<li>Upgrade Kotlin and Gradle stuff <a href=\"https://github.intuit.com/player/tapable-kt/pull/34\">#34<\/a> (<a href=\"https://github.intuit.com/dstone3\">@dstone3<\/a>)<\/li>\n<\/ul>\n<h4 id=\"-bug-fix\"><a href=\"#-bug-fix\" id=\"-bug-fix\" class=\"anchor\"><\/a>🐛 Bug Fix<\/h4>\n<ul>\n<li>Better name + some README <a href=\"https://github.intuit.com/player/tapable-kt/pull/33\">#33<\/a> (<a href=\"https://github.intuit.com/dstone3\">@dstone3<\/a>)<\/li>\n<li>Add MIT LICENSE <a href=\"https://github.intuit.com/player/tapable-kt/pull/30\">#30<\/a> (<a href=\"https://github.intuit.com/JZUCKER\">@JZUCKER<\/a>)<\/li>\n<\/ul>\n<h4 id=\"-documentation\"><a href=\"#-documentation\" id=\"-documentation\" class=\"anchor\"><\/a>📝 Documentation<\/h4>\n<ul>\n<li>Open Source Readiness <a href=\"https://github.intuit.com/player/tapable-kt/pull/27\">#27<\/a> (<a href=\"https://github.intuit.com/JZUCKER\">@JZUCKER<\/a>)<\/li>\n<li>InnerSource Readiness <a href=\"https://github.intuit.com/player/tapable-kt/pull/25\">#25<\/a> (<a href=\"https://github.intuit.com/JZUCKER\">@JZUCKER<\/a>)<\/li>\n<\/ul>\n<h4 id=\"authors-2\"><a href=\"#authors-2\" id=\"authors-2\" class=\"anchor\"><\/a>Authors: 2<\/h4>\n<ul>\n<li>David Stone (<a href=\"https://github.intuit.com/dstone3\">@dstone3<\/a>)<\/li>\n<li>Jeremiah Zucker (<a href=\"https://github.intuit.com/JZUCKER\">@JZUCKER<\/a>)<\/li>\n<\/ul>\n<hr />\n",
+    "major": false,
+    "minor": true,
+    "version": "0.3.0",
+    "url": ""
+  },
+  {
+    "patch": true,
+    "components": {
+      "major": "0",
+      "minor": "2",
+      "patch": "0"
+    },
+    "releaseNotes": "<h4 id=\"-enhancement\"><a href=\"#-enhancement\" id=\"-enhancement\" class=\"anchor\"><\/a>🚀 Enhancement<\/h4>\n<ul>\n<li>Better compiler errors <a href=\"https://github.intuit.com/player/tapable-kt/pull/20\">#20<\/a> (<a href=\"https://github.intuit.com/dstone3\">@dstone3<\/a>)<\/li>\n<\/ul>\n<h4 id=\"authors-1\"><a href=\"#authors-1\" id=\"authors-1\" class=\"anchor\"><\/a>Authors: 1<\/h4>\n<ul>\n<li>David Stone (<a href=\"https://github.intuit.com/dstone3\">@dstone3<\/a>)<\/li>\n<\/ul>\n<hr />\n",
+    "major": false,
+    "minor": true,
+    "version": "0.2.0",
+    "url": ""
+  },
+  {
+    "patch": true,
+    "components": {
+      "major": "0",
+      "minor": "1",
+      "patch": "0"
+    },
+    "releaseNotes": "<h4 id=\"-enhancement\"><a href=\"#-enhancement\" id=\"-enhancement\" class=\"anchor\"><\/a>🚀 Enhancement<\/h4>\n<ul>\n<li>Bail Result <a href=\"https://github.intuit.com/player/tapable-kt/pull/16\">#16<\/a> (<a href=\"https://github.intuit.com/JZUCKER\">@JZUCKER<\/a>)<\/li>\n<\/ul>\n<h4 id=\"authors-1\"><a href=\"#authors-1\" id=\"authors-1\" class=\"anchor\"><\/a>Authors: 1<\/h4>\n<ul>\n<li>Jeremiah Zucker (<a href=\"https://github.intuit.com/JZUCKER\">@JZUCKER<\/a>)<\/li>\n<\/ul>\n<hr />\n",
+    "major": false,
+    "minor": true,
+    "version": "0.1.0",
+    "url": ""
+  },
+  {
+    "patch": true,
+    "components": {
+      "major": "0",
+      "minor": "0",
+      "patch": "2"
+    },
+    "releaseNotes": "<h3 id=\"release-notes\"><a href=\"#release-notes\" id=\"release-notes\" class=\"anchor\"><\/a>Release Notes<\/h3>\n<p><em>From #7<\/em><\/p>\n<p>First published alpha release of Intuit Tapable for the JVM. This includes the complete set of working hooks, as well as a compiler plugin to help generate specific hook implementations. This project as a whole is based on Webpack's <a href=\"https://github.com/webpack/tapable\">Tapable<\/a> for JS.<\/p>\n<hr />\n<h4 id=\"-bug-fix\"><a href=\"#-bug-fix\" id=\"-bug-fix\" class=\"anchor\"><\/a>🐛 Bug Fix<\/h4>\n<ul>\n<li>Initial build &amp; release <a href=\"https://github.intuit.com/player/tapable-kt/pull/7\">#7<\/a> (<a href=\"https://github.intuit.com/JZUCKER\">@JZUCKER<\/a>)<\/li>\n<li>Fix the suspend function and add back the convenience tap <a href=\"https://github.intuit.com/player/tapable-kt/pull/6\">#6<\/a> (<a href=\"https://github.intuit.com/dstone3\">@dstone3<\/a>)<\/li>\n<li>Implement the compiler plugin <a href=\"https://github.intuit.com/player/tapable-kt/pull/5\">#5<\/a> (<a href=\"https://github.intuit.com/JZUCKER\">@JZUCKER<\/a> <a href=\"https://github.intuit.com/dstone3\">@dstone3<\/a>)<\/li>\n<li>Add Async Parallel and Bail <a href=\"https://github.intuit.com/player/tapable-kt/pull/4\">#4<\/a> (<a href=\"https://github.intuit.com/dstone3\">@dstone3<\/a>)<\/li>\n<li>Some cleanup <a href=\"https://github.intuit.com/player/tapable-kt/pull/3\">#3<\/a> (<a href=\"https://github.intuit.com/dstone3\">@dstone3<\/a>)<\/li>\n<li>Sync Hooks + Interceptors <a href=\"https://github.intuit.com/player/tapable-kt/pull/2\">#2<\/a> (<a href=\"https://github.intuit.com/dstone3\">@dstone3<\/a>)<\/li>\n<li>Basic sync hook <a href=\"https://github.intuit.com/player/tapable-kt/pull/1\">#1<\/a> (<a href=\"https://github.intuit.com/dstone3\">@dstone3<\/a> <a href=\"https://github.intuit.com/JZUCKER\">@JZUCKER<\/a>)<\/li>\n<\/ul>\n<h4 id=\"-pushed-to-master\"><a href=\"#-pushed-to-master\" id=\"-pushed-to-master\" class=\"anchor\"><\/a>⚠️ Pushed to <code>master<\/code><\/h4>\n<ul>\n<li>It helps to check in the gradle wrapper (<a href=\"https://github.intuit.com/dstone3\">@dstone3<\/a>)<\/li>\n<li>Update README.md (<a href=\"https://github.intuit.com/dstone3\">@dstone3<\/a>)<\/li>\n<li>Initial commit (<a href=\"https://github.intuit.com/dstone3\">@dstone3<\/a>)<\/li>\n<\/ul>\n<h4 id=\"authors-2\"><a href=\"#authors-2\" id=\"authors-2\" class=\"anchor\"><\/a>Authors: 2<\/h4>\n<ul>\n<li>David Stone (<a href=\"https://github.intuit.com/dstone3\">@dstone3<\/a>)<\/li>\n<li>Jeremiah Zucker (<a href=\"https://github.intuit.com/JZUCKER\">@JZUCKER<\/a>)<\/li>\n<\/ul>\n",
+    "major": true,
+    "minor": true,
+    "version": "0.0.2",
+    "url": ""
+  }
+]

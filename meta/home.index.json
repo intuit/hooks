@@ -1,0 +1,31 @@
+{
+  "ownKey": "home",
+  "ownPages": [
+    {
+      "reference": {
+        "path": "",
+        "baseUrl": "https://intuit.github.io/hooks",
+        "fileName": "",
+        "extension": "html",
+        "usePrettyUrl": true,
+        "link": "https://intuit.github.io/hooks"
+      },
+      "description": "",
+      "title": "Hooks",
+      "content": "\n<section class=\"columns is-centered\">\n  <div class=\"column is-half\">\n    <figure class=\"image\">\n      <img src=\"https://intuit.github.io/hooks/assets/media/logo.svg\" alt=\"Hooks logo\">\n    <\/figure>\n  <\/div>\n<\/section>\n\n<section class=\"columns is-centered\">\n  <div class=\"column is-half\">\n    <a class=\"is-block has-text-centered\" href=\"https://intuit.github.io/hooks/changelog\">Version 0.15.0<\/a>\n  <\/div>\n<\/section>\n\n<section class=\"columns is-centered\">\n  <div class=\"column is-8\">\n    <div class=\"content is-medium\">\n      <p>\n        Hooks represent \"pluggable\" points in a software model. They provide a mechanism for tapping into such points to get updates, or apply additional functionality to some typed object. Included in this project are:\n      <\/p>\n    <\/div>\n  <\/div>\n<\/section>\n\n\n<section class=\"columns is-multiline is-gapless box\">\n  <header class=\"column is-4 has-text-right-tablet\">\n    <div class=\"notification content is-medium\">\n      <h2 class=\"title is-4\">A variety of hooks<\/h2>\n    <\/div>\n  <\/header>\n\n  \n    <div class=\"column is-8\">\n      <pre class=\"notification content is-medium is-dark\"><code class=\"language-text\">Basic, Waterfall, Bail, Loop\n<\/code><\/pre>\n    <\/div>\n  \n\n  \n    <div class=\"column is-4 has-text-right-tablet\">\n      <div class=\"notification content is-medium\">\n      With extendable APIs\n      <\/div>\n    <\/div>\n    <div class=\"column is-8\">\n      <pre class=\"notification content is-medium is-dark\"><code class=\"language-kotlin\">class MyHook : SyncHook<((HookContext, Int) -> Unit)>() {\n    fun call(value: Int) =\n        super.call { f, context -> f(context, value) }\n\n    fun tap(name: String, f: ((Int) -> Unit)) =\n        super.tap(name) { _, newValue -> f(newValue) }\n}\n\nval myHook = MyHook()\n<\/code><\/pre>\n    <\/div>\n  \n    <div class=\"column is-4 has-text-right-tablet\">\n      <div class=\"notification content is-medium\">\n      And strongly typed methods\n      <\/div>\n    <\/div>\n    <div class=\"column is-8\">\n      <pre class=\"notification content is-medium is-dark\"><code class=\"language-kotlin\">myHook.tap(\"logger\") { _, newValue: Int ->\n    println(\"newValue: $newValue\")\n}\nmyHook.call(30)\n<\/code><\/pre>\n    <\/div>\n  \n    <div class=\"column is-4 has-text-right-tablet\">\n      <div class=\"notification content is-medium\">\n      Asynchronous support built on coroutines\n      <\/div>\n    <\/div>\n    <div class=\"column is-8\">\n      <pre class=\"notification content is-medium is-dark\"><code class=\"language-kotlin\">class SimpleAsyncHook :\n    AsyncSeriesHook<(suspend (HookContext) -> Unit)>() {\n\n    suspend fun call() =\n        super.call { f, context -> f(context) }\n}\n\nval simple = SimpleAsyncHook()\nrunBlocking {\n    simple.tap(\"some-network-plugin\") {\n        // do network call\n    }\n\n    simple.call()\n}\n<\/code><\/pre>\n    <\/div>\n  \n\n<\/section>\n\n<section class=\"columns is-multiline is-gapless box\">\n  <header class=\"column is-4 has-text-right-tablet\">\n    <div class=\"notification content is-medium\">\n      <h2 class=\"title is-4\">Kotlin symbol processor<\/h2>\n    <\/div>\n  <\/header>\n\n  \n    <div class=\"column is-8\">\n      <pre class=\"notification content is-medium is-dark\"><code class=\"language-text\">To make hooks easier to use\n<\/code><\/pre>\n    <\/div>\n  \n\n  \n    <div class=\"column is-4 has-text-right-tablet\">\n      <div class=\"notification content is-medium\">\n      Paired with a concise DSL that generates type-safe APIs\n      <\/div>\n    <\/div>\n    <div class=\"column is-8\">\n      <pre class=\"notification content is-medium is-dark\"><code class=\"language-kotlin\">abstract class SomeHooks : Hooks() {\n    @Sync<() -> Unit>\n    abstract val syncHook: Hook\n}\n<\/code><\/pre>\n    <\/div>\n  \n    <div class=\"column is-4 has-text-right-tablet\">\n      <div class=\"notification content is-medium\">\n      Wrapped with a Gradle plugin...\n      <\/div>\n    <\/div>\n    <div class=\"column is-8\">\n      <pre class=\"notification content is-medium is-dark\"><code class=\"language-kotlin\">plugins {\n    id(\"com.intuit.hooks\")\n}\n<\/code><\/pre>\n    <\/div>\n  \n    <div class=\"column is-4 has-text-right-tablet\">\n      <div class=\"notification content is-medium\">\n      And a Maven Kotlin plugin extension\n      <\/div>\n    <\/div>\n    <div class=\"column is-8\">\n      <pre class=\"notification content is-medium is-dark\"><code class=\"language-markup\">&lt;compilerPlugins&gt;\n    &lt;plugin>hooks&lt;/plugin&gt;\n&lt;/compilerPlugins&gt;\n<\/code><\/pre>\n    <\/div>\n  \n\n<\/section>\n\n"
+    },
+    {
+      "reference": {
+        "path": "",
+        "baseUrl": "https://intuit.github.io/hooks",
+        "fileName": "404",
+        "extension": "html",
+        "usePrettyUrl": false,
+        "link": "https://intuit.github.io/hooks/404.html"
+      },
+      "description": "",
+      "title": "Not Found",
+      "content": ""
+    }
+  ]
+}
