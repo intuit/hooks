@@ -121,12 +121,13 @@ internal fun HookInfo.generateClass(): TypeSpec {
             requireNotNull(hookSignature.nullableReturnTypeType)
             val superclass = createSuperClass(hookSignature.returnTypeType)
 
-            // force the concurrency parameter to be first
-            callBuilder.parameters.add(0, ParameterSpec("concurrency", INT))
+            val call = with(callBuilder) {
+                // force the concurrency parameter to be first
+                parameters.add(0, ParameterSpec("concurrency", INT))
 
-            val call = callBuilder
-                .returns(hookSignature.nullableReturnTypeType)
-                .addStatement("return super.call(concurrency) { f, context -> f(context, $paramsWithoutTypes) }")
+                returns(hookSignature.nullableReturnTypeType)
+                    .addStatement("return super.call(concurrency) { f, context -> f(context, $paramsWithoutTypes) }")
+            }
 
             Pair(superclass, listOf(call))
         }
