@@ -16,7 +16,8 @@ public abstract class com/intuit/hooks/AsyncParallelHook : com/intuit/hooks/Asyn
 
 public abstract class com/intuit/hooks/AsyncSeriesBailHook : com/intuit/hooks/AsyncBaseHook {
 	public fun <init> ()V
-	protected final fun call (Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	protected final fun call (Lkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function2;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static synthetic fun call$default (Lcom/intuit/hooks/AsyncSeriesBailHook;Lkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function2;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
 }
 
 public abstract class com/intuit/hooks/AsyncSeriesHook : com/intuit/hooks/AsyncBaseHook {
@@ -97,7 +98,8 @@ public final class com/intuit/hooks/LoopResult$Companion {
 
 public abstract class com/intuit/hooks/SyncBailHook : com/intuit/hooks/SyncBaseHook {
 	public fun <init> ()V
-	protected final fun call (Lkotlin/jvm/functions/Function2;)Ljava/lang/Object;
+	protected final fun call (Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function1;)Ljava/lang/Object;
+	public static synthetic fun call$default (Lcom/intuit/hooks/SyncBailHook;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ljava/lang/Object;
 }
 
 public abstract class com/intuit/hooks/SyncBaseHook : com/intuit/hooks/BaseHook {

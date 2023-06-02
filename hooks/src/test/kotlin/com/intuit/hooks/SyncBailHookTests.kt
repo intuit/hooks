@@ -8,7 +8,16 @@ import org.junit.jupiter.api.Test
 
 class SyncBailHookTests {
     class Hook1<T1, R : Any?> : SyncBailHook<(HookContext, T1) -> BailResult<R>, R>() {
-        fun call(p1: T1) = super.call { f, context -> f(context, p1) }
+        fun call(p1: T1, default: ((HookContext, T1) -> R)? = null) = super.call(
+            { f, context -> f(context, p1) },
+            default?.let {
+                { context -> default(context, p1) }
+            }
+        )
+
+        fun call(p1: T1, default: ((T1) -> R)) = call(p1) { _, arg1 ->
+            default.invoke(arg1)
+        }
     }
 
     @Test
@@ -50,5 +59,30 @@ class SyncBailHookTests {
         h.tap("continue again") { _, _ -> Assertions.fail("Should never have gotten here!") }
 
         Assertions.assertEquals(Unit, h.call("David"))
+    }
+
+    @Test
+    fun `bail call with default handler invokes without taps bailing`() {
+        val h = Hook1<String, String>()
+        h.tap("continue") { _, _ -> BailResult.Continue() }
+        h.tap("continue again") { _, _ -> BailResult.Continue() }
+
+        val result = h.call("David") { _, str ->
+            str
+        }
+
+        Assertions.assertEquals("David", result)
+    }
+
+    @Test
+    fun `bail call with default handler does not invoke with bail`() {
+        val h = Hook1<String, String>()
+        h.tap("continue") { _, _ -> BailResult.Continue() }
+        h.tap("bail") { _, _ -> BailResult.Bail("bailing") }
+        h.tap("continue again") { _, _ -> Assertions.fail("Should never have gotten here!") }
+
+        val result = h.call("David") { str -> str }
+
+        Assertions.assertEquals("bailing", result)
     }
 }

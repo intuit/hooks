@@ -282,6 +282,44 @@ class HooksProcessorTest {
         result.runCompiledAssertions()
     }
 
+    @Test fun `generates bail hook class`() {
+        val testHooks = SourceFile.kotlin(
+            "TestBailHooks.kt",
+            """
+            import com.intuit.hooks.BailResult
+            import com.intuit.hooks.Hook
+            import com.intuit.hooks.dsl.Hooks
+            
+            internal abstract class TestBailHooks : Hooks() {
+                @SyncBail<(String) -> BailResult<String>>
+                abstract val testSyncBailHook: Hook
+            }
+            """
+        )
+
+        val assertions = SourceFile.kotlin(
+            "Assertions.kt",
+            """
+            import com.intuit.hooks.BailResult
+            import org.junit.jupiter.api.Assertions.*
+
+            fun testHook() {
+                val hooks = TestBailHooksImpl()
+                hooks.testSyncBailHook.tap("test") { _, _ -> BailResult.Continue() }
+                val result = hooks.testSyncBailHook.call("hello") { ctx, str ->
+                    str + " world"
+                }
+                assertEquals("hello world", result)
+            }
+            """
+        )
+
+        val (compilation, result) = compile(testHooks, assertions)
+        result.assertOk()
+        compilation.assertKspGeneratedSources("TestBailHooksHooks.kt")
+        result.runCompiledAssertions()
+    }
+
     @Test fun `generates nested hook class`() {
         val testHooks = SourceFile.kotlin(
             "TestHooks.kt",
