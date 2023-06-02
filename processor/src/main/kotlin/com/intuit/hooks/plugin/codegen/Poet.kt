@@ -40,13 +40,14 @@ private fun HooksContainer.generateContainerClass(): TypeSpec {
     }.build()
 }
 
+internal val HookInfo.callBuilder get() = FunSpec.builder("call")
+    .addParameters(parameterSpecs)
+    .apply {
+        if (isAsync)
+            addModifiers(KModifier.SUSPEND)
+    }
+
 internal fun HookInfo.generateClass(): TypeSpec {
-    val callBuilder = FunSpec.builder("call")
-        .addParameters(parameterSpecs)
-        .apply {
-            if (this@generateClass.isAsync)
-                addModifiers(KModifier.SUSPEND)
-        }
 
     val (superclass, calls) = when (hookType) {
         HookType.SyncHook, HookType.AsyncSeriesHook, HookType.AsyncParallelHook -> {
@@ -90,12 +91,7 @@ internal fun HookInfo.generateClass(): TypeSpec {
             requireNotNull(hookSignature.nullableReturnTypeType)
             val superclass = createSuperClass(hookSignature.returnTypeType)
 
-            val call = FunSpec.builder("call")
-                .addParameters(parameterSpecs)
-                .apply {
-                    if (this@generateClass.isAsync)
-                        addModifiers(KModifier.SUSPEND)
-                }
+            val call = callBuilder
                 .addParameter(
                     ParameterSpec.builder(
                         "default",
@@ -108,12 +104,7 @@ internal fun HookInfo.generateClass(): TypeSpec {
                 .returns(hookSignature.nullableReturnTypeType)
                 .addStatement("return call ($paramsWithoutTypes) { _, arg1 -> default.invoke(arg1) }")
 
-            val call2 = FunSpec.builder("call")
-                .addParameters(parameterSpecs)
-                .apply {
-                    if (this@generateClass.isAsync)
-                        addModifiers(KModifier.SUSPEND)
-                }
+            val call2 = callBuilder
                 .addParameter(
                     ParameterSpec.builder(
                         "default",
