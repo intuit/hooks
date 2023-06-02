@@ -108,7 +108,7 @@ internal fun HookInfo.generateClass(): TypeSpec {
                 .addParameter(
                     ParameterSpec.builder(
                         "default",
-                        createHookContextLambda(hookSignature.returnTypeType!!).copy(nullable = true)
+                        createHookContextLambda(hookSignature.returnTypeType).copy(nullable = true)
                     ).defaultValue(CodeBlock.of("null")).build()
                 )
                 .returns(hookSignature.nullableReturnTypeType)
