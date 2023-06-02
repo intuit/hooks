@@ -1,3 +1,27 @@
+# v0.15.0 (Fri Jun 02 2023)
+
+:tada: This release contains work from a new contributor! :tada:
+
+Thank you, null[@brocollie08](https://github.com/brocollie08), for all your work!
+
+### Release Notes
+
+#### BailHook default handler ([#33](https://github.com/intuit/hooks/pull/33))
+
+Allows for `SyncBailHook` to call with a default handler for when the taps do not bail and return nothing
+
+---
+
+#### 🚀 Enhancement
+
+- BailHook default handler [#33](https://github.com/intuit/hooks/pull/33) ([@brocollie08](https://github.com/brocollie08))
+
+#### Authors: 1
+
+- [@brocollie08](https://github.com/brocollie08)
+
+---
+
 # v0.14.1 (Tue Dec 06 2022)
 
 #### ⚠️ Pushed to `main`
