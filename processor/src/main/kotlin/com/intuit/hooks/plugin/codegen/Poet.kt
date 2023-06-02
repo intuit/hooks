@@ -102,7 +102,7 @@ internal fun HookInfo.generateClass(): TypeSpec {
                     ).build()
                 )
                 .returns(hookSignature.nullableReturnTypeType)
-                .addStatement("return call ($paramsWithoutTypes) { _, arg1 -> default.invoke(arg1) }")
+                .addStatement("return call ($paramsWithoutTypes) { _, $paramsWithoutTypes -> default.invoke($paramsWithoutTypes) }")
 
             val contextCall = callBuilder
                 .addParameter(
