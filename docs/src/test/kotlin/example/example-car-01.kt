@@ -1,10 +1,10 @@
 // This file was automatically generated from plugin-architecture.md by Knit tool. Do not edit.
 package com.intuit.hooks.example.exampleCar01
 
-import com.intuit.hooks.dsl.Hooks
+import com.intuit.hooks.dsl.Hooks.*
 import com.intuit.hooks.Hook
 
-abstract class CarHooks : Hooks() {
+abstract class CarHooks : Hooks {
     @Sync<() -> Unit>
     abstract val brake: Hook
     

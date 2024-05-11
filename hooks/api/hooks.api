@@ -142,47 +142,36 @@ public final class com/intuit/hooks/TapInfo {
 	public fun toString ()Ljava/lang/String;
 }
 
-public abstract class com/intuit/hooks/dsl/Hooks {
-	public fun <init> ()V
-	protected final fun asyncParallelBailHook ()Lcom/intuit/hooks/AsyncParallelBailHook;
-	protected final fun asyncParallelHook ()Lcom/intuit/hooks/AsyncParallelHook;
-	protected final fun asyncSeriesBailHook ()Lcom/intuit/hooks/AsyncSeriesBailHook;
-	protected final fun asyncSeriesHook ()Lcom/intuit/hooks/AsyncSeriesHook;
-	protected final fun asyncSeriesLoopHook ()Lcom/intuit/hooks/AsyncSeriesLoopHook;
-	protected final fun asyncSeriesWaterfallHook ()Lcom/intuit/hooks/AsyncSeriesWaterfallHook;
-	protected final fun syncBailHook ()Lcom/intuit/hooks/SyncBailHook;
-	protected final fun syncHook ()Lcom/intuit/hooks/SyncHook;
-	protected final fun syncLoopHook ()Lcom/intuit/hooks/SyncLoopHook;
-	protected final fun syncWaterfallHook ()Lcom/intuit/hooks/SyncWaterfallHook;
+public abstract interface class com/intuit/hooks/dsl/Hooks {
 }
 
-protected abstract interface annotation class com/intuit/hooks/dsl/Hooks$AsyncParallel : java/lang/annotation/Annotation {
+public abstract interface annotation class com/intuit/hooks/dsl/Hooks$AsyncParallel : java/lang/annotation/Annotation {
 }
 
-protected abstract interface annotation class com/intuit/hooks/dsl/Hooks$AsyncParallelBail : java/lang/annotation/Annotation {
+public abstract interface annotation class com/intuit/hooks/dsl/Hooks$AsyncParallelBail : java/lang/annotation/Annotation {
 }
 
-protected abstract interface annotation class com/intuit/hooks/dsl/Hooks$AsyncSeries : java/lang/annotation/Annotation {
+public abstract interface annotation class com/intuit/hooks/dsl/Hooks$AsyncSeries : java/lang/annotation/Annotation {
 }
 
-protected abstract interface annotation class com/intuit/hooks/dsl/Hooks$AsyncSeriesBail : java/lang/annotation/Annotation {
+public abstract interface annotation class com/intuit/hooks/dsl/Hooks$AsyncSeriesBail : java/lang/annotation/Annotation {
 }
 
-protected abstract interface annotation class com/intuit/hooks/dsl/Hooks$AsyncSeriesLoop : java/lang/annotation/Annotation {
+public abstract interface annotation class com/intuit/hooks/dsl/Hooks$AsyncSeriesLoop : java/lang/annotation/Annotation {
 }
 
-protected abstract interface annotation class com/intuit/hooks/dsl/Hooks$AsyncSeriesWaterfall : java/lang/annotation/Annotation {
+public abstract interface annotation class com/intuit/hooks/dsl/Hooks$AsyncSeriesWaterfall : java/lang/annotation/Annotation {
 }
 
-protected abstract interface annotation class com/intuit/hooks/dsl/Hooks$Sync : java/lang/annotation/Annotation {
+public abstract interface annotation class com/intuit/hooks/dsl/Hooks$Sync : java/lang/annotation/Annotation {
 }
 
-protected abstract interface annotation class com/intuit/hooks/dsl/Hooks$SyncBail : java/lang/annotation/Annotation {
+public abstract interface annotation class com/intuit/hooks/dsl/Hooks$SyncBail : java/lang/annotation/Annotation {
 }
 
-protected abstract interface annotation class com/intuit/hooks/dsl/Hooks$SyncLoop : java/lang/annotation/Annotation {
+public abstract interface annotation class com/intuit/hooks/dsl/Hooks$SyncLoop : java/lang/annotation/Annotation {
 }
 
-protected abstract interface annotation class com/intuit/hooks/dsl/Hooks$SyncWaterfall : java/lang/annotation/Annotation {
+public abstract interface annotation class com/intuit/hooks/dsl/Hooks$SyncWaterfall : java/lang/annotation/Annotation {
 }
 

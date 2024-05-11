@@ -24,12 +24,17 @@ internal fun generateFile(resolvedPackageName: String, name: String, hookContain
 private fun HooksContainer.generateContainerClass(): TypeSpec {
     val className = ClassName.bestGuess(name)
     val builder = when (typeSpecKind) {
-        TypeSpec.Kind.INTERFACE -> TypeSpec.interfaceBuilder(className)
+        TypeSpec.Kind.INTERFACE,
         TypeSpec.Kind.CLASS -> TypeSpec.classBuilder(className)
         TypeSpec.Kind.OBJECT -> TypeSpec.objectBuilder(className)
     }
     return builder.apply {
-        superclass(superclass)
+        when (typeSpecKind) {
+            TypeSpec.Kind.INTERFACE -> addSuperinterface(superclass)
+            TypeSpec.Kind.CLASS -> superclass(superclass)
+            else -> TODO("Better error")
+        }
+
         addModifiers(visibilityModifier)
         addTypeVariables(typeArguments)
 

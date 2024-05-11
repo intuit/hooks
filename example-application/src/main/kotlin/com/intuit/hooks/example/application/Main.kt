@@ -27,7 +27,6 @@ object CachedRoutesService : Navigation() {
 }
 
 fun main() {
-
     val car = Car()
 
     car.hooks.brake.tap("WarningLampPlugin") { /** Should turn on warning lamps */ }

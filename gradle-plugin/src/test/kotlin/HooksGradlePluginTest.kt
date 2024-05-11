@@ -62,8 +62,8 @@ class HooksGradlePluginTest {
             import com.intuit.hooks.*
             import com.intuit.hooks.dsl.Hooks
             
-            internal abstract class TestHooks : Hooks() {
-                @Sync<(String) -> Unit>
+            internal abstract class TestHooks : Hooks {
+                @Hooks.Sync<(String) -> Unit>
                 abstract val testSyncHook: Hook
             }
         """

@@ -28,7 +28,7 @@ public class HooksProcessor(
 
     private inner class HookPropertyVisitor : KSDefaultVisitor<TypeParameterResolver, ValidatedNel<HookValidationError, HookInfo>>() {
         override fun visitPropertyDeclaration(property: KSPropertyDeclaration, parentResolver: TypeParameterResolver): ValidatedNel<HookValidationError, HookInfo> {
-            return if (property.modifiers.contains(Modifier.ABSTRACT))
+            return if (!property.modifiers.contains(Modifier.FINAL))
                 validateProperty(property, parentResolver)
             else
                 HookValidationError.NotAnAbstractProperty(property).invalidNel()
@@ -40,6 +40,8 @@ public class HooksProcessor(
 
     private inner class HookFileVisitor : KSVisitorVoid() {
         override fun visitFile(file: KSFile, data: Unit) {
+            file.declarations
+
             val hookContainers = file.declarations.filter {
                 it is KSClassDeclaration
             }.flatMap {

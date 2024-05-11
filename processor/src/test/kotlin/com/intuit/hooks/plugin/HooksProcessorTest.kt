@@ -10,10 +10,11 @@ class HooksProcessorTest {
             "TestHooks.kt",
             """
             import com.intuit.hooks.dsl.HooksDsl
+            import com.intuit.hooks.dsl.HooksDsl.*
             import com.intuit.hooks.*
             
             class Test {
-                abstract class Hooks : HooksDsl() {
+                abstract class Hooks : HooksDsl {
                     @Sync<(newSpeed: Int) -> Unit> abstract val sync: Hook
                 }
             } 
@@ -48,14 +49,15 @@ class HooksProcessorTest {
             "TestHooks.kt",
             """
             import com.intuit.hooks.dsl.Hooks
+            import com.intuit.hooks.dsl.Hooks.*
             import com.intuit.hooks.Hook
             
-            internal abstract class TestHooks : Hooks() {
+            internal abstract class TestHooks : Hooks {
                 @Sync<(String) -> Unit>
                 abstract val testSyncHook: Hook
             }
 
-            internal abstract class AnotherHookClass : Hooks() {
+            internal abstract class AnotherHookClass : Hooks {
                 @Sync<(String) -> Unit>
                 abstract val testSyncHook: Hook
             }
@@ -89,9 +91,10 @@ class HooksProcessorTest {
             "TestHooks.kt",
             """
             import com.intuit.hooks.dsl.Hooks
+            import com.intuit.hooks.dsl.Hooks.*
             import com.intuit.hooks.Hook
             
-            internal abstract class TestHooks : Hooks() {
+            internal abstract class TestHooks : Hooks {
                 @Sync<(String) -> Unit>
                 abstract val testSyncHook: Hook
             }
@@ -127,8 +130,9 @@ class HooksProcessorTest {
 
             import com.intuit.hooks.Hook
             import com.intuit.hooks.dsl.Hooks
+            import com.intuit.hooks.dsl.Hooks.*
             
-            internal abstract class TestHooks : Hooks() {
+            internal abstract class TestHooks : Hooks {
                 @Sync<(String) -> Unit>
                 abstract val testSyncHook: Hook
             }
@@ -146,8 +150,9 @@ class HooksProcessorTest {
             """
             import com.intuit.hooks.Hook
             import com.intuit.hooks.dsl.Hooks
+            import com.intuit.hooks.dsl.Hooks.*
             
-            internal abstract class TestHooks : Hooks() {
+            internal abstract class TestHooks : Hooks {
                 @Sync<(Map<List<Int>, List<String>>) -> Unit>
                 abstract val testSyncHook: Hook
             }
@@ -182,8 +187,9 @@ class HooksProcessorTest {
             """
             import com.intuit.hooks.Hook
             import com.intuit.hooks.dsl.Hooks
+            import com.intuit.hooks.dsl.Hooks.*
             
-            internal abstract class TestHooks : Hooks() {
+            internal abstract class TestHooks : Hooks {
                 @AsyncSeriesWaterfall<suspend (String) -> String>
                 abstract val testAsyncSeriesWaterfallHook: Hook
             }
@@ -223,9 +229,10 @@ class HooksProcessorTest {
             """
             import com.intuit.hooks.*
             import com.intuit.hooks.dsl.Hooks
+            import com.intuit.hooks.dsl.Hooks.*
             import kotlinx.coroutines.ExperimentalCoroutinesApi
             
-            internal abstract class TestHooks : Hooks() {
+            internal abstract class TestHooks : Hooks {
                 @Sync<(newSpeed: Int) -> Unit> abstract val sync: Hook
                 @SyncBail<(Boolean) -> BailResult<Int>> abstract val syncBail: Hook
                 @SyncLoop<(foo: Boolean) -> LoopResult> abstract val syncLoop: Hook
@@ -252,8 +259,9 @@ class HooksProcessorTest {
             """
             import com.intuit.hooks.Hook
             import com.intuit.hooks.dsl.Hooks
+            import com.intuit.hooks.dsl.Hooks.*
             
-            internal abstract class TestHooks<T, U> : Hooks() {
+            internal abstract class TestHooks<T, U> : Hooks {
                 @Sync<(T) -> U>
                 abstract val testSyncHook: Hook
             }
@@ -289,8 +297,9 @@ class HooksProcessorTest {
             import com.intuit.hooks.BailResult
             import com.intuit.hooks.Hook
             import com.intuit.hooks.dsl.Hooks
+            import com.intuit.hooks.dsl.Hooks.*
             
-            internal abstract class TestBailHooks : Hooks() {
+            internal abstract class TestBailHooks : Hooks {
                 @SyncBail<(String) -> BailResult<String>>
                 abstract val testSyncBailHook: Hook
             }
@@ -326,11 +335,54 @@ class HooksProcessorTest {
             """
             import com.intuit.hooks.Hook
             import com.intuit.hooks.dsl.HooksDsl
+            import com.intuit.hooks.dsl.HooksDsl.*
             
             class Controller {
-                abstract class Hooks : HooksDsl() {
+                abstract class Hooks : HooksDsl {
                     @Sync<(String) -> Unit>
                     abstract val testSyncHook: Hook
+                }
+
+                val hooks = ControllerHooksImpl()
+            }
+            """
+        )
+
+        val assertions = SourceFile.kotlin(
+            "Assertions.kt",
+            """
+            import org.junit.jupiter.api.Assertions.*
+
+            fun testHook() {
+                val item = "hello"
+                var tappedValue: String? = null
+                val controller = Controller()
+                controller.hooks.testSyncHook.tap("test") { _, x -> tappedValue = x }
+                controller.hooks.testSyncHook.call(item)
+                assertEquals(item, tappedValue)
+            }
+            """
+        )
+
+        val (compilation, result) = compile(testHooks, assertions)
+        result.assertOk()
+        compilation.assertKspGeneratedSources("TestHooksHooks.kt")
+        result.runCompiledAssertions()
+    }
+
+    @Test fun `generate class from interface`() {
+
+        val testHooks = SourceFile.kotlin(
+            "TestHooks.kt",
+            """
+            import com.intuit.hooks.Hook
+            import com.intuit.hooks.dsl.Hooks.Sync
+            import com.intuit.hooks.dsl.HooksDsl
+            
+            class Controller {
+                interface Hooks : HooksDsl {
+                    @Sync<(String) -> Unit>
+                    val testSyncHook: Hook
                 }
 
                 val hooks = ControllerHooksImpl()

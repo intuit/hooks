@@ -3,6 +3,7 @@ package com.intuit.hooks.example.library.car
 import com.intuit.hooks.AsyncSeriesWaterfallHook
 import com.intuit.hooks.Hook
 import com.intuit.hooks.SyncHook
+import com.intuit.hooks.dsl.Hooks.*
 import com.intuit.hooks.dsl.HooksDsl
 
 public abstract class Location
@@ -11,7 +12,7 @@ public class Route
 
 public class Car {
 
-    public abstract class Hooks : HooksDsl() {
+    public abstract class Hooks : HooksDsl {
 
         @Sync<(newSpeed: Int) -> Unit>
         public abstract val accelerate: Hook

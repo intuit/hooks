@@ -7,12 +7,12 @@ Hooks can be used adhoc, but the advantage become clearer when paired with a plu
 Cars come with many features that can vary heavily depending on the make, model, trim, etc. Imagine a *very* simple car that has two features, braking and accelerating, however this car can come with different hardware peripherals, so it is hard to contain this logic within the base Car construct. This could be represented with hooks:
 
 <!--- INCLUDE
-import com.intuit.hooks.dsl.Hooks
+import com.intuit.hooks.dsl.Hooks.*
 import com.intuit.hooks.Hook
 -->
 
 ```kotlin
-abstract class CarHooks : Hooks() {
+abstract class CarHooks : Hooks {
     @Sync<() -> Unit>
     abstract val brake: Hook
     
