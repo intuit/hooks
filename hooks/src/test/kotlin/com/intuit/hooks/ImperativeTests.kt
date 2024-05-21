@@ -1,98 +1,162 @@
 package com.intuit.hooks
 
 import com.intuit.hooks.SyncHookTests.Hook1
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import java.lang.ref.WeakReference
 import kotlin.reflect.KProperty
 
 // TODO: Given that we require some knowledge of the return value for tapping the
-//       hook, we can only apply this strategy for hooks that expect `Unit`. We
-//       could potentially have a special hook type for this, called `StateHook`.
-//       This'd remove the need for an intermediate capture class. We would want
-//       to have helpers for converting `SyncHook<T1, Unit>` -> `StateHook<T1>`.
-
-class Capture<T>(hook: Hook1<T, Unit>) {
-    private var ref: WeakReference<T>? = null
-
-    init {
-        hook.tap("capture") { _, incoming ->
-            ref = incoming?.let(::WeakReference)
-        }
-    }
-}
+//       hook, we can only apply this strategy for hooks that expect `Unit` (or
+//       the same return type). We could potentially have a special hook type for
+//       this, called `StateHook`. This'd remove the need for an intermediate capture
+//       class. We would want to have helpers for converting `SyncHook<T1, Unit>` -> `StateHook<T1>`.
 
 // this is _kinda_ a hook.. but it's really just a wrapper that can only be instantiated with a reference to another hook
 class StateHook<T>(hook: SyncHook<(HookContext, T) -> Unit>): SyncHook<(HookContext, T) -> Unit>() {
     private var ref: WeakReference<T>? = null
 
+    public val value: T? get() = ref?.get()
+
+    public operator fun getValue(thisRef: Any?, property: KProperty<*>): T? = value
+
     init {
+        // configure updates from incoming values from parent hook
         hook.tap("StateHook") { ctx, incoming ->
-            ref?.clear()
-            ref = incoming?.let(::WeakReference)
+            onValue(ctx, incoming)
             call(ctx, incoming)
+        }
+
+        // configure updates from mutations on this hook
+        tap("StateHook", ::onValue)
+
+        // enable replay cache for new tappers
+        interceptRegister { tap ->
+            value?.let { tap.f(hashMapOf(), it) }
+            tap
         }
     }
 
-    fun clear() {
+    private fun onValue(context: HookContext, incoming: T) {
+        ref?.clear()
+        ref = incoming?.let(::WeakReference)
+    }
+
+    internal fun clear() {
         ref?.clear()
     }
 
-    fun call(p1: T) = super.call { f, context -> f(context, p1) }
-
-    fun call(context: HookContext, p1: T) = super.call { f, _ -> f(context, p1) }
-
-    operator fun getValue(thisRef: Any?, property: KProperty<*>): T? = ref?.get()
+    internal fun call(p1: T) = call { f, context -> f(context, p1) }
+    // special call to propagate incoming context from wrapped hook - maybe uplevel?
+    internal fun call(context: HookContext, p1: T) = call { f, _ -> f(context, p1) }
 }
 
-fun <T> SyncHook<(HookContext, T) -> Unit>.asStateHook() = StateHook(this)
+fun <T> SyncHook<(HookContext, T) -> Unit>.asStateHook(): StateHook<T> = if (this is StateHook<T>) this else StateHook(this)
+
+fun <T> SyncHook<(HookContext, T) -> Unit>.filter(predicate: (T) -> Boolean): SyncHook<(HookContext, T) -> Unit> {
+    val filtered = Hook1<T, Unit>().asStateHook()
+    tap("filter") { context, incoming -> if (predicate(incoming)) filtered.call(context, incoming) }
+    return filtered
+}
 
 fun <T, R> SyncHook<(HookContext, T) -> Unit>.map(block: (T) -> R): SyncHook<(HookContext, R) -> Unit> {
-    val transformed = Hook1<R, Unit>().asStateHook() // TODO: necessary for propagating context
+    val transformed = Hook1<R, Unit>().asStateHook()
     tap("map") { context, incoming -> transformed.call(context, block(incoming)) }
     return transformed
 }
 
 // the inherent problem here, is we need R to be nullable if T is nullable. We've tried a few approaches, but since nullability isn't captured
 // as part of the JVM type system, we get platform declaration clashes when narrowing scenarios to different overloads
-inline fun <T : Any?, R> SyncHook<(HookContext, T?) -> Unit>.flatMapNullable(crossinline block: (T?) -> SyncHook<(HookContext, R) -> Unit>?): SyncHook<(HookContext, R?) -> Unit> {
-    // TODO: I hate that we need to return a R? state hook here - it means downstream consumers are no longer guaranteed to have a non-nullable
-    val transformed = Hook1<R?, Unit>().asStateHook() // TODO: necessary for propagating context
-    // TODO: Do we need to unregister the tap with a new incoming value?
-    tap("flatMap") { _, incoming -> block(incoming)?.tap("capture", transformed::call) ?: transformed.call(null) }
+// we _could_ potentially solve this by introducing a sealed type to encapsulate the return type of state hooks -- this'd enable us to
+// ensure the statehook respects the parent hook type, while enabling us to capture "empty" state w/o using null
+fun <T : Any?, R> SyncHook<(HookContext, T?) -> Unit>.flatMapNullable(block: (T?) -> SyncHook<(HookContext, R) -> Unit>?): SyncHook<(HookContext, R?) -> Unit> {
+    val transformed = Hook1<R?, Unit>().asStateHook()
+    tap("flatMapNullable") { _, incoming -> block(incoming)?.tap("flatMapNullable", transformed::call) ?: transformed.call(null) }
     return transformed
 }
 
-inline fun <T : Any, R> SyncHook<(HookContext, T) -> Unit>.flatMap(crossinline block: (T) -> SyncHook<(HookContext, R) -> Unit>?): SyncHook<(HookContext, R) -> Unit> {
-    // TODO: I hate that we need to return a R? state hook here - it means downstream consumers are no longer guaranteed to have a non-nullable
-    val transformed = Hook1<R, Unit>().asStateHook() // TODO: necessary for propagating context
-    // TODO: Do we need to unregister the tap with a new incoming value?
-    tap("flatMap") { _, incoming -> block(incoming)?.tap("capture", transformed::call) ?: transformed.clear() }
+fun <T : Any, R> SyncHook<(HookContext, T) -> Unit>.flatMap(block: (T) -> SyncHook<(HookContext, R) -> Unit>?): SyncHook<(HookContext, R) -> Unit> {
+    val transformed = Hook1<R, Unit>().asStateHook()
+    tap("flatMap") { _, incoming -> block(incoming)?.tap("flatMap", transformed::call) ?: transformed.clear() }
     return transformed
 }
 
-// TODO: I wish this could have the same overload signature as [asStateHook] below, but the return type erasure isn't allowing for it
-fun <T, R> SyncHook<(HookContext, T) -> Unit>.mapAsStateHook(block: (T) -> R): StateHook<R> = map(block).asStateHook()
-//    val captured = Hook1<R, Unit>().asStateHook()
-//    tap("asStateHook") { _, t ->
-//        t?.let(block)?.let(captured::call)
-//    }
-//    return captured
+// potentially add linter rule for .map().flatten() to just use .flatMap()
+fun <T : SyncHook<(HookContext, R) -> Unit>, R> SyncHook<(HookContext, T) -> Unit>.flatten(): SyncHook<(HookContext, R) -> Unit> =
+    flatMap { it }
 
-inline fun <T : Any, reified R> SyncHook<(HookContext, T) -> Unit>.flatMapAsStateHook(crossinline block: (T) -> SyncHook<(HookContext, R) -> Unit>?): StateHook<R> =
-    flatMap(block).asStateHook()
-
-inline fun <T : Any?, reified R> SyncHook<(HookContext, T?) -> Unit>.flatMapNullableAsStateHook(crossinline block: (T?) -> SyncHook<(HookContext, R) -> Unit>?): StateHook<R?> =
-    flatMapNullable(block).asStateHook()
-//    val captured = Hook1<R, Unit>().asStateHook()
-//    tap("asStateHook") { _, t ->
-//        t?.let(block)?.tap("capture", captured::call)
-//    }
-//    return captured
+fun <T : SyncHook<(HookContext, R) -> Unit>, R> SyncHook<(HookContext, T?) -> Unit>.flattenNullable(): SyncHook<(HookContext, R?) -> Unit> =
+    flatMapNullable { it }
 
 class ImperativeTests {
+
+    @Test fun `simple state hook`() {
+        val nameHook = Hook1<String, Unit>().asStateHook()
+        val name: String? by nameHook
+
+        assertNull(name)
+
+        nameHook.call("this is my name")
+
+        assertEquals("this is my name", name)
+
+        var replayed = false
+        nameHook.tap("test") { _, name ->
+            assertEquals("this is my name", name)
+            replayed = true
+        }
+
+        assertTrue(replayed)
+    }
+
+    class Machine {
+        val someControllerHook = Hook1<SomeController, Unit>()
+
+        // setting up a state hook at this level would enable tapping
+        val someControllerState = someControllerHook.asStateHook()
+    }
+
+    data class SomeController(val id: String) {
+        val nestedControllerHook = Hook1<SomeController, Unit>()
+    }
+
+    @Test fun `map state hook`() {
+        val machine = Machine()
+        val controller = SomeController("id")
+
+        val controllerId by machine.someControllerHook
+            .map(SomeController::id)
+            .asStateHook()
+
+        machine.someControllerHook.call(controller)
+
+        assertEquals("id", controllerId)
+    }
+
+    @Test fun `flatmap state hook`() {
+        val machine = Machine()
+        val controller = SomeController("outer")
+        val nestedController = SomeController("nested")
+
+        val nestedControllerId by machine.someControllerHook
+            .flatMap(SomeController::nestedControllerHook)
+            .map(SomeController::id)
+            .asStateHook()
+
+//        var id: String? = null
+//        machine.someControllerHook.tap("") { _, someController ->
+//            someController.nestedControllerHook.tap("") { _, nestedController ->
+//                id = nestedController.id
+//            }
+//        }
+
+        machine.someControllerHook.call(controller)
+        controller.nestedControllerHook.call(nestedController)
+
+        assertEquals("nested", nestedControllerId)
+    }
 
     @Test fun `as state hook`() {
         val hook = Hook1<String, Unit>()
@@ -139,10 +203,10 @@ class ImperativeTests {
 
         // 1 level deep
         val innerState by outer.containerHook.asStateHook()
-        val innerNameState by outer.containerHook.mapAsStateHook(Container::name)
+        val innerNameState by outer.containerHook.map(Container::name).asStateHook()
         val nullableInnerState by outer.nullableContainerHook.asStateHook()
         // TODO: Can we make the last part of this accept a lambda reference, essentially, preserve `null` for empty case and treat blocks as operating on non-nulls?
-        val nullableInnerNameState by outer.nullableContainerHook.mapAsStateHook { it?.name }
+        val nullableInnerNameState by outer.nullableContainerHook.map { it?.name }.asStateHook()
 
         assertNull(innerState)
         assertNull(innerNameState)
@@ -167,10 +231,10 @@ class ImperativeTests {
         assertNull(nullableInnerNameState)
 
         // 2 levels deep, with non-nullable outer
-        val nestedInnerState by outer.containerHook.flatMapAsStateHook(Container::containerHook)
-        val nestedInnerNameState by outer.containerHook.flatMapAsStateHook(Container::containerHook).mapAsStateHook(Container::name)
-        val nestedNullableInnerState by outer.containerHook.flatMapAsStateHook(Container::nullableContainerHook)
-        val nestedNullableInnerNameState by outer.containerHook.flatMapAsStateHook(Container::nullableContainerHook).mapAsStateHook { it?.name }
+        val nestedInnerState by outer.containerHook.flatMap(Container::containerHook).asStateHook()
+        val nestedInnerNameState by outer.containerHook.flatMap(Container::containerHook).map(Container::name).asStateHook()
+        val nestedNullableInnerState by outer.containerHook.flatMap(Container::nullableContainerHook).asStateHook()
+        val nestedNullableInnerNameState by outer.containerHook.flatMap(Container::nullableContainerHook).map { it?.name }.asStateHook()
 
         assertNull(nestedInnerState)
         assertNull(nestedInnerNameState)
@@ -202,10 +266,10 @@ class ImperativeTests {
         assertNull(nestedNullableInnerNameState)
 
         // 2 levels deep, with nullable outer
-        val nestedNullableOuterInnerState by outer.nullableContainerHook.flatMapNullableAsStateHook { it?.containerHook }
-        val nestedNullableOuterInnerNameState by outer.nullableContainerHook.flatMapNullableAsStateHook { it?.containerHook }.mapAsStateHook { it?.name }
-        val nestedNullableOuterNullableInnerState by outer.nullableContainerHook.flatMapNullableAsStateHook { it?.nullableContainerHook }
-        val nestedNullableOuterNullableInnerNameState by outer.nullableContainerHook.flatMapNullableAsStateHook { it?.nullableContainerHook }.mapAsStateHook { it?.name }
+        val nestedNullableOuterInnerState by outer.nullableContainerHook.flatMapNullable { it?.containerHook }.asStateHook()
+        val nestedNullableOuterInnerNameState by outer.nullableContainerHook.flatMapNullable { it?.containerHook }.map { it?.name }.asStateHook()
+        val nestedNullableOuterNullableInnerState by outer.nullableContainerHook.flatMapNullable { it?.nullableContainerHook }.asStateHook()
+        val nestedNullableOuterNullableInnerNameState by outer.nullableContainerHook.flatMapNullable { it?.nullableContainerHook }.map { it?.name }.asStateHook()
 
         assertNull(nestedNullableOuterInnerState)
         assertNull(nestedNullableOuterInnerNameState)
@@ -252,8 +316,8 @@ class ImperativeTests {
         val nested = Container("nested")
 
         // 2 levels deep, with nullable outer
-        val nestedNullableOuterNullableInnerState by outer.nullableContainerHook.flatMapNullableAsStateHook { it?.nullableContainerHook }
-        val nestedNullableOuterNullableInnerNameState by outer.nullableContainerHook.flatMapNullableAsStateHook { it?.nullableContainerHook }.mapAsStateHook { it?.name }
+        val nestedNullableOuterNullableInnerState by outer.nullableContainerHook.flatMapNullable { it?.nullableContainerHook }.asStateHook()
+        val nestedNullableOuterNullableInnerNameState by outer.nullableContainerHook.flatMapNullable { it?.nullableContainerHook }.map { it?.name }.asStateHook()
 
         outer.nullableContainerHook.call(inner)
         inner.nullableContainerHook.call(nested)
@@ -273,8 +337,8 @@ class ImperativeTests {
         val nested = Container("nested")
 
         // 2 levels deep, with nullable outer
-        val nestedOuterNullableInnerState by outer.nullableContainerHook.flatMapNullableAsStateHook { it?.containerHook }
-        val nestedOuterNullableInnerNameState by outer.nullableContainerHook.flatMapNullableAsStateHook { it?.containerHook }.mapAsStateHook { it?.name }
+        val nestedOuterNullableInnerState by outer.nullableContainerHook.flatMapNullable { it?.containerHook }.asStateHook()
+        val nestedOuterNullableInnerNameState by outer.nullableContainerHook.flatMapNullable { it?.containerHook }.map { it?.name }.asStateHook()
 
         outer.nullableContainerHook.call(inner)
         inner.containerHook.call(nested)
