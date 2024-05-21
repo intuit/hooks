@@ -114,7 +114,7 @@ class ImperativeTests {
     class Machine {
         val someControllerHook = Hook1<SomeController, Unit>()
 
-        // setting up a state hook at this level would enable tapping
+        // setting up a state hook at this level would enable tapping at any point to get the state value
         val someControllerState = someControllerHook.asStateHook()
     }
 
