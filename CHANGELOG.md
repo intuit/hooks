@@ -1,3 +1,20 @@
+# v0.15.1 (Mon Jun 09 2025)
+
+#### 🐛 Bug Fix
+
+- Central Portal Migration [#40](https://github.com/intuit/hooks/pull/40) ([@sugarmanz](https://github.com/sugarmanz))
+- remove slack plugin [#36](https://github.com/intuit/hooks/pull/36) ([@sugarmanz](https://github.com/sugarmanz))
+
+#### ⚠️ Pushed to `main`
+
+- skip site publishing ([@sugarmanz](https://github.com/sugarmanz))
+
+#### Authors: 1
+
+- Jeremiah Zucker ([@sugarmanz](https://github.com/sugarmanz))
+
+---
+
 # v0.15.0 (Fri Jun 02 2023)
 
 :tada: This release contains work from a new contributor! :tada:
